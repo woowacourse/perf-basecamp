@@ -1,0 +1,46 @@
+.gifItem {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(110.23% 110.23% at 50% 50%, #BD00FF 0%, rgba(233, 97, 195, 0.64248) 61.18%, rgba(232, 109, 198, 0.1) 97.71%);
+    overflow: hidden;
+    transition: all 0.2s ease-in;
+}
+
+.gifImage{
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gifTitleContainer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.gifTitleBg {
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(180deg, rgba(232, 109, 198, 0.1) 0%, rgba(232, 109, 198, 0.64248) 38.02%, #BD00FF 71.35%);
+}
+
+.gifTitle {
+    position: absolute;
+    bottom: 1rem;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.5rem;
+    padding: 0 1rem;
+    color: #FFFFFF;
+}
+
+/* PC */
+@media all and (min-width:1080px) {
+    .gifItem:hover {
+        top: -0.75rem;
+    }
+}

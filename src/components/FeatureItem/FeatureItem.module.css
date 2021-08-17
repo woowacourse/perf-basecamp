@@ -1,0 +1,41 @@
+.featureItem {
+    position: relative;
+    width: 30rem;
+    height: 26.875rem;
+    overflow: hidden;
+}
+
+.featureTitle {
+    padding-top: 24px;
+    position: relative;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    color: #FCFCFC;
+}
+
+.featureTitleBg {
+    position: absolute;
+    top: 0;
+    width: 30rem;
+    height: 10.125rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #0D0310 71.35%);
+    transform: rotate(-180deg);
+}
+
+.featureImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-25%);
+}
+
+/* Mobile */
+@media all and (max-width:424px) {
+    .featureItem {
+        margin-bottom: 2rem;
+    }
+}

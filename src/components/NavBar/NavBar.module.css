@@ -1,0 +1,66 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 3.5rem;
+    background-color: #131313;
+    border-bottom: 1px solid #FFFFFF;
+    padding: 0 2rem;
+    position: fixed;
+    z-index: 10;
+}
+
+.nav {
+    width: 73.75rem;
+    height: 1.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    color: #E2E2E2;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.searchPageButton {
+    width: 11.25rem;
+    height: 1.875rem;
+    background: radial-gradient(110.23% 110.23% at 50% 50%, #BD00FF 0%, rgba(233, 97, 195, 0.97) 57.81%);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+    border: none;
+    transition: all 0.5s ease-in-out 0s;
+}
+
+.searchPageButton:hover {
+    background: radial-gradient(110.23% 110.23% at 50% 50%, #BD00FF 0%, rgba(233, 97, 195, 0.77) 57.81%);
+}
+
+/* Mobile */
+@media all and (max-width:424px) {
+    .header {
+        padding: 0 1rem;
+        height: 4.5rem;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .searchPageButton {
+        font-size: 1.5rem;
+        height: 2.5rem;
+    }
+}

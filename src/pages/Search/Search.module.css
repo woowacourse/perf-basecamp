@@ -1,0 +1,119 @@
+.searchContainer {
+    background: #131313;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 3.5rem;
+}
+
+.searchbarSection {
+    padding-top: 5.3125rem;
+    padding-bottom: 2.1875rem;
+}
+
+.searchbarContainer {
+    display: flex;
+    justify-content: center;
+    padding: 0 2rem;
+}
+
+.searchbarTitle {
+    font-style: italic;
+    font-weight: 700;
+    font-size: 3rem;
+    text-align: center;
+    background: linear-gradient(270deg, #E86DC6 7.22%, #C625FF 77.95%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 2rem;
+}
+
+.searchInput {
+    width: 30rem;
+    height: 2.75rem;
+    font-size: 1rem;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    transition: transform .2s ease-in-out;
+}
+
+.searchButton {
+    width: 2.75rem;
+    height: 2.75rem;
+    background: radial-gradient(110.23% 110.23% at 50% 50%, #BD00FF 0%, rgba(233, 97, 195, 0.64248) 61.18%, rgba(232, 109, 198, 0.1) 97.71%);
+    cursor: pointer;
+}
+
+.searchIcon {
+    width: 2rem;
+    height: 2rem;
+    color: #FFFFFF;
+}
+
+.searchResultSection {
+    min-height: 90vh;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.resultTitle {
+    padding-top: 3.75rem;
+    padding-bottom: 2.25rem;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 2rem;
+    text-align: center;
+}
+
+.resultTitle span {
+    background: linear-gradient(270deg, #E86DC6 7.22%, #C625FF 77.95%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gifResultWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+    padding-bottom: 5rem;
+}
+
+.loadMoreButton {
+    width: 100%;
+    height: 3.5rem;
+    background: radial-gradient(110.23% 110.23% at 50% 50%, #BD00FF 0%, rgba(233, 97, 195, 0.97) 57.81%);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 2.5rem;
+    transition: all 0.5s ease-in-out 0s;
+}
+
+.loadMoreButton:hover {
+    background: radial-gradient(110.23% 110.23% at 50% 50%, #BD00FF 0%, rgba(233, 97, 195, 0.77) 57.81%);
+}
+
+/* Mobile */
+@media all and (max-width:424px) {
+    .loadMoreButton {
+        font-size: 1.5rem;
+        height: 5rem;
+    }
+
+    .searchInput {
+        font-size: 1.5rem;
+    }
+
+    .searchButton {
+        width: 5rem;
+    }
+}

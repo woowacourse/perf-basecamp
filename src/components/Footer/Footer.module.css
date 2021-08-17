@@ -1,0 +1,19 @@
+footer {
+    justify-content: center;
+    width: 100%;
+    height: 7.5rem;
+    background: #000000;
+}
+
+footer p {
+    color: #E2E2E2;
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 7.5rem;
+}
+
+footer a {
+    color: #E2E2E2;
+}

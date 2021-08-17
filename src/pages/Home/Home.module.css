@@ -1,0 +1,109 @@
+.heroSection {
+    position: relative;
+    color: #FFFFFF;
+    width: 100%;
+    height: 46.875rem;
+    padding-top: 3.5rem;
+}
+
+.heroImage {
+    width: 100%;
+    height: 100%;
+}
+
+.projectTitle {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 8.4375rem;
+}
+
+.title {
+    font-style: italic;
+    font-weight: 700;
+    font-size: 4.5rem;
+    line-height: 4.5rem;
+    text-align: center;
+}
+
+.subtitle {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    padding-top: 1.25rem;
+}
+
+.cta {
+    position: absolute;
+    bottom: 5.625rem;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 23.75rem;
+    height: 3.5rem;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    border: none;
+    background: radial-gradient(110.23% 110.23% at 50% 50%, #BD00FF 0%, rgba(233, 97, 195, 0.97) 57.81%);
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out 0s;
+}
+
+.cta:hover {
+    background: radial-gradient(110.23% 110.23% at 50% 50%, #BD00FF 0%, rgba(233, 97, 195, 0.77) 57.81%);
+}
+
+.featureSection {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-top: 3.75rem;
+    background: linear-gradient(180deg, rgba(232, 109, 198, 0.1) 0%, rgba(232, 109, 198, 0.64248) 0.01%, #BD00FF 77.6%);
+}
+
+.featureSectionWrapper {
+    width: 65rem;
+    border-top: 2px solid rgba(255, 255, 255, 0.75);
+    padding-top: 3.75rem;
+    height: 46.875rem;
+}
+
+.featureTitle {
+    font-style: italic;
+    font-weight: 700;
+    font-size: 3.75rem;
+    line-height: 3.75rem;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.featureItemContainer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 3.75rem;
+}
+
+/* Mobile */
+@media all and (max-width:424px) {
+    .heroSection {
+        height: 90vh;
+    }
+
+    .featureSection{
+        height: 100vh;
+    }
+
+    .featureItemContainer {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
