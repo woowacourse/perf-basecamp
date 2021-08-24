@@ -1,14 +1,14 @@
 {
   "name": "frontend-performance-basecamp",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "frontend-performance-basecamp",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
-    "build:dev": "webpack --mode=development",
+    "build:dev": "webpack --mode=development --profile",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve --mode=development"
+    "serve": "webpack serve --mode=development --profile"
   },
   "keywords": [],
   "author": "",
