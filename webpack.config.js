@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
   entry: './src/index.js',
   resolve: { extensions: ['.js', '.jsx'] },
@@ -16,7 +18,7 @@ module.exports = {
     open: true,
     historyApiFallback: true,
   },
-  devtool: 'source-map',
+  devtool: isProduction ? false : 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
