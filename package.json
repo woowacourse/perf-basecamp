@@ -10,7 +10,8 @@
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
     "lint": "eslint --cache --fix .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +43,8 @@
     "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
     "prettier": "2.3.2",
     "style-loader": "^3.2.1",
     "webpack": "^5.50.0",
@@ -56,5 +59,9 @@
     "plugins": [
       "@babel/plugin-transform-runtime"
     ]
+  },
+  "lint-staged": {
+    "*.{mjs,cjs,js,jsx}": "eslint --cache --fix",
+    "*.{mjs,cjs,js,jsx,html,css,md,json}": "prettier --write"
   }
 }
