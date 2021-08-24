@@ -1,8 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo } from "react";
 
-import styles from './GifItem.module.css';
+import styles from "./GifItem.module.css";
 
-const GifItem = ({ imageUrl = '', title = '' }) => {
+const GifItem = ({ imageUrl = "", title = "" }) => {
   return (
     <div className={styles.gifItem}>
       <img className={styles.gifImage} src={imageUrl} />

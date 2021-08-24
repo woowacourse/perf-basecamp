@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { MdSearch } from 'react-icons/md';
+import React, { useState, useEffect, useRef } from "react";
+import { MdSearch } from "react-icons/md";
 
-import { fetchTrendingGifs, fetchGifsByKeyword } from '../../service/fetchGif';
+import { fetchTrendingGifs, fetchGifsByKeyword } from "../../service/fetchGif";
 
-import NavBar from '../../components/NavBar/NavBar';
-import Footer from '../../components/Footer/Footer';
-import GifItem from '../../components/GifItem/GifItem';
+import NavBar from "../../components/NavBar/NavBar";
+import Footer from "../../components/Footer/Footer";
+import GifItem from "../../components/GifItem/GifItem";
 
-import styles from './Search.module.css';
+import styles from "./Search.module.css";
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -43,7 +43,7 @@ const Search = () => {
 
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState([]);
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const handleSearch = () => {
     searchByKeyword();
@@ -54,7 +54,7 @@ const Search = () => {
   };
 
   const handleEnter = (e) => {
-    if (e.key !== 'Enter') {
+    if (e.key !== "Enter") {
       return;
     }
 
@@ -111,7 +111,11 @@ const Search = () => {
               onKeyPress={handleEnter}
               onChange={handleChange}
             />
-            <button className={styles.searchButton} type="button" onClick={handleSearch}>
+            <button
+              className={styles.searchButton}
+              type="button"
+              onClick={handleSearch}
+            >
               <MdSearch color="white" size="2rem" />
             </button>
           </div>
