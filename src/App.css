@@ -1,16 +1,22 @@
 * {
+  vertical-align: baseline;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   border: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-stretch: inherit;
   font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  box-sizing: border-box;
+  font-variant-ligatures: inherit;
+  font-variant-caps: inherit;
+  font-variant-numeric: inherit;
+  font-variant-east-asian: inherit;
 }
 
 body {
-  line-height: 1;
   font-family: "Josefin Sans", sans-serif;
+  line-height: 1;
 }
 
 /* PC */

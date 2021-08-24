@@ -1,30 +1,30 @@
 .header {
+  position: fixed;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 3.5rem;
-  background-color: #131313;
-  border-bottom: 1px solid #ffffff;
   padding: 0 2rem;
-  position: fixed;
-  z-index: 10;
+  border-bottom: 1px solid #fff;
+  background-color: #131313;
 }
 
 .nav {
-  width: 73.75rem;
-  height: 1.875rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 73.75rem;
+  height: 1.875rem;
 }
 
 .logo {
-  font-style: italic;
+  color: #e2e2e2;
   font-weight: 700;
+  font-style: italic;
   font-size: 1.25rem;
   line-height: 1.25rem;
-  color: #e2e2e2;
   text-decoration: none;
   cursor: pointer;
 }
@@ -32,19 +32,19 @@
 .searchPageButton {
   width: 11.25rem;
   height: 1.875rem;
+  border: none;
   background: radial-gradient(
     110.23% 110.23% at 50% 50%,
     #bd00ff 0%,
     rgba(233, 97, 195, 0.97) 57.81%
   );
-  font-style: normal;
+  color: #fff;
   font-weight: 700;
+  font-style: normal;
   font-size: 1rem;
   line-height: 1rem;
   text-align: center;
-  color: #ffffff;
   cursor: pointer;
-  border: none;
   transition: all 0.5s ease-in-out 0s;
 }
 
@@ -59,8 +59,8 @@
 /* Mobile */
 @media all and (max-width: 424px) {
   .header {
-    padding: 0 1rem;
     height: 4.5rem;
+    padding: 0 1rem;
   }
 
   .logo {
@@ -68,7 +68,7 @@
   }
 
   .searchPageButton {
-    font-size: 1.5rem;
     height: 2.5rem;
+    font-size: 1.5rem;
   }
 }

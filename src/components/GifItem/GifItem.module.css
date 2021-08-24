@@ -1,5 +1,6 @@
 .gifItem {
   position: relative;
+  overflow: hidden;
   width: 280px;
   height: 280px;
   background: radial-gradient(
@@ -8,16 +9,15 @@
     rgba(233, 97, 195, 0.64248) 61.18%,
     rgba(232, 109, 198, 0.1) 97.71%
   );
-  overflow: hidden;
   transition: all 0.2s ease-in;
 }
 
 .gifImage {
   position: relative;
   top: 0;
+  object-fit: cover;
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
 .gifTitleContainer {
@@ -40,12 +40,12 @@
 .gifTitle {
   position: absolute;
   bottom: 1rem;
-  font-style: italic;
+  padding: 0 1rem;
+  color: #fff;
   font-weight: 700;
+  font-style: italic;
   font-size: 20px;
   line-height: 1.5rem;
-  padding: 0 1rem;
-  color: #ffffff;
 }
 
 /* PC */

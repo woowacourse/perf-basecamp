@@ -1,9 +1,9 @@
 .searchContainer {
-  background: #131313;
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
   padding-top: 3.5rem;
+  background: #131313;
 }
 
 .searchbarSection {
@@ -18,23 +18,23 @@
 }
 
 .searchbarTitle {
-  font-style: italic;
+  padding-bottom: 2rem;
+  background: linear-gradient(270deg, #e86dc6 7.22%, #c625ff 77.95%);
+  -webkit-background-clip: text;
+  background-clip: text;
   font-weight: 700;
+  font-style: italic;
   font-size: 3rem;
   text-align: center;
-  background: linear-gradient(270deg, #e86dc6 7.22%, #c625ff 77.95%);
-  background-clip: text;
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  padding-bottom: 2rem;
 }
 
 .searchInput {
+  box-sizing: border-box;
   width: 30rem;
   height: 2.75rem;
-  font-size: 1rem;
   padding: 0 1rem;
-  box-sizing: border-box;
+  font-size: 1rem;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -53,20 +53,20 @@
 .searchIcon {
   width: 2rem;
   height: 2rem;
-  color: #ffffff;
+  color: #fff;
 }
 
 .searchResultSection {
-  min-height: 90vh;
   max-width: 1180px;
+  min-height: 90vh;
   margin: 0 auto;
 }
 
 .resultTitle {
   padding-top: 3.75rem;
   padding-bottom: 2.25rem;
-  font-style: italic;
   font-weight: 700;
+  font-style: italic;
   font-size: 2rem;
   line-height: 2rem;
   text-align: center;
@@ -74,36 +74,36 @@
 
 .resultTitle span {
   background: linear-gradient(270deg, #e86dc6 7.22%, #c625ff 77.95%);
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gifResultWrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 1.25rem;
+  justify-content: center;
   padding-bottom: 5rem;
 }
 
 .loadMoreButton {
   width: 100%;
   height: 3.5rem;
+  margin-bottom: 2.5rem;
+  border: none;
   background: radial-gradient(
     110.23% 110.23% at 50% 50%,
     #bd00ff 0%,
     rgba(233, 97, 195, 0.97) 57.81%
   );
-  font-style: normal;
+  color: #fff;
   font-weight: 700;
+  font-style: normal;
   font-size: 1rem;
   line-height: 1rem;
   text-align: center;
-  color: #ffffff;
   cursor: pointer;
-  border: none;
-  margin-bottom: 2.5rem;
   transition: all 0.5s ease-in-out 0s;
 }
 
@@ -118,8 +118,8 @@
 /* Mobile */
 @media all and (max-width: 424px) {
   .loadMoreButton {
-    font-size: 1.5rem;
     height: 5rem;
+    font-size: 1.5rem;
   }
 
   .searchInput {
