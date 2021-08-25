@@ -4,6 +4,7 @@ const Dotenv = require("dotenv-webpack")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 
 module.exports = {
   entry: "./src/index.js",
@@ -52,6 +53,6 @@ module.exports = {
     ],
   },
   optimization: {
-    minimize: false,
+    minimizer: [new UglifyJsPlugin()],
   },
 }
