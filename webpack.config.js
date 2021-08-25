@@ -10,6 +10,7 @@ module.exports = {
   resolve: { extensions: ['.js', '.jsx'] },
   output: {
     filename: 'bundle.js',
+    chunkFilename: '[name].[chunkhash].js',
     path: path.join(__dirname, '/dist'),
     clean: true,
   },
@@ -49,5 +50,15 @@ module.exports = {
         },
       },
     ],
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+        },
+      },
+    },
   },
 };
