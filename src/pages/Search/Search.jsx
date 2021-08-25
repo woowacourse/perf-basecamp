@@ -88,13 +88,17 @@ const Search = () => {
     setCurrentPageIndex(nextPageIndex);
   };
 
-  useEffect(async () => {
-    if (!cachedGifs) {
+  useEffect(() => {
+    const updateTrendingGifs = async () => {
       const gifs = await fetchTrendingGifs();
 
       cachedGifs = gifs;
       setGifList(gifs);
       setLoading(false);
+    };
+
+    if (!cachedGifs) {
+      updateTrendingGifs();
     }
 
     return () => setLoading(true);
