@@ -1,7 +1,9 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const path = require("path")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const Dotenv = require("dotenv-webpack")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 
 module.exports = {
   entry: "./src/index.js",
@@ -9,7 +11,7 @@ module.exports = {
   output: {
     filename: "bundle.js",
     path: path.join(__dirname, "/dist"),
-    clean: true
+    clean: true,
   },
   devServer: {
     hot: true,
@@ -22,9 +24,10 @@ module.exports = {
       template: "./index.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "./public", to: "./public" }]
+      patterns: [{ from: "./public", to: "./public" }],
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin({}),
   ],
   module: {
     rules: [
@@ -32,26 +35,23 @@ module.exports = {
         test: /\.(js|jsx)$/i,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
       },
       {
         test: /\.css$/i,
-        use: [
-          "style-loader",
-          "css-loader"
-        ]
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         loader: "file-loader",
         options: {
-          name: "static/[name].[ext]"
-        }
-      }
-    ]
+          name: "static/[name].[ext]",
+        },
+      },
+    ],
   },
   optimization: {
-    minimize: false
-  }
-};
+    minimize: false,
+  },
+}

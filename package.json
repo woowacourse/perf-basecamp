@@ -8,7 +8,8 @@
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve --mode=development"
+    "serve": "webpack serve --mode=development",
+    "serve:prod": "webpack serve --mode=production"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +37,7 @@
     "prettier": "^2.3.2",
     "style-loader": "^3.2.1",
     "webpack": "^5.50.0",
+    "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
