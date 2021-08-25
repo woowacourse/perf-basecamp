@@ -88,16 +88,18 @@ const Search = () => {
     setCurrentPageIndex(nextPageIndex);
   };
 
-  useEffect(async () => {
-    if (!cachedGifs) {
-      const gifs = await fetchTrendingGifs();
+  useEffect(() => {
+    (async () => {
+      if (!cachedGifs) {
+        setLoading(true);
+        const gifs = await fetchTrendingGifs();
 
-      cachedGifs = gifs;
-      setGifList(gifs);
-      setLoading(false);
-    }
+        cachedGifs = gifs;
+        setLoading(false);
+      }
 
-    return () => setLoading(true);
+      setGifList(cachedGifs);
+    })();
   }, []);
 
   return (
