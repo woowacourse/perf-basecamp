@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { MdSearch } from 'react-icons/md';
 
 import { fetchTrendingGifs, fetchGifsByKeyword } from '../../service/fetchGif';
@@ -12,7 +12,7 @@ import useTrending from '../../hooks/useTrending';
 
 const DEFAULT_PAGE_INDEX = 0;
 
-const ResultTitle = ({ showTrending, noResult }) => {
+const ResultTitle = memo(({ showTrending, noResult }) => {
   if (noResult) {
     return (
       <h4 className={styles.resultTitle}>
@@ -34,7 +34,7 @@ const ResultTitle = ({ showTrending, noResult }) => {
       <span>We Found...</span>
     </h4>
   );
-};
+});
 
 const Search = () => {
   const { trendingList, setTrendingList } = useTrending();
