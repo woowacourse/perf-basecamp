@@ -1,17 +1,19 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
-import Home from "./pages/Home/Home";
-import Search from "./pages/Search/Search";
 
 import "./App.css";
 
+const Home = lazy(() => import("./pages/Home/Home"));
+const Search = lazy(() => import("./pages/Search/Search"));
+
 const App = () => (
   <Router>
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/search" component={Search} />
-    </Switch>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/search" component={Search} />
+      </Switch>
+    </Suspense>
   </Router>
 );
 
