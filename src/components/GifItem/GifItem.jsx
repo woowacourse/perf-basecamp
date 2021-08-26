@@ -5,7 +5,7 @@ import styles from './GifItem.module.css';
 const GifItem = ({ imageUrl = '', title = '' }) => {
   return (
     <div className={styles.gifItem}>
-      <img className={styles.gifImage} src={imageUrl} />
+      <img className={styles.gifImage} src={imageUrl} alt="gif-title" />
       <div className={styles.gifTitleContainer}>
         <div className={styles.gifTitleBg}></div>
         <h4 className={styles.gifTitle}>{title}</h4>
