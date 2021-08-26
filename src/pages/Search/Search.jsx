@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MdSearch } from "react-icons/md";
+import { MdSearch } from "@react-icons/all-files/md/MdSearch";
 
 import { fetchTrendingGifs, fetchGifsByKeyword } from "../../service/fetchGif";
 
