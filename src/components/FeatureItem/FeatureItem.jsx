@@ -2,9 +2,12 @@ import React from "react";
 
 import styles from "./FeatureItem.module.css";
 
-const FeatureItem = ({ title, imageSrc }) => (
+const FeatureItem = ({ title, webmSrc, mp4Src }) => (
   <div className={styles.featureItem}>
-    <img className={styles.featureImage} src={imageSrc} alt={title} />
+    <video className={styles.featureImage} autoPlay loop muted playsInline>
+      <source src={webmSrc} type="video/webm" />
+      <source src={mp4Src} type="video/mp4" />
+    </video>
     <div className={styles.featureTitleBg} />
     <h4 className={styles.featureTitle}>{title}</h4>
   </div>
