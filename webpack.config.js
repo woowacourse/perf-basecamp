@@ -2,14 +2,15 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const TerserPlugin = require("terser-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
     filename: "[name].[hash].js",
+    chunkFilename: "[id].[chunkhash].js",
     path: path.join(__dirname, "/dist"),
     clean: true,
   },
@@ -63,5 +64,34 @@ module.exports = {
     minimizer: [
       new TerserPlugin(),
     ],
+    splitChunks: {
+      cacheGroups: {
+        default: false,
+        vendors: false,
+        defaultVendors: false,
+        react: {
+          chunks: "all",
+          name: "react",
+          test: /(?<!node_modules.*)[\/]node_modules[\/](react|react-dom|react-router-dom)[\/]/,
+          priority: 40,
+        },
+        asyncComponents: {
+          chunks: "async",
+          priority: 20,
+        },
+        duplicates: {
+          name: "duplicates",
+          minChunks: 2,
+          priority: 30,
+        },
+        commonVendors: {
+          chunks: "all",
+          name: 'commonVendors',
+          test: /[\/]node_modules[\/]/,
+          minChunks: 1,
+          priority: 10,
+        }
+      }
+    }
   }
 };
