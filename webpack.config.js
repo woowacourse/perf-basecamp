@@ -21,7 +21,8 @@ module.exports = {
   devtool: isProduction ? false : "eval-source-map",
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./index.html",
+      template: "./public/index.html",
+      favicon: "./public/favicon.ico",
     }),
     new Dotenv(),
   ],
