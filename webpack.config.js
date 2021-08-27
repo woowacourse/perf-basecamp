@@ -4,6 +4,7 @@ const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
@@ -63,6 +64,7 @@ module.exports = {
     minimize: true,
     minimizer: [
       new TerserPlugin(),
+      new CssMinimizerPlugin(),
     ],
     splitChunks: {
       cacheGroups: {
