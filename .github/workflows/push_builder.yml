@@ -1,0 +1,41 @@
+# This is a basic workflow that is manually triggered
+
+name: push_builder
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  push:
+    branches: main
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+    
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+        
+    - run: npm install
+    
+    - name: Setup yarn
+      run: npm install -g yarn
+      
+    - name: Install Dependencies
+      run: yarn
+      working-directory: ./
+      
+    - name: Build
+      run: yarn build
+      working-directory: ./
+      env:
+        GIPHY_API_KEY: ${{ secrets.GIPHY_API_KEY }}
+
+    - name: S3 Deploy
+      run: aws s3 sync ./dist s3://perf-basecamp-zigsong/
+      working-directory: ./
