@@ -28,17 +28,11 @@ jobs:
       
     - name: Install Dependencies
       run: yarn
-      working-directory: ./
       
     - name: Build
       run: yarn build
-      working-directory: ./
       env:
         GIPHY_API_KEY: ${{ secrets.GIPHY_API_KEY }}
         
-    - name: Install Aws Cli
-      uses: unfor19/install-aws-cli-action@v1
-
     - name: S3 Deploy
       run: aws s3 sync ./dist s3://perf-basecamp-yungo1846/
-      working-directory: ./
