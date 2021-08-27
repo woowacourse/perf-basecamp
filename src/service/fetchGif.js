@@ -13,6 +13,7 @@ const formatResponse = (gifList) =>
     id: gif.id,
     title: gif.title,
     imageUrl: gif.images.original.url,
+    mp4Url: gif.images.original.mp4,
   }));
 
 export const fetchTrendingGifs = () =>

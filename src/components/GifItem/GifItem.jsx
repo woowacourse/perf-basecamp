@@ -2,9 +2,11 @@ import React from "react";
 
 import styles from "./GifItem.module.css";
 
-const GifItem = ({ imageUrl = "", title = "" }) => (
+const GifItem = ({ title = "", mp4Url = "" }) => (
   <div className={styles.gifItem}>
-    <img className={styles.gifImage} src={imageUrl} alt={title || "gifitem"} />
+    <video className={styles.gifImage} autoPlay loop muted playsInline>
+      <source src={mp4Url} type="video/mp4" />
+    </video>
     <div className={styles.gifTitleContainer}>
       <div className={styles.gifTitleBg} />
       <h4 className={styles.gifTitle}>{title}</h4>
