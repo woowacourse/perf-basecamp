@@ -32,7 +32,7 @@ jobs:
       
     - name: Build
       run: yarn build
-      working-directory: ./frontend/reply-module
+      working-directory: ./
       env:
         GIPHY_API_KEY: ${{ secrets.GIPHY_API_KEY }}
         
