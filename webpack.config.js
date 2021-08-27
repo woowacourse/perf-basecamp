@@ -2,14 +2,15 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "bundle.js",
+    filename: "[name].[hash].js",
     path: path.join(__dirname, "/dist"),
-    clean: true
+    clean: true,
   },
   devServer: {
     hot: true,
@@ -24,7 +25,12 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: "./public", to: "./public" }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static",
+      reportFilename: "docs/report.html",
+      openAnalyzer: false,
+    })
   ],
   module: {
     rules: [
@@ -52,6 +58,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: false,
   }
 };
