@@ -12,8 +12,8 @@ module.exports = {
   mode: process.env.NODE_ENV,
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "[name].[hash].js",
-    chunkFilename: "[id].[chunkhash].js",
+    filename: "[name].[contenthash].js",
+    chunkFilename: "[id].[contenthash].js",
     path: path.join(__dirname, "/dist"),
     clean: true,
   },
