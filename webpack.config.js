@@ -2,12 +2,14 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const  CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
+  mode: process.env.NODE_ENV,
   resolve: { extensions: [".js", ".jsx"] },
   output: {
     filename: "[name].[hash].js",
@@ -33,7 +35,10 @@ module.exports = {
       analyzerMode: "static",
       reportFilename: "docs/report.html",
       openAnalyzer: false,
-    })
+    }),
+    new CompressionPlugin({
+      test: /\.(js|js\.map)?$/i
+    }),
   ],
   module: {
     rules: [
