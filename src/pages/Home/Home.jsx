@@ -5,11 +5,11 @@ import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import FeatureItem from "../../components/FeatureItem/FeatureItem";
 
-import heroImageSm from "../../assets/images/hero-sm.jpg";
-import heroImageMd from "../../assets/images/hero-md.jpg";
-import heroImageLg from "../../assets/images/hero-lg.jpg";
-import heroImageXl from "../../assets/images/hero-xl.jpg";
-import heroImage2Xl from "../../assets/images/hero-2xl.jpg";
+import heroImageSm from "../../assets/images/hero-sm.webp";
+import heroImageMd from "../../assets/images/hero-md.webp";
+import heroImageLg from "../../assets/images/hero-lg.webp";
+import heroImageXl from "../../assets/images/hero-xl.webp";
+import heroImage2Xl from "../../assets/images/hero-2xl.webp";
 
 import trendingMp4 from "../../assets/images/trending.mp4";
 import trendingWebm from "../../assets/images/trending.webm";
