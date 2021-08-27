@@ -2,8 +2,10 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
-module.exports = {
+module.exports = (env) => ({
   entry: "./src/index.jsx",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
@@ -17,6 +19,7 @@ module.exports = {
     historyApiFallback: true,
   },
   devtool: "source-map",
+  mode: env.production ? "production" : "development",
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html",
@@ -25,7 +28,8 @@ module.exports = {
       patterns: [{ from: "./public", to: "./public" }],
     }),
     new Dotenv(),
-  ],
+    env.production && new MiniCssExtractPlugin(),
+  ].filter(Boolean),
   module: {
     rules: [
       {
@@ -37,7 +41,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [
+          env.production ? MiniCssExtractPlugin.loader : "style-loader",
+          "css-loader",
+        ],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webm|mp4|webp)$/i,
@@ -49,6 +56,7 @@ module.exports = {
     ],
   },
   optimization: {
-    minimize: false,
+    minimizer: [`...`, new CssMinimizerPlugin()],
   },
-};
+  target: "web",
+});
