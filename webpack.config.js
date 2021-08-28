@@ -67,5 +67,13 @@ module.exports = {
   },
   optimization: {
     minimizer: [new UglifyJsPlugin()],
+    splitChunks: {
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all',
+        },
+      },
+    },
   },
 };
