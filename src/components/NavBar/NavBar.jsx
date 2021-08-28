@@ -11,7 +11,9 @@ const NavBar = () => {
           <span className={styles.logo}>memegle</span>
         </Link>
         <Link to="/search">
-          <button className={styles.searchPageButton}>start search</button>
+          <button type="button" className={styles.searchPageButton}>
+            start search
+          </button>
         </Link>
       </nav>
     </header>

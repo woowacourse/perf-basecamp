@@ -22,7 +22,9 @@ const Home = () => {
           <h2 className={styles.subtitle}>gif search engine for you</h2>
         </div>
         <Link to="/search">
-          <button className={styles.cta}>start search</button>
+          <button type="button" className={styles.cta}>
+            start search
+          </button>
         </Link>
       </section>
       <section className={styles.featureSection}>

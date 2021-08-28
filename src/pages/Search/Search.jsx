@@ -45,20 +45,14 @@ const Search = () => {
   const [gifList, setGifList] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
+
     searchByKeyword();
   };
 
   const handleChange = (e) => {
     setSearchKeyword(e.target.value);
-  };
-
-  const handleEnter = (e) => {
-    if (e.key !== 'Enter') {
-      return;
-    }
-
-    searchByKeyword();
   };
 
   const resetSearch = () => {
@@ -103,22 +97,20 @@ const Search = () => {
       <div className={styles.searchContainer}>
         <section className={styles.searchbarSection}>
           <h3 className={styles.searchbarTitle}>- find the best gif now - </h3>
-          <div className={styles.searchbarContainer}>
-            <input
-              className={styles.searchInput}
-              type="text"
-              value={searchKeyword}
-              onKeyPress={handleEnter}
-              onChange={handleChange}
-            />
-            <button
-              className={styles.searchButton}
-              type="button"
-              onClick={handleSearch}
-            >
+          <form onSubmit={handleSearch} className={styles.searchbarContainer}>
+            <label>
+              search item
+              <input
+                className={styles.searchInput}
+                type="text"
+                value={searchKeyword}
+                onChange={handleChange}
+              />
+            </label>
+            <button className={styles.searchButton} aria-label="search-button">
               <MdSearch color="white" size="2rem" />
             </button>
-          </div>
+          </form>
         </section>
         <section className={styles.searchResultSection}>
           <ResultTitle showTrending={showTrending} noResult={noResult} />
@@ -128,7 +120,11 @@ const Search = () => {
             ))}
           </div>
           {showLoadMoreButton && (
-            <button className={styles.loadMoreButton} onClick={loadMore}>
+            <button
+              type="button"
+              className={styles.loadMoreButton}
+              onClick={loadMore}
+            >
               load more
             </button>
           )}
