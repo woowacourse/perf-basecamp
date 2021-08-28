@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import styles from "./GifItem.module.css";
 
@@ -14,4 +14,4 @@ const GifItem = ({ title = "", mp4Url = "" }) => (
   </div>
 );
 
-export default GifItem;
+export default memo(GifItem);
