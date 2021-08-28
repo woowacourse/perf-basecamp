@@ -66,7 +66,11 @@ const Search = () => {
     const nextPageIndex = currentPageIndex + 1;
     const gifs = await fetchGifsByKeyword(searchKeyword, nextPageIndex);
 
-    setGifList([...gifList, ...gifs]);
+    setGifList((prev) => {
+      const dict = new Set(prev.map(({ id }) => id));
+
+      return [...prev, ...gifs.filter(({ id }) => !dict.has(id))];
+    });
     setCurrentPageIndex(nextPageIndex);
   };
 
