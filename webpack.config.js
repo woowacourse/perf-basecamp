@@ -34,7 +34,7 @@ module.exports = {
       exclude: /node_modules/,
       minimizerOptions: {
         plugins: [
-          ['gifsicle', { interlaced: true }],
+          ['gifsicle', { interlaced: true, optimizationLevel: 3 }],
           ['mozjpeg', { quality: 70 }],
           ['pngquant', { optimizationLevel: 7 }],
           ['svgo', { plugins: [{ removeViewBox: false }] }],
