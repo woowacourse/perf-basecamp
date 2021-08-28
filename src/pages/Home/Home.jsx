@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { SearchLoadable } from '../Loadable/Loadable';
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import FeatureItem from "../../components/FeatureItem/FeatureItem";
@@ -21,7 +22,7 @@ const Home = () => {
 					<h1 className={styles.title}>Memegle</h1>
 					<h3 className={styles.subtitle}>gif search engine for you</h3>
 				</div>
-				<Link to="/search"><button className={styles.cta}>start search</button></Link>
+				<Link to="/search" onMouseOver={() => SearchLoadable.preload()}><button className={styles.cta}>start search</button></Link>
 			</section>
 			<section className={styles.featureSection}>
 				<div className={styles.featureSectionWrapper}>

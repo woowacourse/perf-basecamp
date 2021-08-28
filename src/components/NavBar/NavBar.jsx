@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { SearchLoadable } from '../../pages/Loadable/Loadable';
+
 import styles from "./NavBar.module.css";
 
 const NavBar = () => {
@@ -11,7 +13,7 @@ const NavBar = () => {
 					<span className={styles.logo}>memegle</span>
 				</Link>
 				<Link to="/search">
-					<button className={styles.searchPageButton}>start search</button>
+					<button className={styles.searchPageButton} onMouseOver={() => SearchLoadable.preload()}>start search</button>
 				</Link>
 			</nav>
 		</header>
