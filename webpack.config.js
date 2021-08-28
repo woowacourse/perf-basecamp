@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const { DefinePlugin } = require('webpack');
 
 module.exports = {
   entry: './src/index.js',
@@ -27,7 +28,11 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }],
     }),
-    new Dotenv(),
+    process.env.GIPHY_API_KEY
+      ? new DefinePlugin({
+          'process.env.GIPHY_API_KEY': JSON.stringify(process.env.GIPHY_API_KEY),
+        })
+      : new Dotenv(),
     new MiniCssExtractPlugin(),
   ],
   module: {
