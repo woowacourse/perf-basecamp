@@ -2,6 +2,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const WebpackImageResizePlugin = require("webpack-image-resize-plugin");
 
 module.exports = {
   entry: "./src/index.js",
@@ -25,6 +27,11 @@ module.exports = {
       patterns: [{ from: "./public", to: "./public" }],
     }),
     new Dotenv(),
+    new CleanWebpackPlugin(),
+    new WebpackImageResizePlugin({
+      width: 200,
+      height: 200,
+    }),
   ],
   module: {
     rules: [
