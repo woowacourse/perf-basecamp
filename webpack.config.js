@@ -9,7 +9,7 @@ module.exports = (env) => ({
   entry: "./src/index.jsx",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "bundle.js",
+    filename: "[name].[contenthash].js",
     path: path.join(__dirname, "/dist"),
     clean: true,
   },
@@ -28,7 +28,10 @@ module.exports = (env) => ({
       patterns: [{ from: "./public", to: "./public" }],
     }),
     new Dotenv(),
-    env.production && new MiniCssExtractPlugin(),
+    env.production &&
+      new MiniCssExtractPlugin({
+        filename: "css/[name].[contenthash].css",
+      }),
   ].filter(Boolean),
   module: {
     rules: [
@@ -50,7 +53,7 @@ module.exports = (env) => ({
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webm|mp4|webp)$/i,
         type: "asset/resource",
         generator: {
-          filename: "static/[name].[ext]",
+          filename: "static/[name].[hash][ext]",
         },
       },
     ],
