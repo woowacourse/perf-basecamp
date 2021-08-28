@@ -30,7 +30,7 @@ jobs:
         GIPHY_API_KEY: ${{ secrets.GIPHY_API_KEY }}
  
     - name: S3 Deploy
-      run: aws s3 sync ./dist s3://perf-basecamp-yungo1846/ # 본인 s3 주소 입력
+      run: aws s3 sync ./dist s3://yungo1846-perf-basecamp/ # 본인 s3 주소 입력
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
