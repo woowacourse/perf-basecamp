@@ -9,7 +9,7 @@ const FeatureItem = ({ title, webmSrc, mp4Src }) => (
       <source src={mp4Src} type="video/mp4" />
     </video>
     <div className={styles.featureTitleBg} />
-    <h4 className={styles.featureTitle}>{title}</h4>
+    <h3 className={styles.featureTitle}>{title}</h3>
   </div>
 );
 

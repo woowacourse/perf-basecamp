@@ -21,5 +21,14 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react", "jsx-a11y", "import"],
-  rules: { "react/prop-types": "off" },
+  rules: {
+    "react/prop-types": "off",
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        assert: "either",
+        depth: 3,
+      },
+    ],
+  },
 };

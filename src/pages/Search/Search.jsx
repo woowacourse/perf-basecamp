@@ -14,24 +14,24 @@ const DEFAULT_PAGE_INDEX = 0;
 const ResultTitle = ({ showTrending, noResult }) => {
   if (noResult) {
     return (
-      <h4 className={styles.resultTitle}>
+      <h2 className={styles.resultTitle}>
         <span>Nothing</span>🥲
-      </h4>
+      </h2>
     );
   }
 
   if (showTrending) {
     return (
-      <h4 className={styles.resultTitle}>
+      <h2 className={styles.resultTitle}>
         🔥 <span>Trending Now</span> 🔥
-      </h4>
+      </h2>
     );
   }
 
   return (
-    <h4 className={styles.resultTitle}>
+    <h2 className={styles.resultTitle}>
       <span>We Found...</span>
-    </h4>
+    </h2>
   );
 };
 
@@ -74,7 +74,9 @@ const Search = () => {
     setCurrentPageIndex(nextPageIndex);
   };
 
-  const handleSearch = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     searchByKeyword();
   };
 
@@ -112,9 +114,12 @@ const Search = () => {
       <NavBar />
       <div className={styles.searchContainer}>
         <section className={styles.searchbarSection}>
-          <h3 className={styles.searchbarTitle}>- find the best gif now - </h3>
-          <div className={styles.searchbarContainer}>
+          <label htmlFor="search-input" className={styles.searchbarTitle}>
+            <h1>- find the best gif now -</h1>
+          </label>
+          <form className={styles.searchbarContainer} onSubmit={handleSubmit}>
             <input
+              id="search-input"
               className={styles.searchInput}
               type="text"
               value={searchKeyword}
@@ -124,11 +129,11 @@ const Search = () => {
             <button
               className={styles.searchButton}
               type="button"
-              onClick={handleSearch}
+              aria-label="아이콘 검색"
             >
               <MdSearch color="white" size="2rem" />
             </button>
-          </div>
+          </form>
         </section>
         <section className={styles.searchResultSection}>
           <ResultTitle showTrending={showTrending} noResult={noResult} />

@@ -9,7 +9,7 @@ const GifItem = ({ title = "", mp4Url = "" }) => (
     </video>
     <div className={styles.gifTitleContainer}>
       <div className={styles.gifTitleBg} />
-      <h4 className={styles.gifTitle}>{title}</h4>
+      <h3 className={styles.gifTitle}>{title}</h3>
     </div>
   </div>
 );
