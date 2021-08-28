@@ -5,6 +5,8 @@ import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import FeatureItem from "../../components/FeatureItem/FeatureItem";
 
+
+import heroImageAvif_414 from "../../assets/images/hero-414.avif";
 import heroImageAvif from "../../assets/images/hero.avif";
 import heroImageWebp from "../../assets/images/hero.webp";
 import heroImage from "../../assets/images/hero.png";
@@ -19,7 +21,7 @@ const Home = () => {
             <NavBar />
             <section className={styles.heroSection}>
                 <picture>
-                    <source srcSet={heroImageAvif} type="image/avif" />
+                    <source srcSet={`${heroImageAvif} 1920w, ${heroImageAvif_414} 414w`} type="image/avif" />
                     <source srcSet={heroImageWebp} type="image/webp" />
                     <img className={styles.heroImage} src={heroImage} alt="hero" />
                 </picture>
