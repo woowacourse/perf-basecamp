@@ -1,10 +1,7 @@
-import { GiphyFetch } from '@giphy/js-fetch-api';
-
 /**
  * 응답 예제는 아래 링크에서 참고
  * https://developers.giphy.com/explorer/#explorer
  */
-const gf = new GiphyFetch(process.env.GIPHY_API_KEY);
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
 
@@ -28,8 +25,11 @@ export const fetchTrendingGifs = () => {
     });
 };
 
-export const fetchGifsByKeyword = (keyword, page = 0) => {
+export const fetchGifsByKeyword = async (keyword, page = 0) => {
+  const { GiphyFetch } = await import('@giphy/js-fetch-api');
+
   const offset = page * DEFAULT_FETCH_COUNT;
+  const gf = new GiphyFetch(process.env.GIPHY_API_KEY);
 
   return gf
     .search(keyword, { limit: DEFAULT_FETCH_COUNT, lang: 'en', offset })
