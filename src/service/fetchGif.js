@@ -18,15 +18,25 @@ const formatResponse = (gifList) => {
   });
 };
 
-export const fetchTrendingGifs = () => {
-  return fetch(TRENDING_GIF_API)
-    .then((response) => response.json())
-    .then((gifs) => gifs.data)
-    .then(formatResponse)
-    .catch((e) => {
+export const fetchTrendingGifs = (() => {
+  const cache = { current: null };
+
+  return async () => {
+    try {
+      if (!cache.current) {
+        const response = await fetch(TRENDING_GIF_API);
+        const gifs = await response.json();
+        const data = formatResponse(gifs.data ?? []);
+
+        cache.current = data;
+      }
+
+      return cache.current ?? [];
+    } catch (error) {
       return [];
-    });
-};
+    }
+  };
+})();
 
 export const fetchGifsByKeyword = (keyword, page = 0) => {
   const offset = page * DEFAULT_FETCH_COUNT;
