@@ -19,7 +19,7 @@ const Home = () => {
         <img className={styles.heroImage} src={heroImage} alt='hero' />
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
-          <h3 className={styles.subtitle}>gif search engine for you</h3>
+          <h2 className={styles.subtitle}>gif search engine for you</h2>
         </div>
         <Link to='/search'>
           <button className={styles.cta}>start search</button>
@@ -27,7 +27,7 @@ const Home = () => {
       </section>
       <section className={styles.featureSection}>
         <div className={styles.featureSectionWrapper}>
-          <h2 className={styles.featureTitle}>Features</h2>
+          <h3 className={styles.featureTitle}>Features</h3>
           <div className={styles.featureItemContainer}>
             <FeatureItem title='See trending gif' imageSrc={trendingGif} />
             <FeatureItem title='Find gif for free' imageSrc={findGif} />
