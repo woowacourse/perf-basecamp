@@ -1,20 +1,21 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import loadable from '@loadable/component';
 
-import Home from "./pages/Home/Home";
-import Search from "./pages/Search/Search";
+const Home = loadable(() => import('./pages/Home/Home'));
+const Search = loadable(() => import('./pages/Search/Search'));
 
-import "./App.css";
+import './App.css';
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/search" component={Search} />
+        <Route exact path='/' component={Home} />
+        <Route exact path='/search' component={Search} />
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;
