@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 
 module.exports = {
@@ -54,6 +55,6 @@ module.exports = {
     ],
   },
   optimization: {
-    minimize: true,
+    minimizer: [new UglifyJsPlugin()],
   },
 };
