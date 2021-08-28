@@ -7,7 +7,7 @@ module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "bundle.js",
+    filename: "[name].[chunkhash].js",
     path: path.join(__dirname, "/dist"),
     clean: true,
   },
@@ -27,6 +27,9 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
+          options: {
+            plugins: ["@babel/plugin-syntax-dynamic-import"],
+          },
         },
       },
       {
