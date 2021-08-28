@@ -39,7 +39,7 @@ export const fetchTrendingGifs = async () => {
 };
 
 export const fetchGifsByKeyword = async (keyword, page = 0) => {
-  const memoizedGifs = getFromLocalStorage(`keyword_${keyword}_gifs`);
+  const memoizedGifs = getFromLocalStorage(`keyword_${keyword}_${page}_gifs`);
   if (memoizedGifs) {
     return memoizedGifs;
   }
@@ -54,7 +54,7 @@ export const fetchGifsByKeyword = async (keyword, page = 0) => {
       return [];
     });
 
-  setToLocalStorage(`keyword_${keyword}_gifs`, gifsByKeyword, 10);
+  setToLocalStorage(`keyword_${keyword}_${page}_gifs`, gifsByKeyword, 10);
 
   return gifsByKeyword;
 };
