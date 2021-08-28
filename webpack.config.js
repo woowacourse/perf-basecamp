@@ -23,6 +23,7 @@ module.exports = (env) => ({
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html",
+      filename: "index.[contenthash].html",
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: "./public", to: "./public" }],
