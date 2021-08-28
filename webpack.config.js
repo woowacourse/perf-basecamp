@@ -57,7 +57,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|jpeg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|jpeg|gif|webp)$/i,
         loader: "file-loader",
         options: {
           name: "static/[name].[ext]"
