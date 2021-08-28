@@ -1,4 +1,5 @@
 import { GiphyFetch } from "@giphy/js-fetch-api";
+import { cacheAsync } from "../utils/cache";
 
 /**
  * 응답 예제는 아래 링크에서 참고
@@ -16,14 +17,16 @@ const formatResponse = (gifList) =>
     mp4Url: gif.images.original.mp4,
   }));
 
-export const fetchTrendingGifs = () =>
+const fetchTrendingGifs = () =>
   fetch(TRENDING_GIF_API)
     .then((response) => response.json())
     .then((gifs) => gifs.data)
     .then(formatResponse)
     .catch(() => []);
 
-export const fetchGifsByKeyword = (keyword, page = 0) => {
+const cachedFetchTrendingGifs = cacheAsync(fetchTrendingGifs, "trending-gifs");
+
+const fetchGifsByKeyword = (keyword, page = 0) => {
   const offset = page * DEFAULT_FETCH_COUNT;
 
   return gf
@@ -32,3 +35,5 @@ export const fetchGifsByKeyword = (keyword, page = 0) => {
     .then(formatResponse)
     .catch(() => []);
 };
+
+export { cachedFetchTrendingGifs as fetchTrendingGifs, fetchGifsByKeyword };

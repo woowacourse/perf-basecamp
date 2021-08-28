@@ -15,7 +15,7 @@ const ResultTitle = ({ showTrending, noResult }) => {
   if (noResult) {
     return (
       <h4 className={styles.resultTitle}>
-        <span>Noting</span>🥲
+        <span>Nothing</span>🥲
       </h4>
     );
   }
@@ -62,6 +62,14 @@ const Search = () => {
     }
   };
 
+  const loadMore = async () => {
+    const nextPageIndex = currentPageIndex + 1;
+    const gifs = await fetchGifsByKeyword(searchKeyword, nextPageIndex);
+
+    setGifList([...gifList, ...gifs]);
+    setCurrentPageIndex(nextPageIndex);
+  };
+
   const handleSearch = () => {
     searchByKeyword();
   };
@@ -78,28 +86,22 @@ const Search = () => {
     searchByKeyword();
   };
 
-  const loadMore = async () => {
-    const nextPageIndex = currentPageIndex + 1;
-    const gifs = await fetchGifsByKeyword(searchKeyword, nextPageIndex);
-
-    setGifList([...gifList, ...gifs]);
-    setCurrentPageIndex(nextPageIndex);
-  };
-
   useEffect(() => {
-    const fetch = async () => {
-      if (loading) {
-        const gifs = await fetchTrendingGifs();
+    let didCancel = false;
 
-        setGifList(gifs);
-        setLoading(false);
-      }
+    if (loading) {
+      fetchTrendingGifs().then((gifs) => {
+        if (!didCancel) {
+          setGifList(gifs);
+          setLoading(false);
+        }
+      });
+    }
+
+    return () => {
+      didCancel = true;
     };
-    fetch();
-
-    return () => setLoading(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loading]);
 
   return (
     <>
