@@ -110,8 +110,14 @@ const Search = () => {
               value={searchKeyword}
               onKeyPress={handleEnter}
               onChange={handleChange}
+              aria-label="Enter keyword"
             />
-            <button className={styles.searchButton} type="button" onClick={handleSearch}>
+            <button
+              className={styles.searchButton}
+              type="button"
+              onClick={handleSearch}
+              aria-label="Search"
+            >
               <MdSearch color="white" size="2rem" />
             </button>
           </div>
