@@ -15,14 +15,24 @@ const formatResponse = (gifList) => {
   });
 };
 
-export const fetchTrendingGifs = () => {
-  return fetch(TRENDING_GIF_API)
+export const fetchTrendingGifs = async () => {
+  const cachedItem = JSON.parse(localStorage.getItem('trendingGifts'));
+
+  if (cachedItem) {
+    return cachedItem;
+  }
+
+  const trendingGifts = await fetch(TRENDING_GIF_API)
     .then((response) => response.json())
     .then((gifs) => gifs.data)
     .then(formatResponse)
     .catch((e) => {
       return [];
     });
+
+  localStorage.setItem('trendingGifts', JSON.stringify(trendingGifts));
+
+  return trendingGifts;
 };
 
 export const fetchGifsByKeyword = async (keyword, page = 0) => {
