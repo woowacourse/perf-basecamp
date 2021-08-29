@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === "prodcution";
 
@@ -25,6 +26,9 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: "./public", to: "./public" }],
+    }),
+    new CompressionPlugin({
+      deleteOriginalAssets: true,
     }),
     new Dotenv(),
   ],
