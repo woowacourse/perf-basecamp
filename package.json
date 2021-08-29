@@ -4,11 +4,11 @@
   "description": "frontend-performance-basecamp",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode=production --node-env=production",
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
+    "build": "webpack --mode=production --node-env=production --config webpack.prod.js",
+    "build:dev": "webpack --mode=development --config webpack.dev.js",
+    "build:prod": "webpack --mode=production --node-env=production --config webpack.prod.js",
     "watch": "webpack --watch",
-    "serve": "webpack serve --mode=development"
+    "serve": "webpack serve --mode=development --config webpack.dev.js"
   },
   "keywords": [],
   "author": "",
@@ -40,7 +40,8 @@
     "webpack": "^5.50.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.8.0"
   },
   "babel": {
     "presets": [
