@@ -1,17 +1,17 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const WebpackImageResizePlugin = require("webpack-image-resize-plugin");
+const ImageResizePlugin = require("webpack-image-resize-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    main: "./src/index.js",
+  },
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "bundle.js",
+    filename: "[name].js",
     path: path.join(__dirname, "/dist"),
-    clean: true,
   },
   devServer: {
     hot: true,
@@ -23,14 +23,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./index.html",
     }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: "./public", to: "./public" }],
-    }),
     new Dotenv(),
     new CleanWebpackPlugin(),
-    new WebpackImageResizePlugin({
-      width: 200,
-      height: 200,
+    new ImageResizePlugin({
+      gifInfo: {
+        width: 100,
+        height: 100,
+      },
+      imgInfo: {
+        width: 1920,
+        height: 1080,
+        quality: 100,
+      },
     }),
   ],
   module: {
@@ -47,7 +51,7 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         loader: "file-loader",
         options: {
           name: "static/[name].[ext]",
@@ -57,5 +61,10 @@ module.exports = {
   },
   optimization: {
     minimize: true,
+    concatenateModules: true,
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: "all",
+    },
   },
 };

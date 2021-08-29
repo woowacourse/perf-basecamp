@@ -22,7 +22,9 @@ const formatResponse = (gifList) => {
 export const fetchTrendingGifs = async () => {
   const memoizedGifs = getFromLocalStorage("trending_gifs");
   if (memoizedGifs) {
-    return memoizedGifs;
+    return new Promise((resolve) => {
+      resolve(memoizedGifs);
+    });
   }
 
   const trendingGifs = await fetch(TRENDING_GIF_API)
@@ -41,7 +43,9 @@ export const fetchTrendingGifs = async () => {
 export const fetchGifsByKeyword = async (keyword, page = 0) => {
   const memoizedGifs = getFromLocalStorage(`keyword_${keyword}_${page}_gifs`);
   if (memoizedGifs) {
-    return memoizedGifs;
+    return new Promise((resolve) => {
+      resolve(memoizedGifs);
+    });
   }
 
   const offset = page * DEFAULT_FETCH_COUNT;

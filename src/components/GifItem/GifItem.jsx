@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-
 import styles from "./GifItem.module.css";
 
 const GifItem = ({ imageUrl = "", title = "" }) => {
