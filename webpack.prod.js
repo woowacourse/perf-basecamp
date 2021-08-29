@@ -25,5 +25,35 @@ module.exports = merge(common, {
   optimization: {
     minimize: true,
     minimizer: ["...", new CssMinimizerPlugin(), new TerserPlugin()],
+    splitChunks: {
+      cacheGroups: {
+        react: {
+          chunks: "all",
+          name: "react",
+          test: /(?<!node_modules.*)[\/]node_modules[\/](react|react-dom|react-router-dom)[\/]/,
+          priority: 40,
+        },
+        duplicates: {
+          name: "duplicates",
+          minChunks: 2,
+          priority: 30,
+        },
+        async: {
+          chunks: "async",
+          priority: 20,
+        },
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "node_vendors",
+          chunks: "all",
+          priority: 10,
+        },
+        default: {
+          reuseExistingChunk: true,
+          minChunks: 2,
+          priority: -10,
+        },
+      },
+    },
   },
 });

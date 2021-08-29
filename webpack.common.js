@@ -5,12 +5,15 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    index: "./src/index.js",
+    Home: "./src/pages/Home/Home.jsx",
+  },
   resolve: {
     extensions: [".js", ".jsx"],
   },
   output: {
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
     path: path.join(__dirname, "/dist"),
     clean: true,
   },
