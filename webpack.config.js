@@ -29,7 +29,7 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }],
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin({}),
+    new BundleAnalyzerPlugin({ analyzerMode: 'disabled' }),
     new ImageMinimizerPlugin({
       exclude: /node_modules/,
       minimizerOptions: {
