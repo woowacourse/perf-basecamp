@@ -5,7 +5,7 @@ import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import FeatureItem from "../../components/FeatureItem/FeatureItem";
 
-import heroImage from "../../assets/images/hero.webp";
+import heroImage from "../../assets/images/hero.png";
 import trendingGif from "../../assets/images/trending.gif";
 import findGif from "../../assets/images/find.gif";
 

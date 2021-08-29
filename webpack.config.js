@@ -27,8 +27,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new ImageResizePlugin({
       gifInfo: {
-        width: 50,
-        height: 50,
+        scale: 0.3,
       },
       imgInfo: {
         width: 1600,
@@ -51,10 +50,17 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|gif)$/i,
         loader: "file-loader",
         options: {
           name: "static/[name].[ext]",
+        },
+      },
+      {
+        test: /\.(png|jpg|webp)$/i,
+        loader: "file-loader",
+        options: {
+          name: "static/[name].webp",
         },
       },
     ],
