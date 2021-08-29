@@ -8,7 +8,7 @@ module.exports = {
   entry: './src/index.js',
   resolve: { extensions: ['.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[chunkhash].js',
     path: path.join(__dirname, '/dist'),
     clean: true,
   },
@@ -40,5 +40,10 @@ module.exports = {
         },
       },
     ],
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
   },
 };

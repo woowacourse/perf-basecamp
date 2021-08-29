@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdSearch } from 'react-icons/md';
 
 import { fetchTrendingGifs, fetchGifsByKeyword } from '../../service/fetchGif';
