@@ -24,6 +24,12 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
+      - name: Create env file
+        run: |
+          touch .env
+          echo GIPHY_API_KEY=${{ secrets.GIPHY_API_KEY }} >> .env
+          cat .env
+
       - name: Build
         run: yarn build
         env:
