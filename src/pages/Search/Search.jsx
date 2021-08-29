@@ -86,13 +86,15 @@ const Search = () => {
     setCurrentPageIndex(nextPageIndex);
   };
 
-  useEffect(async () => {
-    if (loading) {
-      const gifs = await fetchTrendingGifs();
+  useEffect(() => {
+    (async () => {
+      if (loading) {
+        const gifs = await fetchTrendingGifs();
 
-      setGifList(gifs);
-      setLoading(false);
-    }
+        setGifList(gifs);
+        setLoading(false);
+      }
+    })();
 
     return () => setLoading(true);
   }, []);

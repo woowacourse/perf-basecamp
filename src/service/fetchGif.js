@@ -1,4 +1,5 @@
 import { GiphyFetch } from "@giphy/js-fetch-api";
+import { LOCALSTORAGE_KEY } from "../constants/localStorage";
 import { getFromLocalStorage, setToLocalStorage } from "../utils/localStorage";
 
 /**
@@ -20,7 +21,7 @@ const formatResponse = (gifList) => {
 };
 
 export const fetchTrendingGifs = async () => {
-  const memoizedGifs = getFromLocalStorage("trending_gifs");
+  const memoizedGifs = getFromLocalStorage(LOCALSTORAGE_KEY.TRENDING_GIFS);
   if (memoizedGifs) {
     return new Promise((resolve) => {
       resolve(memoizedGifs);
@@ -35,13 +36,15 @@ export const fetchTrendingGifs = async () => {
       return [];
     });
 
-  setToLocalStorage("trending_gifs", trendingGifs, 10);
+  setToLocalStorage(LOCALSTORAGE_KEY.TRENDING_GIFS, trendingGifs, 10);
 
   return trendingGifs;
 };
 
 export const fetchGifsByKeyword = async (keyword, page = 0) => {
-  const memoizedGifs = getFromLocalStorage(`keyword_${keyword}_${page}_gifs`);
+  const memoizedGifs = getFromLocalStorage(
+    LOCALSTORAGE_KEY.KEYWORD_GIFS(keyword, page)
+  );
   if (memoizedGifs) {
     return new Promise((resolve) => {
       resolve(memoizedGifs);
@@ -58,7 +61,11 @@ export const fetchGifsByKeyword = async (keyword, page = 0) => {
       return [];
     });
 
-  setToLocalStorage(`keyword_${keyword}_${page}_gifs`, gifsByKeyword, 10);
+  setToLocalStorage(
+    LOCALSTORAGE_KEY.KEYWORD_GIFS(keyword, page),
+    gifsByKeyword,
+    5
+  );
 
   return gifsByKeyword;
 };

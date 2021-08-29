@@ -27,13 +27,13 @@ module.exports = {
     new CleanWebpackPlugin(),
     new ImageResizePlugin({
       gifInfo: {
-        width: 100,
-        height: 100,
+        width: 50,
+        height: 50,
       },
       imgInfo: {
-        width: 1920,
-        height: 1080,
-        quality: 100,
+        width: 1600,
+        height: 900,
+        quality: 50,
       },
     }),
   ],
