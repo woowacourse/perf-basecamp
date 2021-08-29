@@ -24,10 +24,14 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
+      - name: Create env file
+        run: |
+          touch .env
+          echo GIPHY_API_KEY=${{ secrets.GIPHY_API_KEY }} >> .env
+          cat .env
+
       - name: Build
         run: yarn build
-        env:
-          GIPHY_API_KEY: ${{ secrets.GIPHY_API_KEY }}
 
       - name: S3 Deploy
         run: aws s3 sync ./dist s3://hchayan-perf-basecamp/ --acl bucket-owner-full-control
