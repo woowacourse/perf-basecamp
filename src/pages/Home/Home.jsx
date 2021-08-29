@@ -5,7 +5,6 @@ import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import FeatureItem from "../../components/FeatureItem/FeatureItem";
 
-
 import heroImageAvif_414 from "../../assets/images/hero-414.avif";
 import heroImageAvif from "../../assets/images/hero.avif";
 import heroImageWebp from "../../assets/images/hero.webp";
