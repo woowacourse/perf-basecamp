@@ -45,8 +45,8 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
+            <FeatureItem title="See trending gif" url={trendingGif} />
+            <FeatureItem title="Find gif for free" url={findGif} />
           </div>
         </div>
       </section>
