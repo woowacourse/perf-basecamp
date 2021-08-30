@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -34,6 +35,10 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: `[name].css`,
+    }),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      test: /\.(js|css)$/,
     }),
     new ImageminWebpWebpackPlugin(),
     new Dotenv(),
