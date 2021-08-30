@@ -5,7 +5,7 @@ import styles from './FeatureItem.module.css';
 const FeatureItem = ({ title, url }) => {
   return (
     <div className={styles.featureItem}>
-      <video title={title} className={styles.featureImage} autoPlay loop>
+      <video title={title} className={styles.featureImage} autoPlay loop muted>
         <source src={url} type="video/webm" />
       </video>
       <div className={styles.featureTitleBg}></div>

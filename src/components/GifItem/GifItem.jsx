@@ -5,7 +5,7 @@ import styles from './GifItem.module.css';
 const GifItem = React.memo(({ url = '', title = '' }) => {
   return (
     <div className={styles.gifItem}>
-      <video title={title} className={styles.gifImage} autoPlay loop>
+      <video title={title} className={styles.gifImage} autoPlay loop muted>
         <source src={url} type="video/mp4" />
       </video>
       <div className={styles.gifTitleContainer}>
