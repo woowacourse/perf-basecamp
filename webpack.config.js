@@ -4,12 +4,13 @@ const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const { DefinePlugin } = require("webpack");
+const package = require("./package.json");
 
 module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "[name].[contenthash].js",
+    filename: `v${package.version}.[name].[contenthash].js`,
     path: path.join(__dirname, "/dist"),
     clean: true,
   },
