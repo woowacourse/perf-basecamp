@@ -13,7 +13,7 @@ const formatResponse = (gifList) => {
     return {
       id: gif.id,
       title: gif.title,
-      imageUrl: gif.images.original.url,
+      videoUrl: gif.images.original.mp4,
     };
   });
 };
@@ -38,14 +38,14 @@ export const fetchTrendingGifs = (() => {
   };
 })();
 
-export const fetchGifsByKeyword = (keyword, page = 0) => {
+export const fetchGifsByKeyword = async (keyword, page = 0) => {
   const offset = page * DEFAULT_FETCH_COUNT;
 
-  return gf
-    .search(keyword, { limit: DEFAULT_FETCH_COUNT, lang: 'en', offset })
-    .then((gifs) => gifs.data)
-    .then(formatResponse)
-    .catch((e) => {
-      return [];
-    });
+  try {
+    const gifs = await gf.search(keyword, { limit: DEFAULT_FETCH_COUNT, lang: 'en', offset });
+    const gifList = gifs.data;
+    return formatResponse(gifList);
+  } catch (e) {
+    return [];
+  }
 };

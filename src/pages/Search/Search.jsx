@@ -111,7 +111,7 @@ const Search = () => {
 					<section className={styles.searchResultSection}>
 						<ResultTitle showTrending={showTrending} noResult={noResult} />
 						<div className={styles.gifResultWrapper}>
-							{gifList.map(gif => <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />)}
+							{gifList.map(gif => <GifItem key={gif.id} videoUrl={gif.videoUrl} title={gif.title} />)}
 						</div>
 						{showLoadMoreButton && <button className={styles.loadMoreButton} onClick={loadMore}>load more</button>}
 					</section>
