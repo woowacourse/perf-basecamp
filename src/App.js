@@ -9,19 +9,22 @@ const Search = React.lazy(() =>
 );
 
 import "./App.css";
+import GlobalStateProvider from "./contexts/GlobalStateProvider";
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/search">
-            <Search />
-          </Route>
-        </Suspense>
+        <GlobalStateProvider>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/search">
+              <Search />
+            </Route>
+          </Suspense>
+        </GlobalStateProvider>
       </Switch>
     </Router>
   );
