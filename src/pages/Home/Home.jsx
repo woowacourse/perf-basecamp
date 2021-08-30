@@ -11,8 +11,8 @@ import heroImage1024 from "../../assets/images/hero-1024.webp";
 import heroImage1280 from "../../assets/images/hero-1280.webp";
 import heroImage1536 from "../../assets/images/hero-1536.webp";
 
-import trendingMp4 from "../../assets/images/trending.mp4";
-import findMp4 from "../../assets/images/find.mp4";
+import trendingWebM from "../../assets/images/trending.webm";
+import findWebm from "../../assets/images/find.webm";
 
 import styles from "./Home.module.css";
 
@@ -47,8 +47,8 @@ const Home = () => (
       <div className={styles.featureSectionWrapper}>
         <h2 className={styles.featureTitle}>Features</h2>
         <div className={styles.featureItemContainer}>
-          <FeatureItem title="See trending gif" videoSrc={trendingMp4} />
-          <FeatureItem title="Find gif for free" videoSrc={findMp4} />
+          <FeatureItem title="See trending gif" videoSrc={trendingWebM} />
+          <FeatureItem title="Find gif for free" videoSrc={findWebm} />
         </div>
       </div>
     </section>

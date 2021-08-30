@@ -13,7 +13,7 @@ const FeatureItem = ({ title, videoSrc }) => {
         playsInline
         preload
       >
-        <source src={videoSrc} type="video/mp4" />
+        <source src={videoSrc} type="video/webm" />
       </video>
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
