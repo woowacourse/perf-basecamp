@@ -12,6 +12,6 @@ const GifItem = ({ imageUrl = "", title = "" }) => {
 			</div>
 		</div>
 	);
-}
+};
 
-export default GifItem;
+export default React.memo(GifItem);
