@@ -64,6 +64,18 @@ module.exports = {
         },
       },
       {
+        test: /\.mp4$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'video',
+            },
+          },
+        ],
+      },
+      {
         test: /\.(png|jpe?g|gif|webp|svg)$/i,
         use: [
           'file-loader',

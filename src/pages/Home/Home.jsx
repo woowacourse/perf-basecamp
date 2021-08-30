@@ -3,11 +3,11 @@ import Footer from '../../components/Footer/Footer';
 import { Link } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar';
 import React from 'react';
-import findGif from '../../assets/images/find.gif';
+import findMp4 from '../../assets/mp4/find.mp4';
 import heroImage from '../../assets/images/hero.png';
 import heroImageWebp from '../../assets/webp/hero.webp';
 import styles from './Home.module.css';
-import trendingGif from '../../assets/images/trending.gif';
+import trendingMp4 from '../../assets/mp4/trending.mp4';
 
 const Home = () => {
   return (
@@ -30,8 +30,8 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title='See trending gif' imageSrc={trendingGif} />
-            <FeatureItem title='Find gif for free' imageSrc={findGif} />
+            <FeatureItem title='See trending gif' imageSrc={trendingMp4} />
+            <FeatureItem title='Find gif for free' imageSrc={findMp4} />
           </div>
         </div>
       </section>
