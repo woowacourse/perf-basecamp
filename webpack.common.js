@@ -32,9 +32,9 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]',
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name][ext]',
         },
       },
     ],
