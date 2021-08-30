@@ -9,7 +9,7 @@ module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "bundle.js",
+    filename: "[name].[contenthash].js",
     path: path.join(__dirname, "/dist"),
     clean: true,
   },
