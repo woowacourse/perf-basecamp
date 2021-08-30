@@ -4,14 +4,15 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const { DefinePlugin } = require('webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.js',
   resolve: { extensions: ['.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.join(__dirname, '/dist'),
     clean: true,
   },
@@ -34,6 +35,7 @@ module.exports = {
         })
       : new Dotenv(),
     new MiniCssExtractPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [
@@ -59,13 +61,6 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin(),
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true,
-      }),
-    ],
+    minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
   },
 };
