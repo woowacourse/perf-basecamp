@@ -1,12 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { MdSearch } from "react-icons/md";
-
 import { fetchTrendingGifs, fetchGifsByKeyword } from "../../service/fetchGif";
-
-import NavBar from "../../components/NavBar/NavBar";
-import Footer from "../../components/Footer/Footer";
 import GifItem from "../../components/GifItem/GifItem";
-
 import styles from "./Search.module.css";
 
 const DEFAULT_PAGE_INDEX = 0;
