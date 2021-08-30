@@ -114,7 +114,7 @@ const Search = () => {
           <ResultTitle showTrending={showTrending} noResult={noResult} />
           <div className={styles.gifResultWrapper}>
             {gifList.map((gif) => (
-              <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+              <GifItem key={gif.id} videoURL={gif.videoURL} title={gif.title} />
             ))}
           </div>
           {showLoadMoreButton && (
