@@ -86,9 +86,34 @@ const Search = () => {
     setCurrentPageIndex(nextPageIndex);
   };
 
+  const getTrendingGifs = async () => {
+    const trendingGifs = localStorage.getItem('search');
+
+    if (!trendingGifs) {
+      const gifs = await fetchTrendingGifs();
+      const TTL = 1000 * 60 * 60 * 12;
+      const item = {
+        value: gifs,
+        expire: new Date().getTime() + TTL, // 12시간뒤 만료
+      };
+
+      localStorage.setItem('search', JSON.stringify(item));
+
+      return gifs;
+    } else {
+      const item = JSON.parse(trendingGifs);
+
+      if (new Date().getTime() > item.expire) {
+        localStorage.removeItem('search');
+      }
+
+      return item.value;
+    }
+  };
+
   useEffect(async () => {
     if (loading) {
-      const gifs = await fetchTrendingGifs();
+      const gifs = await getTrendingGifs();
 
       setGifList(gifs);
       setLoading(false);
