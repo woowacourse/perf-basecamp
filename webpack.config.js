@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
@@ -40,10 +39,9 @@ module.exports = (env) => {
       new Dotenv(),
       new BundleAnalyzerPlugin({
         analyzerMode: 'static',
-        reportFilename: 'bundle-report.html',
+        reportFilename: 'report.html',
         openAnalyzer: false,
       }),
-      new CleanWebpackPlugin(),
       new webpack.DefinePlugin({}),
     ],
     module: {
@@ -73,6 +71,7 @@ module.exports = (env) => {
   if (mode === 'production') {
     config.plugins.push(
       new MiniCssExtractPlugin({
+        linkType: 'text/css',
         filename: `[name].css`,
       })
     );
