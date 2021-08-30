@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -34,6 +35,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: `[name].css`,
     }),
+    new ImageminWebpWebpackPlugin(),
     new Dotenv(),
   ],
   module: {
@@ -50,11 +52,25 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]',
         },
+      },
+      {
+        test: /\.(png|jpe?g|gif|webp|svg)$/i,
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              webp: {
+                quality: 75,
+              },
+            },
+          },
+        ],
       },
     ],
   },
