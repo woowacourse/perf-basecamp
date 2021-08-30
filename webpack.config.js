@@ -6,6 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = (env) => {
   const mode = process.env.NODE_ENV || 'development';
@@ -44,6 +45,12 @@ module.exports = (env) => {
         openAnalyzer: false,
       }),
       new webpack.DefinePlugin({}),
+      new ImageMinimizerPlugin({
+        exclude: /node_modules/,
+        minimizerOptions: {
+          plugins: ['pngquant'],
+        },
+      }),
     ],
     module: {
       rules: [
@@ -55,11 +62,23 @@ module.exports = (env) => {
           },
         },
         {
-          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webm)$/i,
           loader: 'file-loader',
           options: {
             name: 'static/[name].[ext]',
           },
+        },
+        {
+          test: /hero\.(png|webp)$/i,
+          use: [
+            'file-loader',
+            {
+              loader: 'webpack-image-resize-loader',
+              options: {
+                width: 1320,
+              },
+            },
+          ],
         },
       ],
     },
