@@ -2,7 +2,7 @@ const imageminWebp = require('imagemin-webp');
 
 (async () => {
   const imagemin = (await import('imagemin')).default;
-  const files = await imagemin(['src/assets/images/*.{jpg,png}'], {
+  const files = await imagemin(['src/assets/images/hero.png'], {
     destination: 'src/assets/images',
     plugins: [imageminWebp({ quality: 50 })],
   });

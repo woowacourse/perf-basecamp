@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.1",
+    "image-minimizer-webpack-plugin": "^2.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
@@ -35,6 +36,7 @@
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
     "imagemin": "^8.0.1",
+    "imagemin-pngquant": "^9.0.2",
     "imagemin-webp": "^6.0.0",
     "mini-css-extract-plugin": "^2.2.0",
     "prettier": "^2.3.2",
@@ -42,7 +44,8 @@
     "webpack": "^5.50.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-image-resize-loader": "^4.1.0"
   },
   "babel": {
     "presets": [
