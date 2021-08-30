@@ -8,7 +8,6 @@ import Footer from '../../components/Footer/Footer';
 import GifItem from '../../components/GifItem/GifItem';
 
 import styles from './Search.module.css';
-import useTrending from '../../hooks/useTrending';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -37,15 +36,13 @@ const ResultTitle = memo(({ showTrending, noResult }) => {
 });
 
 const Search = () => {
-  const { trendingList, setTrendingList } = useTrending();
-
   const [loading, setLoading] = useState(true);
   const [showTrending, setShowTrending] = useState(true);
   const [noResult, setNoResult] = useState(false);
   const showLoadMoreButton = !showTrending && !noResult;
 
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
-  const [gifList, setGifList] = useState(trendingList);
+  const [gifList, setGifList] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleSearch = () => {
@@ -90,10 +87,9 @@ const Search = () => {
   };
 
   useEffect(async () => {
-    if (trendingList.length === 0 && loading) {
+    if (loading) {
       const gifs = await fetchTrendingGifs();
 
-      setTrendingList(gifs);
       setGifList(gifs);
       setLoading(false);
     }
