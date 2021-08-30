@@ -2,7 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -30,11 +32,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }],
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false,
-      },
+    new MiniCssExtractPlugin({
+      filename: `[name].css`,
     }),
     new Dotenv(),
     new BundleAnalyzerPlugin(),
@@ -50,7 +49,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', { loader: 'css-loader', options: { minimize: true } }],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
@@ -62,6 +61,6 @@ module.exports = {
     ],
   },
   optimization: {
-    minimize: false,
+    minimizer: [new OptimizeCSSAssetsPlugin(), '...'],
   },
 };
