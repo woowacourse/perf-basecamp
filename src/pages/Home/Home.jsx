@@ -5,10 +5,8 @@ import NavBar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
 import FeatureItem from '../../components/FeatureItem/FeatureItem';
 
-import heroImageS from '../../assets/images/hero_w_768.webp';
-import heroImageM from '../../assets/images/hero_w_1381.webp';
-import heroImageL from '../../assets/images/hero_w_2037.webp';
-import heroImageXL from '../../assets/images/hero_w_2560.webp';
+import heroImage from '../../assets/images/hero.webp';
+import heroImageSmall from '../../assets/images/hero_w_768.webp';
 
 import trendingGif from '../../assets/images/trending.webm';
 import findGif from '../../assets/images/find.webm';
@@ -24,13 +22,11 @@ const Home = () => {
           className={styles.heroImage}
           sizes="(max-width: 2560px) 100vw, 2560px"
           srcSet={`
-            ${heroImageL} 424w,
-            ${heroImageS} 768w,
-            ${heroImageM} 1381w,
-            ${heroImageL} 2037w,
-            ${heroImageXL} 2560w
+            ${heroImage} 424w,
+            ${heroImageSmall} 768w,
+            ${heroImage} 1600w,
           `}
-          src={heroImageXL}
+          src={heroImage}
           alt="hero"
         />
         <div className={styles.projectTitle}>
