@@ -35,8 +35,9 @@ const ResultTitle = ({ showTrending, noResult }) => {
   );
 };
 
-const Search = () => {
-  const [loading, setLoading] = useState(true);
+const Search = (props) => {
+  const { trendingGifs, setTrendingGifs } = props;
+
   const [showTrending, setShowTrending] = useState(true);
   const [noResult, setNoResult] = useState(false);
   const showLoadMoreButton = !showTrending && !noResult;
@@ -87,14 +88,15 @@ const Search = () => {
   };
 
   useEffect(async () => {
-    if (loading) {
-      const gifs = await fetchTrendingGifs();
-
-      setGifList(gifs);
-      setLoading(false);
+    if (trendingGifs) {
+      setGifList(trendingGifs);
+      return;
     }
 
-    return () => setLoading(true);
+    const gifs = await fetchTrendingGifs();
+
+    setGifList(gifs);
+    setTrendingGifs(gifs);
   }, []);
 
   return (
