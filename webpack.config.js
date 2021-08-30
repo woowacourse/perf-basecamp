@@ -14,7 +14,8 @@ module.exports = (env) => {
     entry: './src/index.js',
     resolve: { extensions: ['.js', '.jsx'] },
     output: {
-      filename: 'bundle.js',
+      filename: '[name].[contenthash].js',
+      chunkFilename: '[name].[chunkhash].js',
       path: path.join(__dirname, '/dist'),
       clean: true,
     },
@@ -65,6 +66,29 @@ module.exports = (env) => {
     optimization: {
       minimize: mode === 'development' ? false : true,
       minimizer: [`...`, new CssMinimizerPlugin()],
+      splitChunks: {
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          defaultVendors: false,
+          framework: {
+            chunks: 'all',
+            name: 'framework',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+            priority: 30,
+          },
+          asynchronous: {
+            chunks: 'async',
+            name: 'asynchronous',
+            priority: 20,
+          },
+          commons: {
+            name: 'commons',
+            minChunks: 1,
+            priority: 10,
+          },
+        },
+      },
     },
   };
 
