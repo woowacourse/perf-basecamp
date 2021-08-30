@@ -6,8 +6,8 @@ import Footer from '../../components/Footer/Footer';
 import FeatureItem from '../../components/FeatureItem/FeatureItem';
 
 import heroImage from '../../assets/images/hero.jpg';
-import trendingGif from '../../assets/images/trending.mp4';
-import findGif from '../../assets/images/find.mp4';
+import trendingGif from '../../assets/images/trending.webm';
+import findGif from '../../assets/images/find.webm';
 
 import styles from './Home.module.css';
 

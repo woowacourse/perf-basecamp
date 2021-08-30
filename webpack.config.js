@@ -44,7 +44,7 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(jpg|mp4)$/i,
+        test: /\.(jpg|webm)$/i,
         type: 'asset/resource',
       },
     ],
