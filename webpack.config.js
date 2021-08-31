@@ -106,22 +106,10 @@ module.exports = (env) => {
             chunks: 'all',
             name: 'framework',
             test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
-            priority: 40,
-          },
-          library: {
-            chunks: 'all',
-            name: 'library',
-            test: /[\\/]node_modules[\\/]/,
-            priority: 30,
-          },
-          asynchronous: {
-            chunks: 'async',
-            name: 'asynchronous',
             priority: 20,
           },
-          commons: {
-            name: 'commons',
-            minChunks: 1,
+          pages: {
+            chunks: 'all',
             priority: 10,
           },
         },
