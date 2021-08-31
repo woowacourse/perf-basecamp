@@ -5,8 +5,7 @@ const FeatureItem = ({ title, imageSrc }) => {
   return (
     <div className={styles.featureItem}>
       <video className={styles.featureImage} autoPlay loop muted>
-        <source type="video/mp4" src={imageSrc.mp4} />
-        <source type="video/webm" src={imageSrc.webm} />
+        <source type="video/mp4" src={imageSrc} />
       </video>
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>

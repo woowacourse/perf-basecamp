@@ -3,14 +3,12 @@ import Footer from '../../components/Footer/Footer';
 import { Link } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar';
 import React from 'react';
-import findMp4 from '../../assets/images/find.mp4';
-import findWebm from '../../assets/images/find.webm';
+import find from '../../assets/images/find.mp4';
 import heroImage from '../../assets/images/hero.png';
 import heroImageWebP from '../../assets/images/hero.webp';
 import heroSmallWebP from '../../assets/images/herosmall.webp';
 import styles from './Home.module.css';
-import trendingMp4 from '../../assets/images/trending.mp4';
-import trendingWebm from '../../assets/images/trending.webm';
+import trending from '../../assets/images/trending.mp4';
 
 const Home = () => {
   return (
@@ -43,17 +41,8 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h3 className={styles.featureTitle}>Features</h3>
           <div className={styles.featureItemContainer}>
-            <FeatureItem
-              title="See trending gif"
-              imageSrc={{
-                mp4: trendingMp4,
-                webm: trendingWebm,
-              }}
-            />
-            <FeatureItem
-              title="Find gif for free"
-              imageSrc={{ mp4: findMp4, webm: findWebm }}
-            />
+            <FeatureItem title="See trending gif" imageSrc={trending} />
+            <FeatureItem title="Find gif for free" imageSrc={find} />
           </div>
         </div>
       </section>

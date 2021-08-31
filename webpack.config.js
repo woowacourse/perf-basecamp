@@ -78,7 +78,7 @@ module.exports = (env) => {
           },
         },
         {
-          test: /\.(svg|jpg|gif|mp4|webm)$/i,
+          test: /\.(svg|jpg|gif|mp4)$/i,
           loader: 'file-loader',
           options: {
             name: 'static/[name].[ext]',
