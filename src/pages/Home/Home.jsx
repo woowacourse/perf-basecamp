@@ -9,8 +9,8 @@ import heroImageMobile from '../../assets/images/hero-375.webp';
 import heroImageTablet from '../../assets/images/hero-768.webp';
 import heroImageFHD from '../../assets/images/hero-1980.webp';
 import heroImage from '../../assets/images/hero.webp';
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
+import trendingVideo from '../../assets/images/trending.mp4';
+import findVideo from '../../assets/images/find.mp4';
 
 import styles from './Home.module.css';
 
@@ -38,8 +38,8 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
+            <FeatureItem title="See trending gif" videoSrc={trendingVideo} />
+            <FeatureItem title="Find gif for free" videoSrc={findVideo} />
           </div>
         </div>
       </section>
