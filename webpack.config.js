@@ -4,7 +4,6 @@ const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = (env) => ({
   entry: "./src/index.jsx",
@@ -33,7 +32,6 @@ module.exports = (env) => ({
       new MiniCssExtractPlugin({
         filename: "css/[name].[contenthash].css",
       }),
-    new BundleAnalyzerPlugin(),
   ].filter(Boolean),
   module: {
     rules: [
