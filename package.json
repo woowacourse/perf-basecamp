@@ -15,7 +15,6 @@
   "license": "MIT",
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.1",
-    "image-minimizer-webpack-plugin": "^2.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
@@ -27,6 +26,7 @@
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
     "@loadable/component": "^5.15.0",
+    "@principalstudio/html-webpack-inject-preload": "^1.2.7",
     "@webpack-cli/generators": "^2.2.0",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.1",
@@ -36,6 +36,7 @@
     "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
+    "image-minimizer-webpack-plugin": "^2.2.0",
     "imagemin": "^8.0.1",
     "imagemin-pngquant": "^9.0.2",
     "imagemin-webp": "^6.0.0",

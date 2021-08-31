@@ -7,6 +7,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const HtmlWebpackInjectPreload = require('@principalstudio/html-webpack-inject-preload');
 
 module.exports = (env) => {
   const mode = process.env.NODE_ENV || 'development';
@@ -34,6 +35,18 @@ module.exports = (env) => {
         },
         template: './index.html',
         hash: true,
+      }),
+      new HtmlWebpackInjectPreload({
+        files: [
+          {
+            match: /.*\.woff2$/,
+            attributes: { as: 'font', type: 'font/woff2', crossorigin: true },
+          },
+          {
+            match: /.*\.[a-z-0-9]*.css$/,
+            attributes: { as: 'style' },
+          },
+        ],
       }),
       new CopyWebpackPlugin({
         patterns: [{ from: './public', to: './public' }],
@@ -120,8 +133,7 @@ module.exports = (env) => {
   if (mode === 'production') {
     config.plugins.push(
       new MiniCssExtractPlugin({
-        linkType: 'text/css',
-        filename: `[name].css`,
+        filename: '[name].css',
       })
     );
   }
