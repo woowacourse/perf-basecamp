@@ -1,28 +1,58 @@
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: fallback;
+  src: url('./assets/fonts/JosefinSans-Italic.woff2') format('woff2'),
+    url('./assets/fonts/JosefinSans-Italic.woff') format('woff'),
+    url('./assets/fonts/JosefinSans-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: fallback;
+  src: url('./assets/fonts/JosefinSans-BoldItalic.woff2') format('woff2'),
+    url('./assets/fonts/JosefinSans-BoldItalic.woff') format('woff'),
+    url('./assets/fonts/JosefinSans-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: url('./assets/fonts/JosefinSans-Regular.woff2') format('woff2'),
+    url('./assets/fonts/JosefinSans-Regular.woff') format('woff'),
+    url('./assets/fonts/JosefinSans-Regular.ttf') format('truetype');
+}
+
 * {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
 }
 
 body {
-	line-height: 1;
-    font-family: "Josefin Sans", sans-serif;
+  line-height: 1;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 /* PC */
-@media screen and (min-width:1080px) {
-	html {
-		font-size: 16px;
-	}
+@media screen and (min-width: 1080px) {
+  html {
+    font-size: 16px;
+  }
 }
 
 /* Mobile */
-@media screen and (max-width:424px) {
-	html {
-		font-size: 70%;
-	}
+@media screen and (max-width: 424px) {
+  html {
+    font-size: 70%;
+  }
 }

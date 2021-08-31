@@ -39,12 +39,12 @@ module.exports = (env) => {
       new HtmlWebpackInjectPreload({
         files: [
           {
-            match: /.*\.woff2$/,
-            attributes: { as: 'font', type: 'font/woff2', crossorigin: true },
+            match: /hero\.webp$/,
+            attributes: { as: 'image', media: '(min-width: 800px)' },
           },
           {
-            match: /.*\.[a-z-0-9]*.css$/,
-            attributes: { as: 'style' },
+            match: /herosmall\.webp$/,
+            attributes: { as: 'image', media: '(max-width: 799px)' },
           },
         ],
       }),
@@ -75,7 +75,7 @@ module.exports = (env) => {
           },
         },
         {
-          test: /\.(eot|svg|ttf|woff|woff2|jpg|gif|mp4|webm)$/i,
+          test: /\.(svg|jpg|gif|mp4|webm)$/i,
           loader: 'file-loader',
           options: {
             name: 'static/[name].[ext]',
@@ -104,6 +104,13 @@ module.exports = (env) => {
               },
             },
           ],
+        },
+        {
+          test: /\.(ttf|woff|woff2)$/i,
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/fonts/[name].[ext]',
+          },
         },
       ],
     },
