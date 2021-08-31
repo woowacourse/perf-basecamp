@@ -53,7 +53,7 @@ const Home = () => {
       </section>
       <section className={styles.featureSection}>
         <div className={styles.featureSectionWrapper}>
-          <h2 className={styles.featureTitle}>Features</h2>
+          <h4 className={styles.featureTitle}>Features</h4>
           <div className={styles.featureItemContainer}>
             <FeatureItem title="See trending gif" imageSrc={trendingGif} />
             <FeatureItem title="Find gif for free" imageSrc={findGif} />
