@@ -5,7 +5,9 @@ import styles from "./GifItem.module.css";
 const GifItem = ({ imageUrl = "", title = "" }) => {
   return (
     <div className={styles.gifItem}>
-      <img className={styles.gifImage} src={imageUrl} />
+      <video loop autoPlay playsInline className={styles.gifImage}>
+        <source src={imageUrl} />
+      </video>
       <div className={styles.gifTitleContainer}>
         <div className={styles.gifTitleBg}></div>
         <h4 className={styles.gifTitle}>{title}</h4>
