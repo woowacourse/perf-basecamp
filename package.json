@@ -4,11 +4,11 @@
   "description": "frontend-performance-basecamp",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode=production --node-env=production --config webpack.prod.js",
-    "build:dev": "webpack --mode=development --config webpack.prod.js",
-    "build:prod": "webpack --mode=production --node-env=production --config webpack.prod.js",
+    "build": "webpack --node-env=production --config webpack.prod.js",
+    "build:dev": "webpack --node-env=production --config webpack.prod.js",
+    "build:prod": "webpack --node-env=production --config webpack.prod.js",
     "watch": "webpack --watch",
-    "serve": "webpack serve --mode=development --config webpack.dev.js"
+    "serve": "webpack serve --node-env=development --config webpack.dev.js"
   },
   "keywords": [],
   "author": "",
