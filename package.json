@@ -9,7 +9,8 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
-    "serve:prod": "webpack serve --mode=production"
+    "serve:prod": "webpack serve --mode=production",
+    "convert:gif": "bash gifToWebm.sh"
   },
   "keywords": [],
   "author": "",
