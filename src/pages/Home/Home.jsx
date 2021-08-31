@@ -3,13 +3,11 @@ import Footer from '../../components/Footer/Footer';
 import { Link } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar';
 import React from 'react';
-import findGif from '../../assets/images/find.gif';
 import findMp4 from '../../assets/images/find.mp4';
 import findWebm from '../../assets/images/find.webm';
 import heroImage from '../../assets/images/hero.png';
 import heroImageWebP from '../../assets/images/hero.webp';
 import styles from './Home.module.css';
-import trendingGif from '../../assets/images/trending.gif';
 import trendingMp4 from '../../assets/images/trending.mp4';
 import trendingWebm from '../../assets/images/trending.webm';
 

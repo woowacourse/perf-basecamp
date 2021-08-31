@@ -62,7 +62,14 @@ module.exports = (env) => {
           },
         },
         {
-          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webm)$/i,
+          test: /\.(eot|svg|ttf|woff|woff2|jpg|gif|mp4|webm)$/i,
+          loader: 'file-loader',
+          options: {
+            name: 'static/[name].[ext]',
+          },
+        },
+        {
+          test: /\b(?!hero\b)\w+\b\.(png|webp)$/i,
           loader: 'file-loader',
           options: {
             name: 'static/[name].[ext]',
@@ -71,7 +78,12 @@ module.exports = (env) => {
         {
           test: /hero\.(png|webp)$/i,
           use: [
-            'file-loader',
+            {
+              loader: 'file-loader',
+              options: {
+                name: 'static/[name].[ext]',
+              },
+            },
             {
               loader: 'webpack-image-resize-loader',
               options: {
