@@ -78,13 +78,10 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|webp|svg)$/i,
         use: [
-          'file-loader',
           {
-            loader: 'image-webpack-loader',
+            loader: 'file-loader',
             options: {
-              webp: {
-                quality: 75,
-              },
+              name: 'static/[name].[ext]',
             },
           },
         ],
