@@ -6,6 +6,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+const isProduction = process.env.NODE_ENV === 'prodcution';
+
 module.exports = {
   entry: './src/index.js',
   resolve: { extensions: ['.js', '.jsx'] },
@@ -14,12 +16,12 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     clean: true,
   },
+  devtool: isProduction ? 'none' : 'source-map',
   devServer: {
     hot: true,
     open: true,
     historyApiFallback: true,
   },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       minify: {
