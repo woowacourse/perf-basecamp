@@ -5,7 +5,9 @@ import NavBar from '../../components/NavBar/NavBar';
 import React from 'react';
 import findMp4 from '../../assets/mp4/find.mp4';
 import heroImage from '../../assets/images/hero.png';
-import heroImageWebp from '../../assets/webp/hero.webp';
+import heroImageWebp from '../../assets/webp/hero-desktop.webp';
+import heroImageWebpMobile from '../../assets/webp/hero-mobile.webp';
+import heroImageWebpTablet from '../../assets/webp/hero-tablet.webp';
 import styles from './Home.module.css';
 import trendingMp4 from '../../assets/mp4/trending.mp4';
 
@@ -15,12 +17,21 @@ const Home = () => {
       <NavBar />
       <section className={styles.heroSection}>
         <picture>
-          <source type='image/webp' src={heroImageWebp} />
+          <source
+            type='image/webp'
+            srcSet={`
+            ${heroImageWebpMobile} 375w,
+            ${heroImageWebpTablet} 768w,
+            ${heroImageWebp} 1980w,
+          `}
+            alt='hero'
+            className={styles.heroImage}
+          />
           <img className={styles.heroImage} src={heroImage} alt='hero' />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
-          <h3 className={styles.subtitle}>gif search engine for you</h3>
+          <h2 className={styles.subtitle}>gif search engine for you</h2>
         </div>
         <Link to='/search'>
           <button className={styles.cta}>start search</button>
