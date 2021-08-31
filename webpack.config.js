@@ -35,7 +35,7 @@ module.exports = {
     new Dotenv(),
     new ImageMinimizerPlugin({
       minimizerOptions: {
-        plugins: [["webp"], ["gifsicle"]],
+        plugins: [["webp", { quality: 1 }], ["gifsicle"]],
       },
     }),
   ],
