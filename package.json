@@ -4,9 +4,9 @@
   "description": "frontend-performance-basecamp",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode=production --node-env=production",
-    "build:dev": "webpack --mode=development --profile",
-    "build:prod": "webpack --mode=production --node-env=production",
+    "build": "webpack --progress --mode=production --node-env=production",
+    "build:dev": "webpack --progress --mode=development --profile",
+    "build:prod": "webpack --progress --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development --profile"
   },
