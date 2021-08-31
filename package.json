@@ -22,6 +22,7 @@
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
+    "@principalstudio/html-webpack-inject-preload": "^1.2.7",
     "@webpack-cli/generators": "^2.2.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^6.2.0",

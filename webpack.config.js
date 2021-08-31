@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackInjectPreload = require("@principalstudio/html-webpack-inject-preload");
 const Dotenv = require("dotenv-webpack");
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -23,6 +24,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       favicon: "./public/favicon.ico",
+    }),
+    new HtmlWebpackInjectPreload({
+      files: [
+        {
+          match: /.*\.jpg$/,
+          attributes: { as: "image" },
+        },
+        {
+          match: /.*\.mp4$/,
+          attributes: { as: "video" },
+        },
+      ],
     }),
     new Dotenv(),
   ],

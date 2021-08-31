@@ -15,12 +15,12 @@ const App = () => {
         <NavBar />
         <Switch>
           <Route exact path="/">
-            <Suspense fallback={null}>
+            <Suspense fallback={<div className="loading" />}>
               <Home />
             </Suspense>
           </Route>
           <Route exact path="/search">
-            <Suspense fallback={null}>
+            <Suspense fallback={<div className="loading" />}>
               <Search />
             </Suspense>
           </Route>
