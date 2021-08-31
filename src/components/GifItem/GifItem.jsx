@@ -1,8 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 
 import styles from "./GifItem.module.css";
 
-const GifItem = ({ imageUrl = "", title = "" }) => {
+const GifItem = memo(({ imageUrl = "", title = "" }) => {
   return (
     <div className={styles.gifItem}>
       <img className={styles.gifImage} src={imageUrl} />
@@ -12,6 +12,6 @@ const GifItem = ({ imageUrl = "", title = "" }) => {
       </div>
     </div>
   );
-};
+});
 
 export default GifItem;
