@@ -15,7 +15,7 @@ const FeatureItem = ({ title, imageSrc }) => {
       />
       <img className={styles.featureImage} src={imageSrc} alt='featureImage' />
       <div className={styles.featureTitleBg}></div>
-      <h4 className={styles.featureTitle}>{title}</h4>
+      <h3 className={styles.featureTitle}>{title}</h3>
     </div>
   );
 };
