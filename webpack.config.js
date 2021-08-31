@@ -9,7 +9,7 @@ module.exports = {
   entry: './src/index.js',
   resolve: { extensions: ['.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true,
   },
@@ -47,7 +47,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4|webm)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]',
@@ -56,6 +56,10 @@ module.exports = {
     ],
   },
   optimization: {
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: 'all',
+    },
     minimize: true,
     minimizer: [new OptimizeCSSAssetsPlugin()],
   },
