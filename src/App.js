@@ -1,10 +1,12 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import './App.css';
 
-import Home from "./pages/Home/Home";
-import Search from "./pages/Search/Search";
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import "./App.css";
+import React from 'react';
+import loadable from '@loadable/component';
+
+const Home = loadable(() => import('./pages/Home/Home'));
+const Search = loadable(() => import('./pages/Search/Search'));
 
 const App = () => {
   return (
@@ -15,6 +17,6 @@ const App = () => {
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;
