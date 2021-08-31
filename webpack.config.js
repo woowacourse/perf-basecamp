@@ -8,8 +8,9 @@ module.exports = {
   resolve: { extensions: [".js", ".jsx"] },
   output: {
     filename: "[name].bundle.js",
-    path: path.join(__dirname, "/dist"),
+    chunkFilename: "[name].chunk.js",
     assetModuleFilename: "static/[name][ext]",
+    path: path.join(__dirname, "/dist"),
     clean: true,
   },
   devServer: {
@@ -47,6 +48,9 @@ module.exports = {
     ],
   },
   optimization: {
-    minimize: false,
+    splitChunks: {
+      name: "vendor",
+      chunks: "all",
+    },
   },
 };
