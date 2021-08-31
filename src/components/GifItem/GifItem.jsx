@@ -5,7 +5,7 @@ import styles from './GifItem.module.css';
 const GifItem = ({ imageUrl = '', title = '' }) => {
   return (
     <div className={styles.gifItem}>
-      <img className={styles.gifImage} src={imageUrl} />
+      <img className={styles.gifImage} src={imageUrl} loading="lazy" />
       <div className={styles.gifTitleContainer}>
         <div className={styles.gifTitleBg}></div>
         <h4 className={styles.gifTitle}>{title}</h4>
@@ -14,4 +14,4 @@ const GifItem = ({ imageUrl = '', title = '' }) => {
   );
 };
 
-export default GifItem;
+export default React.memo(GifItem);
