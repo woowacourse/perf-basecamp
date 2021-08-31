@@ -4,12 +4,14 @@ const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "bundle.js",
+    filename: "[chunkhash].bundle.js",
     path: path.join(__dirname, "/dist"),
     clean: true,
   },
@@ -28,6 +30,7 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [
@@ -55,5 +58,19 @@ module.exports = {
   },
   optimization: {
     minimizer: [`...`, new CssMinimizerPlugin()],
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "all",
+          priority: 1,
+        },
+        reactBundle: {
+          test: /[\\/]node_modules[\\/](react|react-dom)/,
+          chunks: "all",
+          priority: 10,
+        },
+      },
+    },
   },
 };
