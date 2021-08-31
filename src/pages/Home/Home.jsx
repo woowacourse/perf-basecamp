@@ -8,8 +8,6 @@ import FeatureItem from "../../components/FeatureItem/FeatureItem";
 import heroImageSm from "../../assets/images/hero-sm.webp";
 import heroImageMd from "../../assets/images/hero-md.webp";
 import heroImageLg from "../../assets/images/hero-lg.webp";
-import heroImageXl from "../../assets/images/hero-xl.webp";
-import heroImage2Xl from "../../assets/images/hero-2xl.webp";
 
 import trendingMp4 from "../../assets/images/trending.mp4";
 import trendingWebm from "../../assets/images/trending.webm";
@@ -24,13 +22,11 @@ const Home = () => (
     <section className={styles.heroSection}>
       <img
         className={styles.heroImage}
-        src={heroImage2Xl}
+        src={heroImageLg}
         srcSet={`
           ${heroImageSm} 640w,
-          ${heroImageMd} 768x,
-          ${heroImageLg} 1024w,
-          ${heroImageXl} 1280w,
-          ${heroImage2Xl} 1536w
+          ${heroImageMd} 1280w,
+          ${heroImageLg} 1920w
         `}
         sizes="100vw"
         alt="hero"
