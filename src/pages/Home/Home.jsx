@@ -7,6 +7,7 @@ import findMp4 from '../../assets/images/find.mp4';
 import findWebm from '../../assets/images/find.webm';
 import heroImage from '../../assets/images/hero.png';
 import heroImageWebP from '../../assets/images/hero.webp';
+import heroSmallWebP from '../../assets/images/herosmall.webp';
 import styles from './Home.module.css';
 import trendingMp4 from '../../assets/images/trending.mp4';
 import trendingWebm from '../../assets/images/trending.webm';
@@ -17,7 +18,16 @@ const Home = () => {
       <NavBar />
       <section className={styles.heroSection}>
         <picture>
-          <source type="image/webp" srcSet={heroImageWebP} />
+          <source
+            type="image/webp"
+            srcSet={heroSmallWebP}
+            media="(max-width: 799px)"
+          />
+          <source
+            type="image/webp"
+            srcSet={heroImageWebP}
+            media="(min-width: 800px)"
+          />
           <img className={styles.heroImage} src={heroImage} alt="hero" />
         </picture>
 
