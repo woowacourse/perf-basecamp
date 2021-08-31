@@ -13,7 +13,7 @@ const formatResponse = (gifList) => {
     return {
       id: gif.id,
       title: gif.title,
-      imageUrl: gif.images.original.url,
+      imageUrl: gif.images.fixed_height.mp4,
     };
   });
 };
