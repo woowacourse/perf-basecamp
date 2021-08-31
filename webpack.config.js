@@ -47,7 +47,7 @@ module.exports = (env) => {
             attributes: { as: 'image', media: '(max-width: 799px)' },
           },
           {
-            match: /\.mp4$/,
+            match: /.*\.mp4$/,
             attributes: { as: 'video' },
           },
         ],
