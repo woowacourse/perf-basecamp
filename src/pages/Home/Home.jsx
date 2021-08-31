@@ -15,8 +15,6 @@ import heroDesktopImage from '../../assets/images/hero-1980w.webp';
 import heroFallbackImage from '../../assets/images/hero-fallback.png';
 
 const Home = () => {
-  console.log('heroDesktopImage', heroDesktopImage);
-
   return (
     <>
       <NavBar />
