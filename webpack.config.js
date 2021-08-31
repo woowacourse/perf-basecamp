@@ -46,6 +46,10 @@ module.exports = (env) => {
             match: /herosmall\.webp$/,
             attributes: { as: 'image', media: '(max-width: 799px)' },
           },
+          {
+            match: /\.mp4$/,
+            attributes: { as: 'video' },
+          },
         ],
       }),
       new CopyWebpackPlugin({
