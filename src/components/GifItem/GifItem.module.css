@@ -9,7 +9,7 @@
     rgba(232, 109, 198, 0.1) 97.71%
   );
   overflow: hidden;
-  transition: all 0.2s ease-in;
+  transition: all 0.1s ease-in;
 }
 
 .gifImage {
@@ -51,6 +51,6 @@
 /* PC */
 @media all and (min-width: 1080px) {
   .gifItem:hover {
-    top: -0.75rem;
+    transform: translateY(-0.75rem);
   }
 }
