@@ -4,11 +4,12 @@
   "description": "frontend-performance-basecamp",
   "main": "index.js",
   "scripts": {
+    "convert": "node image_converter.js",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
-    "build:prod": "node image_converter.js && webpack --mode=production --node-env=production",
+    "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "node image_converter.js && webpack serve --mode=development"
+    "serve": "webpack serve --mode=development --node-env=development"
   },
   "keywords": [],
   "author": "",
