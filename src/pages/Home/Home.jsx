@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import NavBar from '../../components/NavBar/NavBar';
 import React from 'react';
 import find from '../../assets/images/find.mp4';
-import heroImage from '../../assets/images/hero.png';
+import heroImage from '../../assets/images/hero.jpg';
 import heroImageWebP from '../../assets/images/hero.webp';
 import heroSmallWebP from '../../assets/images/herosmall.webp';
 import styles from './Home.module.css';

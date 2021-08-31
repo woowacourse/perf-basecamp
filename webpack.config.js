@@ -64,7 +64,7 @@ module.exports = (env) => {
       new ImageMinimizerPlugin({
         exclude: /node_modules/,
         minimizerOptions: {
-          plugins: ['pngquant'],
+          plugins: ['mozjpeg'],
         },
       }),
     ],
@@ -85,14 +85,14 @@ module.exports = (env) => {
           },
         },
         {
-          test: /\b(?!hero\b)\w+\b\.(png|webp)$/i,
+          test: /\b(?!hero\b)\w+\b\.(jpg|webp)$/i,
           loader: 'file-loader',
           options: {
             name: 'static/[name].[ext]',
           },
         },
         {
-          test: /hero\.(png|webp)$/i,
+          test: /hero\.(jpg|webp)$/i,
           use: [
             {
               loader: 'file-loader',
