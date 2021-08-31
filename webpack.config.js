@@ -30,9 +30,11 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/i,
+        loader: "esbuild-loader",
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
+        options: {
+          loader: "jsx",
+          target: "es2015",
         },
       },
       {
