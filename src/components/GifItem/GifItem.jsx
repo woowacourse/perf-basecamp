@@ -5,7 +5,10 @@ import styles from './GifItem.module.css';
 const GifItem = ({ imageUrl = '', title = '' }) => {
   return (
     <div className={styles.gifItem}>
-      <img className={styles.gifImage} src={imageUrl} loading="lazy" />
+      <video className={styles.featureImage} autoPlay muted loop>
+        <source src={imageUrl} type="video/mp4" />
+        cannot find video
+      </video>
       <div className={styles.gifTitleContainer}>
         <div className={styles.gifTitleBg}></div>
         <h4 className={styles.gifTitle}>{title}</h4>

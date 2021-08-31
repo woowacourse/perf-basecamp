@@ -14,7 +14,7 @@ const formatResponse = (gifList) => {
     return {
       id: gif.id,
       title: gif.title,
-      imageUrl: gif.images.original.url,
+      imageUrl: gif.images.original.mp4,
     };
   });
 };
