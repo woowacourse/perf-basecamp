@@ -1,9 +1,9 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './NavBar.module.css';
 
-const NavBar = memo(() => {
+const NavBar = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
@@ -16,6 +16,6 @@ const NavBar = memo(() => {
       </nav>
     </header>
   );
-});
+};
 
 export default NavBar;

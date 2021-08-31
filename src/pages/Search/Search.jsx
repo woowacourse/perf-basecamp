@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdSearch } from 'react-icons/md';
 
 import { fetchTrendingGifs, fetchGifsByKeyword } from '../../service/fetchGif';
@@ -11,7 +11,7 @@ import styles from './Search.module.css';
 
 const DEFAULT_PAGE_INDEX = 0;
 
-const ResultTitle = memo(({ showTrending, noResult }) => {
+const ResultTitle = ({ showTrending, noResult }) => {
   if (noResult) {
     return (
       <h4 className={styles.resultTitle}>
@@ -33,7 +33,7 @@ const ResultTitle = memo(({ showTrending, noResult }) => {
       <span>We Found...</span>
     </h4>
   );
-});
+};
 
 const Search = () => {
   const [loading, setLoading] = useState(true);
