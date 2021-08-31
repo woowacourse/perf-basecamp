@@ -4,9 +4,8 @@
   "description": "frontend-performance-basecamp",
   "main": "index.js",
   "scripts": {
-    "build:dev": "webpack --node-env=development",
-    "build:prod": "webpack --node-env=production",
-    "serve": "webpack serve --node-env=development"
+    "start": "webpack serve --node-env=development",
+    "build": "webpack --node-env=production"
   },
   "keywords": [],
   "author": "",
