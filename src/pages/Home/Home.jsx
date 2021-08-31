@@ -9,8 +9,8 @@ import heroImageMobile from '../../assets/images/hero-375.webp';
 import heroImageTablet from '../../assets/images/hero-768.webp';
 import heroImageFHD from '../../assets/images/hero-1980.webp';
 import heroImage from '../../assets/images/hero.webp';
-import trendingVideo from '../../assets/images/trending.mp4';
-import findVideo from '../../assets/images/find.mp4';
+import trendingVideo from '../../assets/images/trending.webm';
+import findVideo from '../../assets/images/find.webm';
 
 import styles from './Home.module.css';
 
