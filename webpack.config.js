@@ -7,9 +7,10 @@ module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
     path: path.join(__dirname, "/dist"),
-    clean: true
+    assetModuleFilename: "static/[name][ext]",
+    clean: true,
   },
   devServer: {
     hot: true,
@@ -22,9 +23,9 @@ module.exports = {
       template: "./index.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "./public", to: "./public" }]
+      patterns: [{ from: "./public", to: "./public" }],
     }),
-    new Dotenv()
+    new Dotenv(),
   ],
   module: {
     rules: [
@@ -32,26 +33,20 @@ module.exports = {
         test: /\.(js|jsx)$/i,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
       },
       {
         test: /\.css$/i,
-        use: [
-          "style-loader",
-          "css-loader"
-        ]
+        use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: "file-loader",
-        options: {
-          name: "static/[name].[ext]"
-        }
-      }
-    ]
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webp)$/i,
+        type: "asset/resource",
+      },
+    ],
   },
   optimization: {
-    minimize: false
-  }
+    minimize: false,
+  },
 };
