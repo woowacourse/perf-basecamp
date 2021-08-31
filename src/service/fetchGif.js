@@ -1,4 +1,5 @@
 import { GiphyFetch } from '@giphy/js-fetch-api';
+import { getLocalStorage, setLocalStorage } from './localStorage';
 
 /**
  * 응답 예제는 아래 링크에서 참고
@@ -7,6 +8,7 @@ import { GiphyFetch } from '@giphy/js-fetch-api';
 const gf = new GiphyFetch(process.env.GIPHY_API_KEY);
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
+const TRENDING_GIF_LOCAL_STORAGE_KEY = 'trendingGifs';
 
 const formatResponse = (gifList) => {
   return gifList.map((gif) => {
@@ -18,14 +20,24 @@ const formatResponse = (gifList) => {
   });
 };
 
-export const fetchTrendingGifs = () => {
-  return fetch(TRENDING_GIF_API)
+export const fetchTrendingGifs = async () => {
+  const memoizedTrendingGifs = getLocalStorage(TRENDING_GIF_LOCAL_STORAGE_KEY);
+
+  if (memoizedTrendingGifs.length) {
+    return memoizedTrendingGifs;
+  }
+
+  const trendingGiFs = await fetch(TRENDING_GIF_API)
     .then((response) => response.json())
     .then((gifs) => gifs.data)
     .then(formatResponse)
     .catch((e) => {
       return [];
     });
+
+  setLocalStorage(TRENDING_GIF_LOCAL_STORAGE_KEY, trendingGiFs);
+
+  return trendingGiFs;
 };
 
 export const fetchGifsByKeyword = (keyword, page = 0) => {
