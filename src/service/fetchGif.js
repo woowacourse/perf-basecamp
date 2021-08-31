@@ -7,6 +7,7 @@ import { GiphyFetch } from '@giphy/js-fetch-api';
 const gf = new GiphyFetch(process.env.GIPHY_API_KEY);
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
+let trendingCache = [];
 
 const formatResponse = (gifList) => {
   return gifList.map((gif) => {
@@ -19,10 +20,17 @@ const formatResponse = (gifList) => {
 };
 
 export const fetchTrendingGifs = () => {
+  if (trendingCache.length > 0) return trendingCache;
+
   return fetch(TRENDING_GIF_API)
     .then((response) => response.json())
     .then((gifs) => gifs.data)
     .then(formatResponse)
+    .then((gifList) => {
+      trendingCache = gifList;
+
+      return gifList;
+    })
     .catch((e) => {
       return [];
     });
