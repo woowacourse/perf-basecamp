@@ -4,11 +4,11 @@
   width: 100%;
   height: 46.875rem;
   padding-top: 3.5rem;
+  overflow: hidden;
 }
 
 .heroImage {
   width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 
