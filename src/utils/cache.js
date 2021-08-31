@@ -1,13 +1,13 @@
-const cached = new Map();
+const cacheMap = new Map();
 
 // eslint-disable-next-line import/prefer-default-export
 export const cacheAsync =
-  (fn, key) =>
+  (fn, key, cache = cacheMap) =>
   (...args) =>
-    cached.has(key)
-      ? Promise.resolve(cached.get(key))
+    cache.has(key)
+      ? Promise.resolve(cache.get(key))
       : fn(...args).then((data) => {
-          cached.set(key, data);
+          cache.set(key, data);
 
           return data;
         });
