@@ -1,20 +1,26 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Home from "./pages/Home/Home";
-import Search from "./pages/Search/Search";
+import './App.css';
 
-import "./App.css";
+const Home = lazy(() => import('./pages/Home/Home'));
+const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/search" component={Search} />
+        <Suspense fallback={<div>loading</div>}>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/search">
+            <Search />
+          </Route>
+        </Suspense>
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;
