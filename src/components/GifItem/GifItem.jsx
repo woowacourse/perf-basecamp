@@ -1,17 +1,17 @@
-import React from "react";
+import React, { memo } from "react";
 
 import styles from "./GifItem.module.css";
 
-const GifItem = ({ imageUrl = "", title = "" }) => {
-    return (
-        <div className={styles.gifItem}>
-            <img className={styles.gifImage} src={imageUrl} />
-            <div className={styles.gifTitleContainer}>
-                <div className={styles.gifTitleBg}></div>
-                <h4 className={styles.gifTitle}>{title}</h4>
-            </div>
-        </div>
-    );
-}
+const GifItem = ({ title = "", mp4Url = "" }) => (
+  <div className={styles.gifItem}>
+    <video className={styles.gifImage} autoPlay loop muted playsInline>
+      <source src={mp4Url} type="video/mp4" />
+    </video>
+    <div className={styles.gifTitleContainer}>
+      <div className={styles.gifTitleBg} />
+      <h3 className={styles.gifTitle}>{title}</h3>
+    </div>
+  </div>
+);
 
-export default GifItem;
+export default memo(GifItem);
