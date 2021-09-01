@@ -9,8 +9,6 @@ import GifItem from '../../components/GifItem/GifItem';
 
 import styles from './Search.module.css';
 
-let cachedGifs = null;
-
 const DEFAULT_PAGE_INDEX = 0;
 
 const ResultTitle = ({ showTrending, noResult }) => {
@@ -44,7 +42,7 @@ const Search = () => {
   const showLoadMoreButton = !showTrending && !noResult;
 
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
-  const [gifList, setGifList] = useState(cachedGifs ?? []);
+  const [gifList, setGifList] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleSearch = () => {
@@ -90,15 +88,11 @@ const Search = () => {
 
   useEffect(() => {
     (async () => {
-      if (!cachedGifs) {
-        setLoading(true);
-        const gifs = await fetchTrendingGifs();
+      setLoading(true);
+      const gifs = await fetchTrendingGifs();
 
-        cachedGifs = gifs;
-        setLoading(false);
-      }
-
-      setGifList(cachedGifs);
+      setGifList(gifs);
+      setLoading(false);
     })();
   }, []);
 

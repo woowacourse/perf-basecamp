@@ -5,6 +5,8 @@
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
 
+const cache = {};
+
 const formatResponse = gifList => {
   return gifList.map(gif => {
     return {
@@ -16,10 +18,16 @@ const formatResponse = gifList => {
 };
 
 export const fetchTrendingGifs = () => {
+  if (cache[TRENDING_GIF_API]) return cache[TRENDING_GIF_API];
+
   return fetch(TRENDING_GIF_API)
     .then(response => response.json())
     .then(gifs => gifs.data)
-    .then(formatResponse)
+    .then(gifList => {
+      cache[TRENDING_GIF_API] = formatResponse(gifList);
+
+      return cache[TRENDING_GIF_API];
+    })
     .catch(e => {
       return [];
     });
