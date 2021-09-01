@@ -9,7 +9,7 @@ module.exports = {
   entry: './src/index.js',
   resolve: { extensions: ['.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js',
     assetModuleFilename: 'static/[name][ext]',
     path: path.join(__dirname, '/dist'),
