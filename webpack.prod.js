@@ -3,6 +3,7 @@ const common = require("./webpack.common.js");
 const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const zlib = require("zlib");
 
 module.exports = merge(common, {
@@ -21,7 +22,19 @@ module.exports = merge(common, {
       minRatio: 0.8,
       deleteOriginalAssets: false,
     }),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+      chunkFilename: "[id].[contenthash].css",
+    }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+    ],
+  },
   optimization: {
     minimize: true,
     minimizer: ["...", new CssMinimizerPlugin(), new TerserPlugin()],

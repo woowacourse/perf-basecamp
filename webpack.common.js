@@ -13,7 +13,7 @@ module.exports = {
     extensions: [".js", ".jsx"],
   },
   output: {
-    filename: "[name].bundle.js",
+    filename: "[name].[contenthash].bundle.js",
     path: path.join(__dirname, "/dist"),
     clean: true,
   },
@@ -35,10 +35,6 @@ module.exports = {
         use: {
           loader: "babel-loader",
         },
-      },
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|avif|webp)$/i,
