@@ -1,14 +1,12 @@
-import React, { lazy, Suspense, useState } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import "./App.css";
+import './App.css';
 
-const Home = lazy(() => import("./pages/Home/Home"));
-const Search = lazy(() => import("./pages/Search/Search"));
+const Home = lazy(() => import('./pages/Home/Home'));
+const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
-  const [trendingGifs, setTrendingGifs] = useState(null);
-
   return (
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
@@ -17,10 +15,7 @@ const App = () => {
             <Home />
           </Route>
           <Route exact path="/search">
-            <Search
-              trendingGifs={trendingGifs}
-              setTrendingGifs={setTrendingGifs}
-            />
+            <Search />
           </Route>
         </Switch>
       </Suspense>

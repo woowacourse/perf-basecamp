@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import { MdSearch } from "react-icons/md";
+import React, { useState, useEffect } from 'react';
+import { MdSearch } from 'react-icons/md';
 
-import { fetchTrendingGifs, fetchGifsByKeyword } from "../../service/fetchGif";
+import { fetchTrendingGifs, fetchGifsByKeyword } from '../../service/fetchGif';
 
-import NavBar from "../../components/NavBar/NavBar";
-import Footer from "../../components/Footer/Footer";
-import GifItem from "../../components/GifItem/GifItem";
+import NavBar from '../../components/NavBar/NavBar';
+import Footer from '../../components/Footer/Footer';
+import GifItem from '../../components/GifItem/GifItem';
 
-import styles from "./Search.module.css";
+import styles from './Search.module.css';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -35,16 +35,14 @@ const ResultTitle = ({ showTrending, noResult }) => {
   );
 };
 
-const Search = (props) => {
-  const { trendingGifs, setTrendingGifs } = props;
-
+const Search = () => {
   const [showTrending, setShowTrending] = useState(true);
   const [noResult, setNoResult] = useState(false);
   const showLoadMoreButton = !showTrending && !noResult;
 
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState([]);
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleSearch = () => {
     searchByKeyword();
@@ -55,7 +53,7 @@ const Search = (props) => {
   };
 
   const handleEnter = (e) => {
-    if (e.key !== "Enter") {
+    if (e.key !== 'Enter') {
       return;
     }
 
@@ -87,16 +85,12 @@ const Search = (props) => {
     setCurrentPageIndex(nextPageIndex);
   };
 
-  useEffect(async () => {
-    if (trendingGifs) {
-      setGifList(trendingGifs);
-      return;
-    }
+  useEffect(() => {
+    (async () => {
+      const gifs = await fetchTrendingGifs();
 
-    const gifs = await fetchTrendingGifs();
-
-    setGifList(gifs);
-    setTrendingGifs(gifs);
+      setGifList(gifs);
+    })();
   }, []);
 
   return (
@@ -113,11 +107,7 @@ const Search = (props) => {
               onKeyPress={handleEnter}
               onChange={handleChange}
             />
-            <button
-              className={styles.searchButton}
-              type="button"
-              onClick={handleSearch}
-            >
+            <button className={styles.searchButton} type="button" onClick={handleSearch}>
               <MdSearch color="white" size="2rem" />
             </button>
           </div>
