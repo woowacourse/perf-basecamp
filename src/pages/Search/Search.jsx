@@ -35,9 +35,7 @@ const ResultTitle = ({ showTrending, noResult }) => {
   );
 };
 
-const Search = (props) => {
-  const { trendingGifs, setTrendingGifs } = props;
-
+const Search = () => {
   const [showTrending, setShowTrending] = useState(true);
   const [noResult, setNoResult] = useState(false);
   const showLoadMoreButton = !showTrending && !noResult;
@@ -87,16 +85,12 @@ const Search = (props) => {
     setCurrentPageIndex(nextPageIndex);
   };
 
-  useEffect(async () => {
-    if (trendingGifs) {
-      setGifList(trendingGifs);
-      return;
-    }
+  useEffect(() => {
+    (async () => {
+      const gifs = await fetchTrendingGifs();
 
-    const gifs = await fetchTrendingGifs();
-
-    setGifList(gifs);
-    setTrendingGifs(gifs);
+      setGifList(gifs);
+    })();
   }, []);
 
   return (
