@@ -30,7 +30,7 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Home} />9
+        <Route exact path="/" component={Home} />
         <Route exact path="/search" component={SearchPageSuspense({ trendingGifs })} />
       </Switch>
     </Router>
