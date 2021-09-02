@@ -7,24 +7,18 @@ module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "bundle.js",
+    filename: "[name].[chunkhash].js",
     path: path.join(__dirname, "/dist"),
-    clean: true
+    clean: true,
   },
-  devServer: {
-    hot: true,
-    open: true,
-    historyApiFallback: true,
-  },
-  devtool: "source-map",
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "./public", to: "./public" }]
+      patterns: [{ from: "./public", to: "./public" }],
     }),
-    new Dotenv()
+    new Dotenv(),
   ],
   module: {
     rules: [
@@ -32,26 +26,23 @@ module.exports = {
         test: /\.(js|jsx)$/i,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+          options: {
+            plugins: ["@babel/plugin-syntax-dynamic-import"],
+          },
+        },
       },
       {
         test: /\.css$/i,
-        use: [
-          "style-loader",
-          "css-loader"
-        ]
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         loader: "file-loader",
         options: {
-          name: "static/[name].[ext]"
-        }
-      }
-    ]
+          name: "static/[name].[ext]",
+        },
+      },
+    ],
   },
-  optimization: {
-    minimize: false
-  }
 };
