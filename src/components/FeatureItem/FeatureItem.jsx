@@ -11,7 +11,7 @@ const FeatureItem = ({ title, videoSrc }) => {
         loop
         muted
         playsInline
-        preload
+        preload="auto"
       >
         <source src={videoSrc} type="video/webm" />
       </video>

@@ -6,10 +6,8 @@ import Footer from "../../components/Footer/Footer";
 import FeatureItem from "../../components/FeatureItem/FeatureItem";
 
 import heroImage640 from "../../assets/images/hero-640.webp";
-import heroImage768 from "../../assets/images/hero-768.webp";
-import heroImage1024 from "../../assets/images/hero-1024.webp";
 import heroImage1280 from "../../assets/images/hero-1280.webp";
-import heroImage1536 from "../../assets/images/hero-1536.webp";
+import heroImage1920 from "../../assets/images/hero-1920.webp";
 
 import trendingWebM from "../../assets/images/trending.webm";
 import findWebm from "../../assets/images/find.webm";
@@ -20,19 +18,20 @@ const Home = () => (
   <>
     <NavBar />
     <section className={styles.heroSection}>
-      <img
-        className={styles.heroImage}
-        src={heroImage1536}
-        srcSet={`
+      <picture>
+        <source
+          className={styles.heroImage}
+          src={heroImage1920}
+          srcSet={`
           ${heroImage640} 640w,
-          ${heroImage768} 768w,
-          ${heroImage1024} 1024w,
-          ${heroImage1280} 1280w,
-          ${heroImage1536} 1536w
+          ${heroImage1280} 1024w,          
+          ${heroImage1920} 1536w
         `}
-        sizes="100vw"
-        alt="hero"
-      />
+          sizes="100vw"
+          alt="hero"
+        />
+        <img className={styles.heroImage} src={heroImage1920} alt="hero" />
+      </picture>
       <div className={styles.projectTitle}>
         <h1 className={styles.title}>Memegle</h1>
         <h2 className={styles.subtitle}>gif search engine for you</h2>
