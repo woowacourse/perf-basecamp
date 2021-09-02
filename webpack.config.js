@@ -2,56 +2,76 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
+const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+
+const isProduction = process.env.NODE_ENV === "prodcution";
 
 module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "bundle.js",
+    filename: "[name].[contenthash].js",
     path: path.join(__dirname, "/dist"),
-    clean: true
+    clean: true,
   },
   devServer: {
     hot: true,
     open: true,
     historyApiFallback: true,
   },
-  devtool: "source-map",
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "./public", to: "./public" }]
+      patterns: [{ from: "./public", to: "./public" }],
     }),
-    new Dotenv()
+    new CompressionPlugin({
+      deleteOriginalAssets: false,
+      filename: "[path][base].gz",
+    }),
+    new Dotenv(),
+    new ImageMinimizerPlugin({
+      minimizerOptions: {
+        plugins: [["webp", { quality: 1 }], ["gifsicle"]],
+      },
+    }),
   ],
   module: {
     rules: [
       {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|jpe?g)$/i,
+        loader: "file-loader",
+        options: {
+          name: "static/[name].webp",
+        },
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|gif|webm)$/i,
+        loader: "file-loader",
+        options: {
+          name: "static/[name].[ext]",
+        },
+      },
+      {
         test: /\.(js|jsx)$/i,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
       },
-      {
-        test: /\.css$/i,
-        use: [
-          "style-loader",
-          "css-loader"
-        ]
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: "file-loader",
-        options: {
-          name: "static/[name].[ext]"
-        }
-      }
-    ]
+    ],
   },
   optimization: {
-    minimize: false
-  }
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: "all",
+    },
+  },
 };
