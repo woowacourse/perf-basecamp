@@ -7,8 +7,8 @@ module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "[name].bundle.js",
-    chunkFilename: "[name].chunk.js",
+    filename: "[name].bundle.[chunkhash].js",
+    chunkFilename: "[name].chunk.[chunkhash].js",
     assetModuleFilename: "static/[name][ext]",
     path: path.join(__dirname, "/dist"),
     clean: true,
@@ -49,7 +49,6 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      name: "vendor",
       chunks: "all",
     },
   },
