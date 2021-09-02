@@ -1,0 +1,25 @@
+.loadingContainer {
+  background: #131313;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 3.5rem;
+  height: 100vh;
+}
+
+.loadingSection {
+  padding-top: 5.3125rem;
+  padding-bottom: 2.1875rem;
+}
+
+.loadingText {
+  font-style: italic;
+  font-weight: 700;
+  font-size: 3rem;
+  text-align: center;
+  background: linear-gradient(270deg, #E86DC6 7.22%, #C625FF 77.95%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-bottom: 2rem;
+}
