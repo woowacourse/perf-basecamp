@@ -41,6 +41,6 @@
 /* PC */
 @media all and (min-width:1080px) {
     .gifItem:hover {
-        top: -0.75rem;
+        transform: translateY(-0.75rem);
     }
 }
