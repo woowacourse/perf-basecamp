@@ -1,5 +1,7 @@
 import { GiphyFetch } from '@giphy/js-fetch-api';
 
+import memoizePromise from './memoizePromise';
+
 /**
  * 응답 예제는 아래 링크에서 참고
  * https://developers.giphy.com/explorer/#explorer
@@ -18,25 +20,19 @@ const formatResponse = (gifList) => {
   });
 };
 
-export const fetchTrendingGifs = (() => {
-  const cache = { current: null };
+const _fetchTrendingGifs = async () => {
+  try {
+    const response = await fetch(TRENDING_GIF_API);
+    const gifs = await response.json();
+    const gifList = gifs.data;
 
-  return async () => {
-    try {
-      if (!cache.current) {
-        const response = await fetch(TRENDING_GIF_API);
-        const gifs = await response.json();
-        const data = formatResponse(gifs.data ?? []);
+    return formatResponse(gifList);
+  } catch (e) {
+    return [];
+  }
+};
 
-        cache.current = data;
-      }
-
-      return cache.current ?? [];
-    } catch (error) {
-      return [];
-    }
-  };
-})();
+export const fetchTrendingGifs = memoizePromise('TRENDING_GIFS', _fetchTrendingGifs);
 
 export const fetchGifsByKeyword = async (keyword, page = 0) => {
   const offset = page * DEFAULT_FETCH_COUNT;
