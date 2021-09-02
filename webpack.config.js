@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -13,6 +12,7 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     clean: true,
   },
+  mode: process.env.NODE_ENV,
   devServer: {
     hot: true,
     open: true,
@@ -50,9 +50,5 @@ module.exports = {
         },
       },
     ],
-  },
-  optimization: {
-    minimize: true,
-    minimizer: [new TerserPlugin()],
   },
 };
