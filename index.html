@@ -1,20 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./public/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./public/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-        rel="stylesheet">
+    <!-- connect to domain of font files -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- optionally increase loading priority -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    />
+
+    <!-- async CSS -->
+    <link
+      rel="stylesheet"
+      media="print"
+      onload="this.onload=null;this.removeAttribute('media');"
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    />
+
+    <!-- Image preload -->
+
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero-640.webp"
+      media="screen and min-width: 640px"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero-1280.webp"
+      media="screen and min-width: 1280px"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero-1920.webp"
+      media="screen and min-width: 1920px"
+      crossorigin="anonymous"
+    />
+
     <title>memegle - gif search engine for you</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="app"></div>
-</body>
-
+  </body>
 </html>
