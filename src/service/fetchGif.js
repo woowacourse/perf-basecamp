@@ -25,7 +25,7 @@ const fetchTrendingGifs = () => {
     .then(formatResponse);
 };
 
-export const memoization = (() => {
+export const memoizationTrendingGifs = (() => {
   const cache = { current: null };
 
   return async () => {

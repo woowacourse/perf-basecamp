@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MdSearch } from "@react-icons/all-files/md/MdSearch";
 
-import { fetchGifsByKeyword, memoization } from "../../service/fetchGif";
+import { fetchGifsByKeyword, memoizationTrendingGifs } from "../../service/fetchGif";
 
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
@@ -88,7 +88,7 @@ const Search = () => {
 
   useEffect(async () => {
     if (loading) {
-      const gifs = await memoization();
+      const gifs = await memoizationTrendingGifs();
 
       setGifList(gifs);
       setLoading(false);
