@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MdSearch } from "react-icons/md";
 
-import { fetchTrendingGifs, fetchGifsByKeyword } from "../../service/fetchGif";
-
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import GifItem from "../../components/GifItem/GifItem";
-
+import { fetchTrendingGifs, fetchGifsByKeyword } from "../../service/fetchGif";
 import styles from "./Search.module.css";
 
 const DEFAULT_PAGE_INDEX = 0;
@@ -18,7 +16,7 @@ const ResultTitle = ({ showTrending, noResult }) => {
 
   if (showTrending) {
     return <h4 className={styles.resultTitle} >
-        🔥 <span>Trending Now</span> 🔥
+      🔥 <span>Trending Now</span> 🔥
     </h4 >;
   }
 
@@ -71,20 +69,24 @@ const Search = () => {
   }
 
   const loadMore = async () => {
-      const nextPageIndex = currentPageIndex + 1;
-      const gifs = await fetchGifsByKeyword(searchKeyword, nextPageIndex);
+    const nextPageIndex = currentPageIndex + 1;
+    const gifs = await fetchGifsByKeyword(searchKeyword, nextPageIndex);
 
-      setGifList([...gifList, ...gifs]);
-      setCurrentPageIndex(nextPageIndex);
+    setGifList([...gifList, ...gifs]);
+    setCurrentPageIndex(nextPageIndex);
   }
 
-  useEffect(async () => {
-    if (loading) {
-      const gifs = await fetchTrendingGifs();
-
-      setGifList(gifs);
-      setLoading(false);
+  useEffect(() => {
+    const loadTrendingGifs = async () => {
+      if (loading) {
+        const gifs = await fetchTrendingGifs();
+  
+        setGifList(gifs);
+        setLoading(false);
+      }
     }
+
+    loadTrendingGifs();
 
     return () => setLoading(true);
   }, []);
