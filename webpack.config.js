@@ -11,7 +11,7 @@ module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "[chunkhash].bundle.js",
+    filename: "[name].[chunkhash].bundle.js",
     path: path.join(__dirname, "/dist"),
     clean: true,
   },
@@ -60,11 +60,13 @@ module.exports = {
     splitChunks: {
       cacheGroups: {
         vendors: {
+          name: "vendors",
           test: /[\\/]node_modules[\\/]/,
           chunks: "all",
           priority: 1,
         },
         reactBundle: {
+          name: "reactBundle",
           test: /[\\/]node_modules[\\/](react|react-dom)/,
           chunks: "all",
           priority: 10,
