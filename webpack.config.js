@@ -2,56 +2,73 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
   resolve: { extensions: [".js", ".jsx"] },
   output: {
-    filename: "bundle.js",
+    filename: "[name].[chunkhash].bundle.js",
     path: path.join(__dirname, "/dist"),
-    clean: true
+    clean: true,
   },
   devServer: {
     hot: true,
     open: true,
     historyApiFallback: true,
   },
-  devtool: "source-map",
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "./public", to: "./public" }]
+      patterns: [{ from: "./public", to: "./public" }],
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin(),
   ],
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/i,
+        loader: "esbuild-loader",
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
+        options: {
+          loader: "jsx",
+          target: "es2015",
+        },
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
+        loader: "file-loader",
+        options: {
+          name: "static/[name].[ext]",
+        },
       },
       {
         test: /\.css$/i,
-        use: [
-          "style-loader",
-          "css-loader"
-        ]
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: "file-loader",
-        options: {
-          name: "static/[name].[ext]"
-        }
-      }
-    ]
+    ],
   },
   optimization: {
-    minimize: false
-  }
+    minimizer: [`...`, new CssMinimizerPlugin()],
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          name: "vendors",
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "all",
+          priority: 1,
+        },
+        reactBundle: {
+          name: "reactBundle",
+          test: /[\\/]node_modules[\\/](react|react-dom)/,
+          chunks: "all",
+          priority: 10,
+        },
+      },
+    },
+  },
 };
