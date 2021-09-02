@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./GifItem.module.css";
 
-const GifItem = ({ imageUrl = "", title = "" }) => {
+const GifItem = ({ imageUrl = "", title = ""}) => {
     return (
         <div className={styles.gifItem}>
             <img className={styles.gifImage} src={imageUrl} />
@@ -14,4 +14,6 @@ const GifItem = ({ imageUrl = "", title = "" }) => {
     );
 }
 
-export default GifItem;
+const MemoizedGiftItem = React.memo(GifItem);
+
+export default MemoizedGiftItem;

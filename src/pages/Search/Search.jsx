@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { MdSearch } from "react-icons/md";
 
-import { fetchTrendingGifs, fetchGifsByKeyword } from "../../service/fetchGif";
+import { fetchGifsByKeyword } from "../../service/fetchGif";
 
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
@@ -27,8 +27,7 @@ const ResultTitle = ({ showTrending, noResult }) => {
     </h4>;
 }
 
-const Search = () => {
-    const [loading, setLoading] = useState(true);
+const Search = ({ trendingGifs }) => {
     const [showTrending, setShowTrending] = useState(true);
     const [noResult, setNoResult] = useState(false);
     const showLoadMoreButton = !showTrending && !noResult;
@@ -78,16 +77,9 @@ const Search = () => {
         setCurrentPageIndex(nextPageIndex);
     }
 
-    useEffect(async () => {
-        if (loading) {
-            const gifs = await fetchTrendingGifs();
-
-            setGifList(gifs);
-            setLoading(false);
-        }
-
-        return () => setLoading(true);
-    }, []);
+    useEffect(() => {
+        setGifList(trendingGifs);
+    }, [trendingGifs])
 
     return (
         <>
