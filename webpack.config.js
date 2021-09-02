@@ -1,30 +1,40 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+const isProduction = process.env.NODE_ENV === 'prodcution';
 
 module.exports = {
-  entry: "./src/index.js",
-  resolve: { extensions: [".js", ".jsx"] },
+  entry: './src/index.js',
+  resolve: { extensions: ['.js', '.jsx'] },
   output: {
-    filename: "bundle.js",
-    path: path.join(__dirname, "/dist"),
-    clean: true
+    filename: '[name].[contenthash].js',
+    path: path.join(__dirname, '/dist'),
+    clean: true,
   },
+  devtool: isProduction ? 'none' : 'source-map',
   devServer: {
     hot: true,
     open: true,
     historyApiFallback: true,
   },
-  devtool: "source-map",
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./index.html",
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+      },
+      template: './index.html',
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "./public", to: "./public" }]
+      patterns: [{ from: './public', to: './public' }],
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin(),
   ],
   module: {
     rules: [
@@ -32,26 +42,27 @@ module.exports = {
         test: /\.(js|jsx)$/i,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.css$/i,
-        use: [
-          "style-loader",
-          "css-loader"
-        ]
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: "file-loader",
-        options: {
-          name: "static/[name].[ext]"
-        }
-      }
-    ]
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4|webm)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[ext]',
+        },
+      },
+    ],
   },
   optimization: {
-    minimize: false
-  }
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: 'all',
+    },
+    minimizer: [new UglifyJsPlugin(), new OptimizeCSSAssetsPlugin()],
+  },
 };
