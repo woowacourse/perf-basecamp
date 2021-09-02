@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -12,6 +11,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true,
+    assetModuleFilename: 'static/[hash][ext][query]',
   },
   devServer: {
     hot: true,
@@ -51,10 +51,7 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]',
-        },
+        type: 'asset/resource',
       },
     ],
   },
