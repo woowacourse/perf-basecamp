@@ -16,7 +16,7 @@ const formatResponse = (gifList) => {
 };
 
 export const fetchTrendingGifs = async () => {
-  const cachedItem = JSON.parse(localStorage.getItem('trendingGifts'));
+  const cachedItem = JSON.parse(sessionStorage.getItem('trendingGifts'));
 
   if (cachedItem) {
     return cachedItem;
@@ -30,7 +30,7 @@ export const fetchTrendingGifs = async () => {
       return [];
     });
 
-  localStorage.setItem('trendingGifts', JSON.stringify(trendingGifts));
+  sessionStorage.setItem('trendingGifts', JSON.stringify(trendingGifts));
 
   return trendingGifts;
 };
