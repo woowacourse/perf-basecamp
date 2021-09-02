@@ -4,7 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
@@ -20,7 +20,6 @@ module.exports = {
     open: true,
     historyApiFallback: true,
   },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
