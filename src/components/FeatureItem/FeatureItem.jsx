@@ -2,11 +2,11 @@ import React from "react";
 
 import styles from "./FeatureItem.module.css";
 
-const FeatureItem = ({ title, videoSrc }) => {
+const FeatureItem = ({ title, src }) => {
   return (
     <div className={styles.featureItem}>
       <video className={styles.featureImage} autoPlay loop muted playsInline>
-        <source src={videoSrc} type="video/mp4" />
+        <source src={src} type="video/mp4" />
       </video>
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>

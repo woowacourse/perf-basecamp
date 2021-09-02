@@ -6,8 +6,8 @@ import Footer from "../../components/Footer/Footer";
 import FeatureItem from "../../components/FeatureItem/FeatureItem";
 
 import heroImage from "../../assets/images/hero.webp";
-import trendingGif from "../../assets/images/trending.mp4";
-import findGif from "../../assets/images/find.mp4";
+import trendingSrc from "../../assets/images/trending.mp4";
+import findSrc from "../../assets/images/find.mp4";
 
 import styles from "./Home.module.css";
 
@@ -29,8 +29,8 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" videoSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" videoSrc={findGif} />
+            <FeatureItem title="See trending gif" src={trendingSrc} />
+            <FeatureItem title="Find gif for free" src={findSrc} />
           </div>
         </div>
       </section>
