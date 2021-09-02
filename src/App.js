@@ -1,33 +1,20 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-const Home = React.lazy(() =>
-  import(/* webpackChunkName: "home" */ "./pages/Home/Home")
-);
-const Search = React.lazy(() =>
-  import(/* webpackChunkName: "search" */ "./pages/Search/Search")
-);
+import Home from "./pages/Home/Home";
+import Search from "./pages/Search/Search";
 
 import "./App.css";
-import GlobalStateProvider from "./contexts/GlobalStateProvider";
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <GlobalStateProvider>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/search">
-              <Search />
-            </Route>
-          </Suspense>
-        </GlobalStateProvider>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/search" component={Search} />
       </Switch>
     </Router>
   );
-};
+}
 
 export default App;
