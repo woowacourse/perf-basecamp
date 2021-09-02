@@ -1,30 +1,33 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: "./src/index.js",
-  resolve: { extensions: [".js", ".jsx"] },
+  entry: './src/index.js',
+  resolve: { extensions: ['.js', '.jsx'] },
   output: {
-    filename: "bundle.js",
-    path: path.join(__dirname, "/dist"),
-    clean: true
+    filename: 'bundle.js',
+    path: path.join(__dirname, '/dist'),
+    clean: true,
   },
+  mode: process.env.NODE_ENV,
   devServer: {
     hot: true,
     open: true,
     historyApiFallback: true,
   },
-  devtool: "source-map",
+  devtool: process.env.NODE_ENV === 'production' ? false : 'eval-source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./index.html",
+      template: './index.html',
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "./public", to: "./public" }]
+      patterns: [{ from: './public', to: './public' }],
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin(),
   ],
   module: {
     rules: [
@@ -32,26 +35,20 @@ module.exports = {
         test: /\.(js|jsx)$/i,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.css$/i,
-        use: [
-          "style-loader",
-          "css-loader"
-        ]
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: "file-loader",
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|webp|gif|mp4)$/i,
+        loader: 'file-loader',
         options: {
-          name: "static/[name].[ext]"
-        }
-      }
-    ]
+          name: 'static/[name].[ext]',
+        },
+      },
+    ],
   },
-  optimization: {
-    minimize: false
-  }
 };
