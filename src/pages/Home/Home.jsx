@@ -29,7 +29,7 @@ const Home = () => {
       </section>
       <section className={styles.featureSection}>
         <div className={styles.featureSectionWrapper}>
-          <h1 className={styles.featureTitle}>Features</h1>
+          <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
             <FeatureItem title="See trending gif" videoSrc={trendingGif} />
             <FeatureItem title="Find gif for free" videoSrc={findGif} />
