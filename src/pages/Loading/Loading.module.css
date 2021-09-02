@@ -1,0 +1,7 @@
+.loadingSection {
+  background: #131313;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: calc(100vh - 7.5rem);
+}
