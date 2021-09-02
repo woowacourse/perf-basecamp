@@ -1,0 +1,33 @@
+.loading {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+  background-color: #131313;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: lightgrey;
+  animation: 0.8s ease spinner;
+  animation-iteration-count: infinite;
+}
+
+@keyframes spinner {
+  0% {
+    transform: translate(-100%, 100%);
+  }
+  33% {
+    transform: translate(100%, 100%);
+  }
+  66% {
+    transform: translate(0%, -100%);
+  }
+  100% {
+    transform: translate(-100%, 100%);
+  }
+}

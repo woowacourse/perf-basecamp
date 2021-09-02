@@ -1,0 +1,43 @@
+name: push_builder
+
+on:
+  push:
+    branches: puterism
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+
+      - run: npm install
+
+      - name: Setup yarn
+        run: npm install -g yarn
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Create env file
+        run: |
+          touch .env
+          echo GIPHY_API_KEY=${{ secrets.GIPHY_API_KEY }} >> .env
+          cat .env
+
+      - name: Build
+        run: yarn build
+        env:
+          SOME_API_KEY: ${{ secrets.SOME_API_KEY }}
+
+      - name: S3 Deploy
+        run: aws s3 sync ./dist s3://puterism-perf-basecamp/ --acl bucket-owner-full-control
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}

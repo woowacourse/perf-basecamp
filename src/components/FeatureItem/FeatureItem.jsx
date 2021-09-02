@@ -1,15 +1,17 @@
-import React from "react";
+import React from 'react';
 
-import styles from "./FeatureItem.module.css";
+import styles from './FeatureItem.module.css';
 
-const FeatureItem = ({ title, imageSrc }) => {
-    return (
-        <div className={styles.featureItem}>
-            <img className={styles.featureImage} src={imageSrc} />
-            <div className={styles.featureTitleBg}></div>
-            <h4 className={styles.featureTitle}>{title}</h4>
-        </div>
-    );
-}
+const FeatureItem = ({ title, url }) => {
+  return (
+    <div className={styles.featureItem}>
+      <video title={title} className={styles.featureImage} autoPlay loop muted>
+        <source src={url} type="video/webm" />
+      </video>
+      <div className={styles.featureTitleBg}></div>
+      <h4 className={styles.featureTitle}>{title}</h4>
+    </div>
+  );
+};
 
 export default FeatureItem;
