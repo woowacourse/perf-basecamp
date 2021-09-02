@@ -83,16 +83,23 @@ module.exports = (env) => {
         },
         {
           test: /\.(svg|jpg|gif|mp4)$/i,
-          loader: 'file-loader',
-          options: {
-            name: 'static/[name].[ext]',
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/[name].[ext]',
+          },
+        },
+        {
+          test: /\.(ttf|woff|woff2)$/i,
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/fonts/[name].[ext]',
           },
         },
         {
           test: /\b(?!hero\b)\w+\b\.(jpg|webp)$/i,
-          loader: 'file-loader',
-          options: {
-            name: 'static/[name].[ext]',
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/[name].[ext]',
           },
         },
         {
@@ -111,13 +118,6 @@ module.exports = (env) => {
               },
             },
           ],
-        },
-        {
-          test: /\.(ttf|woff|woff2)$/i,
-          type: 'asset/resource',
-          generator: {
-            filename: 'static/fonts/[name].[ext]',
-          },
         },
       ],
     },
