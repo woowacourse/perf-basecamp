@@ -65,34 +65,24 @@ module.exports = () => {
         },
         {
           test: /\.(eot|svg|ttf|woff|woff2)$/i,
-          loader: 'file-loader',
-          options: {
-            name: 'static/[name].[ext]',
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/[name][ext]',
           },
         },
         {
           test: /\.mp4$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[name].[ext]',
-                outputPath: 'video',
-              },
-            },
-          ],
+          type: 'asset/resource',
+          generator: {
+            filename: 'video/[name][ext]',
+          },
         },
         {
           test: /\.(png|jpe?g|gif|webp|svg|webp)$/i,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: 'static/[name].[ext]',
-                quality: 25,
-              },
-            },
-          ],
+          type: 'asset/resource',
+          generator: {
+            filename: 'image/[name][ext]',
+          },
         },
       ],
     },
