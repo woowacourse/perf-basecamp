@@ -5,7 +5,8 @@ import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import FeatureItem from "../../components/FeatureItem/FeatureItem";
 
-import heroImage from "../../assets/images/hero.webp"
+import heroImage from "../../assets/images/hero.jpg"
+import heroImageWP from "../../assets/images/hero.webp"
 import trendingGif from "../../assets/images/trending.gif";
 import findGif from "../../assets/images/find.gif";
 
@@ -16,7 +17,10 @@ const Home = () => {
         <>
             <NavBar />
             <section className={styles.heroSection}>
-                <img className={styles.heroImage} srcset={heroImage} alt="hero" />
+                <picture>
+                    <source type="image/webp" srcset={heroImageWP} />
+                    <img className={styles.heroImage} srcset={heroImage} alt="hero" />
+                </picture>
                 <div className={styles.projectTitle}>
                     <h1 className={styles.title}>Memegle</h1>
                     <h3 className={styles.subtitle}>gif search engine for you</h3>
