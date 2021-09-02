@@ -19,7 +19,7 @@ const Home = () => {
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
         </div>
-        <Link to="/search" onMouseEnter={() => SearchLoadable.preload()}>
+        <Link to="/search" onMouseEnter={SearchLoadable.preload}>
           <button className={styles.cta}>start search</button>
         </Link>
       </section>

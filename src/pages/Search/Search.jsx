@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MdSearch } from "react-icons/md";
-import { fetchTrendingGifs, fetchGifsByKeyword } from "../../service/fetchGif";
+import { fetchTrendingGifs as _fetchTrendingGifs, fetchGifsByKeyword } from "../../service/fetchGif";
 import GifItem from "../../components/GifItem/GifItem";
 import styles from "./Search.module.css";
 
@@ -81,13 +81,17 @@ const Search = () => {
     setCurrentPageIndex(nextPageIndex);
   };
 
-  useEffect(async () => {
-    if (loading) {
-      const gifs = await fetchTrendingGifs();
+  useEffect(() => {
+    const fetchTrendingGifs = async () => {
+      if (loading) {
+        const gifs = await _fetchTrendingGifs();
 
-      setGifList(gifs);
-      setLoading(false);
-    }
+        setGifList(gifs);
+        setLoading(false);
+      }
+    };
+
+    fetchTrendingGifs();
 
     return () => setLoading(true);
   }, []);

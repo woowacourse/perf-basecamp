@@ -11,7 +11,7 @@ const NavBar = () => {
         <Link to="/">
           <span className={styles.logo}>memegle</span>
         </Link>
-        <Link to="/search" onMouseEnter={() => SearchLoadable.preload()}>
+        <Link to="/search" onMouseEnter={SearchLoadable.preload}>
           <button className={styles.searchPageButton}>start search</button>
         </Link>
       </nav>
