@@ -1,20 +1,25 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import './App.css';
 
-import Home from "./pages/Home/Home";
-import Search from "./pages/Search/Search";
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import "./App.css";
+import React from 'react';
+import TrendingGifsProvider from './contexts/TrendingGifsProvider';
+import loadable from '@loadable/component';
+
+const Home = loadable(() => import('./pages/Home/Home'));
+const Search = loadable(() => import('./pages/Search/Search'));
 
 const App = () => {
   return (
     <Router>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/search" component={Search} />
-      </Switch>
+      <TrendingGifsProvider>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/search" component={Search} />
+        </Switch>
+      </TrendingGifsProvider>
     </Router>
   );
-}
+};
 
 export default App;

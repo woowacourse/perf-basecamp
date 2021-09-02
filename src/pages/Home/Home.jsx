@@ -1,40 +1,54 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
-import NavBar from "../../components/NavBar/NavBar";
-import Footer from "../../components/Footer/Footer";
-import FeatureItem from "../../components/FeatureItem/FeatureItem";
-
-import heroImage from "../../assets/images/hero.png"
-import trendingGif from "../../assets/images/trending.gif";
-import findGif from "../../assets/images/find.gif";
-
-import styles from "./Home.module.css";
+import FeatureItem from '../../components/FeatureItem/FeatureItem';
+import Footer from '../../components/Footer/Footer';
+import { Link } from 'react-router-dom';
+import NavBar from '../../components/NavBar/NavBar';
+import React from 'react';
+import find from '../../assets/images/find.mp4';
+import heroImage from '../../assets/images/hero.jpg';
+import heroImageWebP from '../../assets/images/hero.webp';
+import heroSmallWebP from '../../assets/images/herosmall.webp';
+import styles from './Home.module.css';
+import trending from '../../assets/images/trending.mp4';
 
 const Home = () => {
-    return (
-        <>
-            <NavBar />
-            <section className={styles.heroSection}>
-                <img className={styles.heroImage} src={heroImage} alt="hero" />
-                <div className={styles.projectTitle}>
-                    <h1 className={styles.title}>Memegle</h1>
-                    <h3 className={styles.subtitle}>gif search engine for you</h3>
-                </div>
-                <Link to="/search"><button className={styles.cta}>start search</button></Link>
-            </section>
-            <section className={styles.featureSection}>
-                <div className={styles.featureSectionWrapper}>
-                    <h2 className={styles.featureTitle}>Features</h2>
-                    <div className={styles.featureItemContainer}>
-                        <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-                        <FeatureItem title="Find gif for free" imageSrc={findGif} />
-                    </div>
-                </div>
-            </section>
-            <Footer />
-        </>
-    );
+  return (
+    <>
+      <NavBar />
+      <section className={styles.heroSection}>
+        <picture>
+          <source
+            type="image/webp"
+            srcSet={heroSmallWebP}
+            media="(max-width: 799px)"
+          />
+          <source
+            type="image/webp"
+            srcSet={heroImageWebP}
+            media="(min-width: 800px)"
+          />
+          <img className={styles.heroImage} src={heroImage} alt="hero" />
+        </picture>
+
+        <div className={styles.projectTitle}>
+          <h1 className={styles.title}>Memegle</h1>
+          <h2 className={styles.subtitle}>gif search engine for you</h2>
+        </div>
+        <Link to="/search">
+          <button className={styles.cta}>start search</button>
+        </Link>
+      </section>
+      <section className={styles.featureSection}>
+        <div className={styles.featureSectionWrapper}>
+          <h3 className={styles.featureTitle}>Features</h3>
+          <div className={styles.featureItemContainer}>
+            <FeatureItem title="See trending gif" imageSrc={trending} />
+            <FeatureItem title="Find gif for free" imageSrc={find} />
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </>
+  );
 };
 
 export default Home;
