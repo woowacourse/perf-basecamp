@@ -4,9 +4,8 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCSSExtractionPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const chunkFileNames = ['service_fetchGif', 'page_Search'];
 
@@ -97,6 +96,6 @@ module.exports = {
     ],
   },
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin(), new TerserPlugin()],
+    minimizer: [new CssMinimizerPlugin()],
   },
 };
