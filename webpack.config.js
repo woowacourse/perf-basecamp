@@ -51,9 +51,9 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4|webm)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]',
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[ext]',
         },
       },
     ],
@@ -63,7 +63,6 @@ module.exports = {
     splitChunks: {
       chunks: 'all',
     },
-    minimize: true,
     minimizer: [new UglifyJsPlugin(), new OptimizeCSSAssetsPlugin()],
   },
 };
