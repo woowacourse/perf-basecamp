@@ -5,7 +5,9 @@ import styles from "./FeatureItem.module.css";
 const FeatureItem = ({ title, src }) => {
   return (
     <div className={styles.featureItem}>
-      <video className={styles.featureImage} src={src} autoPlay loop />
+      <video className={styles.featureImage} src={src} autoPlay loop>
+        your browser doesn't support embedded videos.
+      </video>
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
     </div>
