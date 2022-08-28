@@ -1,0 +1,16 @@
+.resultTitle {
+  padding-top: 3.75rem;
+  padding-bottom: 2.25rem;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 2rem;
+  text-align: center;
+}
+
+.resultTitle span {
+  background: var(--text-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

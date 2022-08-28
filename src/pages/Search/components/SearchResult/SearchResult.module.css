@@ -1,0 +1,33 @@
+.searchResultSection {
+  min-height: 90vh;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.gifResultWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+  padding-bottom: 5rem;
+}
+
+.loadMoreButton {
+  width: 100%;
+  height: 3.5rem;
+  background: var(--radial-gradient);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1rem;
+  text-align: center;
+  color: var(--white);
+  cursor: pointer;
+  border: none;
+  margin-bottom: 2.5rem;
+  transition: all 0.5s ease-in-out 0s;
+}
+
+.loadMoreButton:hover {
+  background: var(--radial-gradient);
+}

@@ -1,28 +1,43 @@
 * {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
 }
 
 body {
-	line-height: 1;
-    font-family: "Josefin Sans", sans-serif;
+  line-height: 1;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
-/* PC */
-@media screen and (min-width:1080px) {
-	html {
-		font-size: 16px;
-	}
+button {
+  cursor: pointer;
 }
 
-/* Mobile */
-@media screen and (max-width:424px) {
-	html {
-		font-size: 70%;
-	}
+a {
+  text-decoration: none;
+}
+
+:root {
+  --radial-gradient: radial-gradient(
+    110.23% 110.23% at 50% 50%,
+    #bd00ff 0%,
+    rgba(233, 97, 195, 0.77) 57.81%
+  );
+  --linear-gradient: linear-gradient(
+    180deg,
+    rgba(232, 109, 198, 0.1) 0%,
+    rgba(232, 109, 198, 0.64248) 38.02%,
+    #bd00ff 71.35%
+  );
+  --text-gradient: linear-gradient(270deg, #e86dc6 7.22%, #c625ff 77.95%);
+  --white: #fcfcfc;
+  --black: #131313;
 }

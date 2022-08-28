@@ -1,0 +1,19 @@
+.artistContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.artistContainer .profileImage {
+  width: 60px;
+  height: 60px;
+}
+
+.artistContainer p {
+  padding-left: 8px;
+}
+
+.artistContainer .profileUrl {
+  color: var(--black);
+  text-decoration: underline;
+}

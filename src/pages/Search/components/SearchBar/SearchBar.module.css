@@ -1,0 +1,37 @@
+.searchbarSection {
+  padding-top: 5rem;
+  padding-bottom: 2.5rem;
+}
+
+.searchbarContainer {
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem;
+}
+
+.searchbarTitle {
+  font-style: italic;
+  font-weight: 700;
+  font-size: 3rem;
+  text-align: center;
+  background: var(--text-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-bottom: 2rem;
+}
+
+.searchInput {
+  width: 30rem;
+  height: 2.75rem;
+  font-size: 1rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  transition: transform 0.2s ease-in-out;
+}
+
+.searchButton {
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--radial-gradient);
+}
