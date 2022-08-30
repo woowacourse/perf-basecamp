@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const ImageResizePlugin = require('webpack-image-resize-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -46,8 +47,16 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2)$/i,
         type: 'asset'
+      },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        type: 'asset',
+
+        generator: {
+          filename: 'static/[hash].webp[query]'
+        }
       }
     ]
   },
@@ -66,6 +75,18 @@ module.exports = {
               ['pngquant', { speed: 3, strip: true, quality: [0.1, 0.1], dithering: 0.1 }]
             ]
           }
+        }
+      }),
+      new ImageResizePlugin({
+        gifInfo: {
+          scale: 0.5, // 플러그인에서 구현 안되어있네유...;
+          toWebp: true
+        },
+        imgInfo: {
+          width: 1920,
+          height: 0, // height 고정 해제를 위해 높이 비활성화
+          quality: 100,
+          toWebp: true
         }
       })
     ]
