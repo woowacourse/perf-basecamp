@@ -1,6 +1,5 @@
 const path = require('path');
 const os = require('os');
-const webpack = require('webpack');
 
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
