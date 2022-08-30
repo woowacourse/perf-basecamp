@@ -1,8 +1,11 @@
 const path = require('path');
+const os = require('os');
+
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -49,6 +52,9 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
+      new UglifyJSPlugin({
+        parallel: os.cpus().length - 1
+      }),
       new ImageMinimizerPlugin({
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
