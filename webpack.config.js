@@ -1,5 +1,6 @@
 const path = require('path');
 const os = require('os');
+const webpack = require('webpack');
 
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -8,6 +9,9 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ImageResizePlugin = require('webpack-image-resize-plugin');
+
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -31,6 +35,7 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new CompressionPlugin(),
+    new MiniCssExtractPlugin({ linkType: false, filename: `css/[name].css` }),
     new Dotenv()
   ],
   module: {
@@ -44,7 +49,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/i,
@@ -66,6 +71,7 @@ module.exports = {
       new UglifyJSPlugin({
         parallel: os.cpus().length - 1
       }),
+      new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
