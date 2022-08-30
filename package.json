@@ -49,7 +49,6 @@
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-react": "^7.31.1",
     "file-loader": "^6.2.0",
-    "gifsicle": "^7.0.1",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
     "image-minimizer-webpack-plugin": "^3.3.0",
