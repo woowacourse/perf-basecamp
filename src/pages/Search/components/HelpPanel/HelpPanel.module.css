@@ -10,7 +10,7 @@
 
 .selectedItemContainer {
   position: fixed;
-  right: -320px;
+  right: 0;
   top: 0;
   width: 320px;
   height: 100%;
@@ -19,13 +19,15 @@
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  opacity: 0;
   transition: 0.5s all cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  transform: translateX(100%);
+  filter: opacity(0%);
+  will-change: filter, transform;
 }
 
 .selectedItemContainer.showSheet {
-  right: 0;
-  opacity: 1;
+  transform: translateX(0);
+  filter: opacity(100%);
 }
 
 .sheetTitleContainer {
