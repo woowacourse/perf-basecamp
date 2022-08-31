@@ -59,7 +59,7 @@ module.exports = {
         }
       },
       {
-        test: /\.jpg$/i,
+        test: /\.jp[e]?g$/i,
         type: 'asset'
       }
     ]
