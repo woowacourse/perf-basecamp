@@ -5,7 +5,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const ImageResizePlugin = require('webpack-image-resize-plugin');
 
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -67,28 +66,18 @@ module.exports = {
     minimize: true,
     minimizer: [
       '...',
+
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
           options: {
             plugins: [
-              ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 32 }],
-              ['pngquant', { speed: 3, strip: true, quality: [0.1, 0.1], dithering: 0.1 }]
+              ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 64 }],
+              ['pngquant', { speed: 3, strip: true, quality: [0.1, 0.3], dithering: 0.1 }],
+              ['webp', { quality: 50, resize: { width: 1280, height: 0 } }]
             ]
           }
-        }
-      }),
-      new ImageResizePlugin({
-        gifInfo: {
-          scale: 0.5, // 플러그인에서 구현 안되어있네유...;
-          toWebp: true
-        },
-        imgInfo: {
-          width: 1920,
-          height: 0, // height 고정 해제를 위해 높이 비활성화
-          quality: 100,
-          toWebp: true
         }
       })
     ]

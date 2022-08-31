@@ -55,6 +55,7 @@
     "imagemin": "^8.0.1",
     "imagemin-gifsicle": "^7.0.0",
     "imagemin-pngquant": "^9.0.2",
+    "imagemin-webp": "^7.0.0",
     "mini-css-extract-plugin": "^2.6.1",
     "prettier": "^2.3.2",
     "style-loader": "^3.2.1",
@@ -63,8 +64,7 @@
     "webpack": "^5.50.0",
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
-    "webpack-image-resize-plugin": "^0.2.0"
+    "webpack-dev-server": "^3.11.2"
   },
   "babel": {
     "presets": [
