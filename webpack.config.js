@@ -44,7 +44,18 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[hash:base64:5]',
+                exportLocalsConvention: 'camelCase'
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/i,
