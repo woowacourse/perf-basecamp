@@ -1,16 +1,17 @@
 const path = require('path');
-const os = require('os');
+
+const TerserPlugin = require('terser-webpack-plugin');
 
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ImageResizePlugin = require('webpack-image-resize-plugin');
 
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -67,9 +68,7 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
-      new UglifyJSPlugin({
-        parallel: os.cpus().length - 1
-      }),
+      '...',
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
