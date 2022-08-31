@@ -5,7 +5,6 @@ import { GifImageModel } from '../models/image/gifImage';
 
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
-
 const DEFAULT_FETCH_COUNT = 16;
 
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
@@ -20,6 +19,22 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   });
 }
 
+const fetchMemo: Record<string, unknown> = {};
+
+const getFetchMemo = <FetchCallback = unknown>(
+  queryKey: string,
+  fetchCallback: () => FetchCallback
+): FetchCallback => {
+  if (fetchMemo[queryKey]) {
+    return fetchMemo[queryKey] as FetchCallback;
+  }
+
+  const result = fetchCallback();
+
+  fetchMemo[queryKey] = result;
+  return result;
+};
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -33,7 +48,7 @@ export const gifAPIService = {
     };
 
     try {
-      const gifs: GifsResult = await gf.trending(trendingOptions);
+      const gifs: GifsResult = await getFetchMemo('trending', () => gf.trending(trendingOptions));
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
