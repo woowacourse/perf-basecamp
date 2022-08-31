@@ -51,12 +51,16 @@ module.exports = {
         type: 'asset'
       },
       {
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.(png|gif)$/i,
         type: 'asset',
 
         generator: {
           filename: 'static/[hash].webp[query]'
         }
+      },
+      {
+        test: /\.jpg$/i,
+        type: 'asset'
       }
     ]
   },
