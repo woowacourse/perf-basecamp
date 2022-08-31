@@ -21,12 +21,12 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
 
 const fetchMemo: Record<string, unknown> = {};
 
-const getFetchMemo = <FetchCallback = unknown>(
+const fetchWithMemo = <CallbackReturns = unknown>(
   queryKey: string,
-  fetchCallback: () => FetchCallback
-): FetchCallback => {
+  fetchCallback: () => CallbackReturns
+): CallbackReturns => {
   if (fetchMemo[queryKey]) {
-    return fetchMemo[queryKey] as FetchCallback;
+    return fetchMemo[queryKey] as CallbackReturns;
   }
 
   const result = fetchCallback();
@@ -48,7 +48,7 @@ export const gifAPIService = {
     };
 
     try {
-      const gifs: GifsResult = await getFetchMemo('trending', () => gf.trending(trendingOptions));
+      const gifs: GifsResult = await fetchWithMemo('trending', () => gf.trending(trendingOptions));
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
