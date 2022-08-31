@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import useThrottleCallback from './ussThrottleCallback';
 
 export type MousePosition = Partial<MouseEvent>;
 
@@ -12,7 +13,7 @@ const useMousePosition = () => {
     offsetY: 0
   });
 
-  const updateMousePosition = (e: MouseEvent) => {
+  const updateMousePosition = useThrottleCallback((e: MouseEvent) => {
     const { clientX, clientY, pageX, pageY, offsetX, offsetY } = e;
 
     setMousePosition({
@@ -23,7 +24,7 @@ const useMousePosition = () => {
       offsetX,
       offsetY
     });
-  };
+  }, 75);
 
   useEffect(() => {
     window.addEventListener('mousemove', updateMousePosition);
