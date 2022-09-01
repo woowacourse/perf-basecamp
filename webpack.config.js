@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -47,15 +48,31 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, , 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(png|gif)$/i,
+        type: 'asset',
+
+        generator: {
+          filename: 'static/[contenthash].webp[query]'
         }
       }
     ]
   },
   optimization: {
-    minimizer: ['...', new CssMinimizerPlugin()]
+    minimizer: [
+      '...',
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['gifsicle', { interlaced: true, optimizationLevel: 2, color: 200 }],
+              ['pngquant', { quality: [0.4, 0.6] }],
+              ['webp', { quality: 60, resize: { width: 1200, height: 0 } }]
+            ]
+          }
+        }
+      })
+    ]
   }
 };
