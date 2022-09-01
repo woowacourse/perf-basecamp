@@ -1,4 +1,3 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -6,17 +5,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
-  output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, '/dist'),
-    clean: true
-  },
-  devServer: {
-    hot: true,
-    open: true,
-    historyApiFallback: true
-  },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -40,15 +28,23 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|ttf|woff|woff2)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/fonts/[name].[ext]'
         }
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|webp)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'static/images/[name].[ext]'
+            }
+          }
+        ]
       }
     ]
-  },
-  optimization: {
-    minimize: false
   }
 };
