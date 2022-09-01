@@ -17,10 +17,11 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './index.html',
+      minify: true
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
