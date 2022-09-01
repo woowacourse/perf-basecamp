@@ -2,7 +2,9 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
+import heroImage_desktop from '../../assets/images/hero-1920w.jpg';
+import heroImage_tablet from '../../assets/images/hero-1024w.jpg';
+import heroImage_mobile from '../../assets/images/hero-768w.jpg';
 import trendingGif from '../../assets/images/trending.gif';
 import findGif from '../../assets/images/find.gif';
 import freeGif from '../../assets/images/free.gif';
@@ -19,7 +21,18 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <img
+          className={styles.heroImage}
+          srcSet={`${heroImage_mobile} 768w,
+            ${heroImage_tablet} 1024w,
+            ${heroImage_desktop} 1920w`}
+          sizes={`(max-width: 768px) 768px,
+            (max-width: 1024px) 1024px,
+            (max-width: 1920px) 1920px,
+            1920px`}
+          src={heroImage_tablet}
+          alt="hero image"
+        />
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
