@@ -14,7 +14,8 @@ module.exports = {
   devServer: {
     hot: true,
     open: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    port: 9000
   },
   devtool: 'source-map',
   plugins: [
@@ -40,15 +41,17 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
         }
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|webp)$/i,
+        loader: 'image-webpack-loader',
+        enforce: 'pre'
       }
     ]
-  },
-  optimization: {
-    minimize: false
   }
 };
