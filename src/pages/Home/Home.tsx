@@ -8,9 +8,12 @@ import heroImage1024 from '../../assets/images/hero-1024.webp';
 import heroImage960 from '../../assets/images/hero-960.webp';
 import heroImage640 from '../../assets/images/hero-640.webp';
 import heroImage320 from '../../assets/images/hero-320.webp';
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+// import trendingGif from '../../assets/images/trending.gif';
+// import findGif from '../../assets/images/find.gif';
+// import freeGif from '../../assets/images/free.gif';
+import trendingWebm from '../../assets/videos/trending.webm';
+import findWebm from '../../assets/videos/find.webm';
+import freeWebm from '../../assets/videos/free.webm';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -50,9 +53,12 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
+            {/* <FeatureItem title="See trending gif" imageSrc={trendingGif} />
             <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem title="Free for everyone" imageSrc={freeGif} /> */}
+            <FeatureItem title="See trending gif" imageSrc={trendingWebm} />
+            <FeatureItem title="Find gif for free" imageSrc={findWebm} />
+            <FeatureItem title="Free for everyone" imageSrc={freeWebm} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
