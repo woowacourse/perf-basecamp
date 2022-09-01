@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -42,17 +41,11 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webp)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
         }
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/,
-        loader: 'image-webpack-loader',
-        // This will apply the loader before the other ones
-        enforce: 'pre'
       }
     ]
   },
@@ -67,12 +60,6 @@ module.exports = {
           }
         }
       })
-      // new ImageMinimizerPlugin({
-      //   minimizer: {
-      //     implementation: ImageMinimizerPlugin.squooshMinify,
-      //     options: {}
-      //   }
-      // })
     ]
   }
 };
