@@ -82,7 +82,7 @@ module.exports = {
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
-          implementation: ImageMinimizerPlugin.imageminMinify,
+          implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
             plugins: [
               ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 64 }],
