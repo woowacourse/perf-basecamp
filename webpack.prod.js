@@ -3,44 +3,33 @@ const common = require('./webpack.config');
 const { merge } = require('webpack-merge');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
-const { sources } = require('webpack');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = merge(common, {
-  mode: 'production',
+https: module.exports = merge(common, {
   output: {
-    filename: 'bundle.[name].[contenthash:8].js',
+    filename: '[name].[contenthash:8].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
-  module: {
-    rules: [
-      // You need this, if you are using `import file from "file.ext"`, for `new URL(...)` syntax you don't need it
-      {
-        test: /\.(png|jpe?g|gif|svg|webp)$/i,
-        type: 'asset'
-      }
-    ]
-  },
+  devtool: 'nosources-source-map',
   optimization: {
+    minimize: true,
     minimizer: [
       new ImageMinimizerPlugin({
         minimizer: {
-          filter: (sources, pathname) => {},
-          implementation: ImageMinimizerPlugin.sharpMinify,
-          options: {
-            resize: {
-              enabled: true,
-              width: 1000
-            }
-          }
+          implementation: ImageMinimizerPlugin.sharpMinify
         }
-      })
-    ],
-    splitChunks: {
-      chunks: 'all'
-    }
+      }),
+      new OptimizeCssAssetsPlugin(),
+      new TerserPlugin()
+    ]
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash:8].css'
+    }),
     new ImageminWebpWebpackPlugin({
       config: [
         {
@@ -50,7 +39,7 @@ module.exports = merge(common, {
           }
         }
       ],
-      overrideExtension: true,
+      overrideExtension: false,
       detailedLogs: false,
       silent: false,
       strict: true

@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -25,13 +26,14 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|ttf|woff|woff2)$/i,
-        loader: 'file-loader',
+        loader: 'url-loader',
         options: {
-          name: 'static/fonts/[name].[ext]'
+          name: 'static/[name].[ext]',
+          limit: 10000
         }
       },
       {
@@ -40,7 +42,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'static/images/[name].[ext]'
+              name: 'static/[name].[ext]'
             }
           }
         ]
