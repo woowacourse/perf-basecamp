@@ -16,7 +16,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true,
     publicPath: '/'
@@ -35,7 +35,9 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
+    })
   ],
   module: {
     rules: [
@@ -69,6 +71,7 @@ module.exports = {
     minimizer: isDevMode
       ? []
       : [
+          '...',
           new CssMinimizerPlugin(),
           new TerserPlugin({
             terserOptions: {
