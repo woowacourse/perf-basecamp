@@ -32,8 +32,7 @@ module.exports = {
         test: /\.(eot|ttf|woff|woff2)$/i,
         loader: 'url-loader',
         options: {
-          name: 'static/[name].[ext]',
-          limit: 10000
+          name: 'static/fonts/[name].[ext]'
         }
       },
       {
@@ -42,7 +41,37 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'static/[name].[ext]'
+              name: 'static/images/[name].[ext]'
+            }
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 75
+              },
+              pngquant: {
+                quality: [0.65, 0.9],
+                speed: 4
+              },
+              gifsicle: {
+                interlaced: false
+              },
+              webp: {
+                quality: 85
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(webm|mp4)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'static/video/[name].[ext]'
             }
           }
         ]

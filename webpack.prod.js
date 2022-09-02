@@ -1,48 +1,30 @@
 const path = require('path');
-const common = require('./webpack.config');
+const common = require('./webpack.common');
 const { merge } = require('webpack-merge');
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
-const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
-https: module.exports = merge(common, {
+module.exports = merge(common, {
+  mode: 'production',
   output: {
-    filename: '[name].[contenthash:8].js',
+    filename: 'js/[name].[contenthash:8].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
   devtool: 'nosources-source-map',
   optimization: {
-    minimize: true,
-    minimizer: [
-      new ImageMinimizerPlugin({
-        minimizer: {
-          implementation: ImageMinimizerPlugin.sharpMinify
-        }
-      }),
-      new OptimizeCssAssetsPlugin(),
-      new TerserPlugin()
-    ]
+    minimizer: ['...', new CssMinimizerPlugin()]
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash:8].css'
+      filename: 'css/[name].[contenthash:8].css'
     }),
-    new ImageminWebpWebpackPlugin({
-      config: [
-        {
-          test: /\.(jpe?g|png|gif)$/i,
-          options: {
-            quality: 90
-          }
-        }
-      ],
-      overrideExtension: false,
-      detailedLogs: false,
-      silent: false,
-      strict: true
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      test: /\.js$|\.css$/,
+      threshold: 10240,
+      minRatio: 0.8
     })
   ]
 });
