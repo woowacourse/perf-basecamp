@@ -9,6 +9,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // 기본 설정으로 JavaScript 코드를 난독화 하고 debugger 구문을 제거, console.log를 제거하는 옵션도 있다.
 const TerserPlugin = require('terser-webpack-plugin');
+// 웹팩 번들 분석 플러그인
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const isDevMode = process.env.NODE_ENV === 'development';
 
@@ -37,6 +39,12 @@ module.exports = {
     new Dotenv(),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: 'bundle-report.json'
     })
   ],
   module: {
