@@ -10,10 +10,10 @@ import styles from './SearchResult.module.css';
 type SearchResultProps = {
   status: SearchStatus;
   gifList: GifImageModel[];
-  loadMore: () => void;
+  onLoadMore: () => void;
 };
 
-const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
+const SearchResult = ({ status, gifList, onLoadMore }: SearchResultProps) => {
   return (
     <section className={styles.searchResultSection}>
       <ResultTitle status={status} />
@@ -25,7 +25,7 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
         </div>
       )}
       {status === SEARCH_STATUS.FOUND && (
-        <button className={styles.loadMoreButton} onClick={loadMore}>
+        <button className={styles.loadMoreButton} onClick={onLoadMore}>
           load more
         </button>
       )}

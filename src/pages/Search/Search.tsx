@@ -1,4 +1,4 @@
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useRef } from 'react';
 import useGifSearch from './hooks/useGifSearch';
 
 import SearchBar from './components/SearchBar/SearchBar';
@@ -8,26 +8,35 @@ import HelpPanel from './components/HelpPanel/HelpPanel';
 import styles from './Search.module.css';
 
 const Search = () => {
-  const { status, searchKeyword, gifList, searchByKeyword, updateSearchKeyword, loadMore } =
-    useGifSearch();
+  const { status, gifList, searchByKeyword, loadMore } = useGifSearch();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== 'Enter') {
-      return;
-    }
+    if (!inputRef.current) return;
+    if (e.key !== 'Enter') return;
 
-    searchByKeyword();
+    const value = inputRef.current.value;
+    searchByKeyword(value);
+  };
+
+  const handleSearch = () => {
+    if (!inputRef.current) return;
+
+    const value = inputRef.current.value;
+    searchByKeyword(value);
+  };
+
+  const handleLoadMore = () => {
+    if (!inputRef.current) return;
+
+    const value = inputRef.current.value;
+    loadMore(value);
   };
 
   return (
     <div className={styles.searchContainer}>
-      <SearchBar
-        searchKeyword={searchKeyword}
-        onEnter={handleEnter}
-        onChange={updateSearchKeyword}
-        onSearch={searchByKeyword}
-      />
-      <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
+      <SearchBar onEnter={handleEnter} onSearch={handleSearch} ref={inputRef} />
+      <SearchResult status={status} gifList={gifList} onLoadMore={handleLoadMore} />
       <HelpPanel />
     </div>
   );
