@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -16,7 +18,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -40,7 +42,15 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(png|gif)$/i,
+        type: 'asset',
+
+        generator: {
+          filename: 'static/[hash].webp[query]'
+        }
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|jpg)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -49,6 +59,22 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: true
+    minimize: true,
+    minimizer: [
+      '...',
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 64 }],
+              'imagemin-optipng',
+              ['imagemin-webp', { quality: 50, resize: { width: 1280, height: 0 } }]
+            ]
+          }
+        }
+      })
+    ]
   }
 };
