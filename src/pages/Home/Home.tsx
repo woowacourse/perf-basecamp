@@ -5,9 +5,9 @@ import classNames from 'classnames/bind';
 import heroImage_desktop from '../../assets/images/hero-1920w.jpg';
 import heroImage_tablet from '../../assets/images/hero-1024w.jpg';
 import heroImage_mobile from '../../assets/images/hero-768w.jpg';
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+import trendingGif from '../../assets/images/trending.webm';
+import findGif from '../../assets/images/find.webm';
+import freeGif from '../../assets/images/free.webm';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
