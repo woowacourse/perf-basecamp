@@ -20,7 +20,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -71,7 +71,7 @@ module.exports = {
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
-          implementation: ImageMinimizerPlugin.imageminMinify,
+          implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
             plugins: [
               ['giflossy', { lossy: 200, optimizationLevel: 3 }],
