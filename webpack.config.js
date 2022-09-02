@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -48,10 +49,17 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|jpg|webp|gif)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
+        }
+      },
+      {
+        test: /\.(png)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'static/[name].webp[query]'
         }
       }
     ]
@@ -66,6 +74,18 @@ module.exports = {
         terserOptions: {
           compress: {
             drop_console: true // 콘솔 로그를 지우는 옵션
+          }
+        }
+      }),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 256 }],
+              ['pngquant', { quality: [0.4, 0.6] }],
+              ['webp', { quality: 50, resize: { width: 1280, height: 0 } }]
+            ]
           }
         }
       })
