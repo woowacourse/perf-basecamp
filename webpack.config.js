@@ -2,8 +2,16 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCSSExtractionPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
+const PRODUCTION = 'production';
+const DEVELOPMENT = 'development';
+const mode = process.env.NODE_ENV || DEVELOPMENT;
 
 module.exports = {
+  mode,
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
@@ -28,6 +36,9 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
+    }),
+    new MiniCSSExtractionPlugin({
+      filename: '[name].css'
     }),
     new Dotenv()
   ],
@@ -54,6 +65,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimizer: mode === 'production' ? [new OptimizeCSSAssetsPlugin(), new TerserPlugin()] : []
   }
 };
