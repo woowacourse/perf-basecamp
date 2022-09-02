@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -26,7 +27,8 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new CompressionPlugin()
+    new CompressionPlugin(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -49,8 +51,5 @@ module.exports = {
         }
       }
     ]
-  },
-  optimization: {
-    minimize: false
   }
 };
