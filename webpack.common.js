@@ -43,25 +43,6 @@ module.exports = {
             options: {
               name: 'static/images/[name].[ext]'
             }
-          },
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              mozjpeg: {
-                progressive: true,
-                quality: 75
-              },
-              pngquant: {
-                quality: [0.65, 0.9],
-                speed: 4
-              },
-              gifsicle: {
-                interlaced: false
-              },
-              webp: {
-                quality: 85
-              }
-            }
           }
         ]
       },

@@ -1268,6 +1268,11 @@
     node-gyp "^8.2.0"
     read-package-json-fast "^2.0.1"
 
+"@react-icons/all-files@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@react-icons/all-files/-/all-files-4.1.0.tgz#477284873a0821928224b6fc84c62d2534d6650b"
+  integrity sha512-hxBI2UOuVaI3O/BhQfhtb4kcGn9ft12RWAFVMUeNjqqhLsHvFtzIkFaptBJpFDANTKoDfdVoHTKZDlwKCACbMQ==
+
 "@sindresorhus/is@^0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
@@ -4664,14 +4669,6 @@ gh-got@^5.0.0:
     got "^6.2.0"
     is-plain-obj "^1.1.0"
 
-gif2webp-bin@^3.0.0:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/gif2webp-bin/-/gif2webp-bin-3.0.3.tgz#9bdb43404cc897132921210594218cce9e78d6e9"
-  integrity sha512-ktEQvLEIWpQ340P2q6ge3kLSF08QIf+m4sHLsw6FtCwQLl5AmQL22kLB+MkYOIYPati+CKdtvoPJKhjYtr1M6g==
-  dependencies:
-    bin-build "^3.0.0"
-    bin-wrapper "^4.0.0"
-
 gifsicle@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/gifsicle/-/gifsicle-4.0.1.tgz#30e1e61e3ee4884ef702641b2e98a15c2127b2e2"
@@ -5280,15 +5277,6 @@ image-webpack-loader@^8.1.0:
     imagemin-svgo "^9.0.0"
     imagemin-webp "^7.0.0"
 
-imagemin-gif2webp@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/imagemin-gif2webp/-/imagemin-gif2webp-3.0.0.tgz#7685e45727f667594cc81705211dddc62ae7fdbd"
-  integrity sha512-PxDWmh0z3ecOtp5bO5HatJBb+04KBrp8f7BjARB9fZuvKz5131/VUnoIFZ1umhjYa0JDOgIydfNLiJE91/y6Mw==
-  dependencies:
-    exec-buffer "^3.0.0"
-    gif2webp-bin "^3.0.0"
-    is-gif "^3.0.0"
-
 imagemin-gifsicle@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/imagemin-gifsicle/-/imagemin-gifsicle-6.0.1.tgz#6abad4e95566d52e5a104aba1c24b4f3b48581b3"
@@ -5381,15 +5369,6 @@ imagemin-svgo@^9.0.0:
     is-svg "^4.2.1"
     svgo "^2.1.0"
 
-imagemin-webp-webpack-plugin@^3.3.6:
-  version "3.3.6"
-  resolved "https://registry.yarnpkg.com/imagemin-webp-webpack-plugin/-/imagemin-webp-webpack-plugin-3.3.6.tgz#fd17c0e9058d18ec243a06a3db7ee0f67605fa36"
-  integrity sha512-ZMhnssTCjY7D8NJkINeUn2rArn6t1c6Qihp1LVrUTqtVr2T9TgWghw6lUxx3q+sYqaEZsclbGJQEzbwr7bynHQ==
-  dependencies:
-    imagemin "^7.0.1"
-    imagemin-gif2webp "^3.0.0"
-    imagemin-webp "^6.0.0"
-
 imagemin-webp@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/imagemin-webp/-/imagemin-webp-5.1.0.tgz#ddb1307ad97aff97293c5a600e384e40c07f68a7"
@@ -5398,15 +5377,6 @@ imagemin-webp@^5.1.0:
     cwebp-bin "^5.0.0"
     exec-buffer "^3.0.0"
     is-cwebp-readable "^2.0.1"
-
-imagemin-webp@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/imagemin-webp/-/imagemin-webp-6.0.0.tgz#bb2d77bab818fd6133df9675326497b877e7be4d"
-  integrity sha512-DmVCkI8H1csyqAExsk93LzC88gj2uKXaLLW5Ly+WYsvNx7xv5cJAlozXWIx9Z0kEQr9w98gphi5aP2b++iDH8g==
-  dependencies:
-    cwebp-bin "^5.0.0"
-    exec-buffer "^3.0.0"
-    is-cwebp-readable "^3.0.0"
 
 imagemin-webp@^7.0.0:
   version "7.0.0"
