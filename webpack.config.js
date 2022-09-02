@@ -18,7 +18,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: isProd ? false : 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
