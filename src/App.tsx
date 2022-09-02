@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
+import React from 'react';
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
-import React from 'react';
 import Home from './pages/Home/Home';
 
 const Search = React.lazy(() => import('./pages/Search/Search'));

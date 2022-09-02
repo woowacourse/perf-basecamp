@@ -31,7 +31,9 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new BundleAnalyzerPlugin(),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    }),
     new Dotenv()
   ],
   module: {
