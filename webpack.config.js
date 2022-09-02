@@ -4,6 +4,8 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -26,7 +28,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin()
   ],
   module: {
     rules: [
@@ -39,13 +42,20 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [
+          process.env.NODE_ENV === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader'
+        ]
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(eot|svg|ttf|woff|woff2|jpe?g)$/i,
+        type: 'asset'
+      },
+      {
+        test: /\.(png|gif)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'static/[hash].webp[query]'
         }
       }
     ]
@@ -53,10 +63,22 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
+      '...',
       new UglifyJsPlugin({
         cache: true
       }),
-      new CssMinimizerPlugin()
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 64 }],
+              ['webp', { quality: 50, resize: { width: 1280, height: 700 } }]
+            ]
+          }
+        }
+      })
     ]
   }
 };
