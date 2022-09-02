@@ -30,7 +30,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new MiniCssExtractPlugin({ linkType: false, filename: `css/[name].css` }),
+    new MiniCssExtractPlugin({ linkType: false, filename: `css/[name].[contenthash].css` }),
     new Dotenv()
   ],
   module: {
