@@ -19,7 +19,12 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true
+      },
+      template: './index.html',
+      hash: true
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
