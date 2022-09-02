@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -51,6 +52,7 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true
+    // minimizer: [new CssMinimizerPlugin()] : 오히려 성능이 더 안좋아짐
   }
 };
