@@ -14,6 +14,10 @@ export const SEARCH_STATUS = {
 
 export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
 
+const refetchDuration = 1000 * 60 * 10;
+let statusRef: null | 'LOADING' = null;
+let timerRef: NodeJS.Timeout | null = null;
+
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
@@ -56,7 +60,7 @@ const useGifSearch = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      if (status === SEARCH_STATUS.BEFORE_SEARCH) {
+      if (statusRef !== 'LOADING') {
         const gifs: GifImageModel[] = await gifAPIService.getTrending();
 
         setGifList(gifs);
@@ -64,7 +68,16 @@ const useGifSearch = () => {
     };
     fetch();
 
-    return () => setStatus(SEARCH_STATUS.LOADING);
+    return () => {
+      statusRef = SEARCH_STATUS.LOADING;
+
+      if (timerRef === null) {
+        timerRef = setTimeout(() => {
+          statusRef = null;
+          timerRef = null;
+        }, refetchDuration);
+      }
+    };
   }, []);
 
   return {
