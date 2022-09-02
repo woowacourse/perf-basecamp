@@ -50,7 +50,17 @@ module.exports = {
       {
         test: /\.(png|jpg|jpeg|gif|webp)$/i,
         loader: 'image-webpack-loader',
-        enforce: 'pre'
+        options: {
+          pngquant: {
+            quality: [0.01, 0.01],
+            speed: 4
+          },
+          gifsicle: {
+            interlaced: true,
+            optimizationLevel: 3,
+            colors: 32
+          }
+        }
       }
     ]
   }
