@@ -65,7 +65,7 @@ module.exports = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: ['gifsicle', 'mozjpeg', 'pngquant', 'svgo']
+            plugins: ['gifsicle', 'mozjpeg', 'pngquant']
           }
         },
         loader: false
