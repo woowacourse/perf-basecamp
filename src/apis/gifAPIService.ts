@@ -2,6 +2,7 @@ import { GifsResult, GiphyFetch, SearchOptions, TrendingOptions } from '@giphy/j
 import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
+import { getGifMemoStore, setGifMemoStore } from '../module/memoizationStore';
 
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
@@ -32,8 +33,21 @@ export const gifAPIService = {
       rating: 'g'
     };
 
+    const memoKey = 'trending';
+
     try {
+      const { memoHit, memoData } = getGifMemoStore(memoKey);
+
+      if (memoHit) {
+        return memoData;
+      }
+
       const gifs: GifsResult = await gf.trending(trendingOptions);
+
+      const convertedGifImageModel = convertResponseToModel(gifs.data);
+
+      setGifMemoStore(memoKey, convertedGifImageModel);
+
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
