@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
+  "sideEffects": [
+    "./src/*"
+  ],
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
@@ -50,6 +53,11 @@
     "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
+    "image-minimizer-webpack-plugin": "^3.3.0",
+    "imagemin": "^8.0.1",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-webp": "^7.0.0",
+    "mini-css-extract-plugin": "^2.6.1",
     "prettier": "^2.3.2",
     "style-loader": "^3.2.1",
     "ts-loader": "^9.3.1",
@@ -61,7 +69,12 @@
   },
   "babel": {
     "presets": [
-      "@babel/preset-env",
+      [
+        "@babel/preset-env",
+        {
+          "modules": false
+        }
+      ],
       "@babel/preset-react"
     ],
     "plugins": [
