@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const AggresiveWebpackPlugin = require('webpack/lib/optimize/AggressiveSplittingPlugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -14,7 +15,6 @@ module.exports = {
     clean: true
   },
   devServer: {
-    hot: true,
     open: true,
     historyApiFallback: true
   },
@@ -32,6 +32,10 @@ module.exports = {
       maxSize: 50000, // Byte, maxsize of per file. Default: 51200
       chunkOverhead: 0, // Default: 0
       entryChunkMultiplicator: 1 // Default: 1
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     })
   ],
   module: {
@@ -45,7 +49,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
