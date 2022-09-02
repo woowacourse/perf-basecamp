@@ -49,7 +49,7 @@ export const gifAPIService = {
   searchByKeyword: async function (keyword: string, page: number): Promise<GifImageModel[]> {
     const searchOptions: SearchOptions = {
       limit: DEFAULT_FETCH_COUNT,
-      lang: 'en',
+      lang: 'ko',
       offset: page * DEFAULT_FETCH_COUNT
     };
 
