@@ -5,6 +5,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -34,6 +36,10 @@ module.exports = {
       openAnalyzer: false,
       generateStatsFile: true,
       statsFilename: 'bundle-report.json'
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     })
   ],
   module: {
@@ -46,8 +52,8 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(png|jpg)$/i,
@@ -80,7 +86,8 @@ module.exports = {
           }
         },
         loader: false
-      })
+      }),
+      new CssMinimizerPlugin()
     ]
   }
 };
