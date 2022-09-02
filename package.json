@@ -8,7 +8,7 @@
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve --mode=development",
+    "serve": "webpack serve --mode=production",
     "prettier": "prettier --write .",
     "preanalyze": "npm run build",
     "analyze": "webpack-bundle-analyzer ./dist/bundle-report.json --default-sizes gzip"
@@ -50,14 +50,23 @@
     "eslint-plugin-react": "^7.31.1",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
+    "image-minimizer-webpack-plugin": "^3.3.0",
+    "imagemin": "^8.0.1",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-jpegtran": "^7.0.0",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-optipng": "^8.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "imagemin-svgo": "^10.0.1",
+    "imagemin-webp": "^7.0.0",
     "prettier": "^2.3.2",
     "style-loader": "^3.2.1",
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
     "webpack": "^5.50.0",
+    "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
-    "webpack-bundle-analyzer": "^4.6.1"
+    "webpack-dev-server": "^3.11.2"
   },
   "babel": {
     "presets": [
