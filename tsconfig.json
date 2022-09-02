@@ -8,7 +8,7 @@
     "noUnusedLocals": true,
     "allowJs": true,
     "sourceMap": true,
-    "removeComments": true,
+    "removeComments": false, // webpack chunk naming에 필요, 주석은 webpack에서 제거
     "noEmit": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
