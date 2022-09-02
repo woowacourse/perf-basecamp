@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCSSExtractionPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -26,7 +28,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCSSExtractionPlugin({ filename: '[name].css' })
   ],
   module: {
     rules: [
@@ -39,7 +42,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCSSExtractionPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webp)$/i,
@@ -50,7 +53,6 @@ module.exports = {
       }
     ]
   },
-
   optimization: {
     minimize: true,
     minimizer: [
@@ -60,7 +62,8 @@ module.exports = {
             drop_console: true
           }
         }
-      })
+      }),
+      new OptimizeCSSAssetsPlugin()
     ]
   }
 };
