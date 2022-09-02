@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
@@ -49,6 +51,7 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true,
+    minimizer: [new CssMinimizerPlugin()]
   }
 };
