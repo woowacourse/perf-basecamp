@@ -50,10 +50,17 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(png|jpg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'static/[name].[ext]'
+          filename: 'static/[name].webp[query]'
+        }
+      },
+      {
+        test: /\.(gif)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].ext'
         }
       }
     ]
@@ -65,7 +72,11 @@ module.exports = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: ['gifsicle', 'mozjpeg', 'pngquant']
+            plugins: [
+              'gifsicle',
+              'pngquant',
+              ['webp', { quality: 60, resize: { width: 1600, height: 0 } }]
+            ]
           }
         },
         loader: false

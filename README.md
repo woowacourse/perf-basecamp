@@ -60,6 +60,7 @@ Memegle 프로젝트는 곳곳에 성능을 저하시키는 요소들로 가득�
 
 - [ ] 소스코드 크기 줄이기
 - [ ] 이미지 크기 줄이기
+  - [x] 히어로 이미지 크기 `< 120kb`
 
 도구
 
@@ -110,7 +111,6 @@ Memegle 프로젝트는 곳곳에 성능을 저하시키는 요소들로 가득�
 - [ ] Layout Shift 없이 애니메이션이 일어나야 한다.
 - [ ] Frame Drop이 일어나지 않아야 한다.
   - (Chrome DevTools 기준) Partially Presented Frame 역시 최소로 발생해야 한다.
-
 
 도구
 
