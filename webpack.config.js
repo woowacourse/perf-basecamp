@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const AggresiveWebpackPlugin = require('webpack/lib/optimize/AggressiveSplittingPlugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -60,5 +61,7 @@ module.exports = {
       }
     ]
   },
-  optimization: {}
+  optimization: {
+    minimizer: [`...`, new CssMinimizerPlugin()]
+  }
 };
