@@ -1,12 +1,11 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import Home from './pages/Home/Home';
-
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
 const Search = React.lazy(() => import('./pages/Search/Search'));
+const Home = React.lazy(() => import('./pages/Home/Home'));
 
 import './App.css';
 
