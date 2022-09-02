@@ -1,5 +1,8 @@
 {
   "name": "frontend-performance-basecamp",
+  "sideEffects": [
+    "*.css"
+  ],
   "version": "0.0.0",
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
@@ -55,6 +58,7 @@
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
     "webpack": "^5.74.0",
+    "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^3.11.3"
   },
