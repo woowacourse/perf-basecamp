@@ -35,7 +35,6 @@
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@webpack-cli/generators": "^2.2.0",
     "babel-loader": "^8.2.2",
-    "imagemin-webp": "^7.0.0",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
     "css-minimizer-webpack-plugin": "^4.0.0",
@@ -55,6 +54,7 @@
     "imagemin": "^8.0.1",
     "imagemin-gifsicle": "^7.0.0",
     "imagemin-pngquant": "^9.0.2",
+    "imagemin-webp": "^7.0.0",
     "mini-css-extract-plugin": "^2.6.1",
     "prettier": "^2.3.2",
     "style-loader": "^3.2.1",
@@ -68,12 +68,16 @@
   "babel": {
     "presets": [
       [
-        "@babel/preset-env"
+        "@babel/preset-env",
+        {
+          "modules": false
+        }
       ],
       "@babel/preset-react"
     ],
     "plugins": [
       "@babel/plugin-transform-runtime"
     ]
-  }
+  },
+  "sideEffects": false
 }
