@@ -31,7 +31,11 @@ module.exports = {
       algorithm: 'gzip',
       test: /\.js$/
     }),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin({
+      openAnalyzer: false,
+      analyzerMode: 'static',
+      reportFilename: 'build-report.html'
+    })
   ],
   module: {
     rules: [
@@ -47,15 +51,25 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        test: /\.(eot|ttf|woff|woff2|gif|png|jpe?g|webp|git|svg|)$/i,
+        use: [
+          {
+            loader: 'img-optimize-loader',
+            options: {
+              compress: {
+                webp: {
+                  quality: 30
+                }
+              },
+              name: 'static/[name].[ext]'
+            }
+          }
+        ]
       }
     ]
   },
   optimization: {
+    minimize: true,
     splitChunks: {
       chunks: 'all'
     }
