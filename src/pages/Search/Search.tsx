@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { KeyboardEvent } from 'react';
 import useGifSearch from './hooks/useGifSearch';
 
@@ -9,7 +7,7 @@ import HelpPanel from './components/HelpPanel/HelpPanel';
 
 import styles from './Search.module.css';
 
-const Search = React.memo(() => {
+const Search = () => {
   const { status, searchKeyword, gifList, searchByKeyword, updateSearchKeyword, loadMore } =
     useGifSearch();
 
@@ -33,6 +31,6 @@ const Search = React.memo(() => {
       <HelpPanel />
     </div>
   );
-});
+};
 
 export default Search;
