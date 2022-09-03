@@ -57,10 +57,7 @@ module.exports = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: [
-              ['gifsicle', { interlaced: true, colors: 60, optimizationLevel: 3 }],
-              ['webp', { quality: 50, resize: { width: 1920, height: 0 } }]
-            ]
+            plugins: [['webp', { quality: 50, resize: { width: 1920, height: 0 } }]]
           }
         }
       })
