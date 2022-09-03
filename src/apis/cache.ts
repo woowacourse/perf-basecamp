@@ -6,11 +6,6 @@ class APICache<T> {
   }
 
   set(key: string, newItems: T[]) {
-    if (this.cache.has(key)) {
-      const oldItems = this.cache.get(key) ?? [];
-      this.cache.set(key, [...oldItems, ...newItems]);
-      return;
-    }
     this.cache.set(key, newItems);
   }
 
