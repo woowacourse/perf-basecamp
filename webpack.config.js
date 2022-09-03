@@ -10,7 +10,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].[chunkhash]',
+    filename: '[name].[chunkhash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -19,13 +19,10 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true
-      },
+      minify: true,
       template: './index.html'
     }),
     new MiniCSSExtractionPlugin({
