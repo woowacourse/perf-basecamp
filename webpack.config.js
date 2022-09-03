@@ -3,13 +3,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCSSExtractionPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[chunkhash]',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -59,6 +60,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };
