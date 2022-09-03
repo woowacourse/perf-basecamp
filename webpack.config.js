@@ -4,7 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
@@ -13,7 +13,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -22,7 +22,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -32,7 +32,7 @@ module.exports = {
     }),
     new Dotenv(),
     new BundleAnalyzerPlugin(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({ filename: `style/[name].css` })
   ],
   module: {
     rules: [
@@ -52,10 +52,17 @@ module.exports = {
         type: 'asset'
       },
       {
-        test: /\.(png|gif)$/i,
+        test: /\.(png)$/i,
         type: 'asset',
         generator: {
           filename: 'static/[hash].webp[query]'
+        }
+      },
+      {
+        test: /\.(gif)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'static/[hash].mp4[query]'
         }
       }
     ]
@@ -64,8 +71,8 @@ module.exports = {
     minimize: true,
     minimizer: [
       '...',
-      new UglifyJsPlugin({
-        cache: true
+      new TerserPlugin({
+        parallel: true
       }),
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
