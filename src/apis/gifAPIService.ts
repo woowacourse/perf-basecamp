@@ -3,21 +3,13 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 
-import APICache from './cache';
+import cache from './cache';
 
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
 
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
-
-interface SearchResultCache {
-  lastPage: number;
-  data: GifImageModel[];
-}
-
-const trendingsCache = new APICache<GifImageModel[]>();
-const searchResultCache = new APICache<SearchResultCache>();
 
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
@@ -39,13 +31,10 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      if (trendingsCache.has(TRENDING_GIF_API)) return trendingsCache.get(TRENDING_GIF_API);
-
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      const parsedResponseData = convertResponseToModel(gifs.data);
-
-      trendingsCache.set(TRENDING_GIF_API, parsedResponseData);
-      return parsedResponseData;
+      return await cache<GifImageModel[]>('trendings', async () => {
+        const gifs = await fetch(TRENDING_GIF_API).then((res) => res.json());
+        return convertResponseToModel(gifs.data);
+      });
     } catch (e) {
       return [];
     }
@@ -65,18 +54,8 @@ export const gifAPIService = {
     };
 
     try {
-      if (searchResultCache.has(keyword)) {
-        const { lastPage, data } = searchResultCache.get(keyword);
-        if (page === lastPage) return data;
-      }
       const gifs: GifsResult = await gf.search(keyword, searchOptions);
-      const parsedResponseData = convertResponseToModel(gifs.data);
-
-      searchResultCache.set(keyword, {
-        lastPage: page,
-        data: parsedResponseData
-      });
-      return parsedResponseData;
+      return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
     }

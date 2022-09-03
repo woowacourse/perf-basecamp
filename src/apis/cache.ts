@@ -1,17 +1,11 @@
-class APICache<T> {
-  cache = new Map<string, T>();
+const cacheStorage = new Map<string, unknown>();
 
-  get(key: string): T {
-    return this.cache.get(key) as T;
-  }
+const cache = async <T>(key: string, apiRequestCallback: () => Promise<T>): Promise<T> => {
+  if (cacheStorage.has(key)) return cacheStorage.get(key) as T;
 
-  set(key: string, newItems: T) {
-    this.cache.set(key, newItems);
-  }
+  const response = await apiRequestCallback();
+  cacheStorage.set(key, response);
+  return response;
+};
 
-  has(key: string): boolean {
-    return this.cache.has(key);
-  }
-}
-
-export default APICache;
+export default cache;
