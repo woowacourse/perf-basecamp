@@ -116,6 +116,11 @@ Memegle 프로젝트는 곳곳에 성능을 저하시키는 요소들로 가득�
 - [x] 검색 결과 > 추가 로드시 추가된 목록만 새로 렌더되어야 한다.
   - [x] 바뀐 props값이 전달되지 않음에도 불필요한 재랜더링을 하고 있는 컴포넌트에 React.memo 적용
 - [ ] Layout Shift 없이 애니메이션이 일어나야 한다.
+
+  - [x] CustomCursor
+  - [x] 검색결과 hover했을 때
+  - [x] 도움말 패널 애니메이션
+
 - [ ] Frame Drop이 일어나지 않아야 한다.
   - (Chrome DevTools 기준) Partially Presented Frame 역시 최소로 발생해야 한다.
 
