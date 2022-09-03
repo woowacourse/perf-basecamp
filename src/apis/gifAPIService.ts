@@ -2,12 +2,14 @@ import { GifsResult, GiphyFetch, SearchOptions } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
+import { cacheData, getCachedData } from '../storage/cacheStorage';
 
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
 
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
+const TRENDING_CACHE_NAME = 'getTrendingData';
 
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
@@ -29,8 +31,15 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      let cachedData = await getCachedData(TRENDING_CACHE_NAME, TRENDING_GIF_API);
+      if (cachedData) {
+        return convertResponseToModel(cachedData.data);
+      }
+
+      await cacheData(TRENDING_CACHE_NAME, TRENDING_GIF_API);
+
+      cachedData = await getCachedData(TRENDING_CACHE_NAME, TRENDING_GIF_API);
+      return convertResponseToModel(cachedData.data);
     } catch (e) {
       return [];
     }
