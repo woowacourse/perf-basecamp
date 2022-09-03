@@ -4,6 +4,8 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -35,7 +37,8 @@ module.exports = {
       openAnalyzer: false,
       analyzerMode: 'static',
       reportFilename: 'build-report.html'
-    })
+    }),
+    new MiniCssExtractPlugin()
   ],
   module: {
     rules: [
@@ -48,7 +51,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|ttf|woff|woff2|gif|png|jpe?g|webp|git|svg|)$/i,
@@ -72,6 +75,7 @@ module.exports = {
     minimize: true,
     splitChunks: {
       chunks: 'all'
-    }
+    },
+    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };
