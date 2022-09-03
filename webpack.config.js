@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -60,6 +61,17 @@ module.exports = {
             plugins: [['webp', { quality: 50, resize: { width: 1920, height: 0 } }]]
           }
         }
+      }),
+      new TerserPlugin({
+        terserOptions: {
+          format: {
+            comments: false
+          },
+          compress: {
+            drop_console: true // TODO: production 모드일때만 하도록 만들기
+          }
+        },
+        extractComments: false
       })
     ]
   }
