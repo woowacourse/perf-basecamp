@@ -60,12 +60,8 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(png|gif)$/i,
-        type: 'asset',
-
-        generator: {
-          filename: 'static/[contenthash].webp[query]'
-        }
+        test: /\.(jpeg|gif)$/i,
+        type: 'asset'
       }
     ]
   },
@@ -79,8 +75,7 @@ module.exports = {
           options: {
             plugins: [
               ['giflossy', { interlaced: true, optimizationLevel: 3, color: 200, lossy: 60 }],
-              ['pngquant', { quality: [0.4, 0.6] }],
-              ['webp', { quality: 60, resize: { width: 1200, height: 0 } }]
+              ['mozjpeg', { progressive: true, quality: 60 }]
             ]
           }
         }
