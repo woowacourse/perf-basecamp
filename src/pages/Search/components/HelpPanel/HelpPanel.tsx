@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
 import classNames from 'classnames/bind';
 
@@ -57,4 +57,4 @@ const HelpPanel = () => {
   );
 };
 
-export default HelpPanel;
+export default memo(HelpPanel);
