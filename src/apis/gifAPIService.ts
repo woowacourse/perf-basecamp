@@ -27,7 +27,6 @@ export const gifAPIService = {
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
-
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
       const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
@@ -36,6 +35,7 @@ export const gifAPIService = {
       return [];
     }
   },
+
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
