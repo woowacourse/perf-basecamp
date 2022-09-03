@@ -12,10 +12,10 @@ type GetCacheDataResult<T> =
 
 class MemoryCache<T> {
   private data: T | UnInitialized = null;
-  private staledTime = 86400; // 1 day
+  private staledTime = 0; // 1 day
   private cacheTime = 0;
 
-  constructor(data: T | UnInitialized, staledTime: number) {
+  constructor(data: T | UnInitialized, staledTime = 86400) {
     this.data = data;
     this.staledTime = staledTime;
     this.cacheTime = getCurrentTimeInSeconds();

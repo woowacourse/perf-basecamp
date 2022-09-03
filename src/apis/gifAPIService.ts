@@ -1,4 +1,4 @@
-import { GifsResult, GiphyFetch, SearchOptions, TrendingOptions } from '@giphy/js-fetch-api';
+import { GifsResult, GiphyFetch, SearchOptions } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
@@ -29,7 +29,7 @@ type GifApiService = {
 };
 
 export const gifAPIService: GifApiService = {
-  cacheManager: new MemoryCache<GifImageModel[]>(null, 10),
+  cacheManager: new MemoryCache<GifImageModel[]>(null),
 
   /**
    * treding gif 목록을 가져옵니다.
