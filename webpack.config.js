@@ -5,8 +5,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCSSExtractionPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
-const PRODUCTION = 'production';
 const DEVELOPMENT = 'development';
 const mode = process.env.NODE_ENV || DEVELOPMENT;
 
@@ -70,6 +70,21 @@ module.exports = {
     ]
   },
   optimization: {
-    minimizer: mode === 'production' ? [new OptimizeCSSAssetsPlugin(), new TerserPlugin()] : []
+    minimizer: [
+      new OptimizeCSSAssetsPlugin(),
+      new TerserPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['gifsicle', { interlaced: true, optimizationLevel: 3 }],
+              ['pngquant', { quality: [0.6, 0.8] }],
+              ['webp', { quality: 40, resize: { width: 1920, height: 0 } }]
+            ]
+          }
+        }
+      })
+    ]
   }
 };
