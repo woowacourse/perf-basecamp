@@ -6,3 +6,10 @@
 
 # build
 /dist
+
+# mac metadata
+.DS_Store
+
+# logs
+*.log
+
