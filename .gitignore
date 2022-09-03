@@ -13,3 +13,5 @@
 # logs
 *.log
 
+# bundle stats
+compilation-stats.json
