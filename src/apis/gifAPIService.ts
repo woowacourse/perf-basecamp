@@ -3,11 +3,15 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 
+import APICache from './cache';
+
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
 
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
+
+const trendingsCache = new APICache<GifImageModel>();
 
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
@@ -29,8 +33,13 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
+      if (trendingsCache.has(TRENDING_GIF_API)) return trendingsCache.get(TRENDING_GIF_API);
+
       const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      const parsedResponseData = convertResponseToModel(gifs.data);
+
+      trendingsCache.set(TRENDING_GIF_API, parsedResponseData);
+      return parsedResponseData;
     } catch (e) {
       return [];
     }
