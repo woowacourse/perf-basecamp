@@ -8,10 +8,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
-  entry: './src/index.tsx',
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+  mode: isDevelopment ? 'development' : 'production',
+  entry: {
+    index: './src/index.tsx'
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -20,7 +25,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -56,8 +61,5 @@ module.exports = {
         }
       }
     ]
-  },
-  optimization: {
-    minimize: false
   }
 };
