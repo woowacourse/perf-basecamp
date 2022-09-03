@@ -47,15 +47,8 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|webp|png|gif)$/i,
         type: 'asset'
-      },
-      {
-        test: /\.(png|gif)$/i,
-        type: 'asset',
-        generator: {
-          filename: 'static/[hash].webp[query]'
-        }
       }
     ]
   },
