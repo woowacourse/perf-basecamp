@@ -43,9 +43,9 @@ module.exports = {
       },
       {
         test: /\.(png|gif)$/i,
-        type: 'asset',
+        type: 'asset/resource',
         generator: {
-          filename: 'static/[hash][ext].webp'
+          filename: 'static/[name].webp'
         }
       }
     ]
@@ -58,7 +58,18 @@ module.exports = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: [['webp', { quality: 50 }]]
+            plugins: [
+              [
+                'webp',
+                {
+                  quality: 60,
+                  resize: {
+                    width: 1600,
+                    height: 0
+                  }
+                }
+              ]
+            ]
           }
         }
       })
