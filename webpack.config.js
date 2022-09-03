@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -42,7 +43,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -51,6 +52,20 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: isProd ? true : false
+    minimize: isProd ? true : false,
+    minimizer: [
+      '...',
+      new ImageMinimizerPlugin({
+        deleteOriginalAssets: false,
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['webp', { preset: 'photo', quality: 40, resize: { width: 1920, height: 1280 } }]
+            ]
+          }
+        }
+      })
+    ]
   }
 };
