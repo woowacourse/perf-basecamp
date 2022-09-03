@@ -2,10 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const MiniCSSExtractionPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 const TerserPlugin = require('terser-webpack-plugin');
+
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const DEVELOPMENT = 'development';
 const mode = process.env.NODE_ENV || DEVELOPMENT;
@@ -40,6 +45,7 @@ module.exports = {
     new MiniCSSExtractionPlugin({
       filename: '[name].css'
     }),
+    new BundleAnalyzerPlugin(),
     new Dotenv()
   ],
   module: {
