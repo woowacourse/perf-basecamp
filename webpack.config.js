@@ -9,7 +9,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -54,5 +54,10 @@ module.exports = {
         }
       }
     ]
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
   }
 };
