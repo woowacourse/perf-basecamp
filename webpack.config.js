@@ -28,7 +28,17 @@ module.exports = {
       minify: true
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
+      patterns: [
+        { from: './public', to: './public' },
+        {
+          from: './node_modules/loading-attribute-polyfill/dist/loading-attribute-polyfill.css',
+          to: 'loading-attribute-polyfill.css'
+        },
+        {
+          from: './node_modules/loading-attribute-polyfill/dist/loading-attribute-polyfill.umd.js',
+          to: 'loading-attribute-polyfill.js'
+        }
+      ]
     }),
     new BundleAnalyzerPlugin(),
     new MiniCssExtractPlugin({
