@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -40,7 +41,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|gif)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -49,6 +50,20 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true,
+    minimizer: [
+      new ImageMinimizerPlugin({
+        deleteOriginalAssets: false,
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['gifsicle', { interlaced: true, colors: 60, optimizationLevel: 3 }],
+              ['webp', { quality: 50, resize: { width: 1920, height: 0 } }]
+            ]
+          }
+        }
+      })
+    ]
   }
 };
