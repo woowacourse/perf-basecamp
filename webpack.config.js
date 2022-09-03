@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -28,7 +29,8 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new MiniCssExtractPlugin({ linkType: false, filename: '[name].[contenthash].css' }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
