@@ -11,7 +11,13 @@ const gf = new GiphyFetch(apiKey);
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
 
-const trendingsCache = new APICache<GifImageModel>();
+interface SearchResultCache {
+  lastPage: number;
+  data: GifImageModel[];
+}
+
+const trendingsCache = new APICache<GifImageModel[]>();
+const searchResultCache = new APICache<SearchResultCache>();
 
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
@@ -59,8 +65,18 @@ export const gifAPIService = {
     };
 
     try {
+      if (searchResultCache.has(keyword)) {
+        const { lastPage, data } = searchResultCache.get(keyword);
+        if (page === lastPage) return data;
+      }
       const gifs: GifsResult = await gf.search(keyword, searchOptions);
-      return convertResponseToModel(gifs.data);
+      const parsedResponseData = convertResponseToModel(gifs.data);
+
+      searchResultCache.set(keyword, {
+        lastPage: page,
+        data: parsedResponseData
+      });
+      return parsedResponseData;
     } catch (e) {
       return [];
     }

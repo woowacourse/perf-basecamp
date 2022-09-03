@@ -1,11 +1,11 @@
 class APICache<T> {
-  cache = new Map<string, T[]>();
+  cache = new Map<string, T>();
 
-  get(key: string): T[] {
-    return this.cache.get(key) ?? [];
+  get(key: string): T {
+    return this.cache.get(key) as T;
   }
 
-  set(key: string, newItems: T[]) {
+  set(key: string, newItems: T) {
     this.cache.set(key, newItems);
   }
 
