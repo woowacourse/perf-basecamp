@@ -60,11 +60,17 @@ const useGifSearch = () => {
         const gifs: GifImageModel[] = await gifAPIService.getTrending();
 
         setGifList(gifs);
+        sessionStorage.setItem('trendingAPICache', JSON.stringify(gifs));
       }
     };
-    fetch();
 
-    return () => setStatus(SEARCH_STATUS.LOADING);
+    const trendCache = sessionStorage.getItem('trendingAPICache');
+
+    if (!trendCache) {
+      fetch();
+      return () => setStatus(SEARCH_STATUS.LOADING);
+    }
+    setGifList(JSON.parse(trendCache));
   }, []);
 
   return {
