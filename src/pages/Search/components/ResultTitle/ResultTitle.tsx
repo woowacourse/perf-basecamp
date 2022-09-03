@@ -1,4 +1,4 @@
-import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
+import { SearchStatus, SEARCH_STATUS } from '../../../../context/Gif';
 
 import styles from './ResultTitle.module.css';
 
