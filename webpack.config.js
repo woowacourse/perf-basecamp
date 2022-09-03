@@ -13,7 +13,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].js',
+    filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -31,8 +31,8 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin(),
-    new MiniCssExtractPlugin({ filename: `style/[name].css` })
+    // new BundleAnalyzerPlugin(),
+    new MiniCssExtractPlugin({ filename: 'style/[name].css' })
   ],
   module: {
     rules: [
@@ -48,21 +48,17 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|jpe?g)$/i,
-        type: 'asset'
+        test: /\.(eot|svg|ttf|woff|woff2|jpe?g|gif)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'static/[name][ext]'
+        }
       },
       {
         test: /\.(png)$/i,
         type: 'asset',
         generator: {
-          filename: 'static/[hash].webp[query]'
-        }
-      },
-      {
-        test: /\.(gif)$/i,
-        type: 'asset',
-        generator: {
-          filename: 'static/[hash].mp4[query]'
+          filename: 'static/[name].webp'
         }
       }
     ]
