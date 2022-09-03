@@ -70,10 +70,6 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
-      '...',
-      new TerserPlugin({
-        parallel: true
-      }),
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
@@ -85,6 +81,15 @@ module.exports = {
             ]
           }
         }
+      }),
+      new TerserPlugin({
+        extractComments: false,
+        terserOptions: {
+          format: {
+            comments: false
+          }
+        },
+        parallel: true
       })
     ]
   }
