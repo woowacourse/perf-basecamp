@@ -4,11 +4,13 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
+  devtool: isDevelopment ? 'inline-source-map' : 'hidden-source-map',
   entry: {
     index: './src/index.tsx'
   },
@@ -64,5 +66,8 @@ module.exports = {
         }
       }
     ]
+  },
+  optimization: {
+    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };
