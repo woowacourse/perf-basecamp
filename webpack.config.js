@@ -75,7 +75,6 @@ module.exports = {
           options: {
             plugins: [
               ['giflossy', { lossy: 200, optimizationLevel: 3 }],
-              ['pngquant', { quality: [0.1, 0.1] }],
               ['webp', { quality: 50, resize: { width: 1680, height: 0 } }]
             ]
           }
