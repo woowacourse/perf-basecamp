@@ -11,8 +11,8 @@ module.exports = {
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: '[chunkhash].js',
-    chunkFilename: '[chunkhash].js',
+    filename: '[name]-[chunkhash].js',
+    chunkFilename: '[name]-[chunkhash].js',
     clean: true
   },
   devServer: {
@@ -27,13 +27,6 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new AggresiveWebpackPlugin({
-      // https://webpack-v3.jsx.app/plugins/aggressive-splitting-plugin/
-      minSize: 30000, // Byte, split point. Default: 30720
-      maxSize: 50000, // Byte, maxsize of per file. Default: 51200
-      chunkOverhead: 0, // Default: 0
-      entryChunkMultiplicator: 1 // Default: 1
-    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'
