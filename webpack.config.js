@@ -46,7 +46,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(mp4|webp)$/i,
+        test: /\.(mp4|jpeg)$/i,
         type: 'asset',
         generator: {
           filename: 'static/[name].[hash][ext][query]'
@@ -61,9 +61,9 @@ module.exports = {
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
-          implementation: ImageMinimizerPlugin.imageminMinify,
+          implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: [['webp', { quality: 50, resize: { width: 1200, height: 0 } }]]
+            plugins: [['mozjpeg', { quality: 75 }]]
           }
         }
       })
