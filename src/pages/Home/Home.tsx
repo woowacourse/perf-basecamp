@@ -2,9 +2,9 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import trendingVideo from '../../assets/images/trending.webm';
-import findVideo from '../../assets/images/find.webm';
-import freeVideo from '../../assets/images/free.webm';
+import trendingVideo from '/public/assets/images/trending.webm';
+import findVideo from '/public/assets/images/find.webm';
+import freeVideo from '/public/assets/images/free.webm';
 
 import Picture from '../../components/@common/Picture';
 
