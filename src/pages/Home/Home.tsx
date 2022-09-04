@@ -32,7 +32,7 @@ const Home = () => {
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
-          <h3 className={styles.subtitle}>gif search engine for you</h3>
+          <h2 className={styles.subtitle}>gif search engine for you</h2>
         </div>
         <Link to="/search">
           <button className={classNames(styles.cta, styles.linkButton)}>start search</button>
@@ -41,7 +41,7 @@ const Home = () => {
       <section ref={wrapperRef} className={styles.featureSection}>
         <AnimatedPath wrapperRef={wrapperRef} />
         <div className={styles.featureSectionWrapper}>
-          <h2 className={styles.featureTitle}>Features</h2>
+          <h3 className={styles.featureTitle}>Features</h3>
           <div className={styles.featureItemContainer}>
             <FeatureItem title="See trending video" webmSrc={trendingWebm} mp4Src={trendingMp4} />
             <FeatureItem title="Find video for free" webmSrc={findWebm} mp4Src={findMp4} />
