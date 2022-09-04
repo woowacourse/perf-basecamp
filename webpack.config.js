@@ -24,7 +24,10 @@ module.exports = {
       template: './index.html'
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
+      patterns: [
+        { from: './public', to: './public' },
+        { from: './src/assets/fonts', to: './static' }
+      ]
     }),
     new Dotenv(),
     new MiniCssExtractPlugin({
@@ -46,7 +49,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(svg|woff2|png|jpg|gif)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
