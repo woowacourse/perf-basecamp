@@ -18,15 +18,6 @@ module.exports = {
     historyApiFallback: true
   },
   devtool: 'source-map',
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
-    }),
-    new Dotenv()
-  ],
   module: {
     rules: [
       {
@@ -49,6 +40,15 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: './public', to: './public' }]
+    }),
+    new Dotenv()
+  ],
   optimization: {
     minimize: false
   }
