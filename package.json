@@ -1,6 +1,9 @@
 {
   "name": "frontend-performance-basecamp",
   "version": "0.0.0",
+  "sideEffects": [
+    "*.css"
+  ],
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
   "scripts": {
@@ -62,7 +65,12 @@
   },
   "babel": {
     "presets": [
-      "@babel/preset-env",
+      [
+        "@babel/preset-env",
+        {
+          "modules": false
+        }
+      ],
       "@babel/preset-react"
     ],
     "plugins": [
