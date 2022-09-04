@@ -58,9 +58,8 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|webp)$/i,
         loader: 'image-webpack-loader',
         options: {
-          pngquant: {
-            quality: [0.01, 0.01],
-            speed: 4
+          mozjpeg: {
+            quality: 40
           },
           gifsicle: {
             interlaced: true,
