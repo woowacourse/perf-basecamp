@@ -23,11 +23,11 @@
 
 - [ ] 소스코드 크기 줄이기
 - [ ] 이미지 크기 줄이기
-  - ImageMinimizerPlugin를 사용해서
+  - ImageMinimizerPlugin를 사용
 
 ### 필요한 것만 요청하기
 
-- [ ] 페이지별 리소스 분리
+- [x] 페이지별 리소스 분리
 - [ ] 아이콘 패키지 Tree Shaking
 
 ### 같은 건 매번 새로 요청하지 않기
