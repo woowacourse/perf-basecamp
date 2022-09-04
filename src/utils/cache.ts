@@ -1,6 +1,6 @@
 const cacheStorage: Record<string, unknown> = {};
 
-export const cache = async <T>(key: string, fetch: () => T): Promise<T> => {
+export const cache = async <T>(key: string, fetch: () => Promise<T>): Promise<T> => {
   if (cacheStorage[key]) {
     return cacheStorage[key] as T;
   }
