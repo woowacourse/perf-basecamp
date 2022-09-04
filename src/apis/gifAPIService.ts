@@ -3,6 +3,12 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 
+type GifAPIService = {
+  cachedTrendingGifs: IGif[];
+  getTrending: () => Promise<GifImageModel[]>;
+  searchByKeyword: (keyword: string, page: number) => Promise<GifImageModel[]>;
+};
+
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
 
@@ -21,16 +27,24 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   });
 }
 
-export const gifAPIService = {
+export const gifAPIService: GifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
+
+  cachedTrendingGifs: [],
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      if (this.cachedTrendingGifs.length === 0) {
+        const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+
+        this.cachedTrendingGifs = gifs.data;
+
+        return convertResponseToModel(gifs.data);
+      }
+      return convertResponseToModel(this.cachedTrendingGifs);
     } catch (e) {
       return [];
     }
