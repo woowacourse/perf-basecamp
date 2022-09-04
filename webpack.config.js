@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -30,7 +31,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
@@ -45,6 +46,9 @@ module.exports = {
     new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
       template: './index.html'
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'default.css'
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
