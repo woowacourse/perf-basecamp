@@ -30,8 +30,8 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
+      filename: '[name]-[chunkhash].css',
+      chunkFilename: '[name]-[chunkhash].css'
     })
   ],
   module: {
@@ -48,10 +48,10 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(svg|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(svg|woff2|png|jpg|gif|webp)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name][ext]'
         }
       }
     ]
