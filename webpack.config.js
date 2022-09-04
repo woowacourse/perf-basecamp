@@ -29,7 +29,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       minify: {
@@ -59,23 +59,26 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCSSExtractionPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(ttf|woff|woff2|gif)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'static/[name]-[hash][ext]'
         }
       },
       {
-        test: /\.(png|jpg|jpeg|gif|webp)$/i,
-        loader: 'image-webpack-loader',
-        enforce: 'pre'
+        test: /\.(jpe?g|png)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'static/[name]-[hash].webp'
+        }
       }
     ]
   },
   optimization: {
+    minimize: true,
     minimizer: [
       new OptimizeCSSAssetsPlugin(),
       new TerserPlugin(),
