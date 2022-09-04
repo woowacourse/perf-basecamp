@@ -9,6 +9,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const imageMinimizerJpegGenerate = require('./src/modules/imageMinimizerJpegGenerate');
+
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
@@ -31,7 +33,8 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new MiniCssExtractPlugin({ linkType: false, filename: `css/[name].[contenthash].css` }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -61,7 +64,7 @@ module.exports = {
         type: 'asset'
       },
       {
-        test: /\.(png|jp[e]?g)$/i,
+        test: /\.(png)$/i,
         type: 'asset',
 
         generator: {
@@ -69,7 +72,7 @@ module.exports = {
         }
       },
       {
-        test: /\.gif$/i,
+        test: /\.(gif|jp[e]?g)$/i,
         type: 'asset',
 
         generator: {
@@ -91,10 +94,23 @@ module.exports = {
             plugins: [
               ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 64 }],
               ['pngquant', { speed: 3, strip: true, quality: [0.1, 0.3], dithering: 0.1 }],
-              ['webp', { quality: 50, resize: { width: 1280, height: 0 } }]
+              ['mozjpeg', { quality: 75 }]
             ]
           }
-        }
+        },
+        generator: [
+          {
+            preset: 'webp',
+            implementation: ImageMinimizerPlugin.imageminGenerate,
+            options: {
+              plugins: [['webp', { quality: 50, resize: { width: 1280, height: 0 } }]]
+            }
+          },
+          {
+            preset: 'jpeg',
+            implementation: imageMinimizerJpegGenerate({ quality: 65, resize: { width: 1280 } })
+          }
+        ]
       })
     ]
   }
