@@ -71,7 +71,7 @@ module.exports = {
           {
             loader: 'webpack-image-resize-loader',
             options: {
-              width: 2560
+              width: 1920
             }
           }
         ]
