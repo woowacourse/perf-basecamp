@@ -9,8 +9,7 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development --node-env=development",
-    "prettier": "prettier --write .",
-    "analyze": "webpack-bundle-analyzer ./dist/bundle-report.json --default-sizes gzip"
+    "prettier": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -60,7 +59,6 @@
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
     "webpack": "^5.50.0",
-    "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
