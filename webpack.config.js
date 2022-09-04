@@ -6,13 +6,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const os = require('os');
 const TerserPlugin = require('terser-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -34,13 +33,7 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin(),
-    new CompressionPlugin({
-      algorithm: 'gzip',
-      test: /\.(js|html)$/,
-      threshold: 10240,
-      minRatio: 0.8
-    })
+    new MiniCssExtractPlugin()
   ],
   module: {
     rules: [
@@ -56,7 +49,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
