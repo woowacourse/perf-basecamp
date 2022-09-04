@@ -11,6 +11,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 // 웹팩 번들 분석 플러그인
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// gzip 압축
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const isDevMode = process.env.NODE_ENV === 'development';
 
@@ -18,7 +20,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: '[name].[contenthash:8].js',
+    chunkFilename: '[name].[contenthash:8].js',
     path: path.join(__dirname, '/dist'),
     clean: true,
     publicPath: '/'
@@ -45,6 +48,10 @@ module.exports = {
       openAnalyzer: false,
       generateStatsFile: true,
       statsFilename: 'bundle-report.json'
+    }),
+    new CompressionPlugin({
+      threshold: 10240,
+      minRatio: 0.8
     })
   ],
   module: {
@@ -74,7 +81,7 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[contenthash:8].[ext]'
         }
       }
     ]
