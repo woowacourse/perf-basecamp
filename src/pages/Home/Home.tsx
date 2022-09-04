@@ -29,7 +29,6 @@ const Home = () => {
         <picture className={styles.heroImage}>
           <source
             type="image/webp"
-            src={heroDesktop}
             srcSet={`${heroDesktop} 1920w, ${heroTablet} 1280w, ${heroMobile} 767w`}
           ></source>
           <img className={styles.heroImage} src={heroDefault} alt="hero image" />
