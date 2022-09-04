@@ -1,5 +1,5 @@
 .searchContainer {
-  background: #131313;
+  background: var(--black);
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -9,5 +9,5 @@
 .searchIcon {
   width: 2rem;
   height: 2rem;
-  color: #ffffff;
+  color: var(--white);
 }
