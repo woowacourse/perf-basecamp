@@ -20,11 +20,6 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <HeroImage />
-        <img
-          srcSet={`
-          
-        `}
-        ></img>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
