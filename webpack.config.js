@@ -53,11 +53,28 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|avif|webp|png|jpg|gif|mp4)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
         }
+      },
+      {
+        test: /\.(avif|webp|png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'static/[name].[ext]'
+            }
+          },
+          {
+            loader: 'webpack-image-resize-loader',
+            options: {
+              width: 2560
+            }
+          }
+        ]
       }
     ]
   },

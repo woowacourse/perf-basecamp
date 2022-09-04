@@ -63,7 +63,8 @@
     "webpack": "^5.50.0",
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-image-resize-loader": "^5.0.0"
   },
   "babel": {
     "presets": [
