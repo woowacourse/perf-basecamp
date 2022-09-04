@@ -53,7 +53,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|avif|webp|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|avif|webp|png|jpg|gif|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
