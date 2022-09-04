@@ -24,7 +24,6 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   };
 
   useEffect(() => {
-    console.log('useEffect is called');
     window.addEventListener('mousemove', updateCursorPosition);
     return () => window.removeEventListener('mousemove', updateCursorPosition);
   }, [cursorRef.current, updateCursorPosition]);
