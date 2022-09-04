@@ -2,12 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -17,15 +20,6 @@ module.exports = {
     historyApiFallback: true
   },
   devtool: 'source-map',
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
-    }),
-    new Dotenv()
-  ],
   module: {
     rules: [
       {
@@ -40,15 +34,25 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(jpg|gif|webp|webm|eot)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[contenthash].[ext]'
         }
       }
     ]
   },
-  optimization: {
-    minimize: false
-  }
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: './public', to: './public' }]
+    }),
+    new Dotenv(),
+    new CompressionPlugin(),
+    new BundleAnalyzerPlugin(),
+    new CleanWebpackPlugin()
+  ],
+  optimization: {}
 };
