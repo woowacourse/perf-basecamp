@@ -16,7 +16,8 @@ module.exports = {
     clean: true
   },
   devServer: {
-    hot: true,
+    compress: true,
+    hot: false,
     open: true,
     historyApiFallback: true
   },
