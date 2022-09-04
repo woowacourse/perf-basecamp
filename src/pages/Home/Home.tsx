@@ -2,9 +2,10 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage_desktop from '../../assets/images/hero-1920w.jpg';
-import heroImage_tablet from '../../assets/images/hero-1024w.jpg';
-import heroImage_mobile from '../../assets/images/hero-768w.jpg';
+import heroImage_jpg_desktop from '../../assets/images/hero-1920w.jpg';
+import heroImage_webp_desktop from '../../assets/images/hero-1920w.webp';
+import heroImage_webp_tablet from '../../assets/images/hero-1024w.webp';
+import heroImage_webp_mobile from '../../assets/images/hero-768w.webp';
 import trendingGif from '../../assets/images/trending.webm';
 import findGif from '../../assets/images/find.webm';
 import freeGif from '../../assets/images/free.webm';
@@ -21,18 +22,12 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img
-          className={styles.heroImage}
-          srcSet={`${heroImage_mobile} 768w,
-            ${heroImage_tablet} 1024w,
-            ${heroImage_desktop} 1920w`}
-          sizes={`(max-width: 768px) 768px,
-            (max-width: 1024px) 1024px,
-            (max-width: 1920px) 1920px,
-            1920px`}
-          src={heroImage_tablet}
-          alt="hero image"
-        />
+        <picture>
+          <source srcSet={heroImage_webp_mobile} type="image/webp" media="(max-width: 768px)" />
+          <source srcSet={heroImage_webp_tablet} type="image/webp" media="(max-width: 1024px)" />
+          <source srcSet={heroImage_webp_desktop} type="image/webp" media="(max-width: 1920px)" />
+          <img className={styles.heroImage} src={heroImage_jpg_desktop} alt="hero" />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
