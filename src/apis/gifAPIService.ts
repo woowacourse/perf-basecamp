@@ -2,6 +2,7 @@ import { GifsResult, GiphyFetch, SearchOptions } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
+import CacheStore from '../utils/cacheStore';
 
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
@@ -21,6 +22,8 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   });
 }
 
+const gifCacheStore = new CacheStore<GifImageModel>();
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -28,9 +31,17 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async function (): Promise<GifImageModel[]> {
+    if (!gifCacheStore.checkEmpty()) {
+      return gifCacheStore.load();
+    }
+
     try {
       const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      const newGifs = convertResponseToModel(gifs.data);
+
+      gifCacheStore.save(newGifs, new Date());
+
+      return newGifs;
     } catch (e) {
       return [];
     }
