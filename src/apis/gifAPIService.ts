@@ -20,6 +20,8 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   });
 }
 
+const cachedData: Record<string, GifsResult> = {};
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -28,7 +30,14 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+      const cachedDatum = cachedData?.[TRENDING_GIF_API];
+      const gifs: GifsResult =
+        cachedDatum ?? (await fetch(TRENDING_GIF_API).then((res) => res.json()));
+
+      if (!cachedDatum) {
+        cachedData[TRENDING_GIF_API] = gifs;
+      }
+
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
