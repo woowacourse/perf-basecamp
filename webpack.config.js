@@ -49,7 +49,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|jpg|webp|gif|png)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|jpg|webp|mp4|png)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -75,7 +75,6 @@ module.exports = {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
             plugins: [
-              ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 256 }],
               ['pngquant', { quality: [0.4, 0.6] }],
               ['webp', { quality: 50, resize: { width: 1280, height: 0 } }]
             ]

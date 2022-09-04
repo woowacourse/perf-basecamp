@@ -7,9 +7,9 @@ import heroImageMobile from '../../assets/images/hero-375.webp';
 import heroImageTablet from '../../assets/images/hero-768.webp';
 import heroImageDesktop from '../../assets/images/hero-1980.webp';
 
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+import trendingGif from '../../assets/images/trending.mp4';
+import findGif from '../../assets/images/find.mp4';
+import freeGif from '../../assets/images/free.mp4';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
