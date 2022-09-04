@@ -9,18 +9,17 @@ import Footer from './components/Footer/Footer';
 const Home = lazy(() => import('./pages/Home/Home'));
 const Search = lazy(() => import('./pages/Search/Search'));
 
-
 const App = () => {
   return (
     <Router>
-      <NavBar />
       <Suspense fallback={<h2>로딩중입니다...</h2>}>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
+        <Footer />
       </Suspense>
-      <Footer />
     </Router>
   );
 };
