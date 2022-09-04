@@ -10,7 +10,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name]-[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -38,7 +38,7 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4|webm)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[contenthash].[ext]'
         }
       }
     ]
@@ -49,7 +49,7 @@ module.exports = {
       template: './index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: 'default.css'
+      filename: '[name]-[contenthash].css'
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
