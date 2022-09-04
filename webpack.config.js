@@ -11,7 +11,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -20,7 +20,6 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
