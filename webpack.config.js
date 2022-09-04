@@ -65,10 +65,7 @@ module.exports = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: [
-              ['pngquant', { quality: [0.4, 0.6] }],
-              ['webp', { quality: 50, resize: { width: 1280, height: 0 } }]
-            ]
+            plugins: [['pngquant', { quality: [0.4, 0.6] }]]
           }
         }
       })
