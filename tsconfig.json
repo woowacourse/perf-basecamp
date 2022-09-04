@@ -7,17 +7,15 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "noUnusedLocals": true,
     "allowJs": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "removeComments": true,
     "noEmit": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "incremental": true
   },
-  "compileOnSave": true,
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
