@@ -22,9 +22,9 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source srcSet={heroImageAvif} type="image/avif" />
-          <source srcSet={heroImageWebp} type="image/webp" />
-          <img src={heroImagePng} alt="hero image" />
+          <source className={styles.heroImage} srcSet={heroImageAvif} type="image/avif" />
+          <source className={styles.heroImage} srcSet={heroImageWebp} type="image/webp" />
+          <img className={styles.heroImage} src={heroImagePng} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
