@@ -12,6 +12,8 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
+const CompressionPlugin = require('compression-webpack-plugin');
+
 const DEVELOPMENT = 'development';
 const mode = process.env.NODE_ENV || DEVELOPMENT;
 
@@ -46,6 +48,7 @@ module.exports = {
       filename: '[name].css'
     }),
     new BundleAnalyzerPlugin(),
+    new CompressionPlugin(),
     new Dotenv()
   ],
   module: {
