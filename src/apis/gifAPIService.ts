@@ -2,11 +2,13 @@ import { GifsResult, GiphyFetch, SearchOptions, TrendingOptions } from '@giphy/j
 import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
+import query from '../utils/query';
 
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
 
 const DEFAULT_FETCH_COUNT = 16;
+const CACHE_TIME = 10000;
 
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
@@ -33,7 +35,7 @@ export const gifAPIService = {
     };
 
     try {
-      const gifs: GifsResult = await gf.trending(trendingOptions);
+      const gifs = await query<GifsResult>('trend', () => gf.trending(trendingOptions), CACHE_TIME);
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
