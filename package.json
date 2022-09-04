@@ -43,7 +43,6 @@
     "compression-webpack-plugin": "^10.0.0",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
-    "css-minimizer-webpack-plugin": "^4.0.0",
     "dotenv-webpack": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
