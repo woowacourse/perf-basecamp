@@ -48,7 +48,7 @@
 }
 
 @keyframes wave-text {
-  00% {
+  0% {
     transform: translateY(0em);
   }
   60% {
