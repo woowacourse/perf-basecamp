@@ -33,8 +33,7 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new MiniCssExtractPlugin({ linkType: false, filename: `css/[name].[contenthash].css` }),
-    new Dotenv(),
-    new BundleAnalyzerPlugin()
+    new Dotenv()
   ],
   module: {
     rules: [
@@ -64,15 +63,7 @@ module.exports = {
         type: 'asset'
       },
       {
-        test: /\.(png)$/i,
-        type: 'asset',
-
-        generator: {
-          filename: 'static/[name].[hash][ext][query]'
-        }
-      },
-      {
-        test: /\.(gif|jp[e]?g)$/i,
+        test: /\.(gif|jp[e]?g|png)$/i,
         type: 'asset',
 
         generator: {
