@@ -9,16 +9,18 @@ interface Props {
 function Picture({ imageName }: Props) {
   return (
     <picture>
-      {sourceWidths.map((width) => (
+      {sourceWidths.map((width, index) => (
         <source
+          key={index}
           media={`(max-width: ${width - 1}px)`}
           srcSet={`/public/assets/images/${imageName}-${width}.webp`}
           type="image/webp"
         />
       ))}
 
-      {sourceWidths.map((width) => (
+      {sourceWidths.map((width, index) => (
         <source
+          key={index}
           media={`(max-width: ${width - 1}px)`}
           srcSet={`/public/assets/images/${imageName}-${width}.jpg`}
           type="image/jpg"
