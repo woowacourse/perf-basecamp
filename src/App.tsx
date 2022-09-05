@@ -12,7 +12,7 @@ const Search = lazy(() => import('./pages/Search/Search'));
 const App = () => {
   return (
     <Router>
-      <Suspense fallback={<h2>로딩중입니다...</h2>}>
+      <Suspense fallback={<h1>로딩중입니다...</h1>}>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
