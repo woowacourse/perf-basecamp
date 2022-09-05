@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -68,6 +69,22 @@ module.exports = {
   },
   optimization: {
     minimize: true, //run minimizer not only prod but in dev also
-    minimizer: [new CssMinimizerPlugin(), new TerserPlugin()]
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new TerserPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminMinify,
+          options: {
+            plugins: [
+              ['gifsicle', { interlaced: true }],
+              ['jpegtran', { progressive: true }],
+              ['optipng', { optimizationLevel: 5 }],
+              ['webp', { quality: 50, resize: { width: 1280, height: 0 } }]
+            ]
+          }
+        }
+      })
+    ]
   }
 };
