@@ -1,12 +1,15 @@
-const cacheStorage: Record<string, unknown> = {};
+const cacheStorage: Record<string, { expiredTime: Date; response: unknown }> = {};
 
 const cache = <T>(key: string, apiCallFunc: () => T): T => {
-  if (cacheStorage[key]) {
-    return cacheStorage[key] as T;
+  const expiredTime = new Date();
+
+  if (cacheStorage[key] && cacheStorage[key].expiredTime >= expiredTime) {
+    return cacheStorage[key].response as T;
   }
 
   const response = apiCallFunc();
-  cacheStorage[key] = response;
+  expiredTime.setHours(expiredTime.getHours() + 1);
+  cacheStorage[key] = { expiredTime, response };
 
   return response;
 };
