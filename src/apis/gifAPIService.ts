@@ -32,12 +32,11 @@ export const gifAPIService = {
 
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await caching('trending', () => fetch(TRENDING_GIF_API)).then(
-        (res) => res.json()
+      const gifs: GifsResult = await caching('trending', () =>
+        fetch(TRENDING_GIF_API).then((res) => res.json())
       );
-      const convertedResponse = convertResponseToModel(gifs.data);
 
-      return convertedResponse;
+      return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
     }
