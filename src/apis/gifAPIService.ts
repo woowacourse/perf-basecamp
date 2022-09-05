@@ -1,6 +1,6 @@
 import { GifsResult, GiphyFetch, SearchOptions, TrendingOptions } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
-import { cache } from '../cache';
+import { cacheFetch } from '../cache';
 
 import { GifImageModel } from '../models/image/gifImage';
 
@@ -34,7 +34,7 @@ export const gifAPIService = {
     };
 
     try {
-      const gifs: GifsResult = await cache('trending', () => gf.trending(trendingOptions));
+      const gifs: GifsResult = await cacheFetch('trending', () => gf.trending(trendingOptions));
 
       return convertResponseToModel(gifs.data);
     } catch (e) {
@@ -56,7 +56,7 @@ export const gifAPIService = {
     };
 
     try {
-      const gifs: GifsResult = await cache(`search-${keyword}`, () =>
+      const gifs: GifsResult = await cacheFetch(`search-${keyword}`, () =>
         gf.search(keyword, searchOptions)
       );
       return convertResponseToModel(gifs.data);

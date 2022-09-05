@@ -1,6 +1,6 @@
 const cacheStorage: Record<string, unknown> = {};
 
-export const cache = (cacheKey: string, fetcher: Function) => {
+export const cacheFetch = (cacheKey: string, fetcher: Function) => {
   if (cacheStorage[cacheKey]) {
     return cacheStorage[cacheKey];
   }
