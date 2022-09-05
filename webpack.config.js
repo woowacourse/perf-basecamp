@@ -32,7 +32,6 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
-    new ImageminWebpWebpackPlugin(),
     new CompressionPlugin({ algorithm: 'gzip' }),
     new BundleAnalyzerPlugin(),
     new CleanWebpackPlugin()
@@ -54,7 +53,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm)$/i,
         type: 'asset'
       }
     ]
@@ -65,23 +64,14 @@ module.exports = {
     minimizer: [
       '...',
       new ImageminWebpWebpackPlugin({
-        generator: [
+        config: [
           {
-            preset: 'webp',
-            implementation: ImageminWebpWebpackPlugin.imageminGenerate,
+            test: /\.(jpe?g|png)/,
             options: {
-              plugins: [['webp', { quality: 30 }]]
+              quality: 30
             }
           }
-        ],
-        minimizer: {
-          implementation: ImageminWebpWebpackPlugin.imageminMinify,
-          options: {
-            plugins: [
-              ['pngquant', { optimizationLevel: 20 }] // lossless PNG optimization
-            ]
-          }
-        }
+        ]
       }),
       new ESBuildMinifyPlugin({
         target: 'es2015',
