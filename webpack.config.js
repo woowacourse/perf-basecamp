@@ -6,7 +6,6 @@ const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -54,42 +53,6 @@ module.exports = {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
-      // {
-      //   test: /\.(jpe?g|png|gif|svg)$/i,
-      //   loader: ImageMinimizerPlugin.loader,
-      //   enforce: 'pre',
-      //   options: {
-      //     generator: [
-      //       {
-      //         preset: 'webp',
-      //         implementation: ImageMinimizerPlugin.squooshGenerate,
-      //         options: {
-      //           plugins: ['imagemin-webp'],
-      //           encodeOptions: {
-      //             // Please specify only one codec here, multiple codecs will not work
-      //             resize: {
-      //               enabled: true,
-      //               width: 100,
-      //               height: 50
-      //             },
-      //             encodeOptions: {
-      //               webp: {
-      //                 quality: 40
-      //               }
-      //             }
-      //           }
-      //         }
-      //       }
-      //       // {
-      //       //   preset: 'png',
-      //       //   implementation: ImageMinimizerPlugin.imageminGenerate,
-      //       //   options: {
-      //       //     plugins: ['imagemin-pngquant']
-      //       //   }
-      //       // }
-      //     ]
-      //   }
-      // },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         type: 'asset'
@@ -120,7 +83,6 @@ module.exports = {
           }
         }
       }),
-      new TerserPlugin({}),
       new ESBuildMinifyPlugin({
         target: 'es2015',
         css: true // Apply minification to CSS assets
