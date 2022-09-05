@@ -45,7 +45,7 @@ export const gifAPIService = {
 
       setGifMemoStore(memoKey, convertedGifImageModel);
 
-      return convertResponseToModel(gifs.data);
+      return convertedGifImageModel;
     } catch (e) {
       return [];
     }
