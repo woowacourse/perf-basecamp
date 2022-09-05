@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const os = require('os');
 const TerserPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -34,7 +35,8 @@ module.exports = {
     new Dotenv(),
     new MiniCssExtractPlugin({
       filename: '[name].[chunkhash].css'
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
