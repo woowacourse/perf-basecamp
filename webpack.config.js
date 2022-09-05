@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCSSExtractionPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 CssMinimizerPlugin;
 module.exports = {
@@ -30,7 +31,8 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCSSExtractionPlugin({ filename: '[name].css' })
+    new MiniCSSExtractionPlugin({ filename: '[name].css' }),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
