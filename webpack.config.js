@@ -46,7 +46,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(mp4|jpeg)$/i,
+        test: /\.(mp4|jpg)$/i,
         type: 'asset',
         generator: {
           filename: 'static/[name].[hash][ext][query]'
@@ -63,7 +63,7 @@ module.exports = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: [['mozjpeg', { quality: 75 }]]
+            plugins: [['mozjpeg', { quality: 70 }]]
           }
         }
       })
