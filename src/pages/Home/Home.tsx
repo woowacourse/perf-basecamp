@@ -6,9 +6,9 @@ import heroImgSmall from '../../assets/images/hero-s.webp';
 import heroImgMedium from '../../assets/images/hero-m.webp';
 import heroImgLarge from '../../assets/images/hero-l.webp';
 import heroImage from '../../assets/images/hero.png';
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+import trendingGif from '../../assets/images/trending.webm';
+import findGif from '../../assets/images/find.webm';
+import freeGif from '../../assets/images/free.webm';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
