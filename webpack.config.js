@@ -11,7 +11,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[hash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -31,7 +31,7 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCSSExtractionPlugin({
-      filename: '[name].css'
+      filename: '[name].[hash].css'
     }),
     new BundleAnalyzerPlugin()
   ],
@@ -52,7 +52,7 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[hash].[ext]'
         }
       }
     ]
