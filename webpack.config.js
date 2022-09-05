@@ -22,7 +22,6 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -59,10 +58,17 @@ module.exports = {
         ]
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
-        loader: 'file-loader',
-        options: {
+        test: /\.(eot|svg|ttf|woff|woff2)$/i,
+        type: 'asset/resource',
+        generator: {
           name: 'static/[name].[ext]'
+        }
+      },
+      {
+        test: /\.(png|jpg|gif|webp)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].webp'
         }
       }
     ]
@@ -70,17 +76,15 @@ module.exports = {
   optimization: {
     minimize: true, //run minimizer not only prod but in dev also
     minimizer: [
+      '...',
       new CssMinimizerPlugin(),
-      new TerserPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
-          implementation: ImageMinimizerPlugin.imageminMinify,
+          implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
             plugins: [
-              ['gifsicle', { interlaced: true }],
-              ['jpegtran', { progressive: true }],
-              ['optipng', { optimizationLevel: 5 }],
-              ['webp', { quality: 50, resize: { width: 1280, height: 0 } }]
+              ['gifsicle', { optimizationLevel: 3 }],
+              ['webp', { quality: 50, resize: { width: 1680, height: 0 } }]
             ]
           }
         }
