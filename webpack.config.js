@@ -45,10 +45,10 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(png|gif)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'static/[name].webp'
+        test: /\.(eot|svg|ttf|woff|woff2|webp|png|jpg|gif)$/i,
+        loader: 'file-loader',
+        options: {
+          name: 'static/[name].[ext]'
         }
       }
     ]
@@ -59,19 +59,11 @@ module.exports = {
       new TerserPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
-          implementation: ImageMinimizerPlugin.imageminGenerate,
+          implementation: ImageMinimizerPlugin.imageminMinify,
           options: {
             plugins: [
-              [
-                'webp',
-                {
-                  quality: 60,
-                  resize: {
-                    width: 1600,
-                    height: 0
-                  }
-                }
-              ]
+              ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 64 }],
+              ['optipng', { optimizationLevel: 5 }]
             ]
           }
         }
