@@ -20,7 +20,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
@@ -31,7 +31,7 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCSSExtractionPlugin({
-      filename: '[name].[hash].css'
+      filename: '[name].css'
     }),
     new BundleAnalyzerPlugin()
   ],
@@ -52,7 +52,7 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[hash].[ext]'
+          name: 'static/[name].[ext]'
         }
       }
     ]
