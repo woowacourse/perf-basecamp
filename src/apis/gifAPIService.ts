@@ -2,6 +2,7 @@ import { GifsResult, GiphyFetch, SearchOptions } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
+import { caching } from '../utils/cache';
 
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
@@ -31,8 +32,12 @@ export const gifAPIService = {
 
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      const gifs: GifsResult = await caching('trending', () => fetch(TRENDING_GIF_API)).then(
+        (res) => res.json()
+      );
+      const convertedResponse = convertResponseToModel(gifs.data);
+
+      return convertedResponse;
     } catch (e) {
       return [];
     }
