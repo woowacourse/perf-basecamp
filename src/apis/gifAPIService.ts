@@ -56,7 +56,7 @@ export const gifAPIService = {
     };
 
     try {
-      const gifs: GifsResult = await cacheFetch(`search-${keyword}`, () =>
+      const gifs: GifsResult = await cacheFetch(`search-${keyword}-${page}`, () =>
         gf.search(keyword, searchOptions)
       );
       return convertResponseToModel(gifs.data);
