@@ -22,19 +22,21 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   });
 }
 
-caches.open('getTrending').then((cache) => {
-  cache.add(TRENDING_GIF_API).then(() => {
-    console.log('Cache add Success');
-  });
-});
-
-setTimeout(() => {
+const startCaching = () => {
   caches.open('getTrending').then((cache) => {
-    cache.delete(TRENDING_GIF_API).then(() => {
-      console.log('Cache delete');
+    cache.add(TRENDING_GIF_API).then(() => {
+      console.log('Cache add Success');
     });
   });
-}, 86400);
+
+  setTimeout(() => {
+    caches.open('getTrending').then((cache) => {
+      cache.delete(TRENDING_GIF_API).then(() => {
+        console.log('Cache delete');
+      });
+    });
+  }, 86400);
+};
 
 export const gifAPIService = {
   /**
@@ -48,10 +50,10 @@ export const gifAPIService = {
       const cacheResponse = await getTrendingCache.match(TRENDING_GIF_API);
       if (cacheResponse) {
         const cacheGifs = await cacheResponse.json();
-        console.log('cache data');
         return convertResponseToModel(cacheGifs.data);
       }
       const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+      startCaching();
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
