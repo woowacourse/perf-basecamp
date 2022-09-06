@@ -13,12 +13,17 @@ const App = () => {
   return (
     <Router>
       <NavBar />
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-      </Suspense>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/search"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <Search />
+            </Suspense>
+          }
+        />
+      </Routes>
       <Footer />
     </Router>
   );
