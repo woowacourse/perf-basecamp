@@ -5,7 +5,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const os = require('os');
-const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -14,6 +13,7 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
+    assetModuleFilename: '[name][ext]',
     clean: true
   },
   devServer: {
@@ -60,10 +60,10 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
+      '...',
       new CssMinimizerPlugin({
         parallel: os.cpus().length - 1
-      }),
-      new TerserPlugin()
+      })
     ]
   }
 };
