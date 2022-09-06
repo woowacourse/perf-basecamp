@@ -12,7 +12,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -30,7 +30,7 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
     new CompressionPlugin(),
     new webpack.DefinePlugin({
       __REACT_DEVTOOLS_GLOBAL_HOOK__: '({ isDisabled: true })'
@@ -53,7 +53,7 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[contenthash].[ext]'
         }
       },
       {
@@ -62,7 +62,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'static/[name].webp'
+              name: 'static/[name][contenthash].webp'
             }
           }
         ]
