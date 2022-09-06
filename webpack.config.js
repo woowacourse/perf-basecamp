@@ -64,7 +64,7 @@ module.exports = {
           options: {
             plugins: [
               ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 64 }],
-              ['webp', { quality: 50, resize: { width: 1280, height: 0 } }],
+              ['webp', { quality: 80, resize: { width: 1280, height: 0 } }],
               ['pngquant', { speed: 3, strip: true, quality: [0.1, 0.3], dithering: 0.1 }]
             ]
           }
