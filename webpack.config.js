@@ -14,11 +14,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const CompressionPlugin = require('compression-webpack-plugin');
 
-const DEVELOPMENT = 'development';
-const mode = process.env.NODE_ENV || DEVELOPMENT;
-
 module.exports = {
-  mode,
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
