@@ -65,7 +65,7 @@ module.exports = {
         use: [MiniCSSExtractionPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(ttf|woff|woff2||mp4)$/i,
+        test: /\.(ttf|woff|woff2|mp4)$/i,
         type: 'asset',
         generator: {
           filename: 'static/[name]-[hash][ext]'
