@@ -10,8 +10,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
+    chunkFilename: '[name].[contenthash].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -48,7 +48,7 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|jpg|webp|mp4|png)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[contenthash].[ext]'
         }
       }
     ]
