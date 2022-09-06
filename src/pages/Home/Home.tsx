@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
+import heroImage from '../../assets/images/hero-1980.png';
 import heroImageMobile from '../../assets/images/hero-375.webp';
 import heroImageTablet from '../../assets/images/hero-768.webp';
 import heroImageDesktop from '../../assets/images/hero-1980.webp';
