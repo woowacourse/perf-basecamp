@@ -6,8 +6,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCSSExtractionPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const TerserPlugin = require('terser-webpack-plugin');
-
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -79,8 +77,8 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
+      '...',
       new OptimizeCSSAssetsPlugin(),
-      new TerserPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminGenerate,
