@@ -22,11 +22,13 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
 
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
 
-export const gifAPIService: {
+type GifAPIService = {
   trendingCache: GifImageModel[];
   getTrending: () => Promise<GifImageModel[]>;
   searchByKeyword: (keyword: string, page: number) => Promise<GifImageModel[]>;
-} = {
+};
+
+export const gifAPIService: GifAPIService = {
   trendingCache: [],
   /**
    * treding gif 목록을 가져옵니다.
