@@ -16,7 +16,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[hash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -39,7 +39,7 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new MiniCSSExtractionPlugin({
-      filename: '[name].css'
+      filename: '[name].[hash].css'
     }),
     new BundleAnalyzerPlugin(),
     new CompressionPlugin(),
