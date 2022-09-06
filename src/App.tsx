@@ -11,16 +11,16 @@ import './App.css';
 
 const App = () => {
   return (
-    <Suspense fallback={<h1>로딩 중 입니다.</h1>}>
-      <Router>
-        <NavBar />
+    <Router>
+      <NavBar />
+      <Suspense fallback={<h1>로딩 중 입니다.</h1>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
-        <Footer />
-      </Router>
-    </Suspense>
+      </Suspense>
+      <Footer />
+    </Router>
   );
 };
 
