@@ -54,7 +54,6 @@
     "imagemin": "^8.0.1",
     "imagemin-gifsicle": "^7.0.0",
     "imagemin-optipng": "^8.0.0",
-    "imagemin-webp": "^7.0.0",
     "mini-css-extract-plugin": "^2.6.1",
     "prettier": "^2.3.2",
     "style-loader": "^3.2.1",
