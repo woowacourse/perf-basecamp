@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import heroImage from '../../assets/images/hero.png';
 import trendingMp4 from '../../assets/images/trending.mp4';
 import findMp4 from '../../assets/images/find.mp4';
-import freeGif4 from '../../assets/images/free.mp4';
+import freeMp4 from '../../assets/images/free.mp4';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -35,7 +35,7 @@ const Home = () => {
           <div className={styles.featureItemContainer}>
             <FeatureItem title="See trending gif" imageSrc={trendingMp4} />
             <FeatureItem title="Find gif for free" imageSrc={findMp4} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif4} />
+            <FeatureItem title="Free for everyone" imageSrc={freeMp4} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
