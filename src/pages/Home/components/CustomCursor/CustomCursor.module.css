@@ -1,19 +1,22 @@
 .cursor {
   pointer-events: none;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: -12px;
+  left: -12px;
   z-index: 10;
-  padding: 0 16px;
+  padding: 8px 16px;
   color: var(--white);
+  will-change: transform;
+  contain: content;
+  transition: transform 0.075s linear;
 }
 
 .cursor::before {
   content: '';
   display: block;
   position: absolute;
-  top: -12px;
-  left: -12px;
+  top: 0;
+  left: 0;
   width: 24px;
   height: 24px;
   background: rgba(255, 255, 255, 0.25);
