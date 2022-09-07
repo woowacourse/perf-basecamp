@@ -12,6 +12,7 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].bundle.js',
     chunkFilename: '[name].[contenthash].chunk.bundle.js',
+    assetModuleFilename: 'static/[name][ext]',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -47,10 +48,7 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        type: 'asset/resource'
       }
     ]
   },
