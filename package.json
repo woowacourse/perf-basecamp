@@ -9,6 +9,7 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=production",
+    "serve:dev": "webpack serve --mode=development",
     "prettier": "prettier --write .",
     "preanalyze": "npm run build",
     "analyze": "webpack-bundle-analyzer ./dist/bundle-report.json --default-sizes gzip"
@@ -54,7 +55,6 @@
     "image-minimizer-webpack-plugin": "^3.3.0",
     "imagemin": "^8.0.1",
     "imagemin-gifsicle": "^7.0.0",
-    "imagemin-mozjpeg": "^10.0.0",
     "imagemin-pngquant": "^9.0.2",
     "imagemin-webp": "^7.0.0",
     "mini-css-extract-plugin": "^2.6.1",
