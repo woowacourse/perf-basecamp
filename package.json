@@ -5,10 +5,10 @@
   "main": "index.tsx",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
-    "build:dev": "webpack --mode=development",
+    "build:dev": "webpack --mode=development --node-env=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve --mode=development",
+    "serve": "webpack serve --mode=development --node-env=development",
     "prettier": "prettier --write ."
   },
   "keywords": [],

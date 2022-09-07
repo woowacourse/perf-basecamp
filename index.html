@@ -15,6 +15,11 @@
 
 <body>
   <div id="app"></div>
+  <script>
+    if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object' && "<%=mode %>" !== "development") {
+      __REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () { };
+    }
+  </script>
 </body>
 
 </html>

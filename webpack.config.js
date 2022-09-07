@@ -25,7 +25,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './index.html',
+      templateParameters: {
+        mode: process.env.NODE_ENV === 'development' ? 'development' : 'production'
+      }
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
