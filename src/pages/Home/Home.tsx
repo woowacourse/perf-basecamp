@@ -2,10 +2,15 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+import heroImage from '../../assets/images/hero.jpg';
+import heroMobileImage from '../../assets/images/hero-375.webp';
+import heroTabletImage from '../../assets/images/hero-768.webp';
+import heroDesktopImage_1024 from '../../assets/images/hero-1024.webp';
+import heroDesktopImage_1980 from '../../assets/images/hero-1980.webp';
+
+import trendingMp4 from '../../assets/videos/trending.mp4';
+import findMp4 from '../../assets/videos/find.mp4';
+import freeMp4 from '../../assets/videos/free.mp4';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -19,7 +24,18 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source
+            type="image/webp"
+            srcSet={`
+          ${heroMobileImage} 375w,
+          ${heroTabletImage} 768w,
+          ${heroDesktopImage_1024} 1024w,
+          ${heroDesktopImage_1980} 1980w
+          `}
+          />
+          <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
@@ -33,9 +49,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem title="See trending gif" videoSrc={trendingMp4} />
+            <FeatureItem title="Find gif for free" videoSrc={findMp4} />
+            <FeatureItem title="Free for everyone" videoSrc={freeMp4} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
