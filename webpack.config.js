@@ -13,10 +13,10 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true,
-    assetModuleFilename: '[name][ext][query]'
+    assetModuleFilename: 'static/[name][ext][query]'
   },
   devServer: {
     hot: true,
