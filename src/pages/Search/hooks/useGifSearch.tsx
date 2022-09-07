@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import { getSessionStorageItem, setSessionStorageItem } from '../../../utils/sessionStorage';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -57,8 +58,14 @@ const useGifSearch = () => {
   useEffect(() => {
     const fetch = async () => {
       if (status === SEARCH_STATUS.BEFORE_SEARCH) {
+        const GIF_KEY = 'gifModel';
+        const sessionItem = getSessionStorageItem<GifImageModel[]>(GIF_KEY);
+        if (sessionItem) {
+          setGifList(sessionItem);
+          return;
+        }
         const gifs: GifImageModel[] = await gifAPIService.getTrending();
-
+        setSessionStorageItem(GIF_KEY, gifs);
         setGifList(gifs);
       }
     };
