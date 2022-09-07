@@ -14,6 +14,7 @@ module.exports = merge(common, {
   },
   devtool: 'nosources-source-map',
   optimization: {
+    minimize: true,
     minimizer: ['...', new CssMinimizerPlugin()]
   },
   plugins: [
