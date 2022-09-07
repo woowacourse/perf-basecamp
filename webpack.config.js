@@ -34,11 +34,8 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(jpg|gif|webp|webm|eot)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[contenthash].[ext]'
-        }
+        test: /\.(jpg|gif|webp|webm|eot|mp4)$/i,
+        type: 'asset/resource'
       }
     ]
   },
