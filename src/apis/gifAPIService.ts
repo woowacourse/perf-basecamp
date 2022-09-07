@@ -1,4 +1,4 @@
-import { GifsResult, GiphyFetch, SearchOptions, TrendingOptions } from '@giphy/js-fetch-api';
+import { GifsResult, GiphyFetch, SearchOptions } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 
 import { CACHE_KEY } from '../constants/keys';
@@ -8,6 +8,7 @@ const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
 
 const DEFAULT_FETCH_COUNT = 16;
+const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
 
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
@@ -37,13 +38,8 @@ export const gifAPIService: {
       return this.cache[CACHE_KEY.TRENDING];
     }
 
-    const trendingOptions: TrendingOptions = {
-      limit: DEFAULT_FETCH_COUNT,
-      rating: 'g'
-    };
-
     try {
-      const gifs: GifsResult = await gf.trending(trendingOptions);
+      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
       const gifsModel = convertResponseToModel(gifs.data);
 
       this.cache[CACHE_KEY.TRENDING] = gifsModel;
