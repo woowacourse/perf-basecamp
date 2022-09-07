@@ -6,3 +6,12 @@
 
 # build
 /dist
+
+# mac metadata
+.DS_Store
+
+# logs
+*.log
+
+# bundle stats
+compilation-stats.json
