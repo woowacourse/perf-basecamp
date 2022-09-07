@@ -1,6 +1,6 @@
 const cache = new Map();
 
-const memoizedFetch = async (url: string, key: string) => {
+const memoizedFetch = async <T>(url: string, key: T) => {
   if (!cache.has(key)) {
     const data = await fetch(url).then((res) => res.json());
     cache.set(key, data);
