@@ -12,6 +12,7 @@ const FeatureItem = ({ title, webmSrc, mp4Src }: FeatureItemProps) => {
       <video className={styles.featureImage} autoPlay loop muted>
         <source src={webmSrc} type="video/webm" />
         <source src={mp4Src} type="video/mp4" />
+        Sorry, your browser doesn't support embedded videos.
       </video>
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
