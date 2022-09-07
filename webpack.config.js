@@ -3,11 +3,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const MiniCSSExtractionPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+const CompressionPlugin = require('compression-webpack-plugin');
+
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[hash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -16,14 +25,24 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true
+      },
+      template: './index.html',
+      hash: true
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
+    new MiniCSSExtractionPlugin({
+      filename: '[name].[hash].css'
+    }),
+    new BundleAnalyzerPlugin(),
+    new CompressionPlugin(),
     new Dotenv()
   ],
   module: {
@@ -37,18 +56,39 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCSSExtractionPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(ttf|woff|woff2|mp4)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'static/[name]-[hash][ext]'
+        }
+      },
+      {
+        test: /\.(jpe?g|png)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'static/[name]-[hash].webp'
         }
       }
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true,
+    minimizer: [
+      '...',
+      new OptimizeCSSAssetsPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['webp', { quality: 40, resize: { width: 1200, height: 0 } }]
+            ]
+          }
+        }
+      })
+    ]
   }
 };
