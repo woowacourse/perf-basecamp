@@ -3,12 +3,15 @@
   "version": "0.0.0",
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve --mode=development",
+    "serve": "webpack serve --mode=production",
     "prettier": "prettier --write ."
   },
   "keywords": [],
@@ -37,6 +40,7 @@
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
+    "css-minimizer-webpack-plugin": "^4.0.0",
     "dotenv-webpack": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
@@ -46,11 +50,16 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-react": "^7.31.1",
-    "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
+    "image-minimizer-webpack-plugin": "^3.3.0",
+    "imagemin": "^8.0.1",
+    "imagemin-webp": "^7.0.0",
+    "imagemin-webp-webpack-plugin": "^3.3.6",
+    "mini-css-extract-plugin": "^2.6.1",
     "prettier": "^2.3.2",
     "style-loader": "^3.2.1",
+    "terser-webpack-plugin": "^5.3.6",
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
     "webpack": "^5.50.0",
@@ -60,7 +69,10 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react"
+      "@babel/preset-react",
+      {
+        "modules": false
+      }
     ],
     "plugins": [
       "@babel/plugin-transform-runtime"

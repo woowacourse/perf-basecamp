@@ -2,6 +2,10 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -16,7 +20,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -24,7 +28,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin()
   ],
   module: {
     rules: [
@@ -37,18 +42,41 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(eot|svg|ttf|woff|woff2|png|gif|mp4)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[hash][ext][query]'
         }
       }
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        deleteOriginalAssets: false,
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [['webp', { quality: 35, resize: { width: 1920, height: 0 } }]]
+          }
+        }
+      }),
+      new TerserPlugin({
+        terserOptions: {
+          format: {
+            comments: false
+          },
+          compress: {
+            drop_console: true // TODO: production 모드일때만 하도록 만들기
+          }
+        },
+        extractComments: false
+      })
+    ]
   }
 };
