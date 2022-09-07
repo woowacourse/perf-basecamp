@@ -63,8 +63,6 @@ const useGifSearch = () => {
       }
     };
     fetch();
-
-    return () => setStatus(SEARCH_STATUS.LOADING);
   }, []);
 
   return {
