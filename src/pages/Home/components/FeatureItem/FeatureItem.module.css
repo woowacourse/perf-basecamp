@@ -33,5 +33,5 @@
   top: 0;
   left: 0;
   height: 100%;
-  transform: translateX(-10%);
+  transform: translate3d(-10%);
 }
