@@ -4,6 +4,7 @@ import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
 
 const DEFAULT_PAGE_INDEX = 0;
+const CACHE_STORAGE: Record<string, any> = {};
 
 export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
@@ -17,7 +18,7 @@ export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
-  const [gifList, setGifList] = useState<GifImageModel[]>([]);
+  const [gifList, setGifList] = useState<GifImageModel[]>(CACHE_STORAGE['gifList'] ?? []);
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,8 +58,12 @@ const useGifSearch = () => {
   useEffect(() => {
     const fetch = async () => {
       if (status === SEARCH_STATUS.BEFORE_SEARCH) {
-        const gifs: GifImageModel[] = await gifAPIService.getTrending();
+        if (CACHE_STORAGE['gifList']) {
+          return;
+        }
 
+        const gifs: GifImageModel[] = await gifAPIService.getTrending();
+        CACHE_STORAGE['gifList'] = gifs;
         setGifList(gifs);
       }
     };

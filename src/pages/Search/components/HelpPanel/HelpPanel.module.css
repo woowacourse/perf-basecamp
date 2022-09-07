@@ -24,7 +24,7 @@
 }
 
 .selectedItemContainer.showSheet {
-  right: 0;
+  transform: translateX(-320px);
   opacity: 1;
 }
 

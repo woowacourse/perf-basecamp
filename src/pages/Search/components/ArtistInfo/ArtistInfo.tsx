@@ -11,7 +11,12 @@ const ArtistInfo = ({ artist }: ArtistProps) => {
 
   return (
     <li className={styles.artistContainer}>
-      <img className={styles.profileImage} src={profileImageUrl} />
+      <img
+        className={styles.profileImage}
+        src={profileImageUrl}
+        alt="artist profile image"
+        loading="lazy"
+      />
       <p>
         <a className={styles.profileUrl} href={profileUrl}>
           {name}
