@@ -8,6 +8,7 @@ const gf = new GiphyFetch(apiKey);
 
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
+const ONE_HOUR = 60 * 60 * 1000;
 
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
@@ -29,24 +30,27 @@ export const gifAPIService = {
    */
 
   getTrending: async function (): Promise<GifImageModel[]> {
-    const cacheStorage = await caches.open('trendingGifs');
-    const existCache = await cacheStorage.match(TRENDING_GIF_API);
-
     try {
+      const cacheStorage = await caches.open('trendingGifs');
+      const existCache = await cacheStorage.match(TRENDING_GIF_API);
+
       if (existCache) {
-        console.log('getGifsFromCache');
         const cachedTrendingGifs = await existCache.json();
+
+        setTimeout(() => {
+          cacheStorage.delete(TRENDING_GIF_API);
+        }, ONE_HOUR);
+
         return convertResponseToModel(cachedTrendingGifs.data);
-      } else {
-        console.log('getGifsFromAPI');
-        const response = await fetch(TRENDING_GIF_API);
-        const gifs: GifsResult = await response.json();
-        await cacheStorage.put(TRENDING_GIF_API, response);
-        console.log(gifs);
-        return convertResponseToModel(gifs.data);
       }
+
+      const response = await fetch(TRENDING_GIF_API);
+      const gifs: GifsResult = await response.clone().json();
+
+      await cacheStorage.put(TRENDING_GIF_API, response);
+
+      return convertResponseToModel(gifs.data);
     } catch (e) {
-      console.log(e);
       return [];
     }
   },
