@@ -1,6 +1,6 @@
 import getCurrentTimeInSeconds from './getCurrentTimeInSeconds';
 
-type UnInitialized = null;
+type UnInitializedData = null;
 
 type GetCacheDataResult<T> =
   | {
@@ -11,11 +11,11 @@ type GetCacheDataResult<T> =
   | { status: 'fresh'; data: T };
 
 class MemoryCache<T> {
-  private data: T | UnInitialized = null;
+  private data: T | UnInitializedData = null;
   private staledTime = 0; // 1 day
   private cacheTime = 0;
 
-  constructor(data: T | UnInitialized, staledTime = 86400) {
+  constructor(data: T | UnInitializedData, staledTime = 86400) {
     this.data = data;
     this.staledTime = staledTime;
     this.cacheTime = getCurrentTimeInSeconds();
