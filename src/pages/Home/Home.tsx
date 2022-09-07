@@ -2,10 +2,6 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import trendingVideo from '/public/assets/images/trending.webm';
-import findVideo from '/public/assets/images/find.webm';
-import freeVideo from '/public/assets/images/free.webm';
-
 import Picture from '../../components/@common/Picture';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
@@ -34,9 +30,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingVideo} />
-            <FeatureItem title="Find gif for free" imageSrc={findVideo} />
-            <FeatureItem title="Free for everyone" imageSrc={freeVideo} />
+            <FeatureItem title="See trending gif" name={'trending'} />
+            <FeatureItem title="Find gif for free" name={'find'} />
+            <FeatureItem title="Free for everyone" name={'free'} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
