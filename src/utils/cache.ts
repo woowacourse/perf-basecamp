@@ -6,12 +6,12 @@ interface cacheStorageInterface {
 
 const cacheStorage: cacheStorageInterface = {};
 
-const cache = async (key: string, fetch: () => Promise<GifsResult>) => {
+const cache = async (key: string, apiCallback: () => Promise<GifsResult>) => {
   if (cacheStorage[key]) {
     return cacheStorage[key];
   }
 
-  const response = await fetch();
+  const response = await apiCallback();
   cacheStorage[key] = response;
 
   return response;
