@@ -45,7 +45,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|webp|gif|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[contenthash].[ext]'
@@ -60,10 +60,11 @@ module.exports = {
       new ImageMinimizerPlugin({
         deleteOriginalAssets: false,
         minimizer: {
-          implementation: ImageMinimizerPlugin.imageminGenerate,
+          implementation: ImageMinimizerPlugin.imageminMinify,
           options: {
             plugins: [
-              ['webp', { preset: 'photo', quality: 40, resize: { width: 1920, height: 1280 } }]
+              ['pngquant', { quality: [0.3, 0.5] }],
+              ['webp', { preset: 'photo', quality: 40 }]
             ]
           }
         }
