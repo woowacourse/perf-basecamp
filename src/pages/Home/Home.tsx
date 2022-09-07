@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage_jpg_desktop from '../../assets/images/hero-1920w.jpg';
+import heroImage_jpg_tablet from '../../assets/images/hero-1024w.jpg';
+import heroImage_jpg_mobile from '../../assets/images/hero-768w.jpg';
 import heroImage_webp_desktop from '../../assets/images/hero-1920w.webp';
 import heroImage_webp_tablet from '../../assets/images/hero-1024w.webp';
 import heroImage_webp_mobile from '../../assets/images/hero-768w.webp';
@@ -26,6 +28,9 @@ const Home = () => {
           <source srcSet={heroImage_webp_mobile} type="image/webp" media="(max-width: 768px)" />
           <source srcSet={heroImage_webp_tablet} type="image/webp" media="(max-width: 1024px)" />
           <source srcSet={heroImage_webp_desktop} type="image/webp" media="(max-width: 1920px)" />
+          <source srcSet={heroImage_jpg_mobile} type="image/jpg" media="(max-width: 768px)" />
+          <source srcSet={heroImage_jpg_tablet} type="image/jpg" media="(max-width: 1024px)" />
+          <source srcSet={heroImage_jpg_desktop} type="image/jpg" media="(max-width: 1920px)" />
           <img className={styles.heroImage} src={heroImage_jpg_desktop} alt="hero" />
         </picture>
         <div className={styles.projectTitle}>
