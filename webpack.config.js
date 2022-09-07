@@ -2,6 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -16,7 +21,6 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -24,7 +28,10 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin(),
+    new MiniCssExtractPlugin(),
+    new CompressionPlugin()
   ],
   module: {
     rules: [
@@ -37,18 +44,50 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[hash:base64:5]'
+              }
+            }
+          }
+        ]
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
+        test: /\.(eot|svg|ttf|woff|woff2)$/i,
+        type: 'asset/resource',
+        generator: {
           name: 'static/[name].[ext]'
+        }
+      },
+      {
+        test: /\.(png|jpg|gif|webp)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].webp'
         }
       }
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true, //run minimizer not only prod but in dev also
+    minimizer: [
+      '...',
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['gifsicle', { optimizationLevel: 3 }],
+              ['webp', { quality: 50, resize: { width: 1680, height: 0 } }]
+            ]
+          }
+        }
+      })
+    ]
   }
 };

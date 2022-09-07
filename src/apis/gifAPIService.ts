@@ -1,4 +1,4 @@
-import { GifsResult, GiphyFetch, SearchOptions, TrendingOptions } from '@giphy/js-fetch-api';
+import { GifsResult, GiphyFetch, SearchOptions } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
@@ -20,20 +20,24 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   });
 }
 
-export const gifAPIService = {
+const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
+
+type GifAPIService = {
+  trendingCache: GifImageModel[];
+  getTrending: () => Promise<GifImageModel[]>;
+  searchByKeyword: (keyword: string, page: number) => Promise<GifImageModel[]>;
+};
+
+export const gifAPIService: GifAPIService = {
+  trendingCache: [],
   /**
    * treding gif 목록을 가져옵니다.
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async function (): Promise<GifImageModel[]> {
-    const trendingOptions: TrendingOptions = {
-      limit: DEFAULT_FETCH_COUNT,
-      rating: 'g'
-    };
-
     try {
-      const gifs: GifsResult = await gf.trending(trendingOptions);
+      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
