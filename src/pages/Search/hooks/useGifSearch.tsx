@@ -14,6 +14,19 @@ export const SEARCH_STATUS = {
 
 export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
 
+type Cache = { expiresAt?: number };
+type TrendingCache = Cache & { gifs?: GifImageModel[] };
+
+const CACHE_TIME = 180000;
+
+const trendingResultCache: TrendingCache = {};
+
+const checkCacheExpired = (cache: Cache) => {
+  if (cache.expiresAt === undefined) return true;
+
+  return cache.expiresAt < Date.now();
+};
+
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
@@ -55,14 +68,18 @@ const useGifSearch = () => {
   };
 
   useEffect(() => {
-    const fetch = async () => {
-      if (status === SEARCH_STATUS.BEFORE_SEARCH) {
-        const gifs: GifImageModel[] = await gifAPIService.getTrending();
+    const setTrending = async () => {
+      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
-        setGifList(gifs);
+      if (trendingResultCache.gifs === undefined || checkCacheExpired(trendingResultCache)) {
+        trendingResultCache.gifs = await gifAPIService.getTrending();
+        trendingResultCache.expiresAt = Date.now() + CACHE_TIME;
       }
+
+      setGifList(trendingResultCache.gifs);
     };
-    fetch();
+
+    setTrending();
 
     return () => setStatus(SEARCH_STATUS.LOADING);
   }, []);
