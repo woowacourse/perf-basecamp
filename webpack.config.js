@@ -10,9 +10,9 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+  resolve: { extensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true,
     assetModuleFilename: 'static/[name].[ext]'
@@ -22,6 +22,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -37,8 +38,8 @@ module.exports = {
       statsFilename: 'bundle-report.json'
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[id].[contenthash].css'
     })
   ],
   module: {
@@ -48,6 +49,9 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'ts-loader'
+        },
+        generator: {
+          filename: '[name].[contenthash].js'
         }
       },
       {
@@ -55,10 +59,10 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(png|jpg)$/i,
+        test: /\.(png|jpg|webp)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'static/[name].webp[query]'
+          filename: 'static/[name].webp'
         }
       },
       {
@@ -71,6 +75,7 @@ module.exports = {
     ]
   },
   optimization: {
+    minimize: true,
     minimizer: [
       '...',
       new ImageMinimizerPlugin({
@@ -83,8 +88,7 @@ module.exports = {
               ['webp', { quality: 60, resize: { width: 1600, height: 0 } }]
             ]
           }
-        },
-        loader: false
+        }
       }),
       new CssMinimizerPlugin()
     ]
