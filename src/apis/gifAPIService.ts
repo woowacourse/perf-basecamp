@@ -21,6 +21,8 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
 }
 
 export const gifAPIService = {
+  gifsCache: { gifs: [] } as Record<'gifs', GifImageModel[]>,
+
   /**
    * treding gif 목록을 가져옵니다.
    * @returns {Promise<GifImageModel[]>}
