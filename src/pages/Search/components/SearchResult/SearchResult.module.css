@@ -31,3 +31,10 @@
 .loadMoreButton:hover {
   background: var(--radial-gradient);
 }
+
+@media all and (max-width: 424px) {
+  .loadMoreButton {
+    font-size: 1.5rem;
+    height: 5rem;
+  }
+}

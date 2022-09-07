@@ -35,3 +35,13 @@
   height: 2.75rem;
   background: var(--radial-gradient);
 }
+
+@media all and (max-width: 424px) {
+  .searchInput {
+    font-size: 1.5rem;
+  }
+
+  .searchButton {
+    width: 5rem;
+  }
+}
