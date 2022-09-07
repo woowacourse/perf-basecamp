@@ -35,16 +35,13 @@ export const gifAPIService = {
         .match(TRENDING_GIF_API)
         .then((res) => (res ? res.json() : undefined));
 
-      console.log('cacheGifs: ', cacheGifs);
       if (cacheGifs) return convertResponseToModel(cacheGifs.data);
 
       const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
       await cacheStorage.add(TRENDING_GIF_API);
-      console.log('gifs: ', gifs);
 
       return convertResponseToModel(gifs.data);
     } catch (e) {
-      console.log('error', e);
       return [];
     }
   },
