@@ -1,8 +1,5 @@
 {
   "name": "frontend-performance-basecamp",
-  "sideEffects": [
-    "*.css"
-  ],
   "version": "0.0.0",
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
