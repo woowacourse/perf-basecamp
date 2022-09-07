@@ -1,4 +1,4 @@
-import react, { KeyboardEvent } from 'react';
+import { KeyboardEvent } from 'react';
 import useGifSearch from './hooks/useGifSearch';
 
 import SearchBar from './components/SearchBar/SearchBar';
@@ -33,4 +33,4 @@ const Search = () => {
   );
 };
 
-export default react.memo(Search);
+export default Search;
