@@ -53,7 +53,6 @@ const useGifSearch = () => {
         const gifs: GifImageModel[] = await gifAPIService.getTrending();
 
         setGifList(gifs);
-        setStatus(SEARCH_STATUS.FOUND);
       }
     };
     fetch();

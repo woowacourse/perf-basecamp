@@ -29,8 +29,21 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      const cacheStorage = await caches.open('trending-gifs');
+      const cachedResponse = await cacheStorage.match(TRENDING_GIF_API);
+
+      if (cachedResponse) {
+        const response = await cachedResponse.json();
+
+        return convertResponseToModel(response.data);
+      }
+
+      const response = await fetch(TRENDING_GIF_API);
+      const clonedResponse = await response.clone().json();
+
+      await cacheStorage.put(TRENDING_GIF_API, response);
+
+      return convertResponseToModel(clonedResponse.data);
     } catch (e) {
       return [];
     }
