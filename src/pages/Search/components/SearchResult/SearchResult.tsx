@@ -10,22 +10,22 @@ import styles from './SearchResult.module.css';
 type SearchResultProps = {
   status: SearchStatus;
   gifList: GifImageModel[];
-  loadMore: () => void;
+  onLoadMore: () => void;
 };
 
-const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
+const SearchResult = ({ status, gifList, onLoadMore }: SearchResultProps) => {
   return (
     <section className={styles.searchResultSection}>
       <ResultTitle status={status} />
       {(status === SEARCH_STATUS.FOUND || status === SEARCH_STATUS.BEFORE_SEARCH) && (
         <div className={styles.gifResultWrapper}>
           {gifList.map((gif: GifImageModel) => (
-            <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+            <GifItem key={gif.id} id={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
           ))}
         </div>
       )}
       {status === SEARCH_STATUS.FOUND && (
-        <button className={styles.loadMoreButton} onClick={loadMore}>
+        <button className={styles.loadMoreButton} onClick={onLoadMore}>
           load more
         </button>
       )}

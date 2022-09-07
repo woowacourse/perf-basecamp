@@ -3,14 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="icon" href="./public/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="static/josefin-sans-400-700-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
     />
+    <link
+      rel="preload"
+      href="static/josefin-sans-400-700-italic.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <style>
+      @font-face {
+        font-family: 'Josefin Sans';
+        font-style: normal;
+        font-weight: 400 700;
+        font-display: swap;
+        src: url(static/josefin-sans-400-700-normal.woff2) format('woff2');
+      }
+      @font-face {
+        font-family: 'Josefin Sans';
+        font-style: italic;
+        font-weight: 400 700;
+        font-display: swap;
+        src: url(static/josefin-sans-400-700-italic.woff2) format('woff2');
+      }
+    </style>
     <title>memegle - gif search engine for you</title>
   </head>
 

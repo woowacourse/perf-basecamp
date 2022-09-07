@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import styles from './GifItem.module.css';
 
-type GifItemProps = Omit<GifImageModel, 'id'>;
+type GifItemProps = GifImageModel;
 
 const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
   return (
@@ -16,4 +17,6 @@ const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
   );
 };
 
-export default GifItem;
+export default memo(GifItem, (prevProps, nextProps) => {
+  return prevProps.id === nextProps.id;
+});
