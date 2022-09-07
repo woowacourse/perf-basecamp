@@ -18,8 +18,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
+        <Footer />
       </React.Suspense>
-      <Footer />
     </Router>
   );
 };
