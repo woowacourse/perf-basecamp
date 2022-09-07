@@ -10,8 +10,8 @@ module.exports = {
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: '[name]-[chunkhash].js',
-    chunkFilename: '[name]-[chunkhash].js',
+    filename: '[name]-[contenthash].js',
+    chunkFilename: '[name]-[contenthash].js',
     clean: true
   },
   devServer: {
@@ -30,8 +30,8 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin({
-      filename: '[name]-[chunkhash].css',
-      chunkFilename: '[name]-[chunkhash].css'
+      filename: '[name]-[contenthash].css',
+      chunkFilename: '[name]-[contenthash].css'
     })
   ],
   module: {
