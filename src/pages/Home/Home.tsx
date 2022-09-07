@@ -43,8 +43,8 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h3 className={styles.featureTitle}>Features</h3>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending video" webmSrc={trendingWebm} mp4Src={trendingMp4} />
-            <FeatureItem title="Find video for free" webmSrc={findWebm} mp4Src={findMp4} />
+            <FeatureItem title="See trending gif" webmSrc={trendingWebm} mp4Src={trendingMp4} />
+            <FeatureItem title="Find gif for free" webmSrc={findWebm} mp4Src={findMp4} />
             <FeatureItem title="Free for everyone" webmSrc={freeWebm} mp4Src={freeMp4} />
           </div>
           <Link to="/search">
