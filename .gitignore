@@ -6,3 +6,6 @@
 
 # build
 /dist
+
+# .DS_store
+.DS_store

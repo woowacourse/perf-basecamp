@@ -4,6 +4,7 @@ import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
 
 const DEFAULT_PAGE_INDEX = 0;
+const memoStore: Record<string, any> = {};
 
 export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
@@ -56,8 +57,16 @@ const useGifSearch = () => {
 
   useEffect(() => {
     const fetch = async () => {
+      if (memoStore['gifsMemo']) {
+        setGifList(memoStore['gifsMemo']);
+
+        return;
+      }
+
       if (status === SEARCH_STATUS.BEFORE_SEARCH) {
         const gifs: GifImageModel[] = await gifAPIService.getTrending();
+
+        memoStore['gifsMemo'] = gifs;
 
         setGifList(gifs);
       }
