@@ -45,10 +45,10 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|jpg|webp|mp4|png)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|jpg|webp|mp4|png|jpeg)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[contenthash].[ext]'
+          name: 'static/[name].[ext]'
         }
       }
     ]
@@ -61,7 +61,7 @@ module.exports = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: [['pngquant', { quality: [0.4, 0.6] }]]
+            plugins: [['mozjpeg', { quality: 70 }]]
           }
         }
       })
