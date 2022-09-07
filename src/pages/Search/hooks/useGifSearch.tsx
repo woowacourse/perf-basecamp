@@ -54,18 +54,20 @@ const useGifSearch = () => {
     setCurrentPageIndex(nextPageIndex);
   };
 
+  const setTrendingCache = async () => {
+    const gifs: GifImageModel[] = await gifAPIService.getTrending();
+    setGifList(gifs);
+    sessionStorage.setItem('trendingAPICache', JSON.stringify(gifs));
+  };
+
+  const fetch = async () => {
+    if (status === SEARCH_STATUS.BEFORE_SEARCH) {
+      await setTrendingCache();
+    }
+  };
+
   useEffect(() => {
-    const fetch = async () => {
-      if (status === SEARCH_STATUS.BEFORE_SEARCH) {
-        const gifs: GifImageModel[] = await gifAPIService.getTrending();
-
-        setGifList(gifs);
-        sessionStorage.setItem('trendingAPICache', JSON.stringify(gifs));
-      }
-    };
-
     const trendCache = sessionStorage.getItem('trendingAPICache');
-
     if (!trendCache) {
       fetch();
       return () => setStatus(SEARCH_STATUS.LOADING);
