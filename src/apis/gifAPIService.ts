@@ -33,8 +33,11 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const fetch = fetchWithCache(this.getTrending.name, staleTime);
-      const { data: gifs } = await fetch(TRENDING_GIF_API).then((res) => res.json());
+      const { data: gifs } = await fetchWithCache(
+        this.getTrending.name,
+        () => fetch(TRENDING_GIF_API).then((res) => res.json()),
+        { staleTime }
+      );
 
       return convertResponseToModel(gifs);
     } catch (e) {

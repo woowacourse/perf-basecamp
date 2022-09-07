@@ -3,25 +3,31 @@ interface CacheProperty {
   staleTime: number;
 }
 
+interface CacheOption {
+  staleTime: number;
+}
+
 export const cacheStore: { [key: string]: CacheProperty } = {};
 
-export const fetchWithCache =
-  (key: string, staleTime: number) =>
-  (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
-    if (cacheStore[key]?.cacheData) {
-      return cacheStore[key].cacheData;
-    }
+export const fetchWithCache = (
+  key: string,
+  fetcher: (...args: any[]) => any,
+  { staleTime }: CacheOption
+) => {
+  if (cacheStore[key]?.cacheData) {
+    return cacheStore[key].cacheData;
+  }
 
-    return fetch(input, init).then((res) => {
-      cacheStore[key] = {
-        cacheData: res,
-        staleTime
-      };
+  const data = fetcher();
 
-      setTimeout(() => {
-        delete cacheStore[key];
-      }, staleTime);
-
-      return res;
-    });
+  cacheStore[key] = {
+    cacheData: data,
+    staleTime
   };
+
+  setTimeout(() => {
+    delete cacheStore[key];
+  }, staleTime);
+
+  return data;
+};
