@@ -6,8 +6,7 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 
-import Home from './pages/Home/Home';
-
+const Home = React.lazy(() => import('./pages/Home/Home'));
 const Search = React.lazy(() => import('./pages/Search/Search'));
 
 const App = () => {

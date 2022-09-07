@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { AiOutlineInfo } from '@react-icons/all-files/ai/AiOutlineInfo';
-import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
+import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
 import classNames from 'classnames/bind';
 
 import { artists } from '../../../../constants/artistData';
