@@ -1,13 +1,11 @@
-import { GifsResult } from '@giphy/js-fetch-api';
+const cacheStorage: { [key: string]: unknown } = {};
 
-const cacheStorage: { [key: string]: GifsResult } = {};
-
-const caching = (storageKey: string, apiFunc: Function, cacheTime: number) => {
+const caching = <T>(storageKey: string, apiFunc: Function, cacheTime: number) => {
   if (cacheStorage[storageKey]) {
-    return cacheStorage[storageKey];
+    return cacheStorage[storageKey] as T;
   }
 
-  const response = apiFunc();
+  const response = apiFunc() as T;
   cacheStorage[storageKey] = response;
 
   setTimeout(() => {
