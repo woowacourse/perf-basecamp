@@ -2,27 +2,47 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[chunkhash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
   devServer: {
     hot: true,
     open: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    port: 3000
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './index.html',
+      minify: true
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
+      patterns: [
+        { from: './public', to: './public' },
+        {
+          from: './node_modules/loading-attribute-polyfill/dist/loading-attribute-polyfill.css',
+          to: 'loading-attribute-polyfill.css'
+        },
+        {
+          from: './node_modules/loading-attribute-polyfill/dist/loading-attribute-polyfill.umd.js',
+          to: 'loading-attribute-polyfill.js'
+        }
+      ]
+    }),
+    new BundleAnalyzerPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
     }),
     new Dotenv()
   ],
@@ -37,18 +57,29 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        test: /\.(jpeg|gif)$/i,
+        type: 'asset'
       }
     ]
   },
   optimization: {
-    minimize: false
+    minimizer: [
+      '...',
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['giflossy', { interlaced: true, optimizationLevel: 3, color: 200, lossy: 60 }],
+              ['mozjpeg', { progressive: true, quality: 60 }]
+            ]
+          }
+        }
+      })
+    ]
   }
 };
