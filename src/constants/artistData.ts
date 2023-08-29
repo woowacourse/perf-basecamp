@@ -1,6 +1,6 @@
 import { Artist } from '../models/help/artist';
 
-const DUMMY_ARTISTS_LENGTH = 500;
+const DUMMY_ARTISTS_LENGTH = 1000;
 const dummyArtists: Artist[] = [
   {
     name: 'Pola Lucas',
@@ -8,9 +8,9 @@ const dummyArtists: Artist[] = [
     profileImageUrl: 'https://media4.giphy.com/media/gwWAA4PYJLTtyOHkUD/giphy.gif'
   },
   {
-    name: 'Yizr',
-    profileUrl: 'https://giphy.com/yizr',
-    profileImageUrl: 'https://media.giphy.com/avatars/yizr/llqaOJQnpDWZ/200h.gif'
+    name: 'Jake',
+    profileUrl: 'https://giphy.com/jakecloud',
+    profileImageUrl: 'https://media.giphy.com/avatars/jakecloud/vkGqrY1swp7V/200h.gif'
   },
   {
     name: 'YUNGSUNG',
