@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -26,6 +28,8 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
+    new CssMinimizerPlugin(),
+    new MiniCssExtractPlugin({ linkType: false, filename: `css/[name].[contenthash].css` }),
     new BundleAnalyzerPlugin()
   ],
   module: {
@@ -39,7 +43,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm)$/i,
@@ -49,5 +53,8 @@ module.exports = {
         }
       }
     ]
+  },
+  optimization: {
+    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };
