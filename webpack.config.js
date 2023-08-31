@@ -12,6 +12,11 @@ module.exports = {
     clean: true
   },
   devServer: {
+    // dist 디렉토리를 웹 서버의 기본 호스트 위치로 설정
+    contentBase: path.resolve(__dirname, './dist'),
+    // 인덱스 파일 설정
+    index: 'index.html',
+    port: 9000,
     hot: true,
     open: true,
     historyApiFallback: true
