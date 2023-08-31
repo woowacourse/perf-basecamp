@@ -23,7 +23,10 @@ module.exports = {
       template: './index.html'
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
+      patterns: [
+        { from: './public', to: './public' },
+        { from: './lighthouse', to: './lighthouse' },
+      ],
     }),
     new Dotenv()
   ],
