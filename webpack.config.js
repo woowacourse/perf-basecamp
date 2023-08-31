@@ -9,7 +9,8 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
-    clean: true
+    clean: true,
+    assetModuleFilename: './static/[name].[ext]'
   },
   devServer: {
     hot: true,
@@ -39,12 +40,10 @@ module.exports = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader']
       },
+
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        type: 'asset/resource'
       }
     ]
   },
