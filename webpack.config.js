@@ -4,7 +4,6 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -76,7 +75,6 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
-      new TerserPlugin(),
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
@@ -104,7 +102,8 @@ module.exports = {
             }
           }
         ]
-      })
+      }),
+      '...'
     ],
     splitChunks: {
       chunks: 'all'
