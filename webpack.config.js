@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
@@ -23,6 +24,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
+    new MiniCssExtractPlugin(),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
@@ -39,7 +41,17 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: true
+            }
+          }
+        ]
       },
       {
         test: /\.(jpe?g|png|gif)$/i,
