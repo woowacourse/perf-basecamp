@@ -8,6 +8,12 @@
     "plugin:react/recommended",
     "plugin:prettier/recommended"
   ],
+  "prettier/prettier": [
+    "error",
+    {
+      "endOfLine": "auto"
+    }
+  ],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
