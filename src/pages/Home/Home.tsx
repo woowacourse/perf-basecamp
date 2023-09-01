@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 
 import heroImage from '../../assets/images/hero.png';
 import trendingGif from '../../assets/images/trending.gif';
