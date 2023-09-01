@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage from '../../assets/images/hero.png?as=webp&width=1200';
-import trendingGif from '../../assets/images/trending.gif?as=webp';
-import findGif from '../../assets/images/find.gif?as=webp';
-import freeGif from '../../assets/images/free.gif?as=webp';
+import trendingGif from '../../assets/images/trending.gif?as=webp&width=300';
+import findGif from '../../assets/images/find.gif?as=webp&width=300';
+import freeGif from '../../assets/images/free.gif?as=webp&width=300';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';

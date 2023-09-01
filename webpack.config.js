@@ -98,7 +98,7 @@ module.exports = {
             options: {
               encodeOptions: {
                 webp: {
-                  quality: 90
+                  quality: 80
                 }
               }
             }
