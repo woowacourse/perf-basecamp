@@ -13,12 +13,6 @@ module.exports = {
     clean: true,
     assetModuleFilename: './static/[name].[ext]'
   },
-  devServer: {
-    hot: true,
-    open: true,
-    historyApiFallback: true
-  },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -48,8 +42,5 @@ module.exports = {
         type: 'asset/resource'
       }
     ]
-  },
-  optimization: {
-    minimize: false
   }
 };
