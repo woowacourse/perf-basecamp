@@ -11,11 +11,10 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: convertToAbsolutePath('dist'),
     clean: true
   },
-
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
