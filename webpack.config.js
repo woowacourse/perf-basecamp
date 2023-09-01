@@ -27,7 +27,6 @@ module.exports = {
     }),
     new Dotenv(),
     new CompressionPlugin({
-      algorithm: 'gzip',
       exclude: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|txt|map|ico)$/i
     })
   ],
