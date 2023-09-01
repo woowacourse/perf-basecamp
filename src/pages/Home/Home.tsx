@@ -7,6 +7,9 @@ import heroImage_webp from '../../assets/images/hero.webp';
 import trendingGif from '../../assets/images/trending.webm';
 import findGif from '../../assets/images/find.webm';
 import freeGif from '../../assets/images/free.webm';
+import alternateTrendingGif from '../../assets/images/trending.mp4';
+import alternateFindGif from '../../assets/images/find.mp4';
+import alternateFreeGif from '../../assets/images/free.mp4';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -37,9 +40,21 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem
+              title="See trending gif"
+              imageSrc={trendingGif}
+              alternateImgSrc={alternateTrendingGif}
+            />
+            <FeatureItem
+              title="Find gif for free"
+              imageSrc={findGif}
+              alternateImgSrc={alternateFindGif}
+            />
+            <FeatureItem
+              title="Free for everyone"
+              imageSrc={freeGif}
+              alternateImgSrc={alternateFreeGif}
+            />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
