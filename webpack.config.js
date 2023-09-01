@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
@@ -35,7 +36,8 @@ module.exports = {
     new CompressionPlugin({
       algorithm: 'gzip',
       threshold: 8192
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
