@@ -9,7 +9,7 @@
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
     "prettier": "prettier --write .",
-    "deploy": "npm run build:prod && npx gh-pages -d dist"
+    "deploy": "npm run build:prod && bash infrastructure/deploy.sh"
   },
   "keywords": [],
   "author": "woowacourse",
