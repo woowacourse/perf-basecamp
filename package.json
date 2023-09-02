@@ -8,6 +8,7 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
+    "serve:prod": "webpack serve --mode=production",
     "prettier": "prettier --write .",
     "deploy": "npm run build:prod && npx gh-pages -d dist"
   },
@@ -50,6 +51,7 @@
     "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.7.6",
     "prettier": "^2.3.2",
     "style-loader": "^3.2.1",
     "ts-loader": "^9.3.1",
