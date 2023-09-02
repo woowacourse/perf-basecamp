@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
+import heroImage from '../../assets/images/hero-resize-min.png';
 import trendingGif from '../../assets/images/trending.gif';
 import findGif from '../../assets/images/find.gif';
 import freeGif from '../../assets/images/free.gif';
@@ -22,7 +22,7 @@ const Home = () => {
         <img className={styles.heroImage} src={heroImage} alt="hero image" />
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
-          <h3 className={styles.subtitle}>gif search engine for you</h3>
+          <h3 className={styles.subtitle}>gif search engine from 쵸파</h3>
         </div>
         <Link to="/search">
           <button className={classNames(styles.cta, styles.linkButton)}>start search</button>
