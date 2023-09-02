@@ -20,7 +20,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: mode === 'development' ? 'source-map' : 'nosources-source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -47,7 +47,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webp)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
