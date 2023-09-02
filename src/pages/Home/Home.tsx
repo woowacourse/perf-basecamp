@@ -23,7 +23,7 @@ const Home = () => {
       <section className={styles.heroSection}>
         <picture>
           <source src={heroWebp} type="image/webp" />
-          <img className={styles.heroImage} src={heroImage} alt="hero image" />
+          <img className={styles.heroImage} loading="lazy" src={heroImage} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
