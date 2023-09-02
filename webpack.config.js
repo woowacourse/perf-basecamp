@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -27,7 +28,14 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new CompressionPlugin({
+      filename: '[path][base].gz',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
   ],
   module: {
     rules: [
@@ -59,7 +67,11 @@ module.exports = {
         terserOptions: {
           compress: {
             drop_console: true
-          }
+          },
+          format: {
+            comments: false
+          },
+          extractComments: false
         }
       })
     ]
