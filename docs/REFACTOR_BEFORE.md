@@ -56,3 +56,13 @@ LCP 9.2초
 - Partially Presented Frame 이 많이 발생함
 
 ![image](https://github.com/Gilpop8663/perf-basecamp/assets/80146176/172520d7-54ac-45b9-8228-e554b38f45c0)
+
+### 번들링되는 모듈
+
+#### giphy 모듈이 포함되어 있음
+
+![image](https://github.com/Gilpop8663/perf-basecamp/assets/80146176/312b99c1-9fdf-4ecf-8094-5ab7a14e4910)
+
+#### react-icons 모듈의 크기: 628KB
+
+![image](https://github.com/Gilpop8663/perf-basecamp/assets/80146176/df19e077-bea7-411a-bdc5-10bb7b6d3367)
