@@ -57,7 +57,23 @@ module.exports = {
         ]
       },
       {
-        test: /\.(jpe?g|png|gif)$/i,
+        test: /\.responsive\.(jpe?g|png|webp)$/,
+        type: 'javascript/auto',
+        use: [
+          {
+            loader: 'responsive-loader',
+            options: {
+              adapter: require('responsive-loader/sharp'),
+              format: 'webp',
+              placeholder: true,
+              placeholderSize: 20,
+              sizes: [320, 640, 960, 1200, 1800]
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(jpe?g|png|gif|webp)$/i,
         type: 'asset',
         generator: {
           filename: 'static/[name][ext]'
