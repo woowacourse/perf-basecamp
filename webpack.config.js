@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -11,7 +11,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true,
-    assetModuleFilename: './static/[name].[ext]'
+    assetModuleFilename: './static/[name][ext]'
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -36,7 +36,6 @@ module.exports = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader']
       },
-
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: 'asset/resource'
