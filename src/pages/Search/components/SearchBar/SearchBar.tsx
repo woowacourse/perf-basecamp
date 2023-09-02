@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 import styles from './SearchBar.module.css';
@@ -9,7 +9,7 @@ type SearchbarProps = {
   onSearch: () => void;
 };
 
-const SearchBar = ({ onEnter, onChange, onSearch }: SearchbarProps) => {
+const SearchBar = memo(({ onEnter, onChange, onSearch }: SearchbarProps) => {
   return (
     <section className={styles.searchbarSection}>
       <h3 className={styles.searchbarTitle}>- find the best gif now - </h3>
@@ -26,6 +26,6 @@ const SearchBar = ({ onEnter, onChange, onSearch }: SearchbarProps) => {
       </div>
     </section>
   );
-};
+});
 
 export default SearchBar;

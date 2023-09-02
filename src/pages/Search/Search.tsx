@@ -1,4 +1,4 @@
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useCallback } from 'react';
 import useGifSearch from './hooks/useGifSearch';
 
 import SearchBar from './components/SearchBar/SearchBar';
@@ -10,13 +10,13 @@ import styles from './Search.module.css';
 const Search = () => {
   const { status, gifList, searchByKeyword, updateSearchKeyword, loadMore } = useGifSearch();
 
-  const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleEnter = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== 'Enter') {
       return;
     }
 
     searchByKeyword();
-  };
+  }, []);
 
   return (
     <div className={styles.searchContainer}>
