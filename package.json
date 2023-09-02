@@ -9,8 +9,7 @@
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
     "prettier": "prettier --write .",
-    "deploy": "npm run build:prod && npx gh-pages -d dist",
-    "webpack:analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer bundle/output/path/stats.json"
+    "deploy": "npm run build:prod && npx gh-pages -d dist"
   },
   "keywords": [],
   "author": "woowacourse",
