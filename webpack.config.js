@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -26,7 +27,13 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new CssMinimizerPlugin()
+    new CssMinimizerPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: 'bundle-report.json'
+    })
   ],
   module: {
     rules: [
