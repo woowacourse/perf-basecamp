@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
@@ -9,19 +9,19 @@ export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
   LOADING: 'LOADING',
   FOUND: 'FOUND',
-  NO_RESULT: 'NO_RESULT'
+  NO_RESULT: 'NO_RESULT',
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const searchKeywordRef = useRef('');
 
   const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(e.target.value);
+    searchKeywordRef.current = e.currentTarget.value;
   };
 
   const resetSearch = () => {
@@ -33,8 +33,8 @@ const useGifSearch = () => {
     resetSearch();
 
     const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(
-      searchKeyword,
-      DEFAULT_PAGE_INDEX
+      searchKeywordRef.current,
+      DEFAULT_PAGE_INDEX,
     );
 
     if (gifs.length === 0) {
@@ -48,7 +48,10 @@ const useGifSearch = () => {
 
   const loadMore = async () => {
     const nextPageIndex = currentPageIndex + 1;
-    const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
+    const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(
+      searchKeywordRef.current,
+      nextPageIndex,
+    );
 
     setGifList([...gifList, ...gifs]);
     setCurrentPageIndex(nextPageIndex);
@@ -69,11 +72,10 @@ const useGifSearch = () => {
 
   return {
     status,
-    searchKeyword,
     gifList,
     searchByKeyword,
     updateSearchKeyword,
-    loadMore
+    loadMore,
   } as const;
 };
 
