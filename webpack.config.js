@@ -61,6 +61,9 @@ module.exports = {
           const TerserPlugin = require('terser-webpack-plugin');
           new TerserPlugin({
             terserOptions: {
+              output: {
+                comments: false
+              },
               compress: {
                 passes: 2
               }
