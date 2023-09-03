@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
@@ -54,6 +55,7 @@ module.exports = {
     minimize: true,
     minimizer: [
       '...',
+      new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         deleteOriginalAssets: false,
         minimizer: {
