@@ -4,10 +4,14 @@ import styles from './GifItem.module.css';
 
 type GifItemProps = Omit<GifImageModel, 'id'>;
 
-const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
+const GifItem = ({ gifUrl = '', title = '', webpUrl = '' }: GifItemProps) => {
   return (
     <div className={styles.gifItem}>
-      <img className={styles.gifImage} src={imageUrl} loading="lazy" alt={title} />
+      <picture>
+        <source srcSet={webpUrl} type="image/webp" />
+        <source srcSet={gifUrl} type="image/gif" />
+        <img className={styles.gifImage} src={gifUrl} loading="lazy" alt={title} />
+      </picture>
       <div className={styles.gifTitleContainer}>
         <div className={styles.gifTitleBg}></div>
         <h4 className={styles.gifTitle}>{title}</h4>

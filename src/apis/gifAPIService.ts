@@ -16,7 +16,8 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
     return {
       id,
       title,
-      imageUrl: images.original.url
+      gifUrl: images.original.url,
+      webpUrl: images.original.webp
     };
   });
 }
@@ -35,6 +36,7 @@ export const gifAPIService = {
       return [];
     }
   },
+
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
