@@ -16,7 +16,15 @@
 **1 요청 크기 줄이기**
 
 - [ ] 소스코드 크기 줄이기
+  - [x] prod 환경에서 `optimization.minimize` 옵션적용으로 `terserPlugin`을 통해 **minify, uglify** 적용
+  - [ ] gzip 적용
 - [ ] 이미지 크기 줄이기
+  - [ ] `ImageMinimizerPlugin` 적용
+    - [x] `sharp` 을 통해 gif,png -> webp로 변환 및 압축
+    - [ ] `srcset` 적용(선택)
+- [ ] 폰트(선택)
+  - [ ] subset적용
+  - [ ] FOUT 개선
 
 **2 필요한 것만 요청하기**
 
