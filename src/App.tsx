@@ -12,7 +12,7 @@ const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
   return (
-    <Router basename={'/perf-basecamp'}>
+    <Router>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />

@@ -17,7 +17,6 @@ module.exports = {
   devServer: {
     hot: true,
     open: true,
-    openPage: 'perf-basecamp',
     historyApiFallback: true
   },
   devtool: 'source-map',
