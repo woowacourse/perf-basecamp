@@ -42,7 +42,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(avif|eot|svg|ttf|webp|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|webp|woff|woff2|png|jpg|gif|mp4)$/i,
         type: 'asset'
       }
     ]
@@ -57,8 +57,7 @@ module.exports = {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
             plugins: [
-              ['avif', { preset: 'photo', quality: 40 }],
-              ['webp', { preset: 'photo', quality: 40 }]
+              ['webp', { preset: 'photo', quality: 40, resize: { width: 1920, height: 1280 } }]
             ]
           }
         }
