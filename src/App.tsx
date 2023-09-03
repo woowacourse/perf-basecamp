@@ -9,9 +9,11 @@ import { Suspense, lazy } from 'react';
 const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home/Home'));
 const Search = lazy(() => import(/* webpackChunkName: "Search" */ './pages/Search/Search'));
 
+const isDevMode = process.env.NODE_ENV === 'development';
+
 const App = () => {
   return (
-    <Router basename={'/perf-basecamp'}>
+    <Router basename={isDevMode ? '' : '/perf-basecamp'}>
       <NavBar />
       <Suspense fallback={<div>Load + ing...</div>}>
         <Routes>
