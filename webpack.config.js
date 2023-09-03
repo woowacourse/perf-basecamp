@@ -3,8 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
-const mode = process.env.NODE_ENV;
+const isDevMode = process.env.NODE_ENV === 'development';
 
 module.exports = {
   entry: './src/index.tsx',
@@ -20,7 +23,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: mode === 'development' ? 'source-map' : 'nosources-source-map',
+  devtool: isDevMode ? 'source-map' : 'nosources-source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -29,8 +32,11 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    }),
     new BundleAnalyzerPlugin({
-      analyzerMode: mode === 'development' ? 'server' : 'disabled'
+      analyzerMode: isDevMode ? 'server' : 'disabled'
     })
   ],
   module: {
@@ -44,7 +50,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webp)$/i,
@@ -56,6 +62,7 @@ module.exports = {
     ]
   },
   optimization: {
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
     splitChunks: {
       cacheGroups: {
         react: {
