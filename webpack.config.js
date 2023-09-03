@@ -3,6 +3,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -26,7 +27,38 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin(),
+    new ImageMinimizerPlugin({
+      loader: false,
+      deleteOriginalAssets: false,
+      test: /\.(png)$/i,
+      generator: [
+        {
+          type: 'asset',
+          preset: 'webp',
+          filename: '[path][name].webp',
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: ['imagemin-webp']
+          }
+        },
+        {
+          type: 'asset',
+          preset: 'avif',
+          filename: '[path][name].avif',
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: ['imagemin-avif']
+          }
+        }
+      ],
+      minimizer: {
+        implementation: ImageMinimizerPlugin.imageminMinify,
+        options: {
+          plugins: ['imagemin-gifsicle', 'imagemin-mozjpeg', 'imagemin-pngquant', 'imagemin-svgo']
+        }
+      }
+    })
   ],
   module: {
     rules: [
@@ -42,16 +74,11 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        type: 'asset'
       }
     ]
   },
-  optimization: {
-    minimize: false
-  },
+
   mode: 'production'
 };
