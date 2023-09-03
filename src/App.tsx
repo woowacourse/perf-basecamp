@@ -5,8 +5,8 @@ import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
+import Home from './pages/Home/Home';
 
-const Home = lazy(() => import('./pages/Home/Home'));
 const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
