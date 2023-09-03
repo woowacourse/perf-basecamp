@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
@@ -69,7 +72,10 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react"
+      "@babel/preset-react",
+      {
+        "modules": false
+      }
     ],
     "plugins": [
       "@babel/plugin-transform-runtime"
