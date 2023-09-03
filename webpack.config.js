@@ -43,7 +43,10 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|webp|woff|woff2|png|jpg|gif|mp4)$/i,
-        type: 'asset'
+        type: 'asset',
+        generator: {
+          filename: 'static/[hash][ext][query]'
+        }
       }
     ]
   },
