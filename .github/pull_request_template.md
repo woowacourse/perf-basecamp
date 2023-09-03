@@ -26,13 +26,13 @@
 **3 같은 건 매번 새로 요청하지 않기**
 
 - [ ] CloudFront 캐시 설정 (설정값, 해당 값을 설정한 이유 포함)
-- [ ] GIPHY의 trending API를 Search 페이지에 들어올 때마다 새로 요청하지 않아야 한다.
+- [x] GIPHY의 trending API를 Search 페이지에 들어올 때마다 새로 요청하지 않아야 한다.
 
 **4 최소한의 변경만 일으키기**
 
 - [ ] 검색 결과 > 추가 로드시 추가된 목록만 새로 렌더되어야 한다.
 - [ ] Layout Shift 없이 애니메이션이 일어나야 한다.
-- [ ] Frame Drop이 일어나지 않아야 한다.
+- [x] Frame Drop이 일어나지 않아야 한다.
   - (Chrome DevTools 기준) Partially Presented Frame 역시 최소로 발생해야 한다.
 
 ## 🧐 공유

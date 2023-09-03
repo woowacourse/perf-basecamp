@@ -56,10 +56,17 @@ const useGifSearch = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      if (status === SEARCH_STATUS.BEFORE_SEARCH) {
+      if (gifAPIService.isGifResultCached()) {
+        const gifs: GifImageModel[] = gifAPIService.getTrendingCached();
+
+        setGifList(gifs);
+      }
+
+      if (status === SEARCH_STATUS.BEFORE_SEARCH && !gifAPIService.isGifResultCached()) {
         const gifs: GifImageModel[] = await gifAPIService.getTrending();
 
         setGifList(gifs);
+        gifAPIService.cacheGifAPIResult(gifs);
       }
     };
     fetch();
