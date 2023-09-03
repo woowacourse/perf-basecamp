@@ -10,19 +10,36 @@ module.exports = merge(common, {
       '...',
       new ImageMinimizerPlugin({
         minimizer: {
-          implementation: ImageMinimizerPlugin.imageminMinify,
-          options: {
-            plugins: [['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 64 }]]
+          implementation: ImageMinimizerPlugin.sharpMinify
+        },
+        generator: [
+          {
+            preset: 'hero-webp',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              resize: {
+                enabled: true,
+                width: 1920
+              },
+              encodeOptions: {
+                webp: {
+                  quality: 40
+                }
+              }
+            }
+          },
+          {
+            preset: 'gif-webp',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                webp: {
+                  quality: 30
+                }
+              }
+            }
           }
-        }
-      }),
-      new ImageMinimizerPlugin({
-        minimizer: {
-          implementation: ImageMinimizerPlugin.imageminGenerate,
-          options: {
-            plugins: [['webp', { quality: 50, resize: { width: 1920, height: 0 } }]]
-          }
-        }
+        ]
       })
     ]
   }
