@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -11,7 +12,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
     assetModuleFilename: 'static/[name][ext]',
-    clean: true,
+    clean: true
   },
   devServer: {
     hot: true,
@@ -27,10 +28,11 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: './public', to: './public' },
-        { from: './lighthouse', to: './lighthouse' },
-      ],
+        { from: './lighthouse', to: './lighthouse' }
+      ]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin({ openPage: true })
   ],
   module: {
     rules: [
@@ -47,7 +49,7 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4)$/i,
-        type: 'asset/resource',
+        type: 'asset/resource'
       }
     ]
   },
@@ -57,21 +59,21 @@ module.exports = {
       new ImageMinimizerPlugin({
         generator: [
           {
-            preset: "webp",
+            preset: 'webp',
             implementation: ImageMinimizerPlugin.sharpGenerate,
             options: {
               resize: {
-                height: 700,
+                height: 700
               },
               encodeOptions: {
                 webp: {
-                  quality: 85,
-                },
-              },
-            },
-          },
-        ],
-      }),
-    ],
+                  quality: 85
+                }
+              }
+            }
+          }
+        ]
+      })
+    ]
   }
 };
