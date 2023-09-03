@@ -29,12 +29,28 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
+      const cacheTime = 600000;
+      const cachedData = JSON.parse(localStorage.getItem('trending') || 'null');
+
+      if (cachedData && Date.now() < cachedData.expirationTime) return cachedData.trending;
+
       const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      const trending = convertResponseToModel(gifs.data);
+
+      localStorage.setItem(
+        'trending',
+        JSON.stringify({
+          trending: trending,
+          expirationTime: cacheTime + Date.now()
+        })
+      );
+
+      return trending;
     } catch (e) {
       return [];
     }
   },
+
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
