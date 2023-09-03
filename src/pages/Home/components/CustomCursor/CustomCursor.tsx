@@ -11,12 +11,34 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const [...cursorTextChars] = text;
   const mousePosition = useMousePosition();
   const cursorRef = useRef<HTMLDivElement>(null);
+  const animationFrameIdRef = useRef<number | null>(null);
+
+  const updateCursor = () => {
+    if (cursorRef.current) {
+      cursorRef.current.style.transform = `translate3d(${mousePosition.pageX}px,${mousePosition.pageY}px, 0)`;
+    }
+
+    animationFrameIdRef.current = requestAnimationFrame(updateCursor);
+  };
 
   useEffect(() => {
+    const updateCursorWithAnimationFrame = () => {
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${mousePosition.pageX}px,${mousePosition.pageY}px, 0)`;
+      }
+
+      animationFrameIdRef.current = requestAnimationFrame(updateCursorWithAnimationFrame);
+    };
+
     if (cursorRef.current) {
-      cursorRef.current.style.top = `${mousePosition.pageY}px`;
-      cursorRef.current.style.left = `${mousePosition.pageX}px`;
+      animationFrameIdRef.current = requestAnimationFrame(updateCursorWithAnimationFrame);
     }
+
+    return () => {
+      if (animationFrameIdRef.current !== null) {
+        cancelAnimationFrame(animationFrameIdRef.current);
+      }
+    };
   }, [mousePosition]);
 
   return (
