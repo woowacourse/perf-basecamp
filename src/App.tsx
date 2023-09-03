@@ -1,12 +1,14 @@
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Home from './pages/Home/Home';
-import Search from './pages/Search/Search';
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
+
+const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
   return (
@@ -14,7 +16,14 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
+        <Route
+          path="/search"
+          element={
+            <Suspense fallback={<p>로딩중..</p>}>
+              <Search />
+            </Suspense>
+          }
+        />
       </Routes>
       <Footer />
     </Router>
