@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -53,6 +54,26 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: true
+    minimizer: [
+      '...',
+      new ImageMinimizerPlugin({
+        generator: [
+          {
+            preset: "webp",
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              resize: {
+                height: 700,
+              },
+              encodeOptions: {
+                webp: {
+                  quality: 85,
+                },
+              },
+            },
+          },
+        ],
+      }),
+    ],
   }
 };
