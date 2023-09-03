@@ -69,6 +69,16 @@ module.exports = {
           test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
           name: 'react',
           chunks: 'all'
+        },
+        giphy: {
+          test: /[\\/]node_modules[\\/](@giphy)[\\/]/,
+          name: 'giphy',
+          chunks: 'all'
+        },
+        reactIcons: {
+          test: /[\\/]node_modules[\\/](react-icons)[\\/]/,
+          name: 'react-icons',
+          chunks: 'all'
         }
       }
     }
