@@ -10,7 +10,6 @@ module.exports = {
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
     filename: 'bundle.[contenthash].js',
-    chunkFilename: '[name].[contenthash].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
