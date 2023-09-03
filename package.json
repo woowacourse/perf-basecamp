@@ -67,7 +67,12 @@
   },
   "babel": {
     "presets": [
-      "@babel/preset-env",
+      [
+        "@babel/preset-env",
+        {
+          "module": false
+        }
+      ],
       "@babel/preset-react"
     ],
     "plugins": [
