@@ -11,7 +11,7 @@ import './App.css';
 
 const App = () => {
   return (
-    <Router basename={'/perf-basecamp'}>
+    <Router>
       <NavBar />
       <Suspense>
         <Routes>
