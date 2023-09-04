@@ -2,7 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CompressPlugin = require('compression-webpack-plugin');
+// const CompressPlugin = require('compression-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -19,7 +20,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  // devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -29,7 +30,7 @@ module.exports = {
     }),
     new Dotenv(),
     new BundleAnalyzerPlugin(),
-    new CompressPlugin(),
+    // new CompressPlugin(),
     new MiniCssExtractPlugin()
   ],
   module: {
@@ -56,21 +57,22 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      {
-        apply: (compiler) => {
-          const TerserPlugin = require('terser-webpack-plugin');
-          new TerserPlugin({
-            terserOptions: {
-              output: {
-                comments: false
-              },
-              compress: {
-                passes: 2
-              }
-            }
-          }).apply(compiler);
-        }
-      }
+      new CssMinimizerPlugin()
+      //     {
+      //       apply: (compiler) => {
+      //         const TerserPlugin = require('terser-webpack-plugin');
+      //         new TerserPlugin({
+      //           terserOptions: {
+      //             output: {
+      //               comments: false
+      //             },
+      //             compress: {
+      //               passes: 2
+      //             }
+      //           }
+      //         }).apply(compiler);
+      //       }
+      //     }
     ]
   }
 };
