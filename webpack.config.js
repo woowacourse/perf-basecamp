@@ -82,7 +82,7 @@ module.exports = {
       chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css'
     }),
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(process.env)
+      NODE_ENV: isProd ? JSON.stringify('production') : JSON.stringify('development')
     })
   ],
   optimization: {
