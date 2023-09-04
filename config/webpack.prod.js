@@ -27,10 +27,7 @@ module.exports = merge(common, {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: [
-              ['webp', { quality: 35 }],
-              ['gifsicle', { interlaced: true, optimizationLevel: 3, color: 64 }]
-            ]
+            plugins: [['webp', { quality: 35 }]]
           }
         }
       }),

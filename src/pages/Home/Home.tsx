@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage from '../../assets/images/hero.png';
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+import trendingGif from '../../assets/images/trending.mp4';
+import findGif from '../../assets/images/find.mp4';
+import freeGif from '../../assets/images/free.mp4';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -22,7 +22,7 @@ const Home = () => {
         <img className={styles.heroImage} src={heroImage} alt="hero image" />
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
-          <h3 className={styles.subtitle}>gif search engine for you</h3>
+          <h2 className={styles.subtitle}>gif search engine for you</h2>
         </div>
         <Link to="/search">
           <button className={classNames(styles.cta, styles.linkButton)}>start search</button>
@@ -36,17 +36,17 @@ const Home = () => {
             <FeatureItem
               title="See trending gif"
               imageSrc={trendingGif}
-              imageAlt="See trending gif"
+              // imageAlt="See trending gif"
             />
             <FeatureItem
               title="Find gif for free"
               imageSrc={findGif}
-              imageAlt="Find gif for free"
+              // imageAlt="Find gif for free"
             />
             <FeatureItem
               title="Free for everyone"
               imageSrc={freeGif}
-              imageAlt="Free for everyone"
+              // imageAlt="Free for everyone"
             />
           </div>
           <Link to="/search">
