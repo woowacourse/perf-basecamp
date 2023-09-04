@@ -6,22 +6,22 @@ import Footer from './components/Footer/Footer';
 import './App.css';
 import { Suspense, lazy } from 'react';
 import Home from './pages/Home/Home';
+import Loading from './components/Loading/Loading';
 const Search = lazy(() => import(/* webpackChunkName: "Search" */ './pages/Search/Search'));
 
 const isDevMode = process.env.NODE_ENV === 'development';
-
 const App = () => {
   return (
-    <Router basename={isDevMode ? '' : '/perf-basecamp'}>
-      <NavBar />
-      <Suspense fallback={<div>Load + ing...</div>}>
+    <Suspense fallback={<Loading />}>
+      <Router basename={isDevMode ? '' : '/perf-basecamp'}>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
-      </Suspense>
-      <Footer />
-    </Router>
+        <Footer />
+      </Router>
+    </Suspense>
   );
 };
 
