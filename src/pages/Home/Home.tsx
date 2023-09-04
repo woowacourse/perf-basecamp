@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage_2400w from '../../assets/images/hero_2400w.webp';
+import heroImage_1440w from '../../assets/images/hero_1440w.webp';
 import heroImage_768w from '../../assets/images/hero_768w.webp';
 import heroImage_375w from '../../assets/images/hero_375w.webp';
 import trendingGif from '../../assets/images/trending.webm';
@@ -24,7 +24,7 @@ const Home = () => {
         <picture>
           <source media="(max-width: 375px)" srcSet={heroImage_375w} />
           <source media="(max-width: 768px)" srcSet={heroImage_768w} />
-          <img className={styles.heroImage} src={heroImage_2400w} alt="hero image" />
+          <img className={styles.heroImage} src={heroImage_1440w} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
