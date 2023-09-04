@@ -6,7 +6,6 @@ type FeatureItemProps = {
 };
 
 const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
-  console.log(imageSrc);
   return (
     <div className={styles.featureItem}>
       <video className={styles.featureImage} autoPlay loop muted>
