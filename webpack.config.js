@@ -21,6 +21,7 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
+      minify: true,
       template: './index.html',
     }),
     new CopyWebpackPlugin({
