@@ -10,7 +10,7 @@ import './App.css';
 
 const App = () => {
   return (
-    <Router basename={'/'}>
+    <Router>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
