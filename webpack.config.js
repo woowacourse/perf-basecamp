@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
@@ -29,7 +30,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       linkType: false
     }),
-    new Dotenv()
+    new Dotenv(),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      exclude: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i
+    })
   ],
   module: {
     rules: [
