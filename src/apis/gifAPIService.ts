@@ -37,8 +37,6 @@ export const gifAPIService = {
         cache.current = data;
       }
 
-      console.log(cache);
-
       return cache.current ?? [];
     } catch (e) {
       return [];
