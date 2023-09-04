@@ -10,8 +10,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
+    filename: '[name].bundle.[contenthash].js',
     clean: true
   },
   devServer: {
@@ -19,10 +19,10 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './index.html',
+      hash: true
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
