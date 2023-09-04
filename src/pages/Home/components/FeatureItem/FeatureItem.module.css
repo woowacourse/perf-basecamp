@@ -9,6 +9,13 @@
   border-radius: 4%;
 }
 
+@media (max-width: 424px) {
+  .featureItem {
+    width: 15rem;
+    height: 13rem;
+  }
+}
+
 .featureTitle {
   padding-top: 24px;
   position: relative;
