@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai/index.esm';
 import classNames from 'classnames/bind';
 
 import { artists } from '../../../../constants/artistData';
