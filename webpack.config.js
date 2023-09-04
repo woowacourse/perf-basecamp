@@ -16,7 +16,7 @@ module.exports = {
     filename: '[name].[chunkhash].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true,
-    assetModuleFilename: './static/[name].[ext]'
+    assetModuleFilename: './static/[name].[contenthash].[ext]'
   },
   devServer: {
     hot: true,
@@ -97,7 +97,6 @@ module.exports = {
     splitChunks: {
       cacheGroups: {
         framework: {
-          chunks: 'all',
           name: 'react',
           test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
           chunks: 'all'
