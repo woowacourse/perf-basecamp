@@ -36,7 +36,7 @@ const HelpPanel = () => {
           </p>
           <br />
 
-          <img src="https://giphy.com/static/img/artistdirectory_1040.gif" />
+          <img src="https://giphy.com/static/img/artistdirectory_1040.gif" loading="lazy" />
           <p>
             If you want more, you are always welcome to contribute as an artist. Please refer to the
             guideline&nbsp;
