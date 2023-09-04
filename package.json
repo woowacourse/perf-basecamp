@@ -9,7 +9,9 @@
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
     "prettier": "prettier --write .",
-    "deploy": "npm run build:prod && npx gh-pages -d dist"
+    "deploy": "npm run build:prod && npx gh-pages -d dist",
+    "preanalyze": "npm run build:prod",
+    "analyze": "webpack-bundle-analyzer ./build/bundle-report.json --default-sizes gzip"
   },
   "keywords": [],
   "author": "woowacourse",
@@ -56,7 +58,8 @@
     "typescript": "^4.8.2",
     "webpack": "^5.88.2",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-bundle-analyzer": "^4.9.1"
   },
   "babel": {
     "presets": [
