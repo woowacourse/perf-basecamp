@@ -9,6 +9,7 @@
     "build:analyze": "webpack --mode=production --node-env=development",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
+    "serve:prod": "webpack serve --mode=production",
     "prettier": "prettier --write .",
     "deploy": "npm run build:prod && npx gh-pages -d dist",
     "preanalyze": "npm run build:analyze",
