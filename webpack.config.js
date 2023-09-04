@@ -7,12 +7,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[chunkhash].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true,
     assetModuleFilename: './static/[name].[ext]'
@@ -38,6 +39,12 @@ module.exports = {
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
       minRatio: 0.8
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: 'bundle-report.json'
     })
   ],
   module: {
@@ -86,6 +93,27 @@ module.exports = {
           }
         }
       })
-    ]
+    ],
+    splitChunks: {
+      cacheGroups: {
+        framework: {
+          chunks: 'all',
+          name: 'react',
+          test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+          chunks: 'all'
+        },
+        giphy: {
+          test: /[\\/]node_modules[\\/](@giphy)[\\/]/,
+          name: 'giphy',
+          enforce: true,
+          chunks: 'all'
+        },
+        reactIcons: {
+          test: /[\\/]node_modules[\\/](react-icons)[\\/]/,
+          name: 'react-icons',
+          chunks: 'all'
+        }
+      }
+    }
   }
 };
