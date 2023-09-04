@@ -29,7 +29,7 @@ module.exports = {
     }),
     new Dotenv(),
     new BundleAnalyzerPlugin(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' })
   ],
   module: {
     rules: [
