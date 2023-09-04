@@ -6,8 +6,8 @@ import Footer from './components/Footer/Footer';
 import './App.css';
 import React, { Suspense } from 'react';
 
-const Home = React.lazy(() => import('./pages/Home/Home'));
-const Search = React.lazy(() => import('./pages/Search/Search'));
+const Home = React.lazy(() => import(/* webpackChunkName: "home" */ './pages/Home/Home'));
+const Search = React.lazy(() => import(/* webpackChunkName: "search" */ './pages/Search/Search'));
 
 const App = () => {
   return (

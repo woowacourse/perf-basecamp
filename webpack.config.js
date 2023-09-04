@@ -63,7 +63,14 @@ module.exports = {
   optimization: {
     minimizer: [`...`, new CssMinimizerPlugin()],
     splitChunks: {
-      chunks: 'all'
+      chunks: 'all',
+      cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: 'react',
+          chunks: 'all'
+        }
+      }
     }
   }
 };
