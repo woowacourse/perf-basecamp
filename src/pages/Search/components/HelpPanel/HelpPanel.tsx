@@ -7,6 +7,8 @@ import ArtistList from '../ArtistList/ArtistList';
 
 import styles from './HelpPanel.module.css';
 
+const cn = classNames.bind(styles);
+
 const HelpPanel = () => {
   const [isShow, setIsShow] = useState(false);
   const openSheet = () => setIsShow(true);
@@ -18,7 +20,7 @@ const HelpPanel = () => {
         <AiOutlineInfo color="white" size="24px" />
       </button>
       <section
-        className={classNames(styles.selectedItemContainer, {
+        className={cn(this, styles.selectedItemContainer, {
           [styles.showSheet]: isShow
         })}
       >
