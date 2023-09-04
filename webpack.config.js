@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
 
@@ -54,10 +55,10 @@ module.exports = {
         ]
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm|mp4)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[ext]'
         }
       }
     ]
@@ -86,6 +87,20 @@ module.exports = {
   ],
   optimization: {
     minimize: true,
-    minimizer: isProd ? [new CssMinimizerPlugin(), new TerserPlugin()] : []
+    minimizer: isProd
+      ? [
+          new CssMinimizerPlugin(),
+          new TerserPlugin(),
+          new ImageMinimizerPlugin({
+            deleteOriginalAssets: false,
+            minimizer: {
+              implementation: ImageMinimizerPlugin.imageminGenerate,
+              options: {
+                plugins: [['webp', { preset: 'photo', quality: 40 }]]
+              }
+            }
+          })
+        ]
+      : []
   }
 };
