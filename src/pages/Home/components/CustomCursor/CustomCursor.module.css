@@ -1,7 +1,8 @@
 .cursor {
   pointer-events: none;
   position: absolute;
-  transform: translate(0, 0);
+  top: 0;
+  left: 0;
   z-index: 10;
   padding: 0 16px;
   color: var(--white);
@@ -11,7 +12,8 @@
   content: '';
   display: block;
   position: absolute;
-  transform: translate(-12px, -12px);
+  top: -12px;
+  left: -12px;
   width: 24px;
   height: 24px;
   background: rgba(255, 255, 255, 0.25);
