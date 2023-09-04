@@ -8,6 +8,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const mode = process.env.NODE_ENV || 'development';
 
 const isProd = mode === 'production';
@@ -101,6 +103,6 @@ module.exports = {
             }
           })
         ]
-      : []
+      : [new BundleAnalyzerPlugin()]
   }
 };
