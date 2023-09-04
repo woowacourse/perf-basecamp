@@ -10,7 +10,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].bundle.[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -45,7 +45,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
