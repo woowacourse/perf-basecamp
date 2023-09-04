@@ -5,8 +5,7 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 import { Suspense, lazy } from 'react';
-
-const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home/Home'));
+import Home from './pages/Home/Home';
 const Search = lazy(() => import(/* webpackChunkName: "Search" */ './pages/Search/Search'));
 
 const isDevMode = process.env.NODE_ENV === 'development';
