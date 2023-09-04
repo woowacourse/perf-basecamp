@@ -54,14 +54,14 @@ module.exports = {
         use: [MiniCssExtractingPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[ext]'
         }
       },
       {
-        test: /\.(png|jpg|jpeg|gif|webp)$/i,
+        test: /\.(png|jpg|jpeg|gif|webp|webm)$/i,
         loader: 'image-webpack-loader',
         enforce: 'pre'
       }
