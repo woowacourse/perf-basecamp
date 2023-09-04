@@ -26,7 +26,11 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin({
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: 'bundle-report.json'
+    })
   ],
   module: {
     rules: [
