@@ -2,8 +2,8 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroWebp from '../../assets/images/hero.webp';
-import heroImage from '../../assets/images/hero.jpg';
+import heroImage from '../../assets/images/hero.png';
+import heroWebp from '../../assets/images/hero.png?as=webp';
 
 import trendingMp4 from '../../assets/images/trending.mp4';
 import findMp4 from '../../assets/images/find.mp4';
@@ -23,8 +23,9 @@ const Home = () => {
       <section className={styles.heroSection}>
         <picture>
           <source srcSet={heroWebp} type="image/webp" />
-          <img className={styles.heroImage} loading="lazy" src={heroImage} alt="hero image" />
+          <img className={styles.heroImage} src={heroImage} />
         </picture>
+
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
