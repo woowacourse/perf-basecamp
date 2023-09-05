@@ -12,7 +12,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.[name].js',
+    filename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -78,7 +78,7 @@ module.exports = {
         test: /(?<!\.responsive)\.(jpe?g|png|gif|webp)$/i,
         type: 'asset',
         generator: {
-          filename: 'static/[name][ext]'
+          filename: 'static/[name].[contenthash][ext]'
         }
       },
       {
