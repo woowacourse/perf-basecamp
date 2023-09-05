@@ -20,7 +20,12 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <ResponsiveImage className={styles.heroImage} image={heroImage} alt="hero image" />
+        <ResponsiveImage
+          className={styles.heroImage}
+          image={heroImage}
+          alt="hero image"
+          fetchPriority="high"
+        />
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
