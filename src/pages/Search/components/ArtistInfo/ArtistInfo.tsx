@@ -1,17 +1,18 @@
-import { Artist } from '../../../../models/help/artist';
+import {Artist} from '../../../../models/help/artist';
 
 import styles from './ArtistInfo.module.css';
+import {memo} from "react";
 
 export type ArtistProps = {
   artist: Artist;
 };
 
-const ArtistInfo = ({ artist }: ArtistProps) => {
-  const { name, profileUrl, profileImageUrl } = artist;
+const ArtistInfo = ({artist}: ArtistProps) => {
+  const {name, profileUrl, profileImageUrl} = artist;
 
   return (
     <li className={styles.artistContainer}>
-      <img className={styles.profileImage} src={profileImageUrl} />
+      <img className={styles.profileImage} src={profileImageUrl}/>
       <p>
         <a className={styles.profileUrl} href={profileUrl}>
           {name}
@@ -21,4 +22,4 @@ const ArtistInfo = ({ artist }: ArtistProps) => {
   );
 };
 
-export default ArtistInfo;
+export default memo(ArtistInfo);
