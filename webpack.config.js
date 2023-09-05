@@ -12,8 +12,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, '/dist'),
+    filename: 'bundle.[contenthash].js',
+    path: path.resolve(__dirname, 'dist'),
     clean: true
   },
   devServer: {
@@ -61,6 +61,9 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
+    splitChunks: {
+      chunks: 'all'
+    }
   }
 };
