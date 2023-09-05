@@ -12,7 +12,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.[contenthash].js',
+    filename: 'bundle.[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true
   },
@@ -72,6 +72,7 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: ['...', new TerserPlugin(), new CssMinimizerPlugin()],
+    chunkIds: 'named',
     splitChunks: {
       chunks: 'all'
     }
