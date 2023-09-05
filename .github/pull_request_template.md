@@ -32,7 +32,7 @@
 
 - [x] 검색 결과 > 추가 로드시 추가된 목록만 새로 렌더되어야 한다.
 - [x] Layout Shift 없이 애니메이션이 일어나야 한다.
-- [ ] Frame Drop이 일어나지 않아야 한다.
+- [x] Frame Drop이 일어나지 않아야 한다.
   - (Chrome DevTools 기준) Partially Presented Frame 역시 최소로 발생해야 한다.
 
 ## 🧐 공유
