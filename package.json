@@ -10,7 +10,9 @@
     "serve": "webpack serve --mode=development",
     "serve:prod": "webpack serve --mode=production --node-env=production",
     "prettier": "prettier --write .",
-    "deploy": "npm run build:prod && npx gh-pages -d dist"
+    "deploy": "npm run build:prod && npx gh-pages -d dist",
+    "preanalyze": "yarn build:prod",
+    "analyze": "webpack-bundle-analyzer ./dist/bundle-report.json --default-sizes gzip"
   },
   "keywords": [],
   "author": "woowacourse",
