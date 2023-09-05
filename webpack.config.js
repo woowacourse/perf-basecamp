@@ -5,12 +5,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[contenthash].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -28,7 +29,8 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
