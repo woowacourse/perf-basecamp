@@ -12,7 +12,6 @@ const FeatureItem = ({ title, imageSrc, videoSrc }: FeatureItemProps) => {
       <video className={styles.featureImage} muted autoPlay loop playsInline poster={imageSrc}>
         <source src={videoSrc} type="video/mp4" />
       </video>
-      {/*<img className={styles.featureImage} src={imageSrc} />*/}
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
     </div>
