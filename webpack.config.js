@@ -32,7 +32,9 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[contenthash].css'
+    }),
     new CompressionPlugin({
       filename: '[path][base].gz',
       algorithm: 'gzip',
