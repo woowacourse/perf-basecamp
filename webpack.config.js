@@ -14,8 +14,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].chunk.bundle.js',
+    filename: '[name].[contenthash].bundle.js',
+    chunkFilename: '[name].[chunkhash].chunk.bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -54,7 +54,7 @@ module.exports = {
         use: [isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webp)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webp|avif)$/i,
         type: 'asset/resource',
         generator: {
           filename: 'static/[name][ext]'
@@ -69,7 +69,17 @@ module.exports = {
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
-          implementation: ImageMinimizerPlugin.sharpMinify
+          implementation: ImageMinimizerPlugin.sharpMinify,
+          options: {
+            webp: {
+              // https://sharp.pixelplumbing.com/api-output#webp
+              lossless: true
+            },
+            avif: {
+              // https://sharp.pixelplumbing.com/api-output#avif
+              lossless: true
+            }
+          }
         },
         generator: [
           {
@@ -93,7 +103,7 @@ module.exports = {
             options: {
               encodeOptions: {
                 webp: {
-                  quality: 50
+                  quality: 40
                 }
               }
             }
