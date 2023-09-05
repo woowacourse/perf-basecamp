@@ -10,8 +10,18 @@ import styles from './HelpPanel.module.css';
 
 const HelpPanel = () => {
   const [isShow, setIsShow] = useState(false);
+  const [openArtist, setOpenArtist] = useState(false);
+
   const openSheet = () => setIsShow(true);
-  const closeSheet = () => setIsShow(false);
+
+  const closeSheet = () => {
+    setIsShow(false);
+    setOpenArtist(false);
+  };
+
+  const handleArtistButton = () => {
+    setOpenArtist(true);
+  };
 
   return (
     <>
@@ -49,9 +59,16 @@ const HelpPanel = () => {
           <br />
           <p>Here are some artists you can refer to.</p>
           <br />
-          <section>
-            <ArtistList artists={artists} />
-          </section>
+
+          {openArtist ? (
+            <section>
+              <ArtistList artists={artists} />
+            </section>
+          ) : (
+            <button className={styles.artistButton} onClick={handleArtistButton}>
+              Show Artist
+            </button>
+          )}
         </div>
       </section>
     </>
