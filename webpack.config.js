@@ -8,7 +8,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[contenthash].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -41,7 +41,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
