@@ -48,10 +48,10 @@ module.exports = {
         use: [mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name][ext]'
         }
       }
     ]
