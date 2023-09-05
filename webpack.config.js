@@ -80,6 +80,7 @@ module.exports = {
             options: {
               adapter: require('responsive-loader/sharp'),
               format: 'webp',
+              name: '[name].[hash]-[width].[ext]',
               placeholder: true,
               placeholderSize: 20,
               sizes: [320, 640, 960],
