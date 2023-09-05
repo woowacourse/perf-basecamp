@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage from '../../assets/images/hero.png';
+import heroLgImage from '../../assets/images/hero-lg.webp';
+import heroMdImage from '../../assets/images/hero-md.webp';
+import heroSmImage from '../../assets/images/hero-sm.webp';
 import trendingGif from '../../assets/images/trending.gif';
 import findGif from '../../assets/images/find.gif';
 import freeGif from '../../assets/images/free.gif';
@@ -19,7 +22,14 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source
+            type="image/webp"
+            src={heroLgImage}
+            srcSet={`${heroSmImage} 500w, ${heroMdImage} 1000w,${heroLgImage} 2000vw`}
+          />
+          <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
