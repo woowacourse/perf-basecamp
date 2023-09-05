@@ -41,10 +41,7 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webp)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        type: 'asset/resource'
       }
     ]
   },
