@@ -6,6 +6,7 @@ const Search = lazy(() => import('./pages/Search/Search'));
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
+import Loading from './components/Loading/Loading';
 
 import './App.css';
 
@@ -13,7 +14,7 @@ const App = () => {
   return (
     <Router>
       <NavBar />
-      <Suspense fallback={<div>Loading..</div>}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
