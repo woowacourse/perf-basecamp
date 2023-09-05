@@ -18,7 +18,7 @@ import findWebm from '../../assets/images/find.webm';
 import trendingMP4 from '../../assets/images/trending.mp4';
 import trendingWebm from '../../assets/images/trending.webm';
 
-// import FeatureItem from './components/FeatureItem/FeatureItem';
+import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 
@@ -48,35 +48,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            {/* trending */}
-            <div className={styles.featureItem}>
-              <video className={styles.featureImage} autoPlay loop muted playsInline>
-                <source src={trendingWebm} type="video/webm" />
-                <source src={trendingMP4} type="video/mp4" />
-              </video>
-              <div className={styles.featureTitleBg}></div>
-              <h4 className={styles.featureTitle}>See trending gif</h4>
-            </div>
-
-            {/* find video */}
-            <div className={styles.featureItem}>
-              <video className={styles.featureImage} autoPlay loop muted playsInline>
-                <source src={findWebm} type="video/webm" />
-                <source src={findMP4} type="video/mp4" />
-              </video>
-              <div className={styles.featureTitleBg}></div>
-              <h4 className={styles.featureTitle}>Find gif for fre</h4>
-            </div>
-
-            {/* free */}
-            <div className={styles.featureItem}>
-              <video className={styles.featureImage} autoPlay loop muted playsInline>
-                <source src={freeWebm} type="video/webm" />
-                <source src={freeMP4} type="video/mp4" />
-              </video>
-              <div className={styles.featureTitleBg}></div>
-              <h4 className={styles.featureTitle}>Free for everyonee</h4>
-            </div>
+            <FeatureItem webmUrl={trendingWebm} mp4Url={trendingMP4} title="See trending gif" />
+            <FeatureItem webmUrl={findWebm} mp4Url={findMP4} title="Find gif for fre" />
+            <FeatureItem webmUrl={freeWebm} mp4Url={freeMP4} title="Free for everyone" />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
