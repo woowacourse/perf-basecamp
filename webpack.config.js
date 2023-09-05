@@ -2,9 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -29,7 +31,14 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin({
-      filename: '[name].css' // 파일 네임을 지정해 줄 수 있다.
+      filename: '[name].css'
+    }),
+    new CompressionPlugin({
+      filename: '[path][base].gz',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
     })
   ],
   module: {
@@ -57,6 +66,7 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
+      '...',
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
