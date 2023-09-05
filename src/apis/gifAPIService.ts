@@ -9,6 +9,8 @@ const gf = new GiphyFetch(apiKey);
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
 
+let trendings: GifImageModel[] | null = null;
+
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
     const { id, title, images } = gif;
@@ -29,8 +31,11 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      if (trendings !== null) return trendings;
+
+      const trendingsResult: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+      trendings = convertResponseToModel(trendingsResult.data);
+      return trendings;
     } catch (e) {
       return [];
     }
