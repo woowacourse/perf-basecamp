@@ -5,11 +5,22 @@
 }
 
 .gifResultWrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.25rem;
   padding-bottom: 5rem;
+
+  @media screen and (min-width: 1024px) and (max-width: 1240px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .loadMoreButton {
