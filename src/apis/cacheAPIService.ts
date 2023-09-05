@@ -21,7 +21,7 @@ export const cacheAPIService = {
 
     cache.put(url, updatedResponse.clone());
 
-    return fetchResponse.json();
+    return updatedResponse.json();
   },
 
   isExpired(response: Response) {
