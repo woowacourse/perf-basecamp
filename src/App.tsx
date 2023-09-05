@@ -8,7 +8,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import './App.css';
 
-const Home = React.lazy(() => import('./pages/Home/Home'));
+import Home from './pages/Home/Home';
 const Search = React.lazy(() => import('./pages/Search/Search'));
 
 const RootLayout = () => {
