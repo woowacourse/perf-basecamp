@@ -32,13 +32,15 @@ module.exports = {
     }),
     new PreloadWebpackPlugin({
       rel: 'preload',
-      fileWhitelist: [/\.css$/, /\.woff2$/],
+      fileWhitelist: [/\.css$/],
       include: 'allAssets',
-      as(entry) {
-        if (/\.css$/.test(entry)) return 'style';
-        if (/\.woff2$/.test(entry)) return 'font';
-        return 'script';
-      }
+      as: 'style'
+    }),
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      fileWhitelist: [/\.woff2$/],
+      include: 'allAssets',
+      as: 'font'
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
