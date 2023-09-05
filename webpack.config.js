@@ -26,7 +26,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
+    }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
@@ -81,9 +83,9 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        type: 'asset',
+        generator: {
+          filename: 'static/[name][ext]'
         }
       }
     ]
