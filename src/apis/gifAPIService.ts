@@ -1,6 +1,5 @@
 import { GifsResult, GiphyFetch, SearchOptions } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
-
 import { GifImageModel } from '../models/image/gifImage';
 
 const apiKey = process.env.GIPHY_API_KEY || '';
@@ -30,20 +29,25 @@ export const gifAPIService = {
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
       const cacheTime = 600000;
-      const cachedData = JSON.parse(localStorage.getItem('trending') || 'null');
+      const cache = await caches.open('trending-cache');
+      const cachedResponse = await cache.match('trending');
 
-      if (cachedData && Date.now() < cachedData.expirationTime) return cachedData.trending;
+      if (cachedResponse) {
+        const cachedData = await cachedResponse.json();
+
+        if (Date.now() < cachedData.expirationTime) return cachedData.trending;
+      }
 
       const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
       const trending = convertResponseToModel(gifs.data);
 
-      localStorage.setItem(
-        'trending',
-        JSON.stringify({
-          trending: trending,
-          expirationTime: cacheTime + Date.now()
-        })
-      );
+      const cacheData = {
+        trending: trending,
+        expirationTime: cacheTime + Date.now()
+      };
+
+      const cacheResponse = new Response(JSON.stringify(cacheData));
+      await cache.put('trending', cacheResponse);
 
       return trending;
     } catch (e) {
