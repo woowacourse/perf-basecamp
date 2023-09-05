@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom';
 
 import styles from './NavBar.module.css';
+import { ROUTE_PATH } from '../../constants/pageRoute';
 
 const NavBar = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <Link to="/">
+        <Link to={ROUTE_PATH.MAIN_PAGE}>
           <span className={styles.logo}>memegle</span>
         </Link>
-        <Link to="/search">
+        <Link to={ROUTE_PATH.SEARCH_PAGE}>
           <button className={styles.searchPageButton}>start search</button>
         </Link>
       </nav>

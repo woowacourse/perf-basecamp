@@ -7,6 +7,7 @@ import Footer from './components/Footer/Footer';
 const Search = lazy(() => import('./pages/Search/Search'));
 
 import './App.css';
+import { ROUTE_PATH } from './constants/pageRoute';
 
 const ComponentSuspense = (component: JSX.Element) => {
   return <Suspense fallback={<>로딩중</>}>{component}</Suspense>;
@@ -17,8 +18,8 @@ const App = () => {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={ComponentSuspense(<Search />)} />
+        <Route path={ROUTE_PATH.MAIN_PAGE} element={<Home />} />
+        <Route path={ROUTE_PATH.SEARCH_PAGE} element={ComponentSuspense(<Search />)} />
       </Routes>
       <Footer />
     </Router>
