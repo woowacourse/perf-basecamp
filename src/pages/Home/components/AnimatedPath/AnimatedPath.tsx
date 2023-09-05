@@ -13,6 +13,7 @@ const TOP_PERCENTAGE_OF_DRAW_POINT = 0.8; // 현재 보이는 화면의 80% 지�
 const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   const pathRef = useRef<SVGPathElement>(null);
   const [strokeOffset, setStrokeOffset] = useState(0);
+  const [isUpdateScheduled, setUpdateScheduled] = useState(false);
 
   const drawPath = () => {
     const wrapper = wrapperRef.current;
@@ -28,7 +29,15 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     const pathLength = pathRef.current.getTotalLength();
     const currentScrollOffset = pathLength - pathLength * scrollRatio;
 
-    setStrokeOffset(clamp(currentScrollOffset, 0, pathLength));
+    // 이미 예약된 업데이트가 있다면 아무 것도 하지 않음
+    if (!isUpdateScheduled) {
+      setUpdateScheduled(true);
+
+      requestAnimationFrame(() => {
+        setStrokeOffset(clamp(currentScrollOffset, 0, pathLength));
+        setUpdateScheduled(false);
+      });
+    }
   };
 
   useScrollEvent(drawPath);
