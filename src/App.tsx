@@ -8,6 +8,8 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 
+// basename={'/perf-basecamp'}
+
 const App = () => {
   return (
     <Router>
