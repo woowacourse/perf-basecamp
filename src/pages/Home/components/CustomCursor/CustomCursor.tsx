@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 import styles from './CustomCursor.module.css';
+import useAnimationFrame from '../../../Search/hooks/useAnimationFrame';
 
 type CustomCursorProps = {
   text: string;
@@ -9,12 +10,18 @@ type CustomCursorProps = {
 const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const [...cursorTextChars] = text;
   const cursorRef = useRef<HTMLDivElement>(null);
+  const requestAnimationFrame = useAnimationFrame();
 
   useEffect(() => {
     const updateMousePosition = (event: MouseEvent) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${event.pageX}px, ${event.pageY}px)`;
+      const cursor = cursorRef.current;
+      if (!cursor) {
+        return;
       }
+
+      requestAnimationFrame(() => {
+        cursor.style.transform = `translate(${event.pageX}px, ${event.pageY}px)`;
+      });
     };
 
     window.addEventListener('mousemove', updateMousePosition);
