@@ -10,7 +10,7 @@ const dummyArtists: Artist[] = [
   {
     name: 'Yizr',
     profileUrl: 'https://giphy.com/yizr',
-    profileImageUrl: 'https://media.giphy.com/avatars/yizr/llqaOJQnpDWZ/200h.gif'
+    profileImageUrl: 'https://media3.giphy.com/media/7PqDpUepjFkBXr3ZK9/200w.webp'
   },
   {
     name: 'YUNGSUNG',
