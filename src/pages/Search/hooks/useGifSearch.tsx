@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
@@ -22,16 +22,16 @@ const useGifSearch = () => {
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
   const searchKeywordRef = useRef('');
 
-  const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
+  const updateSearchKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     searchKeywordRef.current = e.currentTarget.value;
-  };
+  }, []);
 
   const resetSearch = () => {
     setStatus(SEARCH_STATUS.LOADING);
     setCurrentPageIndex(DEFAULT_PAGE_INDEX);
   };
 
-  const searchByKeyword = async () => {
+  const searchByKeyword = useCallback(async () => {
     resetSearch();
 
     const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(
@@ -46,7 +46,7 @@ const useGifSearch = () => {
 
     setGifList(gifs);
     setStatus(SEARCH_STATUS.FOUND);
-  };
+  }, []);
 
   const loadMore = async () => {
     const nextPageIndex = currentPageIndex + 1;
