@@ -14,7 +14,7 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
+        <Route path="/sea`rch" element={<Search />} />
       </Routes>
       <Footer />
     </Router>
