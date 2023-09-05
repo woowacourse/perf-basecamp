@@ -11,6 +11,7 @@ module.exports = {
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
     filename: 'js/bundle.[contenthash].js',
+    assetModuleFilename: 'static/[name].[contenthash].[ext]',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -46,10 +47,7 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|avif|mp4)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[contenthash].[ext]'
-        }
+        type: 'asset'
       }
     ]
   },
