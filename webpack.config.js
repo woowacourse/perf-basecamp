@@ -75,6 +75,6 @@ module.exports = {
       }
     },
     minimizer: [new CssMinimizerPlugin(), '...'],
-    minimize: true
+    minimize: !!isProduction
   }
 };
