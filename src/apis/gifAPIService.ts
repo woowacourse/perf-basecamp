@@ -9,7 +9,7 @@ const gf = new GiphyFetch(apiKey);
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
 
-function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
+export function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
     const { id, title, images } = gif;
 
@@ -35,6 +35,24 @@ export const gifAPIService = {
       return [];
     }
   },
+
+  /**
+   * treding gif 목록을 가져옵니다. 이미 한 번 목록을 가져온 적이 있다면, 그 이후부터는 저장된 목록을 반환합니다.
+   * @returns {Promise<GifImageModel[]>}
+   * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
+   */
+  getTrendingWithCache: (() => {
+    let cache: GifImageModel[] | null = null;
+
+    return async () => {
+      if (cache === null) {
+        const gifs = await gifAPIService.getTrending();
+        cache = gifs;
+      }
+
+      return cache;
+    };
+  })(),
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
