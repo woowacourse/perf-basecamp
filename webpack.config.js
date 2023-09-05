@@ -55,7 +55,8 @@ module.exports = {
     ]
   },
   optimization: {
-    minimizer: [new CssMinimizerPlugin()],
+    minimize: true,
+    minimizer: [new CssMinimizerPlugin(), '...'],
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
