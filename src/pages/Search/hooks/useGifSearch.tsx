@@ -33,17 +33,26 @@ const useGifSearch = () => {
   const searchByKeyword = async () => {
     resetSearch();
 
-    const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(
-      searchKeyword,
-      DEFAULT_PAGE_INDEX
-    );
+    const cachedGifs = gifStorage.getCache(searchKeyword);
 
-    if (gifs.length === 0) {
-      setStatus(SEARCH_STATUS.NO_RESULT);
+    if (!cachedGifs || cachedGifs.length === 0) {
+      const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(
+        searchKeyword,
+        DEFAULT_PAGE_INDEX
+      );
+
+      if (gifs.length === 0) {
+        setStatus(SEARCH_STATUS.NO_RESULT);
+        return;
+      }
+
+      gifStorage.setCache(searchKeyword, gifs);
+      setGifList(gifs);
+      setStatus(SEARCH_STATUS.FOUND);
       return;
     }
 
-    setGifList(gifs);
+    setGifList(cachedGifs);
     setStatus(SEARCH_STATUS.FOUND);
   };
 
