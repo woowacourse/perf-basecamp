@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -12,9 +12,14 @@ import CustomCursor from './components/CustomCursor/CustomCursor';
 import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 
 import styles from './Home.module.css';
+import gifStorage from '../Search/utils/gifStorage';
 
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    gifStorage.preLoad();
+  }, []);
 
   return (
     <>
