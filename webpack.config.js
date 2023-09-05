@@ -3,15 +3,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
-    clean: true
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js'
   },
   devServer: {
     hot: true,
@@ -29,6 +30,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       linkType: false
     }),
+    new BundleAnalyzerPlugin(),
     new Dotenv()
   ],
   module: {
@@ -54,6 +56,15 @@ module.exports = {
     ]
   },
   optimization: {
-    minimizer: [new CssMinimizerPlugin()]
+    minimizer: [new CssMinimizerPlugin()],
+    splitChunks: {
+      cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: 'react',
+          chunks: 'all'
+        }
+      }
+    }
   }
 };
