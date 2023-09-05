@@ -65,6 +65,7 @@ module.exports = {
           chunks: 'all'
         }
       }
-    }
+    },
+    usedExports: true
   }
 };
