@@ -6,6 +6,8 @@
   z-index: 10;
   padding: 0 16px;
   color: var(--white);
+  transition: top 0.2s ease-out, left 0.2s ease-out;
+  will-change: top, left;
 }
 
 .cursor::before {
