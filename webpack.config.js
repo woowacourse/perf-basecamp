@@ -80,7 +80,7 @@ module.exports = {
               format: 'webp',
               placeholder: true,
               placeholderSize: 20,
-              sizes: [320, 640, 960, 1200, 1800],
+              sizes: [320, 640, 960],
               outputPath: 'static'
             }
           }
