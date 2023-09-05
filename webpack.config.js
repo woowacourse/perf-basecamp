@@ -24,7 +24,14 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './index.html',
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true
+      }
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
@@ -35,7 +42,10 @@ module.exports = {
       generateStatsFile: true,
       statsFilename: 'bundle-report.json'
     }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[id].[contenthash].css'
+    })
   ],
   module: {
     rules: [
