@@ -35,9 +35,7 @@ module.exports = {
       {
         test: /\.(js|jsx|ts|tsx)$/i,
         exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
-        }
+        loader: 'esbuild-loader'
       },
       {
         test: /\.css$/i,
