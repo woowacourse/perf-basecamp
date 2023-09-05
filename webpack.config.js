@@ -93,7 +93,7 @@ module.exports = {
         test: /(?<!\.responsive)\.(jpe?g|png|gif|webp)$/i,
         type: 'asset',
         generator: {
-          filename: 'static/[name].[contenthash][ext]'
+          filename: 'static/[name][ext]'
         }
       },
       {
