@@ -29,8 +29,18 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
+      const storedGifList = sessionStorage.getItem('trendingGifList');
+
+      if (storedGifList) {
+        return JSON.parse(storedGifList);
+      }
+
       const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      const gifImageModelList = convertResponseToModel(gifs.data);
+
+      sessionStorage.setItem('trendingGifList', JSON.stringify(gifImageModelList));
+
+      return gifImageModelList;
     } catch (e) {
       return [];
     }
