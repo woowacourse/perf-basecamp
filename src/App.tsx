@@ -8,17 +8,19 @@ const Footer = lazy(() => import('./components/Footer/Footer'));
 
 import './App.css';
 
+const ComponentSuspense = (component: JSX.Element) => {
+  return <Suspense fallback={<>로딩중</>}>{component}</Suspense>;
+};
+
 const App = () => {
   return (
     <Router>
-      <Suspense fallback={<></>}>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-        <Footer />
-      </Suspense>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/search" element={ComponentSuspense(<Search />)} />
+      </Routes>
+      {ComponentSuspense(<Footer />)}
     </Router>
   );
 };
