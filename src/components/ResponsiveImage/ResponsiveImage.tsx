@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import styles from './ResponsiveImage.module.css';
 
 type ResponsiveImageProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -6,14 +7,9 @@ type ResponsiveImageProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 const ResponsiveImage = ({ image, alt, ...divProps }: ResponsiveImageProps) => {
-  const style = {
-    backgroundSize: 'cover',
-    ...divProps.style,
-    ...(image.placeholder ? { backgroundImage: `url("${image.placeholder}")` } : {})
-  };
-
   return (
-    <div {...divProps} style={style}>
+    <div {...divProps} className={classNames(styles.imageFrame, divProps.className)}>
+      {image.placeholder && <img className={styles.image} src={image.placeholder} />}
       <img className={styles.image} src={image.src} srcSet={image.srcSet} alt={alt} />
     </div>
   );
