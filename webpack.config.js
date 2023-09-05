@@ -82,7 +82,18 @@ module.exports = {
               },
               encodeOptions: {
                 webp: {
-                  quality: 90
+                  quality: 85
+                }
+              }
+            }
+          },
+          {
+            preset: 'gif-webp',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                webp: {
+                  quality: 50
                 }
               }
             }

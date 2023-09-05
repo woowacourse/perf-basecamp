@@ -2,15 +2,18 @@ import styles from './FeatureItem.module.css';
 
 type FeatureItemProps = {
   title: string;
-  mp4Src: string;
+  webpSrc: string;
+  gifSrc: string;
 };
 
-const FeatureItem = ({ title, mp4Src }: FeatureItemProps) => {
+const FeatureItem = ({ title, webpSrc, gifSrc }: FeatureItemProps) => {
   return (
     <div className={styles.featureItem}>
-      <video className={styles.featureImage} loop muted autoPlay>
-        <source type="video/mp4" src={mp4Src} />
-      </video>
+      <picture>
+        <source type="image/webp" srcSet={webpSrc} />
+        <source type="image/gif" srcSet={gifSrc} />
+        <img className={styles.featureImage} src={gifSrc} alt={title} />
+      </picture>
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
     </div>

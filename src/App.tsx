@@ -12,7 +12,7 @@ const Search = lazy(() => import(/* webpackChunkName: "Search" */ './pages/Searc
 const App = () => {
   return (
     <Suspense fallback={<Loading />}>
-      <Router>
+      <Router basename="perf-basecamp">
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
