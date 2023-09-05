@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 /** @type {import('webpack').Configuration} */
@@ -28,6 +29,16 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
+    }),
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      fileWhitelist: [/\.css$/, /\.woff2$/],
+      include: 'allAssets',
+      as(entry) {
+        if (/\.css$/.test(entry)) return 'style';
+        if (/\.woff2$/.test(entry)) return 'font';
+        return 'script';
+      }
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
