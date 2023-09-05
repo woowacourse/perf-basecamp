@@ -2,9 +2,10 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroDesktopImage from '../../assets/images/hero-1980.webp';
-import heroTabletImage from '../../assets/images/hero-768.webp';
-import heroMobileImage from '../../assets/images/hero-375.webp';
+import heroDesktopImageWebp from '../../assets/images/hero-1980.webp';
+import heroTabletImageWebp from '../../assets/images/hero-768.webp';
+import heroMobileImageWebp from '../../assets/images/hero-375.webp';
+import heroImage from '../../assets/images/hero.jpg';
 import trendingGif from '../../assets/images/trending.gif';
 import findGif from '../../assets/images/find.gif';
 import freeGif from '../../assets/images/free.gif';
@@ -22,15 +23,10 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source
-            type='image/webp'
-            src={heroDesktopImage}
-            srcSet={`
-							${heroMobileImage} 375w,
-							${heroTabletImage} 768w,
-							${heroDesktopImage} 1980w,
-						`}
-          />
+          <source type='image/webp' media='(min-width: 769px)' srcSet={heroDesktopImageWebp} />
+          <source type='image/webp' media='(min-width: 376px)' srcSet={heroTabletImageWebp} />
+          <source type='image/webp' media='(min-width: 0px)' srcSet={heroMobileImageWebp} />
+          <img className={styles.heroImage} src={heroImage} alt='hero' />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
