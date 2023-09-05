@@ -12,7 +12,7 @@ const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
         <source src={imageSrc} type="video/webm" />
       </video>
       <div className={styles.featureTitleBg}></div>
-      <h4 className={styles.featureTitle}>{title}</h4>
+      <h3 className={styles.featureTitle}>{title}</h3>
     </div>
   );
 };
