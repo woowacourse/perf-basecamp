@@ -98,11 +98,6 @@ module.exports = {
     ],
     splitChunks: {
       cacheGroups: {
-        framework: {
-          name: 'react',
-          test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
-          chunks: 'all'
-        },
         giphy: {
           test: /[\\/]node_modules[\\/](@giphy)[\\/]/,
           name: 'giphy',
