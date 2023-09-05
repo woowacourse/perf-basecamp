@@ -10,7 +10,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.[contenthash].js',
+    filename: 'js/bundle.[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -29,7 +29,7 @@ module.exports = {
     }),
     new Dotenv(),
     new BundleAnalyzerPlugin(),
-    new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' })
+    new MiniCssExtractPlugin({ filename: 'css/[name].[contenthash].css' })
   ],
   module: {
     rules: [
