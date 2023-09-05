@@ -11,6 +11,7 @@
   overflow: hidden;
   transition: all 0.2s ease-in;
   border-radius: 4%;
+  aspect-ratio: 1/1;
 }
 
 .gifItem:hover {

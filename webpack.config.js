@@ -10,7 +10,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: '[name].[chunkhash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -22,8 +22,7 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
-      minify: true
+      template: './index.html'
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
