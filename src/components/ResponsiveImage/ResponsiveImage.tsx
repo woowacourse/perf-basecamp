@@ -9,12 +9,15 @@ type ResponsiveImageProps = React.HTMLAttributes<HTMLDivElement> & {
 
 const ResponsiveImage = ({ image, alt, fetchPriority, ...divProps }: ResponsiveImageProps) => {
   return (
-    <div
-      {...{ ...divProps, ...(fetchPriority ? { fetchpriority: fetchPriority } : {}) }}
-      className={classNames(styles.imageFrame, divProps.className)}
-    >
+    <div {...divProps} className={classNames(styles.imageFrame, divProps.className)}>
       {image.placeholder && <img className={styles.image} src={image.placeholder} />}
-      <img className={styles.image} src={image.src} srcSet={image.srcSet} alt={alt} />
+      <img
+        className={styles.image}
+        src={image.src}
+        srcSet={image.srcSet}
+        alt={alt}
+        {...(fetchPriority ? { fetchpriority: fetchPriority } : {})}
+      />
     </div>
   );
 };
