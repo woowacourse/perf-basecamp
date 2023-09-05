@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styles from './FeatureItem.module.css';
 
 type FeatureItemProps = {
@@ -18,4 +19,4 @@ const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
   );
 };
 
-export default FeatureItem;
+export default memo(FeatureItem);
