@@ -23,7 +23,7 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
 
 export const gifAPIService = {
   /**
-   * treding gif 목록을 가져옵니다.
+   * trending gif 목록을 가져옵니다.
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
