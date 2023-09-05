@@ -3,6 +3,12 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 
+type GifAPIService = {
+  cache: { current: null | GifImageModel[] };
+  getTrending: () => Promise<GifImageModel[]>;
+  searchByKeyword: (keyword: string, page: number) => Promise<GifImageModel[]>;
+};
+
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
 
@@ -21,16 +27,21 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   });
 }
 
-export const gifAPIService = {
+export const gifAPIService: GifAPIService = {
+  cache: { current: null },
   /**
    * treding gif 목록을 가져옵니다.
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
-  getTrending: async function (): Promise<GifImageModel[]> {
+  getTrending: async function () {
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      if (!this.cache.current) {
+        const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+        this.cache.current = convertResponseToModel(gifs.data ?? []);
+      }
+
+      return this.cache.current ?? [];
     } catch (e) {
       return [];
     }
@@ -42,7 +53,7 @@ export const gifAPIService = {
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/search
    */
-  searchByKeyword: async function (keyword: string, page: number): Promise<GifImageModel[]> {
+  searchByKeyword: async function (keyword: string, page: number) {
     const searchOptions: SearchOptions = {
       limit: DEFAULT_FETCH_COUNT,
       lang: 'en',
