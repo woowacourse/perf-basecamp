@@ -3,12 +3,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  mode: isProduction ? 'production' : 'development',
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].chunk.bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -17,7 +24,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: isProduction ? 'cheap-module-source-map' : 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -31,7 +38,9 @@ module.exports = {
       openAnalyzer: false,
       generateStatsFile: true,
       statsFilename: 'bundle-report.json'
-    })
+    }),
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin()
   ],
   module: {
     rules: [
@@ -44,7 +53,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|avif|mp4)$/i,
@@ -56,6 +65,16 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    },
+    minimizer: [new CssMinimizerPlugin(), '...'],
+    minimize: true
   }
 };
