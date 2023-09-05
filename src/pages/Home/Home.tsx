@@ -22,7 +22,7 @@ const Home = () => {
         <img className={styles.heroImage} src={heroImage} alt="hero image" />
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
-          <h3 className={styles.subtitle}>gif search engine for you</h3>
+          <h2 className={styles.subtitle}>gif search engine for you</h2>
         </div>
         <Link to="/search">
           <button className={classNames(styles.cta, styles.linkButton)}>start search</button>
@@ -33,9 +33,21 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem
+              title="See trending gif"
+              imageSrc={trendingGif}
+              alt="Spongebob holding up his thumb"
+            />
+            <FeatureItem
+              title="Find gif for free"
+              imageSrc={findGif}
+              alt="moneky searching for food"
+            />
+            <FeatureItem
+              title="Free for everyone"
+              imageSrc={freeGif}
+              alt="Mr.crab looking at cash"
+            />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
