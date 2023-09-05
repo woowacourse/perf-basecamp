@@ -12,14 +12,14 @@ const Search = lazy(() => import('./pages/Search/Search'));
 const App = () => {
   return (
     <Router basename={''}>
-      <NavBar />
       <Suspense fallback={<div>loading...</div>}>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
+        <Footer />
       </Suspense>
-      <Footer />
     </Router>
   );
 };
