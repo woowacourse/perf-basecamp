@@ -25,6 +25,7 @@ const Home = () => {
           image={heroImage}
           alt="hero image"
           fetchPriority="high"
+          preload
         />
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
