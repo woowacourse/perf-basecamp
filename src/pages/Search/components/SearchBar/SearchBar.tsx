@@ -1,12 +1,12 @@
-import React from 'react';
+import { KeyboardEvent, ChangeEvent } from 'react';
 import { AiOutlineSearch } from '@react-icons/all-files/ai/AiOutlineSearch';
 
 import styles from './SearchBar.module.css';
 
 type SearchbarProps = {
   searchKeyword: string;
-  onEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onEnter: (e: KeyboardEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onSearch: () => void;
 };
 
