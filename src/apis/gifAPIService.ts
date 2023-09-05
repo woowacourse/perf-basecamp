@@ -29,8 +29,24 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
+      const cacheStorage = await caches.open('trending');
+      const cachedResponse = await cacheStorage.match(TRENDING_GIF_API);
+
+      if (cachedResponse) {
+        const gifs: GifsResult = await cachedResponse.json();
+        return convertResponseToModel(gifs.data);
+      }
+
+      const response = await fetch(TRENDING_GIF_API);
+
+      if (response.ok) {
+        await cacheStorage.put(TRENDING_GIF_API, response.clone());
+
+        const gifs: GifsResult = await response.json();
+        return convertResponseToModel(gifs.data);
+      } else {
+        throw new Error('네트워크 요청 실패!');
+      }
     } catch (e) {
       return [];
     }
