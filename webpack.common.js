@@ -23,8 +23,29 @@ module.exports = {
         }
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: 'asset/resource'
+        test: /\.(gif|webm)$/i,
+        loader: 'file-loader',
+        options: {
+          name: 'static/[name].[ext]'
+        }
+      },
+      {
+        test: /\.(jpe?g|png)$/i,
+        use: [
+          {
+            loader: 'responsive-loader',
+            options: {
+              adapter: require('responsive-loader/sharp'),
+              sizes: [800, 1200, 1920],
+              placeholder: true,
+              placeholderSize: 20,
+              name: 'static/[name]-[width].[ext]',
+              format: 'webp',
+              esModule: true
+            }
+          }
+        ],
+        type: 'javascript/auto'
       }
     ]
   },
@@ -35,10 +56,10 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      reportFilename: 'bundle-report.html'
-    }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: 'static',
+    //   reportFilename: 'bundle-report.html'
+    // }),
     new Dotenv()
   ]
 };
