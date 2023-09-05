@@ -77,8 +77,8 @@ resource "aws_cloudfront_cache_policy" "assets" {
 resource "aws_cloudfront_cache_policy" "html" {
   name = "HtmlCachePolicy"
 
-  default_ttl = 1296000 // 15d
-  min_ttl     = 1296000 // 15d
+  default_ttl = 3600    // 1h
+  min_ttl     = 3600    // 1h
   max_ttl     = 2592000 // 30d
 
   parameters_in_cache_key_and_forwarded_to_origin {
