@@ -1,5 +1,5 @@
 import { Artist } from '../../../../models/help/artist';
-
+import { memo } from 'react';
 import styles from './ArtistInfo.module.css';
 
 export type ArtistProps = {
@@ -21,4 +21,4 @@ const ArtistInfo = ({ artist }: ArtistProps) => {
   );
 };
 
-export default ArtistInfo;
+export default memo(ArtistInfo);
