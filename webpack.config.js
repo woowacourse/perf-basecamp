@@ -21,7 +21,6 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -68,6 +67,16 @@ module.exports = {
         react: {
           test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
           name: 'react',
+          chunks: 'all'
+        },
+        router: {
+          test: /[\\/]node_modules[\\/](react-router|scheduler|history|react-router-dom)[\\/]/,
+          name: 'react-router-dom',
+          chunks: 'all'
+        },
+        etc: {
+          test: /[\\/]node_modules[\\/](@giphy|object-inspect|react-icons[\\/]ai|side-channel|call-bind|function-bind|classnames|has-symbols|has-proto|has[\\/]src)[\\/]/,
+          name: 'etc',
           chunks: 'all'
         }
       }
