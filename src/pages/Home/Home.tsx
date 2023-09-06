@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage1920 from '../../assets/images/hero_1920.webp';
-import heroImage1024 from '../../assets/images/hero_1024.webp';
-import heroImage768 from '../../assets/images/hero_768.webp';
+import heroImage1280 from '../../assets/images/hero_1280.webp';
+import heroImage854 from '../../assets/images/hero_854.webp';
 import trendingWebp from '../../assets/images/trending.webp';
 import findWebp from '../../assets/images/find.webp';
 import freeWebp from '../../assets/images/free.webp';
@@ -22,8 +22,8 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source srcSet={heroImage768} media="(max-width: 768px)" />
-          <source srcSet={heroImage1024} media="(max-width: 1024px)" />
+          <source srcSet={heroImage854} media="(max-width: 1279px)" />
+          <source srcSet={heroImage1280} media="(max-width: 1919px)" />
           <img className={styles.heroImage} src={heroImage1920} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
