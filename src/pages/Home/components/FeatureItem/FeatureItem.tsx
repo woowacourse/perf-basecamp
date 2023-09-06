@@ -13,7 +13,7 @@ const FeatureItem = ({ title, index }: FeatureItemProps) => {
         autoPlay
         loop
         muted
-        tabIndex={index}
+        data-index={index}
       >
         <source type="video/mp4" />
       </video>

@@ -31,7 +31,7 @@ const Home = () => {
       entries.forEach((entry, index) => {
         if (entry.isIntersecting && !loadedVideos.includes(index)) {
           const videoElement = entry.target as HTMLVideoElement;
-          const videoSrcIndex = videoElement.tabIndex;
+          const videoSrcIndex = Number(videoElement.getAttribute('data-index'));
 
           const sourceElement = videoElement?.querySelector('source') as HTMLSourceElement;
 
