@@ -11,14 +11,16 @@ import './App.css';
 
 const App = () => {
   return (
-    <Router>
+    <Router basename="/perf-basecamp">
       <NavBar />
-      <Suspense fallback={<div>loading...</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-      </Suspense>
+      <div style={{ minHeight: '100vh', backgroundColor: '#131313' }}>
+        <Suspense fallback={<div>loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/search" element={<Search />} />
+          </Routes>
+        </Suspense>
+      </div>
       <Footer />
     </Router>
   );
