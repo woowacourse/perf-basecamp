@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import { cachedGifList } from '../../../store/CachedGifList';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -12,7 +13,7 @@ export const SEARCH_STATUS = {
   NO_RESULT: 'NO_RESULT'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -57,9 +58,15 @@ const useGifSearch = () => {
   useEffect(() => {
     const fetch = async () => {
       if (status === SEARCH_STATUS.BEFORE_SEARCH) {
-        const gifs: GifImageModel[] = await gifAPIService.getTrending();
+        if (cachedGifList.length === 0) {
+          const gifs: GifImageModel[] = await gifAPIService.getTrending();
 
-        setGifList(gifs);
+          setGifList(gifs);
+          cachedGifList.push(...gifs);
+        }
+        if (cachedGifList.length !== 0) {
+          setGifList(cachedGifList);
+        }
       }
     };
     fetch();
