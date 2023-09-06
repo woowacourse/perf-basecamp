@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage2560 from '../../assets/images/hero_2560.webp';
 import heroImage1920 from '../../assets/images/hero_1920.webp';
 import heroImage1024 from '../../assets/images/hero_1024.webp';
 import heroImage768 from '../../assets/images/hero_768.webp';
@@ -25,8 +24,7 @@ const Home = () => {
         <picture>
           <source srcSet={heroImage768} media="(max-width: 768px)" />
           <source srcSet={heroImage1024} media="(max-width: 1024px)" />
-          <source srcSet={heroImage1920} media="(max-width: 1920px)" />
-          <img className={styles.heroImage} src={heroImage2560} alt="hero image" />
+          <img className={styles.heroImage} src={heroImage1920} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
