@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import styles from './GifItem.module.css';
@@ -27,3 +28,5 @@ const GifItem = ({ imageUrl = '', videoUrl = '', title = '', url = '' }: GifItem
 };
 
 export default GifItem;
+
+export const MemoizedGifItem = memo(GifItem);
