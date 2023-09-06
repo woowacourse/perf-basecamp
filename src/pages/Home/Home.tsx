@@ -26,7 +26,7 @@ const Home = () => {
         <picture>
           <source
             type="image/webp"
-            srcSet={`${heroImageMobile} 376w, ${heroImageTablet} 769w, ${heroImageDesktop} 1981w`}
+            srcSet={`${heroImageMobile} 376w, ${heroImageTablet} 769w, ${heroImageDesktop} 1201w`}
           />
           <img loading="lazy" className={styles.heroImage} src={heroImage} alt="hero image" />
         </picture>
