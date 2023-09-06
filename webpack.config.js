@@ -9,7 +9,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].chunk.bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -18,6 +19,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
+
   devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
@@ -79,6 +81,17 @@ module.exports = {
       }
     ]
   },
-
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: 'react',
+          chunks: 'all'
+        }
+      }
+    }
+  },
   mode: 'production'
 };
