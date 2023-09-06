@@ -27,7 +27,7 @@
 
 3 같은 건 매번 새로 요청하지 않기
 
-- [ ] CDN을 적용하고, 한 번 요청한 리소스는 CDN 캐시에서 불러와야 한다.
+- [x] CDN을 적용하고, 한 번 요청한 리소스는 CDN 캐시에서 불러와야 한다.
   - 캐시 정책을 직접 설정한다.
 - [x] GIPHY의 trending API를 Search 페이지에 들어올 때마다 새로 요청하지 않아야 한다.
       -'검색'을 더 주요 기능으로 취급하여, trending 정보가 '실시간으로' 업데이트될 필요는 없다고 가정한다.
@@ -47,7 +47,7 @@
   - React DevTools의 Profiler 기준으로 기존에 있던 아이템이 다시 렌더되지 않는지 확인
 - [x] Layout Shift 없이 애니메이션이 일어나야 한다.
   - (대상) CustomCursor, 검색 결과 > hover, 도움말 패널 열고닫기 애니메이션
-- [ ] Frame Drop이 일어나지 않아야 한다.
+- [x] Frame Drop이 일어나지 않아야 한다.
   - (Chrome DevTools 기준) Partially Presented Frame 역시 최소로 발생해야 한다.
 - 도구
   - Chrome DevTools > Performance
