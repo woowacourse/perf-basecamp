@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
@@ -20,10 +20,7 @@ const useGifSearch = () => {
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
-
-  const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(e.target.value);
-  };
+  const ref = useRef<HTMLInputElement>(null);
 
   const resetSearch = () => {
     setStatus(SEARCH_STATUS.LOADING);
@@ -32,12 +29,13 @@ const useGifSearch = () => {
 
   const searchByKeyword = async () => {
     resetSearch();
+    const currentKeyword = ref.current?.value!;
 
-    const cachedGifs = gifStorage.getCache(searchKeyword);
+    const cachedGifs = gifStorage.getCache(currentKeyword);
 
     if (!cachedGifs || cachedGifs.length === 0) {
       const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(
-        searchKeyword,
+        currentKeyword,
         DEFAULT_PAGE_INDEX
       );
 
@@ -46,12 +44,13 @@ const useGifSearch = () => {
         return;
       }
 
-      gifStorage.setCache(searchKeyword, gifs);
+      gifStorage.setCache(currentKeyword, gifs);
+      setSearchKeyword(currentKeyword);
       setGifList(gifs);
       setStatus(SEARCH_STATUS.FOUND);
       return;
     }
-
+    setSearchKeyword(currentKeyword);
     setGifList(cachedGifs);
     setStatus(SEARCH_STATUS.FOUND);
   };
@@ -59,6 +58,8 @@ const useGifSearch = () => {
   const loadMore = async () => {
     const nextPageIndex = currentPageIndex + 1;
     const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
+
+    if (!ref) return;
 
     setGifList([...gifList, ...gifs]);
     setCurrentPageIndex(nextPageIndex);
@@ -88,8 +89,8 @@ const useGifSearch = () => {
     status,
     searchKeyword,
     gifList,
+    ref,
     searchByKeyword,
-    updateSearchKeyword,
     loadMore
   } as const;
 };
