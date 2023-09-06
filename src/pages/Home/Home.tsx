@@ -42,16 +42,16 @@ const Home = () => {
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
             <FeatureItem title="See trending gif">
-              <source src={trendingMP4} type="video/webm" />
-              <source src={trendingWEBM} type="video/mp4" />
+              <source src={trendingWEBM} type="video/webm" />
+              <source src={trendingMP4} type="video/mp4" />
             </FeatureItem>
             <FeatureItem title="Find gif for free">
-              <source src={findMP4} type="video/webm" />
-              <source src={findWEBM} type="video/mp4" />
+              <source src={findWEBM} type="video/webm" />
+              <source src={findMP4} type="video/mp4" />
             </FeatureItem>
             <FeatureItem title="Free for everyone">
-              <source src={freeMP4} type="video/webm" />
-              <source src={freeWEBM} type="video/mp4" />
+              <source src={freeWEBM} type="video/webm" />
+              <source src={freeMP4} type="video/mp4" />
             </FeatureItem>
           </div>
           <Link to="/search">
