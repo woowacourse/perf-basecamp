@@ -19,7 +19,7 @@ const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProp
           className={styles.searchInput}
           type="text"
           value={searchKeyword}
-          onKeyPress={onEnter}
+          onKeyUp={onEnter}
           onChange={onChange}
         />
         <button className={styles.searchButton} type="button" onClick={onSearch}>

@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
+import heroImage_avif from '../../assets/images/hero.avif';
 import heroImage_png from '../../assets/images/hero.png';
 import heroImage_webp from '../../assets/images/hero.webp';
 import trendingGif from '../../assets/images/trending.webm';
@@ -24,6 +25,7 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
+          <source srcSet={heroImage_avif} type="image/avif" media="all" />
           <source srcSet={heroImage_webp} type="image/webp" media="all" />
           <img className={styles.heroImage} src={heroImage_png} alt="hero" />
         </picture>
