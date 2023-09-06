@@ -27,14 +27,27 @@ export const gifAPIService = {
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
-  getTrending: async function (): Promise<GifImageModel[]> {
-    try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
-    } catch (e) {
-      return [];
-    }
-  },
+
+  getTrending: (function () {
+    const cacheStore: Record<string, GifImageModel[] | null> = { data: null };
+
+    return async function (): Promise<GifImageModel[]> {
+      if (cacheStore.data !== null) {
+        return cacheStore.data;
+      }
+
+      try {
+        const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+
+        cacheStore.data = convertResponseToModel(gifs.data);
+
+        return cacheStore.data;
+      } catch (e) {
+        return [];
+      }
+    };
+  })(),
+
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
