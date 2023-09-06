@@ -57,3 +57,16 @@ export const gifAPIService = {
     }
   }
 };
+
+export const fetchTrendingGifs = (() => {
+  const cache: { current: null | GifImageModel[] } = { current: null };
+
+  return async () => {
+    if (cache.current !== null) return cache.current;
+
+    const gifs = await gifAPIService.getTrending();
+    cache.current = gifs;
+
+    return gifs;
+  };
+})();
