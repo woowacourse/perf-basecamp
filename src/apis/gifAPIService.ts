@@ -20,7 +20,7 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
     };
   });
 }
-// func: (api: string) => Promise<Response>
+
 const asyncMemoizer = () => {
   let memo: Record<string, unknown> = {};
 
@@ -29,10 +29,6 @@ const asyncMemoizer = () => {
     else {
       const data = await fetch(api).then((res) => res.json());
       memo[api] = data;
-
-      setTimeout(() => {
-        memo[api] = null;
-      }, 10000);
 
       return data;
     }
@@ -49,11 +45,6 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      // const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-
-      // const cacheGifs = asyncMemoizer<GifsResult>(TRENDING_GIF_API);
-      // const gifs = await cacheGifs();
-
       const gifs: GifsResult = await asyncMemoization(TRENDING_GIF_API);
 
       return convertResponseToModel(gifs.data);
