@@ -2,9 +2,12 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroDesktopImageWebp from '../../assets/images/hero-1980.webp';
-import heroTabletImageWebp from '../../assets/images/hero-768.webp';
-import heroMobileImageWebp from '../../assets/images/hero-375.webp';
+import heroDesktopImageWebp from '../../assets/images/hero-1980-webp.webp';
+import heroTabletImageWebp from '../../assets/images/hero-768-webp.webp';
+import heroMobileImageWebp from '../../assets/images/hero-375-webp.webp';
+import heroDesktopImageAvif from '../../assets/images/hero-1980-avif.avif';
+import heroTabletImageAvif from '../../assets/images/hero-768-avif.avif';
+import heroMobileImageAvif from '../../assets/images/hero-375-avif.avif';
 import heroImage from '../../assets/images/hero.jpg';
 
 import trendingMp4 from '../../assets/images/trending.mp4';
@@ -24,8 +27,11 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source type='image/webp' media='(min-width: 769px)' srcSet={heroDesktopImageWebp} />
+          <source type='image/avif' media='(min-width: 769px)' srcSet={heroDesktopImageAvif} />
+          <source type='image/avif' media='(min-width: 376px)' srcSet={heroTabletImageAvif} />
+          <source type='image/avif' media='(min-width: 0px)' srcSet={heroMobileImageAvif} />
           <source type='image/webp' media='(min-width: 376px)' srcSet={heroTabletImageWebp} />
+          <source type='image/webp' media='(min-width: 769px)' srcSet={heroDesktopImageWebp} />
           <source type='image/webp' media='(min-width: 0px)' srcSet={heroMobileImageWebp} />
           <img className={styles.heroImage} src={heroImage} alt='hero' />
         </picture>
