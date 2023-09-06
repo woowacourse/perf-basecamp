@@ -11,6 +11,7 @@ module.exports = {
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
     filename: '[name].bundle.js',
+    chunkFilename: '[name].chunk.bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -56,7 +57,23 @@ module.exports = {
   optimization: {
     minimizer: ['...', new CssMinimizerPlugin()],
     splitChunks: {
-      chunks: 'all'
+      cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+          name: 'react',
+          chunks: 'all'
+        },
+        giphy: {
+          test: /[\\/]node_modules[\\/](@giphy)[\\/]/,
+          name: 'giphy',
+          chunks: 'all'
+        },
+        reactIcons: {
+          test: /[\\/]node_modules[\\/](react-icons)[\\/]/,
+          name: 'react-icons',
+          chunks: 'all'
+        }
+      }
     }
   }
 };
