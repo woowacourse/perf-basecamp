@@ -17,11 +17,11 @@ const GifItem = ({ imageUrl = '', videoUrl = '', title = '', url = '' }: GifItem
           loop
           playsInline
         />
+        <div className={styles.gifTitleContainer}>
+          <div className={styles.gifTitleBg}></div>
+          <h4 className={styles.gifTitle}>{title}</h4>
+        </div>
       </a>
-      <div className={styles.gifTitleContainer}>
-        <div className={styles.gifTitleBg}></div>
-        <h4 className={styles.gifTitle}>{title}</h4>
-      </div>
     </div>
   );
 };
