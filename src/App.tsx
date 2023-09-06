@@ -14,14 +14,14 @@ const Search = lazy(() => import('./pages/Search/Search'));
 const App = () => {
   return (
     <Router>
-      <NavBar />
       <Suspense fallback={<div>로딩중</div>}>
+        <NavBar />
         <Routes>
           <Route path="/search" element={<Search />} />
           <Route path="/" element={<Home />} />
         </Routes>
+        <Footer />
       </Suspense>
-      <Footer />
     </Router>
   );
 };
