@@ -30,7 +30,6 @@ const Home = () => {
           srcSet={heroImageResponsive.srcSet}
           width={heroImageResponsive.width}
           height={heroImageResponsive.height}
-          loading="lazy"
           alt="hero image"
         />
         <div className={styles.projectTitle}>
