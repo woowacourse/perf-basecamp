@@ -16,7 +16,7 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
     return {
       id,
       title,
-      imageUrl: images.original.url
+      webpUrl: images.fixed_width_downsampled.webp
     };
   });
 }

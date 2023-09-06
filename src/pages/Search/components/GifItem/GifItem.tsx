@@ -4,10 +4,12 @@ import styles from './GifItem.module.css';
 
 type GifItemProps = Omit<GifImageModel, 'id'>;
 
-const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
+const GifItem = ({ title = '', webpUrl = '' }: GifItemProps) => {
   return (
     <div className={styles.gifItem}>
-      <img className={styles.gifImage} src={imageUrl} loading="lazy" />
+      <a className={styles.gifLink} href={webpUrl} target="_blank">
+        <img className={styles.gifImage} src={webpUrl} loading="lazy" />
+      </a>
       <div className={styles.gifTitleContainer}>
         <div className={styles.gifTitleBg}></div>
         <h4 className={styles.gifTitle}>{title}</h4>

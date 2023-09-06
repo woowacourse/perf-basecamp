@@ -25,6 +25,10 @@
   object-fit: cover;
 }
 
+.gifLink {
+  cursor: pointer;
+}
+
 .gifTitleContainer {
   position: absolute;
   bottom: 0;
