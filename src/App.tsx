@@ -10,15 +10,15 @@ const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
   return (
-    <Router basename={'/perf-basecamp'}>
-      <NavBar />
+    <Router basename="/perf-basecamp">
       <Suspense fallback={<div>로딩중이지롱</div>}>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
+        <Footer />
       </Suspense>
-      <Footer />
     </Router>
   );
 };
