@@ -7,9 +7,6 @@ import heroTabletImageWebp from '../../assets/images/hero-768.webp';
 import heroMobileImageWebp from '../../assets/images/hero-375.webp';
 import heroImage from '../../assets/images/hero.jpg';
 
-import trendingWebm from '../../assets/images/trending.webm';
-import findWebm from '../../assets/images/find.webm';
-import freeWebp from '../../assets/images/free.webm';
 import trendingMp4 from '../../assets/images/trending.mp4';
 import findMp4 from '../../assets/images/find.mp4';
 import freeMp4 from '../../assets/images/free.mp4';
@@ -45,13 +42,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem
-              title='See trending gif'
-              videoWebmSrc={trendingWebm}
-              videoMp4Src={trendingMp4}
-            />
-            <FeatureItem title='Find gif for free' videoWebmSrc={findWebm} videoMp4Src={findMp4} />
-            <FeatureItem title='Free for everyone' videoWebmSrc={freeWebp} videoMp4Src={freeMp4} />
+            <FeatureItem title='See trending gif' videoSrc={trendingMp4} />
+            <FeatureItem title='Find gif for free' videoSrc={findMp4} />
+            <FeatureItem title='Free for everyone' videoSrc={freeMp4} />
           </div>
           <Link to='/search'>
             <button className={styles.linkButton}>start search</button>
