@@ -8,19 +8,16 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 import { Suspense, lazy } from 'react';
-import GifProvider from './pages/Home/hooks/useGifContext';
 
 const App = () => {
   return (
     <Router>
       <NavBar />
       <Suspense fallback={<div>Loading...</div>}>
-        <GifProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/search" element={<Search />} />
-          </Routes>
-        </GifProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+        </Routes>
       </Suspense>
       <Footer />
     </Router>

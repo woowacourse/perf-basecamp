@@ -44,7 +44,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(jpe?g|png|gif|svg|webp|avif)$/i,
+        test: /\.(jpe?g|png|gif|svg|webp|avif|mp4)$/i,
         type: 'asset'
       }
     ]
@@ -61,5 +61,5 @@ module.exports = {
       }
     }
   },
-  mode: 'production'
+  mode: 'development'
 };
