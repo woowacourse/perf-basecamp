@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './NavBar.module.css';
 import { ROUTE_PATH } from '../../constants/pageRoute';
+import { memo } from 'react';
 
 const NavBar = () => {
   return (
@@ -18,4 +19,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default memo(NavBar);
