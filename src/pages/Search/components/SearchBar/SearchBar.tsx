@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { AiOutlineSearch } from '@react-icons/all-files/ai/AiOutlineSearch';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 import styles from './SearchBar.module.css';
 
