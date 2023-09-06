@@ -11,7 +11,7 @@ const App = () => {
   const Search = lazy(() => import('./pages/Search/Search'));
 
   return (
-    <Router basename={'/perf-basecamp'}>
+    <Router>
       <NavBar />
       <Suspense fallback={<div>loading...</div>}>
         <Routes>
