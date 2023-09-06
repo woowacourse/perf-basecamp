@@ -6,6 +6,7 @@ import heroImage from '../../assets/images/hero.webp';
 import trendingMp4 from '../../assets/images/trending.mp4';
 import findMp4 from '../../assets/images/find.mp4';
 import freeMp4 from '../../assets/images/free.mp4';
+import heroAvif from '../../assets/images/hero.avif';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -19,7 +20,10 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source srcSet={heroAvif} type="image/avif" />
+          <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
