@@ -11,17 +11,16 @@ const Search = React.lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
   return (
-    <Router>
-      {/* // <Router basename={'/perf-basecamp'}> */}
-      <NavBar />
-      <Suspense fallback={<div>로딩중</div>}>
+    <Suspense fallback={<div>로딩중</div>}>
+      <Router>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
-      </Suspense>
-      <Footer />
-    </Router>
+        <Footer />
+      </Router>
+    </Suspense>
   );
 };
 
