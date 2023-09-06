@@ -12,9 +12,11 @@ import CustomCursor from './components/CustomCursor/CustomCursor';
 import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 
 import styles from './Home.module.css';
+import { MOBILE_MEDIA_QUERY_SIZE } from '../../constants/ui';
 
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
+  const isMobileType = window.matchMedia(MOBILE_MEDIA_QUERY_SIZE).matches;
 
   return (
     <>
@@ -42,7 +44,7 @@ const Home = () => {
           </Link>
         </div>
       </section>
-      <CustomCursor text="memegle" />
+      {!isMobileType && <CustomCursor text="memegle" />}
     </>
   );
 };
