@@ -1,7 +1,7 @@
 import { Artist } from '../models/help/artist';
 
-const DUMMY_ARTISTS_LENGTH = 500;
-const dummyArtists: Artist[] = [
+export const DUMMY_ARTISTS_LENGTH = 500;
+export const dummyArtists: Artist[] = [
   {
     name: 'Pola Lucas',
     profileUrl: 'https://giphy.com/polalucas',
@@ -29,6 +29,6 @@ const dummyArtists: Artist[] = [
   }
 ];
 
-export const artists = Array.from({ length: DUMMY_ARTISTS_LENGTH }, (_v, k) =>
-  Artist(dummyArtists[k % dummyArtists.length])
-);
+// export const artists = Array.from({ length: DUMMY_ARTISTS_LENGTH }, (_v, k) =>
+//   Artist(dummyArtists[k % dummyArtists.length])
+// );

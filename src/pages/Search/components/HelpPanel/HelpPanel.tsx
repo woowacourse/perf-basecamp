@@ -2,15 +2,27 @@ import { useState } from 'react';
 import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
 import classNames from 'classnames/bind';
 
-import { artists } from '../../../../constants/artistData';
+import { dummyArtists, DUMMY_ARTISTS_LENGTH } from '../../../../constants/artistData';
 import ArtistList from '../ArtistList/ArtistList';
 
 import styles from './HelpPanel.module.css';
+import useIntersectionRef from '../../hooks/useIntersection';
+import { Artist } from '../../../../models/help/artist';
 
 const HelpPanel = () => {
   const [isShow, setIsShow] = useState(false);
   const openSheet = () => setIsShow(true);
   const closeSheet = () => setIsShow(false);
+
+  const [currentArtists, setCurrentArtists] = useState<Artist[]>(dummyArtists);
+
+  const intersectionRef = useIntersectionRef(() => {
+    setCurrentArtists((prev) => {
+      if (prev.length > DUMMY_ARTISTS_LENGTH) return prev;
+
+      return [...prev, ...dummyArtists];
+    });
+  });
 
   return (
     <>
@@ -61,8 +73,9 @@ const HelpPanel = () => {
           <p>Here are some artists you can refer to.</p>
           <br />
           <section>
-            <ArtistList artists={artists} />
+            <ArtistList artists={currentArtists} />
           </section>
+          <div className={styles.sensor} ref={intersectionRef} />
         </div>
       </section>
     </>
