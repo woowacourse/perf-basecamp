@@ -38,6 +38,7 @@
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
+    "css-minimizer-webpack-plugin": "^5.0.1",
     "dotenv-webpack": "^7.0.3",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.5.0",
