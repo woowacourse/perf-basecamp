@@ -42,3 +42,7 @@ a {
   --white: #fcfcfc;
   --black: #131313;
 }
+
+.loading {
+  height: 100vh;
+}
