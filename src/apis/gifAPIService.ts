@@ -29,19 +29,27 @@ export const gifAPIService = {
    */
 
   getTrending: (function () {
-    const cacheStore: Record<string, GifImageModel[] | null> = { data: null };
+    const getCurrentUTC = () => {
+      const currentUTC = new Date(Date.now()).toUTCString();
+      const currentWithoutTime = currentUTC.replace(/\d{2}:\d{2}:\d{2}/, '');
+
+      return currentWithoutTime;
+    };
+
+    let cacheStore: GifImageModel[] | null = null;
+    const cachedDate: string = getCurrentUTC();
 
     return async function (): Promise<GifImageModel[]> {
-      if (cacheStore.data !== null) {
-        return cacheStore.data;
+      if (cacheStore !== null && cachedDate === getCurrentUTC()) {
+        return cacheStore;
       }
 
       try {
         const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
 
-        cacheStore.data = convertResponseToModel(gifs.data);
+        cacheStore = convertResponseToModel(gifs.data);
 
-        return cacheStore.data;
+        return cacheStore;
       } catch (e) {
         return [];
       }
