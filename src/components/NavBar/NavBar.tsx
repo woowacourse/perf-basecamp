@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import styles from './NavBar.module.css';
+import React from 'react';
 
 const NavBar = () => {
   return (
@@ -17,4 +18,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default React.memo(NavBar);
