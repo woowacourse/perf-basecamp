@@ -1,12 +1,11 @@
-import { KeyboardEvent, Suspense, lazy } from 'react';
+import { KeyboardEvent } from 'react';
 import useGifSearch from './hooks/useGifSearch';
 
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResult from './components/SearchResult/SearchResult';
+import HelpPanel from './components/HelpPanel/HelpPanel';
 
 import styles from './Search.module.css';
-
-const HelpPanel = lazy(() => import('./components/HelpPanel/HelpPanel'));
 
 const Search = () => {
   const { status, searchKeyword, gifList, searchByKeyword, updateSearchKeyword, loadMore } =
@@ -29,9 +28,7 @@ const Search = () => {
         onSearch={searchByKeyword}
       />
       <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
-      <Suspense fallback={null}>
-        <HelpPanel />
-      </Suspense>
+      <HelpPanel />
     </div>
   );
 };
