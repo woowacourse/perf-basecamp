@@ -21,7 +21,7 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source src={heroImage} type="image/avif" />
+          <source srcSet={heroImage} type="image/avif" />
           <img className={styles.heroImage} src={heroImageWebp} alt="hero image" />
         </picture>
 
