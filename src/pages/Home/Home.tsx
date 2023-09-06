@@ -28,7 +28,7 @@ const Home = () => {
             type="image/webp"
             srcSet={`${heroImageMobile} 376w, ${heroImageTablet} 769w, ${heroImageDesktop} 1201w`}
           />
-          <img loading="lazy" className={styles.heroImage} src={heroImage} alt="hero image" />
+          <img className={styles.heroImage} src={heroImage} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
