@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
+import { Helmet } from 'react-helmet';
 
 import heroImage from '../../assets/images/hero.webp';
 import trendingGif from '../../assets/images/trending.mp4';
@@ -18,6 +19,9 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <link rel="preload" as="image" type="image/webp" href={heroImage} />
+      </Helmet>
       <section className={styles.heroSection}>
         <img className={styles.heroImage} src={heroImage} alt="hero image" />
         <div className={styles.projectTitle}>
