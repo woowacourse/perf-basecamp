@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -38,7 +39,8 @@ module.exports = {
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
       minRatio: 0.8
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -54,14 +56,14 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
         }
       },
       {
-        test: /\.(png|jpg|jpeg|gif|webp)$/i,
+        test: /\.(png|jpg|jpeg|gif|webp|mp4)$/i,
         loader: 'image-webpack-loader',
         enforce: 'pre'
       }

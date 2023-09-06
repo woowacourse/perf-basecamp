@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
+  "sideEffects": "*.css",
   "scripts": {
     "start": "npm run dev -- --open",
     "dev": "NODE_ENV=development webpack serve",
@@ -60,12 +61,18 @@
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
     "webpack": "^5.50.0",
+    "webpack-bundle-analyzer": "^4.9.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
   "babel": {
     "presets": [
-      "@babel/preset-env",
+      [
+        "@babel/preset-env",
+        {
+          "modules": false
+        }
+      ],
       "@babel/preset-react"
     ],
     "plugins": [
