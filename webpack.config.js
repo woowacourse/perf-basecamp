@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -31,7 +32,11 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin(),
+    new CleanWebpackPlugin({
+      cleanAfterEveryBuildPatterns: ['**/*.LICENSE.txt'],
+      protectWebpackAssets: false
+    })
   ],
   module: {
     rules: [
