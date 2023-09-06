@@ -28,8 +28,22 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async function (): Promise<GifImageModel[]> {
+    const cacheStorage = await caches.open('gifList');
+
+    const responseCache = await cacheStorage.match(TRENDING_GIF_API);
+
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+      if (responseCache) {
+        const gifs: GifsResult = await responseCache.json();
+
+        return convertResponseToModel(gifs.data);
+      }
+
+      const response = await fetch(TRENDING_GIF_API);
+
+      await cacheStorage.put(TRENDING_GIF_API, response.clone());
+
+      const gifs: GifsResult = await response.json();
 
       return convertResponseToModel(gifs.data);
     } catch (e) {
