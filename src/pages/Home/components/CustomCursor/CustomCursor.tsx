@@ -15,8 +15,7 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
       const { pageX, pageY } = e;
 
       if (cursorRef.current) {
-        cursorRef.current.style.top = `${pageY}px`;
-        cursorRef.current.style.left = `${pageX}px`;
+        cursorRef.current.style.transform = `translate(${pageX}px, ${pageY}px)`;
       }
     };
 
