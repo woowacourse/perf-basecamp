@@ -15,6 +15,9 @@
     "preanalyze": "npm run build:analyze",
     "analyze": "webpack-bundle-analyzer bundle/output/path/stats.json"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "keywords": [],
   "author": "woowacourse",
   "homepage": "https://hozzijeong.github.io/perf-basecamp",
@@ -60,7 +63,6 @@
     "prettier": "^2.3.2",
     "sharp": "^0.32.5",
     "style-loader": "^3.2.1",
-    "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
     "webpack": "^5.88.2",
