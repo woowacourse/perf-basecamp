@@ -1,14 +1,13 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 
-import Home from './pages/Home/Home';
-
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
 
-const Search = lazy(() => import('./pages/Search/Search'));
+const Search = lazy(() => import(/* webpackChunkName: "searchPage" */ './pages/Search/Search'));
+const Home = lazy(() => import(/* webpackChunkName: "homePage" */ './pages/Home/Home'));
 
 const App = () => {
   return (
