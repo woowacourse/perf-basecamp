@@ -23,7 +23,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: isProduction ? 'cheap-module-source-map' : 'source-map',
+  devtool: !isProduction && 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -54,7 +54,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|avif|mp4)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|avif|webp|mp4|)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
