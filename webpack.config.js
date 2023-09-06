@@ -24,8 +24,7 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
-      hash: true
+      template: './index.html'
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
@@ -57,7 +56,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: true,
-    minimizer: [`...`, new CssMinimizerPlugin()]
+    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };
