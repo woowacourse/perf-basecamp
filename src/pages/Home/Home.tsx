@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage from '../../assets/images/hero.avif';
+import heroImageWebp from '../../assets/images/hero.webp';
 import trendingMp4 from '../../assets/images/trending.mp4';
 import findMp4 from '../../assets/images/find.mp4';
 import freeMp4 from '../../assets/images/free.mp4';
@@ -19,7 +20,10 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source src={heroImage} type="image/avif" />
+          <img className={styles.heroImage} src={heroImageWebp} alt="hero image" />
+        </picture>
 
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
