@@ -25,7 +25,6 @@ const Home = () => {
         <picture>
           <source
             type="image/webp"
-            src={heroImageDesktop}
             srcSet={`${heroImageMobile} 375w, ${heroImageTablet} 768w, ${heroImageDesktop} 1980w`}
           />
           <img
