@@ -7,6 +7,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
@@ -30,7 +32,9 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin({
+      openAnalyzer: !isProduction
+    })
   ],
   module: {
     rules: [
@@ -55,7 +59,7 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: process.env.NODE_ENV === 'production' ? true : false,
+    minimize: isProduction,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
