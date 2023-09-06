@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import styles from './GifItem.module.css';
 
 type GifItemProps = Omit<GifImageModel, 'id'>;
 
-const GifItem = ({ title = '', webpUrl = '' }: GifItemProps) => {
+const GifItem = memo(({ title = '', webpUrl = '' }: GifItemProps) => {
   return (
     <div className={styles.gifItem}>
       <a className={styles.gifLink} href={webpUrl} target="_blank">
@@ -16,6 +17,6 @@ const GifItem = ({ title = '', webpUrl = '' }: GifItemProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default GifItem;
