@@ -19,6 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     gifStorage.preLoad();
+    import('../Search/Search');
   }, []);
 
   return (
