@@ -19,7 +19,8 @@ const HelpPanel = () => {
       </button>
       <section
         className={classNames(styles.selectedItemContainer, {
-          [styles.showSheet]: isShow
+          [styles.showSheet]: isShow,
+          [styles.closeSheet]: !isShow
         })}
       >
         <div className={styles.sheetTitleContainer}>
