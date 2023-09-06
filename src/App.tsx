@@ -12,14 +12,14 @@ const Home = lazy(() => import(/* webpackChunkName: "homePage" */ './pages/Home/
 const App = () => {
   return (
     <Router>
-      <NavBar />
-      <Suspense fallback={<div>loading...</div>}>
+      <Suspense fallback={<div className={'content-fallback'}>loading...</div>}>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
+        <Footer />
       </Suspense>
-      <Footer />
     </Router>
   );
 };
