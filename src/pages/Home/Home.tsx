@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import heroImageWebp from '../../assets/images/hero.webp';
-import heroImagePng from '../../assets/images/hero.png';
+import heroImgSmall from '../../assets/images/heroImgSmall.webp';
+import heroImgMedium from '../../assets/images/heroImgMedium.webp';
+import heroImgLarge from '../../assets/images/heroImgLarge.webp';
+
 import trendingGif from '../../assets/images/trending.mp4';
 import findGif from '../../assets/images/find.mp4';
 import freeGif from '../../assets/images/free.mp4';
@@ -21,9 +24,10 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source type="image/webp" srcSet={heroImageWebp} />
-          <source type="image/png" srcSet={heroImagePng} />
-          <img className={styles.heroImage} src={heroImagePng} alt="hero image" />
+          <source srcSet={heroImgSmall} type="image/webp" media="(max-width: 480px)" />
+          <source srcSet={heroImgMedium} type="image/webp" media="(max-width: 1024px)" />
+          <source srcSet={heroImgLarge} type="image/webp" media="(max-width: 1680px)" />
+          <img className={styles.heroImage} src={heroImageWebp} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
