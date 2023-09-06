@@ -2,7 +2,12 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-import heroImage from '../../assets/images/hero.png';
+import mdHeroImageWebp from '../../assets/images/md-hero.webp';
+import lgHeroImageWebp from '../../assets/images/lg-hero.webp';
+import mdHeroImageAvif from '../../assets/images/md-hero.avif';
+import lgHeroImageAvif from '../../assets/images/lg-hero.avif';
+import mdHeroImagePng from '../../assets/images/md-hero.png';
+import lgHeroImagePng from '../../assets/images/lg-hero.png';
 import trendingGif from '../../assets/images/trending.gif';
 import findGif from '../../assets/images/find.gif';
 import freeGif from '../../assets/images/free.gif';
@@ -19,7 +24,14 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source srcSet={mdHeroImageAvif} type="image/avif" media="(max-width: 1280px)" />
+          <source srcSet={lgHeroImageAvif} type="image/avif" />
+          <source srcSet={mdHeroImageWebp} type="image/webp" media="(max-width: 1280px)" />
+          <source srcSet={lgHeroImageWebp} type="image/webp" />
+          <source srcSet={mdHeroImagePng} type="image/png" media="(max-width: 1280px)" />
+          <img className={styles.heroImage} src={lgHeroImagePng} alt="hero image" />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
