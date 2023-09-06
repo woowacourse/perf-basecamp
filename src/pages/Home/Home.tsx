@@ -2,7 +2,8 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.webp';
+import heroImageAvif from '../../assets/images/hero.avif';
+import heroImageWebp from '../../assets/images/hero.webp';
 import heroImageJPG from '../../assets/images/hero.jpg';
 
 import trendingMP4 from '../../assets/images/trending.mp4';
@@ -25,7 +26,8 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source className={styles.heroImage} srcSet={heroImage} type="image/webp" />
+          <source className={styles.heroImage} srcSet={heroImageAvif} type="image/avif" />
+          <source className={styles.heroImage} srcSet={heroImageWebp} type="image/webp" />
           <img className={styles.heroImage} src={heroImageJPG} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
