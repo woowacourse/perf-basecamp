@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import heroImageDesktop from '../../assets/images/hero-desktop.webp';
 import heroImageMobile from '../../assets/images/hero-mobile.webp';
 import heroImageTablet from '../../assets/images/hero-tablet.webp';
+import heroImage from '../../assets/images/hero.png';
 import trendingGif from '../../assets/images/trending.gif';
 import findGif from '../../assets/images/find.gif';
 import freeGif from '../../assets/images/free.gif';
@@ -25,14 +26,9 @@ const Home = () => {
         <picture>
           <source
             type="image/webp"
-            srcSet={`${heroImageMobile} 375w, ${heroImageTablet} 768w, ${heroImageDesktop} 1980w`}
+            srcSet={`${heroImageMobile} 376w, ${heroImageTablet} 769w, ${heroImageDesktop} 1981w`}
           />
-          <img
-            loading="lazy"
-            className={styles.heroImage}
-            src={heroImageDesktop}
-            alt="hero image"
-          />
+          <img loading="lazy" className={styles.heroImage} src={heroImage} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
