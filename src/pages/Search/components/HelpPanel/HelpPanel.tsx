@@ -11,6 +11,7 @@ const HelpPanel = () => {
   const [isShow, setIsShow] = useState(false);
   const openSheet = () => setIsShow(true);
   const closeSheet = () => setIsShow(false);
+  const cx = classNames.bind(styles);
 
   return (
     <>
@@ -18,7 +19,7 @@ const HelpPanel = () => {
         <AiOutlineInfo color="white" size="24px" />
       </button>
       <section
-        className={classNames(styles.selectedItemContainer, {
+        className={cx(styles.selectedItemContainer, {
           [styles.showSheet]: isShow
         })}
       >
