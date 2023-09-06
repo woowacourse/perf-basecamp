@@ -45,7 +45,7 @@
 
 - [ ] 검색 결과 > 추가 로드시 추가되는 결과에 대해서만 화면 업데이트가 새로 일어나야 한다.
   - React DevTools의 Profiler 기준으로 기존에 있던 아이템이 다시 렌더되지 않는지 확인
-- [ ] Layout Shift 없이 애니메이션이 일어나야 한다.
+- [x] Layout Shift 없이 애니메이션이 일어나야 한다.
   - (대상) CustomCursor, 검색 결과 > hover, 도움말 패널 열고닫기 애니메이션
 - [ ] Frame Drop이 일어나지 않아야 한다.
   - (Chrome DevTools 기준) Partially Presented Frame 역시 최소로 발생해야 한다.
