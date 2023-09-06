@@ -1,7 +1,8 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import { GifContext } from '../../Home/hooks/useGifContext';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -12,12 +13,12 @@ export const SEARCH_STATUS = {
   NO_RESULT: 'NO_RESULT'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
-  const [gifList, setGifList] = useState<GifImageModel[]>([]);
+  const { gifList, setGifList } = useContext(GifContext);
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,11 +51,15 @@ const useGifSearch = () => {
     const nextPageIndex = currentPageIndex + 1;
     const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
 
+    if (!gifList) return;
+
     setGifList([...gifList, ...gifs]);
     setCurrentPageIndex(nextPageIndex);
   };
 
   useEffect(() => {
+    if (gifList) return;
+
     const fetch = async () => {
       if (status === SEARCH_STATUS.BEFORE_SEARCH) {
         const gifs: GifImageModel[] = await gifAPIService.getTrending();

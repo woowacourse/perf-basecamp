@@ -30,6 +30,7 @@ export const gifAPIService = {
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
       const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
@@ -51,6 +52,7 @@ export const gifAPIService = {
 
     try {
       const gifs: GifsResult = await gf.search(keyword, searchOptions);
+
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
