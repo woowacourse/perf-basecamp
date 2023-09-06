@@ -50,8 +50,6 @@ const useGifSearch = () => {
     const nextPageIndex = currentPageIndex + 1;
     const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
 
-    if (!gifList) return;
-
     setGifList([...gifList, ...gifs]);
     setCurrentPageIndex(nextPageIndex);
   };

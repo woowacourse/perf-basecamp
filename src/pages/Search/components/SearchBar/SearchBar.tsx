@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 import styles from './SearchBar.module.css';
@@ -30,4 +30,4 @@ const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProp
   );
 };
 
-export default SearchBar;
+export default memo(SearchBar);

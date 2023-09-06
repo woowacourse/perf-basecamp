@@ -8,6 +8,7 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 import { Suspense, lazy } from 'react';
+import HelpPanel from './pages/Search/components/HelpPanel/HelpPanel';
 
 const App = () => {
   return (
@@ -16,7 +17,14 @@ const App = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
+          <Route
+            path="/search"
+            element={
+              <Search>
+                <HelpPanel />
+              </Search>
+            }
+          />
         </Routes>
       </Suspense>
       <Footer />
