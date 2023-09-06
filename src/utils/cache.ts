@@ -8,7 +8,7 @@ const checkCache = <T>(query: string, callback: () => T): T => {
   const currentTime = new Date().getTime();
   const cacheData = cache.get(query);
 
-  if (cacheData && cacheData.time < currentTime) {
+  if (cacheData && cacheData.time > currentTime) {
     return cacheData.result as T;
   }
 
