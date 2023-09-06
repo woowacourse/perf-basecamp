@@ -10,7 +10,7 @@ const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
     <div className={styles.featureItem}>
       <img loading="lazy" className={styles.featureImage} src={imageSrc} alt={'feature image'} />
       <div className={styles.featureTitleBg}></div>
-      <h4 className={styles.featureTitle}>{title}</h4>
+      <h3 className={styles.featureTitle}>{title}</h3>
     </div>
   );
 };
