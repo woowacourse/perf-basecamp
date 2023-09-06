@@ -13,12 +13,14 @@ const App = () => {
   return (
     <Router basename={'/perf-basecamp'}>
       <NavBar />
-      <Suspense fallback={<div>로딩 중입니다..</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-      </Suspense>
+      <div style={{ minHeight: '100vh' }}>
+        <Suspense fallback={<div>로딩 중입니다..</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/search" element={<Search />} />
+          </Routes>
+        </Suspense>
+      </div>
       <Footer />
     </Router>
   );
