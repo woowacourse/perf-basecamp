@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = (env, argv) => {
   const isDevelopment = argv.mode === 'development';
@@ -13,7 +14,7 @@ module.exports = (env, argv) => {
     entry: './src/index.tsx',
     resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
     output: {
-      filename: 'bundle.js',
+      filename: 'bundle.[chunkhash].js',
       path: path.join(__dirname, '/dist'),
       clean: true
     },
@@ -31,7 +32,13 @@ module.exports = (env, argv) => {
         patterns: [{ from: './public', to: './public' }]
       }),
       new Dotenv(),
-      new MiniCssExtractPlugin()
+      new MiniCssExtractPlugin(),
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        openAnalyzer: false,
+        generateStatsFile: true,
+        statsFilename: 'bundle-report.json'
+      })
     ],
     module: {
       rules: [
@@ -61,7 +68,7 @@ module.exports = (env, argv) => {
       ]
     },
     optimization: {
-      // splitChunks: { chunks: 'all' },
+      splitChunks: { chunks: 'all' },
       minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
     }
   };
