@@ -22,12 +22,19 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img
-          loading="lazy"
-          className={styles.heroImage}
-          srcSet={`${heroImageMobile} 375w, ${heroImageTablet} 768w, ${heroImageDesktop} 1980w`}
-          alt="hero image"
-        />
+        <picture>
+          <source
+            type="image/webp"
+            src={heroImageDesktop}
+            srcSet={`${heroImageMobile} 375w, ${heroImageTablet} 768w, ${heroImageDesktop} 1980w`}
+          />
+          <img
+            loading="lazy"
+            className={styles.heroImage}
+            src={heroImageDesktop}
+            alt="hero image"
+          />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
