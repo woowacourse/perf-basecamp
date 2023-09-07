@@ -10,7 +10,7 @@ const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
     <div className={styles.gifItem}>
       <img loading="lazy" className={styles.gifImage} src={imageUrl} />
       <div className={styles.gifTitleContainer}>
-        <div className={styles.gifTitleBg}></div>
+        <div className={styles.gifTitleBg} />
         <h4 className={styles.gifTitle}>{title}</h4>
       </div>
     </div>

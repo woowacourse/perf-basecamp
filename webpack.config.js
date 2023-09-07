@@ -12,7 +12,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.[name].[contenthash].js',
+    filename: 'bundle.[name].[chunkhash].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true
   },
