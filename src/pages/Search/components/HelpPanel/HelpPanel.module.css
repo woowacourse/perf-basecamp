@@ -1,7 +1,7 @@
 .floatingButton {
   position: fixed;
   bottom: 40px;
-  right: 40px;
+  transform: translateX(40px);
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -10,7 +10,7 @@
 
 .selectedItemContainer {
   position: fixed;
-  right: -320px;
+  transform: translateX(-320px);
   top: 0;
   width: 320px;
   height: 100%;
@@ -24,7 +24,7 @@
 }
 
 .selectedItemContainer.showSheet {
-  right: 0;
+  transform: translateX(0px);
   opacity: 1;
 }
 
