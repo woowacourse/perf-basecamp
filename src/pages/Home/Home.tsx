@@ -72,9 +72,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" index={0} />
-            <FeatureItem title="Find gif for free" index={1} />
-            <FeatureItem title="Free for everyone" index={2} />
+            <FeatureItem itemInformation={{ title: 'See trending gif', index: 0 }} />
+            <FeatureItem itemInformation={{ title: 'Find gif for free', index: 1 }} />
+            <FeatureItem itemInformation={{ title: 'Free for everyone', index: 2 }} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>

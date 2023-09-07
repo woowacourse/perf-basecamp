@@ -1,11 +1,13 @@
 import styles from './FeatureItem.module.css';
 
 type FeatureItemProps = {
-  title: string;
-  index: number;
+  itemInformation: {
+    title: string;
+    index: number;
+  };
 };
 
-const FeatureItem = ({ title, index }: FeatureItemProps) => {
+const FeatureItem = ({ itemInformation }: FeatureItemProps) => {
   return (
     <div className={styles.featureItem}>
       <video
@@ -13,12 +15,12 @@ const FeatureItem = ({ title, index }: FeatureItemProps) => {
         autoPlay
         loop
         muted
-        data-index={index}
+        data-index={itemInformation.index}
       >
         <source type="video/mp4" />
       </video>
       <div className={styles.featureTitleBg}></div>
-      <h3 className={styles.featureTitle}>{title}</h3>
+      <h3 className={styles.featureTitle}>{itemInformation.title}</h3>
     </div>
   );
 };
