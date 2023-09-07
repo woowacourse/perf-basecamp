@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.jpeg';
+import heroImage from '../../assets/images/hero.jpg';
 import heroImage_webp from '../../assets/images/hero.webp';
 import trending_mp4 from '../../assets/videos/trending.mp4';
 import trending_webm from '../../assets/videos/trending.webm';
