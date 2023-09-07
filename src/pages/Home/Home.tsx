@@ -27,7 +27,6 @@ const Home = () => {
       <section className={styles.heroSection}>
         <img
           className={styles.heroImage}
-          src={heroImageResponsive.src}
           srcSet={heroImageResponsive.srcSet}
           width={heroImageResponsive.width}
           height={heroImageResponsive.height}
