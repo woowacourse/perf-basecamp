@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
-const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home/Home'));
+import Home from './pages/Home/Home';
 const Search = lazy(() => import(/* webpackChunkName: "Search" */ './pages/Search/Search'));
 
 import './App.css';
