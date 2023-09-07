@@ -20,7 +20,7 @@ const HeroImage = () => {
         media="(max-width: 768px)"
         srcSet={`${hero_768_webp}, ${hero_1980_webp} 2x`}
       />
-      <source type="image/we" media="(min-width: 769px)" srcSet={hero_1980_webp} />
+      <source type="image/webp" media="(min-width: 769px)" srcSet={hero_1980_webp} />
       <source media="(max-width: 375px)" srcSet={`${hero_375_png}, ${hero_768_png} 2x`} />
       <source media="(max-width: 768px)" srcSet={`${hero_768_png}, ${hero_1980_png} 2x`} />
       <source media="(min-width: 769px)" srcSet={hero_1980_png} />
