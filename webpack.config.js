@@ -45,7 +45,12 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|svg|webp|avif|mp4)$/i,
-        type: 'asset'
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[contenthash].[ext]'
+          }
+        }
       }
     ]
   },
