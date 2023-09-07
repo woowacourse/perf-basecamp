@@ -12,7 +12,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].[contenthash].bundle.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -74,6 +75,15 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: ['...', new TerserPlugin({ extractComments: false }), new CssMinimizerPlugin()]
+    minimizer: ['...', new TerserPlugin({ extractComments: false }), new CssMinimizerPlugin()],
+    splitChunks: {
+      cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+          name: 'react',
+          chunks: 'all'
+        }
+      }
+    }
   }
 };

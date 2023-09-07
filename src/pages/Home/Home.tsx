@@ -18,11 +18,11 @@ import styles from './Home.module.css';
 
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
-  //           srcSet={`${heroImageMobile} 375w, ${heroImageTablet} 768w, ${heroImageDesktop} 1980w`}
 
   return (
     <>
       <section className={styles.heroSection}>
+        <link rel="preload" href={heroImageDesktop} as="image" type="image/webp" />
         <picture>
           <source
             type="image/webp"
