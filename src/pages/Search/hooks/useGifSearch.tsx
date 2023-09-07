@@ -72,7 +72,7 @@ const useGifSearch = () => {
         if (status === SEARCH_STATUS.BEFORE_SEARCH) {
           const gifs: GifImageModel[] = await gifAPIService.getTrending();
           window.sessionStorage.setItem('init', JSON.stringify(gifs));
-          const gifsInSession = JSON.parse(window.sessionStorage.getItem('init') || '');
+          const gifsInSession = JSON.parse(window.sessionStorage.getItem('init_trending') || '');
           setGifList(gifsInSession);
         }
       };
