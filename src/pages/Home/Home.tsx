@@ -22,7 +22,6 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <link rel="preload" href={heroImageDesktop} as="image" type="image/webp" />
         <picture>
           <source
             type="image/webp"

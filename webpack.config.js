@@ -7,13 +7,13 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const os = require('os');
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -75,15 +75,10 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: ['...', new TerserPlugin({ extractComments: false }), new CssMinimizerPlugin()],
-    splitChunks: {
-      cacheGroups: {
-        react: {
-          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
-          name: 'react',
-          chunks: 'all'
-        }
-      }
-    }
+    minimizer: [
+      '...',
+      new TerserPlugin({ extractComments: false }),
+      new CssMinimizerPlugin({ parallel: os.cpus().length - 1 })
+    ]
   }
 };
