@@ -2,14 +2,14 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/_hero.jpeg';
-import heroImage_webp from '../../assets/images/_hero.webp';
-import trending_mp4 from '../../assets/videos/_trending.mp4';
-import trending_webm from '../../assets/videos/_trending.webm';
-import find_mp4 from '../../assets/videos/_find.mp4';
-import find_webm from '../../assets/videos/_find.webm';
-import free_mp4 from '../../assets/videos/_free.mp4';
-import free_webm from '../../assets/videos/_free.webm';
+import heroImage from '../../assets/images/hero.jpeg';
+import heroImage_webp from '../../assets/images/hero.webp';
+import trending_mp4 from '../../assets/videos/trending.mp4';
+import trending_webm from '../../assets/videos/trending.webm';
+import find_mp4 from '../../assets/videos/find.mp4';
+import find_webm from '../../assets/videos/find.webm';
+import free_mp4 from '../../assets/videos/free.mp4';
+import free_webm from '../../assets/videos/free.webm';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
