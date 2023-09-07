@@ -6,11 +6,19 @@ import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import HelpPanel from './pages/Search/components/HelpPanel/HelpPanel';
 import Home from './pages/Home/Home';
 
 const App = () => {
+  useEffect(() => {
+    const deleteCache = async () => {
+      await caches.delete('gifList');
+    };
+
+    deleteCache();
+  }, []);
+
   return (
     <Router>
       <NavBar />
