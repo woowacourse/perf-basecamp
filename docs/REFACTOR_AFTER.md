@@ -29,38 +29,6 @@ lg-hero.avif: 71.2 kB
 
 <img width="1332" alt="image" src="https://github.com/Gilpop8663/perf-basecamp/assets/80146176/ef8359d1-fb07-49f1-8bfe-4361e1223198">
 
-### 프랑스 파리에서 Fast 3G 환경으로 접속했을 때
-
-https://www.webpagetest.org/result/230902_BiDcZ6_A4F/
-
-#### 첫번째 Home 접속 시
-
-![image](https://github.com/Gilpop8663/perf-basecamp/assets/80146176/7ab68828-e2b5-4bd1-b430-aace1b255a40)
-
-페이지 불러오는 속도: 85.1초
-
-First Contentful Paint: 2.8초
-
-Largest Contentful Paint: 2.8초
-
-Start Render: 2.8초
-
-Page Weight: 15,582KB
-
-#### 두번째 Home 접속 시
-
-![image](https://github.com/Gilpop8663/perf-basecamp/assets/80146176/809d0bad-a18b-471d-9e52-0ef8292d73ab)
-
-페이지 불러오는 속도: 84.8초
-
-First Contentful Paint: 2.5초
-
-Largest Contentful Paint: 2.5초
-
-Start Render: 2.6초
-
-Page Weight: 15,582KB
-
 ### LightHouse 점수
 
 점수 : 100점

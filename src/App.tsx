@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-/* webpackChunkName: "home" */ import Home from './pages/Home/Home';
 const Search = lazy(() => import(/* webpackChunkName: "search" */ './pages/Search/Search'));
 
 import NavBar from './components/NavBar/NavBar';
@@ -9,6 +8,7 @@ import Footer from './components/Footer/Footer';
 import './App.css';
 import { Suspense, lazy } from 'react';
 import HelpPanel from './pages/Search/components/HelpPanel/HelpPanel';
+import Home from './pages/Home/Home';
 
 const App = () => {
   return (
@@ -16,16 +16,16 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Suspense fallback={<div>Loading...</div>}>
-          <Route
-            path="/search"
-            element={
+        <Route
+          path="/search"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
               <Search>
                 <HelpPanel />
               </Search>
-            }
-          />
-        </Suspense>
+            </Suspense>
+          }
+        />
       </Routes>
       <Footer />
     </Router>
