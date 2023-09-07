@@ -1,6 +1,6 @@
 const cachedResponse: Record<string, { date: Date; response: unknown }> = {};
 
-const TTL = 7 * 30 * 30 * 1000;
+const TTL = 7 * 24 * 60 * 60 * 1000;
 
 export const cacheResponse = async <Response>(
   key: string,

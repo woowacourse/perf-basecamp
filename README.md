@@ -89,8 +89,8 @@ Memegle 프로젝트는 곳곳에 성능을 저하시키는 요소들로 가득�
 
 #### 3 같은 건 매번 새로 요청하지 않기
 
-- [ ] CDN을 적용하고, 한 번 요청한 리소스는 CDN 캐시에서 불러와야 한다.
-- [ ] GIPHY의 trending API를 Search 페이지에 들어올 때마다 새로 요청하지 않아야 한다.
+- [x] CDN을 적용하고, 한 번 요청한 리소스는 CDN 캐시에서 불러와야 한다.
+- [x] GIPHY의 trending API를 Search 페이지에 들어올 때마다 새로 요청하지 않아야 한다.
 
 도구
 
@@ -108,8 +108,8 @@ Memegle 프로젝트는 곳곳에 성능을 저하시키는 요소들로 가득�
 #### 4 최소한의 변경만 일으키기
 
 - [x] 검색 결과 > 추가 로드시 추가된 목록만 새로 렌더되어야 한다.
-- [ ] Layout Shift 없이 애니메이션이 일어나야 한다.
-- [ ] Frame Drop이 일어나지 않아야 한다.
+- [x] Layout Shift 없이 애니메이션이 일어나야 한다.
+- [x] Frame Drop이 일어나지 않아야 한다.
   - (Chrome DevTools 기준) Partially Presented Frame 역시 최소로 발생해야 한다.
 
 도구
