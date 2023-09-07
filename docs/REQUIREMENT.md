@@ -5,7 +5,7 @@
 • Desktop 기준
 
 - [x] Lighthouse performance 95점 이상
-- [ ] Home 페이지에서 불러오는 스크립트 리소스 크기 < 60kb
+- [x] Home 페이지에서 불러오는 스크립트 리소스 크기 < 60kb
 - [x] 히어로 이미지 크기 < 120kb
 - [ ] 프랑스 파리에서 Fast 3G 환경으로 접속했을 때
 
