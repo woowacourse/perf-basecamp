@@ -9,8 +9,6 @@ const gf = new GiphyFetch(apiKey);
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
 
-let trendings: GifImageModel[] | null = null;
-
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
     const { id, title, images } = gif;
@@ -29,17 +27,22 @@ export const gifAPIService = {
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
-  getTrending: async function (): Promise<GifImageModel[]> {
-    try {
-      if (trendings !== null) return trendings;
+  getTrending: (() => {
+    let trending: GifImageModel[] | null = null;
 
-      const trendingsResult: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      trendings = convertResponseToModel(trendingsResult.data);
-      return trendings;
-    } catch (e) {
-      return [];
-    }
-  },
+    return async function (): Promise<GifImageModel[]> {
+      if (trending !== null) return trending;
+
+      try {
+        const trendingResult: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+        trending = convertResponseToModel(trendingResult.data);
+        return trending;
+      } catch (e) {
+        return [];
+      }
+    };
+  })(),
+
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
