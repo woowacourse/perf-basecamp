@@ -53,7 +53,7 @@ const Home = () => {
     });
 
     return () => observer.disconnect();
-  }, [loadedVideos.length !== videoSrcList.length]);
+  }, []);
 
   return (
     <>
