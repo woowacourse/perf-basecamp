@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 
 import styles from './NavBar.module.css';
 import { ROUTE_PATH } from '../../constants/pageRoute';
-import { memo } from 'react';
 import usePreventSamePageNavigation from './hooks/usePreventSamePageNavigation';
 
 const NavBar = () => {
@@ -23,4 +22,4 @@ const NavBar = () => {
   );
 };
 
-export default memo(NavBar);
+export default NavBar;
