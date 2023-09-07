@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-const Home = lazy(() => import(/* webpackChunkName: "home" */ './pages/Home/Home'));
+/* webpackChunkName: "home" */ import Home from './pages/Home/Home';
 const Search = lazy(() => import(/* webpackChunkName: "search" */ './pages/Search/Search'));
 
 import NavBar from './components/NavBar/NavBar';
@@ -14,9 +14,9 @@ const App = () => {
   return (
     <Router>
       <NavBar />
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Suspense fallback={<div>Loading...</div>}>
           <Route
             path="/search"
             element={
@@ -25,8 +25,8 @@ const App = () => {
               </Search>
             }
           />
-        </Routes>
-      </Suspense>
+        </Suspense>
+      </Routes>
       <Footer />
     </Router>
   );
