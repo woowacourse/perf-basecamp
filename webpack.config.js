@@ -60,7 +60,7 @@ module.exports = {
     splitChunks: {
       cacheGroups: {
         react: {
-          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
           name: 'react',
           chunks: 'all'
         }
