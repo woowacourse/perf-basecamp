@@ -9,9 +9,9 @@ import { lazy, Suspense } from 'react';
 const App = () => {
   const Home = lazy(() => import('./pages/Home/Home'));
   const Search = lazy(() => import('./pages/Search/Search'));
-
+  console.log(process.env.PUBLIC_URL);
   return (
-    <Router>
+    <Router basename={'/perf-basecamp'}>
       <NavBar />
       <Suspense fallback={<div>loading...</div>}>
         <Routes>
