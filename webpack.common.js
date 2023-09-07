@@ -10,18 +10,12 @@ module.exports = {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true,
-    assetModuleFilename: 'static/[name][ext]'
+    assetModuleFilename: 'static/[name][ext]',
+    publicPath: '/'
   },
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   module: {
     rules: [
-      {
-        test: /\.(js|jsx|ts|tsx)$/i,
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
-        }
-      },
       {
         test: /\.(gif|webm)$/i,
         loader: 'file-loader',
@@ -36,9 +30,7 @@ module.exports = {
             loader: 'responsive-loader',
             options: {
               adapter: require('responsive-loader/sharp'),
-              sizes: [800, 1200, 1920],
-              placeholder: true,
-              placeholderSize: 20,
+              sizes: [640, 800, 1080],
               name: 'static/[name]-[width].[ext]',
               format: 'webp',
               esModule: true
@@ -46,6 +38,13 @@ module.exports = {
           }
         ],
         type: 'javascript/auto'
+      },
+      {
+        test: /\.(js|jsx|ts|tsx)$/i,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader'
+        }
       }
     ]
   },
