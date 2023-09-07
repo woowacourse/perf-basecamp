@@ -36,8 +36,8 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   return (
     <svg
       className={styles.animatedPath}
-      width="924"
-      height="1691"
+      width="100%"
+      height="1691px"
       viewBox="0 0 924 1691"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -12,7 +12,8 @@
 }
 
 .nav {
-  width: 1180px;
+  max-width: 1180px;
+  width: 100%;
   height: 30px;
   display: flex;
   align-items: center;
