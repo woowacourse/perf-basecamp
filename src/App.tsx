@@ -8,9 +8,10 @@ const Search = lazy(() => import('./pages/Search/Search'));
 
 import './App.css';
 import { ROUTE_PATH } from './constants/pageRoute';
+import Loading from './components/Loading/Loading';
 
 const ComponentSuspense = (component: JSX.Element) => {
-  return <Suspense fallback={<>로딩중</>}>{component}</Suspense>;
+  return <Suspense fallback={<Loading />}>{component}</Suspense>;
 };
 
 const App = () => {

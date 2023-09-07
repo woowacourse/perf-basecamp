@@ -4,6 +4,7 @@
   justify-content: center;
   flex-direction: column;
   padding-top: 3.5rem;
+  min-height: 90vh;
 }
 
 .searchbarSection {
