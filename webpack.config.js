@@ -49,7 +49,7 @@ module.exports = {
         use: [MiniCSSExtractionPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm|mp4)$/i,
         type: 'asset/resource'
       }
     ]
