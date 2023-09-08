@@ -4,7 +4,8 @@ import classNames from 'classnames/bind';
 
 // hero
 import heroImage from '../../assets/images/hero.png';
-import heroWebp from '../../assets/images/hero.webp';
+import heroWebpLarge from '../../assets/images/hero-lg.webp';
+import heroWebpSmall from '../../assets/images/hero-sm.webp';
 
 // free
 import freeMP4 from '../../assets/images/free.mp4';
@@ -31,8 +32,12 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source className={styles.heroImage} type="image/webp" srcSet={heroWebp} />
-          <source className={styles.heroImage} type="image/png" srcSet={heroImage} />
+          <source
+            src={heroImage}
+            className={styles.heroImage}
+            type="image/webp"
+            srcSet={`${heroWebpSmall} 700w, ${heroWebpLarge} 2000w`}
+          />
           <img className={styles.heroImage} src={heroImage}></img>
         </picture>
         <div className={styles.projectTitle}>
