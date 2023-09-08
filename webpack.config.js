@@ -2,12 +2,17 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+const isProdMode = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -16,15 +21,23 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: isProdMode ? false : 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
+      patterns: [{ from: './public', to: './' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin(),
+    ...(isProdMode
+      ? [
+          new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css'
+          })
+        ]
+      : [])
   ],
   module: {
     rules: [
@@ -37,18 +50,20 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: isProdMode
+          ? [MiniCssExtractPlugin.loader, 'css-loader']
+          : ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: '[name].[ext]'
         }
       }
     ]
   },
   optimization: {
-    minimize: false
+    minimizer: [`...`, new CssMinimizerPlugin()]
   }
 };

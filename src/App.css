@@ -41,3 +41,8 @@ a {
   --white: #fcfcfc;
   --black: #131313;
 }
+
+.content-fallback {
+  min-height: 100vh;
+  background: var(--black)
+}
