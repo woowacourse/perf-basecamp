@@ -4,7 +4,7 @@ interface CacheOption {
   staleTime: number;
 }
 
-export const cacheStore: Record<string, any> = {};
+export const cacheStore: Record<string, { data: any; fetchTime: number }> = {};
 
 export const fetchAPI = async (endpoint: RequestInfo | URL, option?: RequestInit) => {
   const response = await fetch(endpoint, option);
@@ -15,17 +15,18 @@ export const fetchAPI = async (endpoint: RequestInfo | URL, option?: RequestInit
 };
 
 export const fetchAPIwithCache = async ({ key, fetchFn, staleTime }: CacheOption) => {
-  if (cacheStore[key]) {
-    return cacheStore[key];
+  const currentTime = new Date().getTime();
+
+  if (cacheStore[key] && cacheStore[key].fetchTime + staleTime > currentTime) {
+    return cacheStore[key].data;
   }
 
   const data = await fetchFn();
 
-  cacheStore[key] = data;
-
-  setTimeout(() => {
-    delete cacheStore[key];
-  }, staleTime);
+  cacheStore[key] = {
+    data,
+    fetchTime: currentTime
+  };
 
   return data;
 };
