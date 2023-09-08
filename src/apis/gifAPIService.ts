@@ -59,7 +59,6 @@ export const gifAPIService = {
 
       return convertResponseToModel(gifs.data);
     } catch (e) {
-      console.log(e)
       return [];
     }
   },
