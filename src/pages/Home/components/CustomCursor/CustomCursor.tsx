@@ -15,7 +15,7 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
 
   const updateCursorFrame = () => {
     if (cursorRef.current) {
-      cursorRef.current.style.transform = `translate3d(${mousePosition.pageX}px, ${mousePosition.pageY}px,0)`;
+      cursorRef.current.style.transform = `translate(${mousePosition.pageX}px, ${mousePosition.pageY}px)`;
     }
     rAFRef.current = requestAnimationFrame(updateCursorFrame);
   };
