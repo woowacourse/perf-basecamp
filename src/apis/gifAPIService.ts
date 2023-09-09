@@ -16,7 +16,6 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
       id,
       title,
       url,
-      imageUrl: images.preview_gif.url,
       videoUrl: images.downsized_small.mp4
     };
   });

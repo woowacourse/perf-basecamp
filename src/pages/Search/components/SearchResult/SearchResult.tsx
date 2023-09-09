@@ -20,13 +20,7 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
       {(status === SEARCH_STATUS.FOUND || status === SEARCH_STATUS.BEFORE_SEARCH) && (
         <div className={styles.gifResultWrapper}>
           {gifList.map((gif: GifImageModel) => (
-            <MemoizedGifItem
-              key={gif.id}
-              title={gif.title}
-              url={gif.url}
-              imageUrl={gif.imageUrl}
-              videoUrl={gif.videoUrl}
-            />
+            <MemoizedGifItem key={gif.id} title={gif.title} url={gif.url} videoUrl={gif.videoUrl} />
           ))}
         </div>
       )}
