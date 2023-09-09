@@ -77,15 +77,33 @@ module.exports = {
       }),
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
-        minimizer: {
-          implementation: ImageMinimizerPlugin.imageminGenerate,
-          options: {
-            plugins: [
-              ['gifsicle', { interlaced: true, colors: 60, optimizationLevel: 3 }],
-              ['webp', { quality: 35, resize: { width: 1920, height: 0 } }]
-            ]
+        generator: [
+          {
+            preset: 'png-webp',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              resize: {
+                width: 1920
+              },
+              encodeOptions: {
+                webp: {
+                  quality: 35
+                }
+              }
+            }
+          },
+          {
+            preset: 'gif-webp',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                webp: {
+                  quality: 50
+                }
+              }
+            }
           }
-        }
+        ]
       })
     ],
     splitChunks: {
