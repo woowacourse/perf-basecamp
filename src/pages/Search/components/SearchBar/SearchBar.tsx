@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineSearch } from '@react-icons/all-files/ai/AiOutlineSearch';
 
 import styles from './SearchBar.module.css';
 
@@ -19,7 +19,7 @@ const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProp
           className={styles.searchInput}
           type="text"
           value={searchKeyword}
-          onKeyPress={onEnter}
+          onKeyUp={onEnter}
           onChange={onChange}
         />
         <button className={styles.searchButton} type="button" onClick={onSearch}>
