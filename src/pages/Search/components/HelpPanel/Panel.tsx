@@ -9,7 +9,8 @@ import styles from './HelpPanel.module.css';
 const Panel = ({ isShow, closeSheet }: { isShow: boolean; closeSheet: () => void }) => (
   <section
     className={classNames(styles.selectedItemContainer, {
-      [styles.showSheet]: isShow
+      [styles.showSheet]: isShow,
+      [styles.hideSheet]: !isShow
     })}
   >
     <div className={styles.sheetTitleContainer}>

@@ -1,15 +1,19 @@
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import { AiOutlineInfo } from '@react-icons/all-files/ai/AiOutlineInfo';
 
 import styles from './HelpPanel.module.css';
 import lazyWithPreload from '../../../../utils/lazyWithPreload';
+import { useModal } from '../../hooks/useModal';
 
 const [Panel, preloadPanel] = lazyWithPreload(() => import('./Panel'));
 
 const HelpPanel = () => {
-  const [isShow, setIsShow] = useState(false);
-  const openSheet = () => setIsShow(true);
-  const closeSheet = () => setIsShow(false);
+  const {
+    isVisible: isShow,
+    openModal: openSheet,
+    closeModal: closeSheet,
+    isOpen
+  } = useModal({ closeDelay: 600 });
 
   return (
     <>
@@ -17,7 +21,7 @@ const HelpPanel = () => {
         <AiOutlineInfo color="white" size="24px" onMouseEnter={preloadPanel} />
       </button>
       <Suspense fallback={null}>
-        {isShow && <Panel isShow={isShow} closeSheet={closeSheet} />}
+        {isOpen && <Panel isShow={isShow} closeSheet={closeSheet} />}
       </Suspense>
     </>
   );
