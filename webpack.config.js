@@ -30,7 +30,11 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      options: {
+        filename: '[contenthash].[name].css'
+      }
+    }),
     new Dotenv()
     // new BundleAnalyzerPlugin()
   ],
@@ -45,10 +49,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
-        options: {
-          name: '[hash].[name].css'
-        }
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
