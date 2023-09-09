@@ -45,13 +45,16 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        options: {
+          name: '[hash].[name].css'
+        }
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[hash].[ext]'
+          name: 'static/[hash].[name].[ext]'
         }
       }
     ]
