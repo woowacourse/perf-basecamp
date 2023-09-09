@@ -29,8 +29,8 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await gf.trending();
-      return convertResponseToModel(gifs.data.slice(0, DEFAULT_FETCH_COUNT));
+      const gifs: GifsResult = await gf.trending({ limit: DEFAULT_FETCH_COUNT });
+      return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
     }
