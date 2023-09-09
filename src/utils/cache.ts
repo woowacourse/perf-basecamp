@@ -1,4 +1,4 @@
-type CacheValue = { time: number; result: unknown };
+type CacheValue = { validTime: number; result: unknown };
 
 const cache = new Map<string, CacheValue>();
 
@@ -8,14 +8,14 @@ const checkCache = <T>(query: string, callback: () => T): T => {
   const currentTime = new Date().getTime();
   const cacheData = cache.get(query);
 
-  if (cacheData && cacheData.time > currentTime) {
+  if (cacheData && cacheData.validTime > currentTime) {
     return cacheData.result as T;
   }
 
   const data = callback();
 
   cache.set(query, {
-    time: currentTime + CACHE_TIME,
+    validTime: currentTime + CACHE_TIME,
     result: data
   });
 
