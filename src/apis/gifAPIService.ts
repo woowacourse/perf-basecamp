@@ -55,9 +55,7 @@ export const gifAPIService = {
     };
 
     try {
-      const gifs: GifsResult = await checkCache(`search${keyword}${page}`, () =>
-        gf.search(keyword, searchOptions)
-      );
+      const gifs: GifsResult = await gf.search(keyword, searchOptions);
 
       return convertResponseToModel(gifs.data);
     } catch (e) {
