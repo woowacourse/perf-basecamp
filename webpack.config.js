@@ -70,11 +70,6 @@ module.exports = {
           implementation: ImageMinimizerPlugin.sharpMinify,
           options: {
             webp: {
-              // https://sharp.pixelplumbing.com/api-output#webp
-              lossless: true
-            },
-            avif: {
-              // https://sharp.pixelplumbing.com/api-output#avif
               lossless: true
             }
           }
@@ -90,7 +85,7 @@ module.exports = {
               },
               encodeOptions: {
                 webp: {
-                  quality: 85
+                  quality: 90
                 }
               }
             }
@@ -114,16 +109,6 @@ module.exports = {
         react: {
           test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
           name: 'react',
-          chunks: 'all'
-        },
-        giphy: {
-          test: /[\\/]node_modules[\\/](@giphy)[\\/]/,
-          name: 'giphy',
-          chunks: 'all'
-        },
-        reactIcons: {
-          test: /[\\/]node_modules[\\/](react-icons)[\\/]/,
-          name: 'react-icons',
           chunks: 'all'
         }
       }
