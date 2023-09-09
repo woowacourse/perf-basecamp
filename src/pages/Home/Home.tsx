@@ -37,9 +37,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingMp4} />
-            <FeatureItem title="Find gif for free" imageSrc={findMp4} />
-            <FeatureItem title="Free for everyone" imageSrc={freeMp4} />
+            <FeatureItem title="See trending gif" videoSrc={trendingMp4} />
+            <FeatureItem title="Find gif for free" videoSrc={findMp4} />
+            <FeatureItem title="Free for everyone" videoSrc={freeMp4} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
