@@ -39,12 +39,12 @@ export const gifAPIService = {
               const responseClone = res.clone();
               cacheStorage.put(TRENDING_GIF_API, responseClone);
 
-              setTimeout(() => {
-                cacheStorage.delete(TRENDING_GIF_API);
-              }, 60000);
-
               return res.json();
             });
+
+      setTimeout(() => {
+        cacheStorage.delete(TRENDING_GIF_API);
+      }, 60000);
 
       return convertResponseToModel(gifs.data);
     } catch (e) {
