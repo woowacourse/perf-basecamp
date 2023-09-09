@@ -8,8 +8,9 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.[hash].js',
+    filename: 'static/[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
+    publicPath: '/perf-basecamp/',
     clean: true
   },
   devServer: {
@@ -42,10 +43,24 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|jpeg|webp|mp4|webm)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[hash].[ext]'
+        test: /\.(|svg|png|jpg|gif|jpeg|webp)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/images/[name].[hash][ext]'
+        }
+      },
+      {
+        test: /\.(mp4|webm)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/videos/[name].[hash][ext]'
+        }
+      },
+      {
+        test: /\.(eot|ttf|woff|woff2)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/fonts/[name].[hash][ext]'
         }
       }
     ]
