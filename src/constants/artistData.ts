@@ -28,7 +28,3 @@ export const dummyArtists: Artist[] = [
     profileImageUrl: 'https://media1.giphy.com/media/l0Iyn1gGtCPa3x41a/200.gif'
   }
 ];
-
-// export const artists = Array.from({ length: DUMMY_ARTISTS_LENGTH }, (_v, k) =>
-//   Artist(dummyArtists[k % dummyArtists.length])
-// );

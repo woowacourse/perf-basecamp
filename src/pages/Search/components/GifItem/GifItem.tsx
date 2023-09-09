@@ -10,7 +10,6 @@ const GifItem = ({ gifUrl = '', title = '', webpUrl = '' }: GifItemProps) => {
     <div className={styles.gifItem}>
       <picture>
         <source srcSet={webpUrl} type="image/webp" />
-        <source srcSet={gifUrl} type="image/gif" />
         <img className={styles.gifImage} src={gifUrl} loading="lazy" alt={title} />
       </picture>
       <div className={styles.gifTitleContainer}>
