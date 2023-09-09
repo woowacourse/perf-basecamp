@@ -22,7 +22,6 @@ const Home = () => {
       <section className={styles.heroSection}>
         <picture>
           <source type="image/webp" srcSet={heroImage} />
-          <source type="image/jpg" srcSet={heroImageJpg} />
           <img className={styles.heroImage} src={heroImageJpg} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
