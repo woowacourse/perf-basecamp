@@ -9,7 +9,7 @@ const gf = new GiphyFetch(apiKey);
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
 
-export function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
+function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
     const { id, title, images } = gif;
 
