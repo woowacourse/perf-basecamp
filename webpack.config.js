@@ -33,7 +33,7 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: '[name].[contenthash].css'
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: isDevMode ? 'server' : 'disabled'
