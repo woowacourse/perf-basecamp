@@ -5,22 +5,22 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 import { Suspense, lazy } from 'react';
-import Home from './pages/Home/Home';
 import Loading from './components/Loading/Loading';
+const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home/Home'));
 const Search = lazy(() => import(/* webpackChunkName: "Search" */ './pages/Search/Search'));
 
 const App = () => {
   return (
-    <Suspense fallback={<Loading />}>
-      <Router>
-        <NavBar />
+    <Router>
+      <NavBar />
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
-        <Footer />
-      </Router>
-    </Suspense>
+      </Suspense>
+      <Footer />
+    </Router>
   );
 };
 
