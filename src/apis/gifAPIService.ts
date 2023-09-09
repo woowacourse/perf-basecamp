@@ -16,7 +16,7 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
     return {
       id,
       title,
-      imageUrl: images.original.url
+      imageUrl: images.original.url,
     };
   });
 }
@@ -29,7 +29,12 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+      const cache = await caches.open('trending');
+      const res = await cache.match(TRENDING_GIF_API);
+      const gifs = await res?.json();
+
+      if (!gifs) await cache.add(TRENDING_GIF_API);
+
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
@@ -46,7 +51,7 @@ export const gifAPIService = {
     const searchOptions: SearchOptions = {
       limit: DEFAULT_FETCH_COUNT,
       lang: 'en',
-      offset: page * DEFAULT_FETCH_COUNT
+      offset: page * DEFAULT_FETCH_COUNT,
     };
 
     try {
@@ -55,5 +60,5 @@ export const gifAPIService = {
     } catch (e) {
       return [];
     }
-  }
+  },
 };
