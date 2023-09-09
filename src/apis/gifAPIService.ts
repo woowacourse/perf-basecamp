@@ -1,12 +1,17 @@
 import { GifsResult, GiphyFetch, SearchOptions } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 import { GifImageModel } from '../models/image/gifImage';
+import CacheManager from '../utils/cacheManager';
 
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
 
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
+const TRENDING_CACHE = {
+  NAME: 'trending-cache',
+  KEY: 'trending'
+};
 
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
@@ -15,7 +20,7 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
     return {
       id,
       title,
-      imageUrl: images.original.url
+      imageUrl: images.original.webp
     };
   });
 }
@@ -28,26 +33,17 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const cacheTime = 600000;
-      const cache = await caches.open('trending-cache');
-      const cachedResponse = await cache.match('trending');
+      const cachedTrending = await CacheManager.getCachedData<GifImageModel[]>(
+        TRENDING_CACHE.NAME,
+        TRENDING_CACHE.KEY
+      );
 
-      if (cachedResponse) {
-        const cachedData = await cachedResponse.json();
-
-        if (Date.now() < cachedData.expirationTime) return cachedData.trending;
-      }
+      if (cachedTrending) return cachedTrending;
 
       const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
       const trending = convertResponseToModel(gifs.data);
 
-      const cacheData = {
-        trending: trending,
-        expirationTime: cacheTime + Date.now()
-      };
-
-      const cacheResponse = new Response(JSON.stringify(cacheData));
-      await cache.put('trending', cacheResponse);
+      CacheManager.cacheData(TRENDING_CACHE.NAME, TRENDING_CACHE.KEY, trending);
 
       return trending;
     } catch (e) {
