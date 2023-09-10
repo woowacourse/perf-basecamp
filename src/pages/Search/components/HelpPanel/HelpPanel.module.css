@@ -12,6 +12,7 @@
   position: fixed;
   transform: translateX(320px);
   top: 0;
+  right: 0;
   width: 320px;
   height: 100%;
   z-index: 10;
