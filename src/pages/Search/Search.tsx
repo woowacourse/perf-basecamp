@@ -25,9 +25,17 @@ const Search = () => {
         searchKeyword={searchKeyword}
         onEnter={handleEnter}
         onChange={updateSearchKeyword}
-        onSearch={searchByKeyword}
+        onSearch={() => {
+          searchByKeyword();
+        }}
       />
-      <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
+      <SearchResult
+        status={status}
+        gifList={gifList}
+        loadMore={() => {
+          loadMore();
+        }}
+      />
       <HelpPanel />
     </div>
   );

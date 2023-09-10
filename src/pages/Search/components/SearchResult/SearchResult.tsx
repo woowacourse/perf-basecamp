@@ -20,10 +20,11 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
     <section className={styles.searchResultSection}>
       <ResultTitle status={status} />
       <div className={styles.gifResultWrapper}>
-        {gifList.map((gif) => <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />)}
-        {(status === SEARCH_STATUS.LOADING) && (
-          Array.from({ length: DEFAULT_FETCH_COUNT }, () => <Skeleton />)
-        )}
+        {gifList.map((gif) => (
+          <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+        ))}
+        {status === SEARCH_STATUS.LOADING &&
+          Array.from({ length: DEFAULT_FETCH_COUNT }, (_, index) => <Skeleton key={index} />)}
       </div>
       {status === SEARCH_STATUS.FOUND && (
         <button className={styles.loadMoreButton} onClick={loadMore}>
