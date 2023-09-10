@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
+import Throttle from '../../../utils/throttle';
 
 const useScrollEvent = (onScroll: (e: Event) => void) => {
   useEffect(() => {
-    window.addEventListener('scroll', onScroll);
+    const handler = Throttle.withRequestAnimationFrame(onScroll);
 
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', handler);
+
+    return () => window.removeEventListener('scroll', handler);
   }, []);
 };
 
