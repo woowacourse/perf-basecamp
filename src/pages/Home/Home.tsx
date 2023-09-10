@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 
 import heroImage from '../../assets/images/hero.png';
 import trendingGif from '../../assets/images/trending.mp4';
@@ -15,7 +15,6 @@ import styles from './Home.module.css';
 
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
-  const cx = classNames.bind(styles);
 
   return (
     <>
@@ -26,7 +25,7 @@ const Home = () => {
           <h3 className={styles.subtitle}>gif search engine for you</h3>
         </div>
         <Link to="/search">
-          <button className={cx(styles.cta, styles.linkButton)}>start search</button>
+          <button className={classNames(styles.cta, styles.linkButton)}>start search</button>
         </Link>
       </section>
       <section ref={wrapperRef} className={styles.featureSection}>

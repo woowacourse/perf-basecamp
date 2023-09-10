@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 
 import { artists } from '../../../../constants/artistData';
 import ArtistList from '../ArtistList/ArtistList';
@@ -11,7 +11,6 @@ const HelpPanel = () => {
   const [isShow, setIsShow] = useState(false);
   const openSheet = () => setIsShow(true);
   const closeSheet = () => setIsShow(false);
-  const cx = classNames.bind(styles);
 
   return (
     <>
@@ -19,7 +18,7 @@ const HelpPanel = () => {
         <AiOutlineInfo color="white" size="24px" />
       </button>
       <section
-        className={cx(styles.selectedItemContainer, {
+        className={classNames(styles.selectedItemContainer, {
           [styles.showSheet]: isShow
         })}
       >
