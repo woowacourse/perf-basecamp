@@ -29,7 +29,7 @@ const useGifSearch = () => {
     setCurrentPageIndex(DEFAULT_PAGE_INDEX);
   };
 
-  const searchByKeyword = () => async () => {
+  const searchByKeyword = async () => {
     resetSearch();
 
     const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(
