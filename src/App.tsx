@@ -11,16 +11,16 @@ const App = () => {
   const Search = lazy(() => import('./pages/Search/Search'));
   console.log(process.env.PUBLIC_URL);
   return (
-    <Router>
-      <NavBar />
-      <Suspense fallback={<div>loading...</div>}>
+    <Suspense fallback={<div>loading...</div>}>
+      <Router basename="/perf-basecamp">
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
-      </Suspense>
-      <Footer />
-    </Router>
+        <Footer />
+      </Router>
+    </Suspense>
   );
 };
 
