@@ -24,7 +24,7 @@ const HeroImage = () => {
       <source media="(max-width: 375px)" srcSet={`${hero_375_png}, ${hero_768_png} 2x`} />
       <source media="(max-width: 768px)" srcSet={`${hero_768_png}, ${hero_1980_png} 2x`} />
       <source media="(min-width: 769px)" srcSet={hero_1980_png} />
-      <img className={styles.heroImage} src={hero_1980_png} />
+      <img className={styles.heroImage} src={hero_1980_png} alt="히어로 이미지" />
     </picture>
   );
 };
