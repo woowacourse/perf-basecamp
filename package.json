@@ -8,20 +8,23 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
+    "serve:prod": "webpack serve --mode=production --node-env=production",
     "prettier": "prettier --write .",
-    "deploy": "npm run build:prod && npx gh-pages -d dist"
+    "deploy": "npm run build:prod && npx gh-pages -d dist",
+    "preanalyze": "yarn build:prod",
+    "analyze": "webpack-bundle-analyzer ./dist/bundle-report.json --default-sizes gzip"
   },
   "keywords": [],
   "author": "woowacourse",
-  "homepage": "https://{username}.github.io/perf-basecamp",
+  "homepage": "https://gabrielyoon7.github.io/perf-basecamp",
   "license": "MIT",
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.1",
     "@giphy/js-types": "^4.2.1",
+    "@react-icons/all-files": "^4.1.0",
     "classnames": "^2.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
@@ -33,15 +36,16 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^5.35.1",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@webpack-cli/generators": "^2.2.0",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
+    "css-minimizer-webpack-plugin": "^5.0.1",
     "dotenv-webpack": "^7.0.3",
-    "eslint": "^7.32.0",
+    "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-config-standard-with-typescript": "^22.0.0",
+    "eslint-config-standard-with-typescript": "22.0.0",
     "eslint-plugin-hooks": "^0.4.3",
     "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-prettier": "^4.2.1",
@@ -50,21 +54,29 @@
     "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.7.6",
     "prettier": "^2.3.2",
     "style-loader": "^3.2.1",
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
-    "webpack": "^5.50.0",
+    "webpack": "^5.88.2",
+    "webpack-bundle-analyzer": "^4.9.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react"
+      "@babel/preset-react",
+      {
+        "modules": false
+      }
     ],
     "plugins": [
       "@babel/plugin-transform-runtime"
     ]
-  }
+  },
+  "sideEffects": [
+    "*.css"
+  ]
 }

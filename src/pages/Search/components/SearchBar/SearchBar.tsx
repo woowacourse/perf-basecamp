@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
+import {AiOutlineSearch} from '@react-icons/all-files/ai/AiOutlineSearch';
 
 import styles from './SearchBar.module.css';
 
@@ -10,7 +10,7 @@ type SearchbarProps = {
   onSearch: () => void;
 };
 
-const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProps) => {
+const SearchBar = ({searchKeyword, onEnter, onChange, onSearch}: SearchbarProps) => {
   return (
     <section className={styles.searchbarSection}>
       <h3 className={styles.searchbarTitle}>- find the best gif now - </h3>
@@ -23,7 +23,7 @@ const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProp
           onChange={onChange}
         />
         <button className={styles.searchButton} type="button" onClick={onSearch}>
-          <AiOutlineSearch color="white" size="2rem" />
+          <AiOutlineSearch color="white" size="2rem"/>
         </button>
       </div>
     </section>
