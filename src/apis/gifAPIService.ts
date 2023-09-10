@@ -35,6 +35,24 @@ export const gifAPIService = {
       return [];
     }
   },
+
+  /**
+   * treding gif 목록을 가져옵니다. 이미 한 번 목록을 가져온 적이 있다면, 그 이후부터는 저장된 목록을 반환합니다.
+   * @returns {Promise<GifImageModel[]>}
+   * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
+   */
+  getTrendingWithCache: (() => {
+    let cache: GifImageModel[] | null = null;
+
+    return async () => {
+      if (cache === null) {
+        const gifs = await gifAPIService.getTrending();
+        cache = gifs;
+      }
+
+      return cache;
+    };
+  })(),
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
