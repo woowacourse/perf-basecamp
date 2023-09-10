@@ -11,8 +11,9 @@ module.exports = {
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js'
+    clean: true,
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].js'
   },
   devServer: {
     hot: true,
@@ -28,7 +29,9 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new MiniCssExtractPlugin({
-      linkType: false
+      linkType: false,
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[name].[contenthash].css'
     }),
     new BundleAnalyzerPlugin(),
     new Dotenv()
