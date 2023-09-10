@@ -44,7 +44,7 @@ module.exports = merge(common, {
       })
     ]
   },
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [new MiniCssExtractPlugin({ filename: '[name]-[contenthash].css' })],
   module: {
     rules: [
       {
