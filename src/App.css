@@ -15,6 +15,7 @@ html {
 body {
   line-height: 1;
   font-family: 'Josefin Sans', sans-serif;
+  font-display: swap;
 }
 
 button {
@@ -40,4 +41,8 @@ a {
   --text-gradient: linear-gradient(270deg, #e86dc6 7.22%, #c625ff 77.95%);
   --white: #fcfcfc;
   --black: #131313;
+}
+
+.loading {
+  height: 100vh;
 }
