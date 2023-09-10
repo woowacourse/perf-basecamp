@@ -100,3 +100,14 @@
   align-items: center;
   padding-top: 3.75rem;
 }
+
+.featureItem {
+  position: relative;
+  width: 30rem;
+  height: 26rem;
+  overflow: hidden;
+  margin-bottom: 5.5rem;
+  text-align: center;
+  transition: 0.8s all ease-in-out;
+  border-radius: 4%;
+}

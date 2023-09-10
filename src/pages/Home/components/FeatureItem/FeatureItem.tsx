@@ -2,13 +2,17 @@ import styles from './FeatureItem.module.css';
 
 type FeatureItemProps = {
   title: string;
-  imageSrc: string;
+  webmUrl: string;
+  mp4Url: string;
 };
 
-const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
+const FeatureItem = ({ title, webmUrl, mp4Url }: FeatureItemProps) => {
   return (
     <div className={styles.featureItem}>
-      <img className={styles.featureImage} src={imageSrc} />
+      <video className={styles.featureImage} autoPlay loop muted playsInline>
+        <source src={webmUrl} type="video/webm" />
+        <source src={mp4Url} type="video/mp4" />
+      </video>
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
     </div>
