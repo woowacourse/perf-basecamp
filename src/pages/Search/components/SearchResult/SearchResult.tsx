@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
@@ -13,7 +15,7 @@ type SearchResultProps = {
   loadMore: () => void;
 };
 
-const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
+const SearchResult = memo(({ status, gifList, loadMore }: SearchResultProps) => {
   return (
     <section className={styles.searchResultSection}>
       <ResultTitle status={status} />
@@ -31,6 +33,6 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
       )}
     </section>
   );
-};
+});
 
 export default SearchResult;

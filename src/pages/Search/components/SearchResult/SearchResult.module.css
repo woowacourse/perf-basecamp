@@ -1,6 +1,7 @@
 .searchResultSection {
   min-height: 90vh;
   max-width: 1180px;
+  min-width: 100vw;
   margin: 0 auto;
 }
 

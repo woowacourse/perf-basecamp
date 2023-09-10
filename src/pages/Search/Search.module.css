@@ -4,6 +4,8 @@
   justify-content: center;
   flex-direction: column;
   padding-top: 3.5rem;
+
+  overflow-x: hidden;
 }
 
 .searchbarSection {

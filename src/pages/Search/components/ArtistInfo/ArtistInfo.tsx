@@ -1,12 +1,13 @@
 import { Artist } from '../../../../models/help/artist';
 
 import styles from './ArtistInfo.module.css';
+import { memo } from 'react';
 
 export type ArtistProps = {
   artist: Artist;
 };
 
-const ArtistInfo = ({ artist }: ArtistProps) => {
+const ArtistInfo = memo(({ artist }: ArtistProps) => {
   const { name, profileUrl, profileImageUrl } = artist;
 
   return (
@@ -19,6 +20,6 @@ const ArtistInfo = ({ artist }: ArtistProps) => {
       </p>
     </li>
   );
-};
+});
 
 export default ArtistInfo;

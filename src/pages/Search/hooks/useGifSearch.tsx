@@ -55,14 +55,21 @@ const useGifSearch = () => {
   };
 
   useEffect(() => {
-    const fetch = async () => {
-      if (status === SEARCH_STATUS.BEFORE_SEARCH) {
-        const gifs: GifImageModel[] = await gifAPIService.getTrending();
+    const cachedTrendingGifListData = sessionStorage.getItem('SESSION_TRENDING_LIST');
 
-        setGifList(gifs);
-      }
-    };
-    fetch();
+    if (cachedTrendingGifListData === null) {
+      const fetch = async () => {
+        if (status === SEARCH_STATUS.BEFORE_SEARCH) {
+          const gifs: GifImageModel[] = await gifAPIService.getTrending();
+
+          setGifList(gifs);
+          sessionStorage.setItem('SESSION_TRENDING_LIST', JSON.stringify(gifs));
+        }
+      };
+      fetch();
+    } else {
+      setGifList(JSON.parse(cachedTrendingGifListData));
+    }
 
     return () => setStatus(SEARCH_STATUS.LOADING);
   }, []);
