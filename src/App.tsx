@@ -1,8 +1,8 @@
 import { lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-const Search = lazy(() => import('./pages/Search/Search'));
-const Home = lazy(() => import('./pages/Home/Home'));
+const Home = lazy(() => import(/* webpackChunkName: "home" */ './pages/Home/Home'));
+const Search = lazy(() => import(/* webpackChunkName: "search" */ './pages/Search/Search'));
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
