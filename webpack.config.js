@@ -71,11 +71,6 @@ module.exports = {
           name: 'giphy',
           enforce: true,
           chunks: 'all'
-        },
-        reactIcons: {
-          test: /[\\/]node_modules[\\/](react-icons)[\\/]/,
-          name: 'react-icons',
-          chunks: 'all'
         }
       }
     },
