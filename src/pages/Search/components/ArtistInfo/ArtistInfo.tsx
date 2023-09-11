@@ -1,6 +1,7 @@
 import { Artist } from '../../../../models/help/artist';
 
 import styles from './ArtistInfo.module.css';
+import { memo } from 'react';
 
 export type ArtistProps = {
   artist: Artist;
@@ -21,4 +22,4 @@ const ArtistInfo = ({ artist }: ArtistProps) => {
   );
 };
 
-export default ArtistInfo;
+export default memo(ArtistInfo);
