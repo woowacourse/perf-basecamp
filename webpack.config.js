@@ -2,6 +2,12 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractingPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require('compression-webpack-plugin');
+
+const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   entry: './src/index.tsx',
@@ -19,12 +25,30 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true
+      },
+      template: './index.html',
+      hash: true
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractingPlugin({
+      filename: '[name].css'
+    }),
+    new BundleAnalyzerPlugin({
+      openAnalyzer: true
+    }),
+    new CompressionPlugin({
+      filename: '[path][base].gz',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
   ],
   module: {
     rules: [
@@ -37,18 +61,27 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [
+          mode === 'development' ? 'style-loader' : MiniCssExtractingPlugin.loader,
+          'css-loader'
+        ]
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[ext]'
         }
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|webp|webm)$/i,
+        loader: 'image-webpack-loader',
+        enforce: 'pre'
       }
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true,
+    minimizer: [`...`, new CssMinimizerPlugin()]
   }
 };
