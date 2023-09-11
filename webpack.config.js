@@ -4,10 +4,8 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
-
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const mode = process.env.NODE_ENV || 'development';
@@ -37,24 +35,9 @@ module.exports = {
           loader: 'ts-loader'
         }
       },
-      // style-loader, css-loader 구성
       {
         test: /\.css$/i,
-        exclude: /\.module\.css$/i, // 모듈 파일 제외 설정
         use: [isProd ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader']
-      },
-      // CSS Module ([filename].module.css)
-      {
-        test: /\.module\.css$/i,
-        use: [
-          isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true
-            }
-          }
-        ]
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm|mp4)$/i,
@@ -85,14 +68,16 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       NODE_ENV: isProd ? JSON.stringify('production') : JSON.stringify('development')
+    }),
+    new BundleAnalyzerPlugin({
+      openAnalyzer: true
     })
   ],
   optimization: {
-    minimize: true,
     minimizer: isProd
       ? [
+          '...',
           new CssMinimizerPlugin(),
-          new TerserPlugin(),
           new ImageMinimizerPlugin({
             deleteOriginalAssets: false,
             minimizer: {
@@ -103,6 +88,6 @@ module.exports = {
             }
           })
         ]
-      : [new BundleAnalyzerPlugin()]
+      : []
   }
 };
