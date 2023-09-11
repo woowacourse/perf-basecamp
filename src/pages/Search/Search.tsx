@@ -1,14 +1,13 @@
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, PropsWithChildren } from 'react';
 import useGifSearch from './hooks/useGifSearch';
 
 import SearchBar from './components/SearchBar/SearchBar';
-import SearchResult from './components/SearchResult/SearchResult';
-import HelpPanel from './components/HelpPanel/HelpPanel';
 
 import styles from './Search.module.css';
+import SearchResult from './components/SearchResult/SearchResult';
 
-const Search = () => {
-  const { status, searchKeyword, gifList, searchByKeyword, updateSearchKeyword, loadMore } =
+const Search = ({ children }: PropsWithChildren) => {
+  const { gifList, status, loadMore, searchKeyword, searchByKeyword, updateSearchKeyword } =
     useGifSearch();
 
   const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -27,8 +26,8 @@ const Search = () => {
         onChange={updateSearchKeyword}
         onSearch={searchByKeyword}
       />
-      <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
-      <HelpPanel />
+      {gifList && <SearchResult status={status} gifList={gifList} loadMore={loadMore} />}
+      {children}
     </div>
   );
 };
