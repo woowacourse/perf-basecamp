@@ -4,24 +4,16 @@ export type MousePosition = Partial<MouseEvent>;
 
 const useMousePosition = () => {
   const [mousePosition, setMousePosition] = useState<MousePosition>({
-    clientX: 0,
-    clientY: 0,
     pageX: 0,
-    pageY: 0,
-    offsetX: 0,
-    offsetY: 0
+    pageY: 0
   });
 
   const updateMousePosition = (e: MouseEvent) => {
-    const { clientX, clientY, pageX, pageY, offsetX, offsetY } = e;
+    const { pageX, pageY } = e;
 
     setMousePosition({
-      clientX,
-      clientY,
       pageX,
-      pageY,
-      offsetX,
-      offsetY
+      pageY
     });
   };
 

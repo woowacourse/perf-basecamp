@@ -23,18 +23,39 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
 
 export const gifAPIService = {
   /**
-   * treding gif 목록을 가져옵니다.
+   * trending gif 목록을 가져옵니다.
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
-  getTrending: async function (): Promise<GifImageModel[]> {
-    try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
-    } catch (e) {
-      return [];
-    }
-  },
+
+  getTrending: (function () {
+    const getCurrentUTC = () => {
+      const currentUTC = new Date(Date.now()).toUTCString();
+      const currentWithoutTime = currentUTC.replace(/\d{2}:\d{2}:\d{2}/, '');
+
+      return currentWithoutTime;
+    };
+
+    let cacheStore: GifImageModel[] | null = null;
+    const cachedDate: string = getCurrentUTC();
+
+    return async function (): Promise<GifImageModel[]> {
+      if (cacheStore !== null && cachedDate === getCurrentUTC()) {
+        return cacheStore;
+      }
+
+      try {
+        const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+
+        cacheStore = convertResponseToModel(gifs.data);
+
+        return cacheStore;
+      } catch (e) {
+        return [];
+      }
+    };
+  })(),
+
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword

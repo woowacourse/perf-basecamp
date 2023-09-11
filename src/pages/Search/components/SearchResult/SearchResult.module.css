@@ -1,5 +1,6 @@
 .searchResultSection {
   min-height: 90vh;
+  min-width: 100vw;
   max-width: 1180px;
   margin: 0 auto;
 }
@@ -26,8 +27,4 @@
   border: none;
   margin-bottom: 2.5rem;
   transition: all 0.5s ease-in-out 0s;
-}
-
-.loadMoreButton:hover {
-  background: var(--radial-gradient);
 }
