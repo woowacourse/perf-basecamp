@@ -32,7 +32,6 @@ export const gifAPIService = {
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
       const gifModelsFromSessionStorage = getTrendingGifsFromSessionStorage();
-      console.log({ gifModelsFromSessionStorage });
 
       if (gifModelsFromSessionStorage.length > 0) {
         return gifModelsFromSessionStorage;
