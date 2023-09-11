@@ -1,11 +1,11 @@
-import { useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import { clamp } from '../../../../utils/number';
 import useScrollEvent from '../../hooks/useScrollEvent';
 
 import styles from './AnimatedPath.module.css';
 
 type AnimatedPathProps = {
-  wrapperRef: React.RefObject<HTMLElement>;
+  wrapperRef: RefObject<HTMLElement>;
 };
 
 const TOP_PERCENTAGE_OF_DRAW_POINT = 0.8; // 현재 보이는 화면의 80% 지점에서 선이 그려지는 게 보이도록 함
