@@ -1,11 +1,16 @@
 import { useState } from 'react';
-import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
+
+import { AiOutlineInfo } from '@react-icons/all-files/ai/AiOutlineInfo';
+import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
+
 import classNames from 'classnames/bind';
 
 import { artists } from '../../../../constants/artistData';
 import ArtistList from '../ArtistList/ArtistList';
 
 import styles from './HelpPanel.module.css';
+
+const cn = classNames.bind(styles);
 
 const HelpPanel = () => {
   const [isShow, setIsShow] = useState(false);
@@ -18,7 +23,7 @@ const HelpPanel = () => {
         <AiOutlineInfo color="white" size="24px" />
       </button>
       <section
-        className={classNames(styles.selectedItemContainer, {
+        className={cn(this, styles.selectedItemContainer, {
           [styles.showSheet]: isShow
         })}
       >
