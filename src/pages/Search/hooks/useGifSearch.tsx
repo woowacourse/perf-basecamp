@@ -59,7 +59,7 @@ const useGifSearch = () => {
       if (status === SEARCH_STATUS.BEFORE_SEARCH) {
         const trendingGifs = sessionStorage.getItem('TRENDING_GIFS');
 
-        if (trendingGifs) {
+        if (gifList.length === 0 && trendingGifs) {
           if (JSON.parse(trendingGifs).length !== 0) {
             setGifList(JSON.parse(trendingGifs));
             return;
