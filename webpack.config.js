@@ -2,13 +2,16 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
+    filename: '[name].bundle.[contenthash].js',
     clean: true
   },
   devServer: {
@@ -16,7 +19,6 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -24,7 +26,12 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false
+    }),
+    new MiniCssExtractPlugin()
   ],
   module: {
     rules: [
@@ -37,18 +44,18 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name][contenthash][ext]'
         }
       }
     ]
   },
   optimization: {
-    minimize: false
+    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };
