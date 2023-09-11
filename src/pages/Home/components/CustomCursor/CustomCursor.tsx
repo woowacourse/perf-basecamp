@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import useMousePosition from '../../hooks/useMousePosition';
 
 import styles from './CustomCursor.module.css';
+import CustomCursorChar from './CustomCursorChar';
 
 type CustomCursorProps = {
   text: string;
@@ -14,20 +15,17 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
 
   useEffect(() => {
     if (cursorRef.current) {
-      cursorRef.current.style.top = `${mousePosition.pageY}px`;
-      cursorRef.current.style.left = `${mousePosition.pageX}px`;
+      cursorRef.current.style.transform = `translate(${mousePosition.pageX}px, ${mousePosition.pageY}px)`;
     }
   }, [mousePosition]);
 
   return (
     <div ref={cursorRef} className={styles.cursor}>
       {cursorTextChars.map((char, index) => (
-        <span key={index} className={styles.character}>
-          {char}
-        </span>
+        <CustomCursorChar key={index} char={char} />
       ))}
     </div>
   );
 };
 
-export default CustomCursor;
+export default memo(CustomCursor);
