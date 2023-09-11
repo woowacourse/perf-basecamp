@@ -57,9 +57,18 @@ const useGifSearch = () => {
   useEffect(() => {
     const fetch = async () => {
       if (status === SEARCH_STATUS.BEFORE_SEARCH) {
-        const gifs: GifImageModel[] = await gifAPIService.getTrending();
+        const trendingGifs = sessionStorage.getItem('TRENDING_GIFS');
 
+        if (gifList.length === 0 && trendingGifs) {
+          if (JSON.parse(trendingGifs).length !== 0) {
+            setGifList(JSON.parse(trendingGifs));
+            return;
+          }
+        }
+
+        const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
+        sessionStorage.setItem('TRENDING_GIFS', JSON.stringify(gifs));
       }
     };
     fetch();

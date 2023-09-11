@@ -2,7 +2,9 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
+import heroImageFirst from '../../assets/images/hero-first.heic';
+import heroImageSecond from '../../assets/images/hero-second.webp';
+import heroImageThird from '../../assets/images/hero-third.jpg';
 import trendingGif from '../../assets/images/trending.gif';
 import findGif from '../../assets/images/find.gif';
 import freeGif from '../../assets/images/free.gif';
@@ -19,7 +21,12 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source type="image/heic" srcSet={heroImageFirst} />
+          <source type="image/webp" srcSet={heroImageSecond} />
+          <source type="image/jpg" srcSet={heroImageThird} />
+          <img className={styles.heroImage} src={heroImageThird} alt="hero image" />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
