@@ -22,7 +22,7 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
 }
 
 const TREND_CACHE_KEY = 'trending';
-const ONE_HOUR_MILISECOND = 60 * 60 * 1 * 1000;
+const ONE_HOUR_MILISECOND = 60 * 60 * 24 * 1000;
 
 export const gifAPIService = {
   /**
