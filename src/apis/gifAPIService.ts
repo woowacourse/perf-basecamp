@@ -28,20 +28,27 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async function (): Promise<GifImageModel[]> {
+    const cacheStorage = await caches.open('trending');
+    const responseCache = await cacheStorage.match(TRENDING_GIF_API);
+
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+      if (responseCache) {
+        const responseData: GifsResult = await responseCache.json();
+        return convertResponseToModel(responseData.data);
+      }
+
+      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => {
+        const resClone = res.clone();
+        cacheStorage.put(TRENDING_GIF_API, resClone);
+
+        return res.json();
+      });
+
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
     }
   },
-  /**
-   * 검색어에 맞는 gif 목록을 가져옵니다.
-   * @param {string} keyword
-   * @param {number} page
-   * @returns {Promise<GifImageModel[]>}
-   * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/search
-   */
   searchByKeyword: async function (keyword: string, page: number): Promise<GifImageModel[]> {
     const searchOptions: SearchOptions = {
       limit: DEFAULT_FETCH_COUNT,
@@ -53,6 +60,7 @@ export const gifAPIService = {
       const gifs: GifsResult = await gf.search(keyword, searchOptions);
       return convertResponseToModel(gifs.data);
     } catch (e) {
+      console.log(e);
       return [];
     }
   }
