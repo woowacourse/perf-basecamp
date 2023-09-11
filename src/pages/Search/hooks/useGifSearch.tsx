@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import usePersistedState from './usePersistedState';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -17,6 +18,11 @@ export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
+  const [trendingGifList, setTrendingGifList] = usePersistedState<GifImageModel[] | null>(
+    'trendingGifs',
+    null,
+    sessionStorage
+  );
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -56,10 +62,10 @@ const useGifSearch = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      if (status === SEARCH_STATUS.BEFORE_SEARCH) {
+      if (status === SEARCH_STATUS.BEFORE_SEARCH && trendingGifList === null) {
         const gifs: GifImageModel[] = await gifAPIService.getTrending();
 
-        setGifList(gifs);
+        setTrendingGifList(gifs);
       }
     };
     fetch();
@@ -70,6 +76,7 @@ const useGifSearch = () => {
   return {
     status,
     searchKeyword,
+    trendingGifList: trendingGifList ?? [],
     gifList,
     searchByKeyword,
     updateSearchKeyword,
