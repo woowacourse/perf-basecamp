@@ -60,6 +60,5 @@ module.exports = {
         }
       }
     }
-  },
-  mode: 'production'
+  }
 };
