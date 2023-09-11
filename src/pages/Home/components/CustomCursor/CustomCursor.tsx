@@ -14,8 +14,9 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
 
   useEffect(() => {
     if (cursorRef.current) {
-      cursorRef.current.style.top = `${mousePosition.pageY}px`;
-      cursorRef.current.style.left = `${mousePosition.pageX}px`;
+      const { pageX, pageY } = mousePosition;
+
+      cursorRef.current.style.transform = `translate(${pageX ?? 0}px, ${pageY ?? 0}px)`;
     }
   }, [mousePosition]);
 
