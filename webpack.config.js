@@ -21,8 +21,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
-      hash: true
+      template: './index.html'
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
