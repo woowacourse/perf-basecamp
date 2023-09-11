@@ -2,14 +2,20 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[chunkhash].bundle.js',
     path: path.join(__dirname, '/dist'),
-    clean: true
+    clean: true,
+    assetModuleFilename: './static/[name].[contenthash].[ext]'
   },
   devServer: {
     hot: true,
@@ -24,7 +30,16 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[contenthash].css'
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: 'bundle-report.json'
+    })
   ],
   module: {
     rules: [
@@ -37,18 +52,74 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        type: 'asset/resource'
       }
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true,
+    minimizer: [
+      `...`,
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true
+          },
+          format: {
+            comments: false
+          },
+          extractComments: false
+        }
+      }),
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        generator: [
+          {
+            preset: 'png-webp',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              resize: {
+                width: 1920
+              },
+              encodeOptions: {
+                webp: {
+                  quality: 35
+                }
+              }
+            }
+          },
+          {
+            preset: 'gif-webp',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                webp: {
+                  quality: 50
+                }
+              }
+            }
+          }
+        ]
+      })
+    ],
+    splitChunks: {
+      cacheGroups: {
+        giphy: {
+          test: /[\\/]node_modules[\\/](@giphy)[\\/]/,
+          name: 'giphy',
+          enforce: true,
+          chunks: 'all'
+        },
+        reactIcons: {
+          test: /[\\/]node_modules[\\/](react-icons)[\\/]/,
+          name: 'react-icons',
+          chunks: 'all'
+        }
+      }
+    }
   }
 };
