@@ -7,6 +7,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CompressionPlugin = require('compression-webpack-plugin');
 
+const mode = process.env.NODE_ENV || 'development';
+
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
@@ -59,7 +61,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractingPlugin.loader, 'css-loader']
+        use: [
+          mode === 'development' ? 'style-loader' : MiniCssExtractingPlugin.loader,
+          'css-loader'
+        ]
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm)$/i,
