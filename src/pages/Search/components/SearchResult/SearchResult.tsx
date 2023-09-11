@@ -1,7 +1,7 @@
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
-import GifItem from '../GifItem/GifItem';
+import { MemoizedGifItem } from '../GifItem/GifItem';
 
 import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
@@ -20,7 +20,13 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
       {(status === SEARCH_STATUS.FOUND || status === SEARCH_STATUS.BEFORE_SEARCH) && (
         <div className={styles.gifResultWrapper}>
           {gifList.map((gif: GifImageModel) => (
-            <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+            <MemoizedGifItem
+              key={gif.id}
+              title={gif.title}
+              url={gif.url}
+              imageUrl={gif.imageUrl}
+              videoUrl={gif.videoUrl}
+            />
           ))}
         </div>
       )}
