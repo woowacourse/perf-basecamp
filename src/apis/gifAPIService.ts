@@ -2,6 +2,7 @@ import { GifsResult, GiphyFetch, SearchOptions } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
+import checkCache from '../utils/cache';
 
 const apiKey = process.env.GIPHY_API_KEY || '';
 const gf = new GiphyFetch(apiKey);
@@ -16,7 +17,8 @@ function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
     return {
       id,
       title,
-      imageUrl: images.original.url
+      gifUrl: images.original.url,
+      webpUrl: images.original.webp
     };
   });
 }
@@ -29,12 +31,15 @@ export const gifAPIService = {
    */
   getTrending: async function (): Promise<GifImageModel[]> {
     try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
+      const gifs: GifsResult = await checkCache('trending', () =>
+        fetch(TRENDING_GIF_API).then((res) => res.json())
+      );
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
     }
   },
+
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
@@ -51,6 +56,7 @@ export const gifAPIService = {
 
     try {
       const gifs: GifsResult = await gf.search(keyword, searchOptions);
+
       return convertResponseToModel(gifs.data);
     } catch (e) {
       return [];
