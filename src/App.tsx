@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 const Search = lazy(() => import(/* webpackChunkName: "search" */ './pages/Search/Search'));
+const Home = lazy(() => import(/* webpackChunkName: "home" */ './pages/Home/Home'));
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
@@ -8,7 +9,6 @@ import Footer from './components/Footer/Footer';
 import './App.css';
 import { Suspense, lazy, useEffect } from 'react';
 import HelpPanel from './pages/Search/components/HelpPanel/HelpPanel';
-import Home from './pages/Home/Home';
 
 const App = () => {
   useEffect(() => {
@@ -21,21 +21,21 @@ const App = () => {
 
   return (
     <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/search"
-          element={
-            <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/search"
+            element={
               <Search>
                 <HelpPanel />
               </Search>
-            </Suspense>
-          }
-        />
-      </Routes>
-      <Footer />
+            }
+          />
+        </Routes>
+        <Footer />
+      </Suspense>
     </Router>
   );
 };
