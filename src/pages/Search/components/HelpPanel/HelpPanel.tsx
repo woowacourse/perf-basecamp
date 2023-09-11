@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import { useState } from 'react';
 import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
-import classNames from 'classnames/bind';
 
 import { artists } from '../../../../constants/artistData';
 import ArtistList from '../ArtistList/ArtistList';
@@ -29,14 +29,17 @@ const HelpPanel = () => {
           </button>
         </div>
         <div className={styles.sheetContentsContainer}>
-          <img src="https://media0.giphy.com/media/3oKIPdiPGxPI7Dze7u/giphy.gif?cid=ecf05e475f5bct6ci09g3pgn43nf6bausx33fj7f96f6ig92&rid=giphy.gif&ct=g" />
+          <img
+            width="288px"
+            src="https://media0.giphy.com/media/3oKIPdiPGxPI7Dze7u/giphy.gif?cid=ecf05e475f5bct6ci09g3pgn43nf6bausx33fj7f96f6ig92&rid=giphy.gif&ct=g"
+          />
           <p>
             'memegle' is powered by GIPHY, the top source for the best & newest GIFs & Animated
             Stickers online. You can find any gif uploaded on GIPHY here.
           </p>
           <br />
 
-          <img src="https://giphy.com/static/img/artistdirectory_1040.gif" />
+          <img width="288px" src="https://giphy.com/static/img/artistdirectory_1040.gif" />
           <p>
             If you want more, you are always welcome to contribute as an artist. Please refer to the
             guideline&nbsp;

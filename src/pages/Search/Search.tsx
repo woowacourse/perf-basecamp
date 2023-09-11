@@ -8,8 +8,7 @@ import HelpPanel from './components/HelpPanel/HelpPanel';
 import styles from './Search.module.css';
 
 const Search = () => {
-  const { status, searchKeyword, gifList, searchByKeyword, updateSearchKeyword, loadMore } =
-    useGifSearch();
+  const { status, searchKeyword, gifList, ref, searchByKeyword, loadMore } = useGifSearch();
 
   const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== 'Enter') {
@@ -24,8 +23,8 @@ const Search = () => {
       <SearchBar
         searchKeyword={searchKeyword}
         onEnter={handleEnter}
-        onChange={updateSearchKeyword}
         onSearch={searchByKeyword}
+        ref={ref}
       />
       <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
       <HelpPanel />

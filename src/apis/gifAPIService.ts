@@ -11,12 +11,13 @@ const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${proce
 
 function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
   return gifList.map((gif) => {
-    const { id, title, images } = gif;
+    const { id, title, images, url } = gif;
 
     return {
       id,
       title,
-      imageUrl: images.original.url
+      url,
+      webpUrl: images.fixed_width_downsampled.webp
     };
   });
 }
