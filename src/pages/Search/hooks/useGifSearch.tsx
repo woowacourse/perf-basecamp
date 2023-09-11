@@ -12,7 +12,7 @@ export const SEARCH_STATUS = {
   NO_RESULT: 'NO_RESULT'
 } as const;
 
-export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
+export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -57,16 +57,18 @@ const useGifSearch = () => {
   useEffect(() => {
     const fetch = async () => {
       if (status === SEARCH_STATUS.BEFORE_SEARCH) {
-        const trendingGifs = localStorage.getItem('TRENDING_GIFS');
+        const trendingGifs = sessionStorage.getItem('TRENDING_GIFS');
 
         if (trendingGifs) {
-          setGifList(JSON.parse(trendingGifs));
-          return;
+          if (JSON.parse(trendingGifs).length !== 0) {
+            setGifList(JSON.parse(trendingGifs));
+            return;
+          }
         }
 
         const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
-        localStorage.setItem('TRENDING_GIFS', JSON.stringify(gifs));
+        sessionStorage.setItem('TRENDING_GIFS', JSON.stringify(gifs));
       }
     };
     fetch();
