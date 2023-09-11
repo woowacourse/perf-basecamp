@@ -69,7 +69,7 @@ module.exports = (env, argv) => {
     },
     optimization: {
       splitChunks: { chunks: 'all' },
-      minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
+      minimizer: [[`...`], new CssMinimizerPlugin()]
     }
   };
 };
