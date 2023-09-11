@@ -30,10 +30,7 @@ const HelpPanel = () => {
           </button>
         </div>
         <div className={styles.sheetContentsContainer}>
-          <img
-            loading="lazy"
-            src="https://media0.giphy.com/media/3oKIPdiPGxPI7Dze7u/giphy.gif?cid=ecf05e475f5bct6ci09g3pgn43nf6bausx33fj7f96f6ig92&rid=giphy.gif&ct=g"
-          />
+          <img loading="lazy" src="https://i.giphy.com/media/3oKIPdiPGxPI7Dze7u/giphy.webp" />
           <p>
             'memegle' is powered by GIPHY, the top source for the best & newest GIFs & Animated
             Stickers online. You can find any gif uploaded on GIPHY here.
