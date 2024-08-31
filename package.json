@@ -1,6 +1,9 @@
 {
   "name": "frontend-performance-basecamp",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
   "scripts": {
@@ -30,18 +33,18 @@
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
     "@types/node": "^18.7.13",
-    "@types/react": "^18.0.17",
-    "@types/react-dom": "^18.0.6",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
     "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^5.35.1",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@webpack-cli/generators": "^2.2.0",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
     "dotenv-webpack": "^7.0.3",
-    "eslint": "^7.32.0",
+    "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-config-standard-with-typescript": "^22.0.0",
+    "eslint-config-standard-with-typescript": "22.0.0",
     "eslint-plugin-hooks": "^0.4.3",
     "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-prettier": "^4.2.1",
@@ -54,7 +57,7 @@
     "style-loader": "^3.2.1",
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
-    "webpack": "^5.50.0",
+    "webpack": "^5.88.2",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },

@@ -13,6 +13,8 @@ import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 
 import styles from './Home.module.css';
 
+const cx = classNames.bind(styles);
+
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
 
@@ -25,7 +27,7 @@ const Home = () => {
           <h3 className={styles.subtitle}>gif search engine for you</h3>
         </div>
         <Link to="/search">
-          <button className={classNames(styles.cta, styles.linkButton)}>start search</button>
+          <button className={cx('cta', 'linkButton')}>start search</button>
         </Link>
       </section>
       <section ref={wrapperRef} className={styles.featureSection}>
