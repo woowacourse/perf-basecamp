@@ -9,16 +9,18 @@ export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
   LOADING: 'LOADING',
   FOUND: 'FOUND',
-  NO_RESULT: 'NO_RESULT'
+  NO_RESULT: 'NO_RESULT',
+  ERROR: 'ERROR'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.target.value);
@@ -27,50 +29,70 @@ const useGifSearch = () => {
   const resetSearch = () => {
     setStatus(SEARCH_STATUS.LOADING);
     setCurrentPageIndex(DEFAULT_PAGE_INDEX);
+    setGifList([]);
+    setErrorMessage(null);
   };
 
-  const searchByKeyword = async () => {
+  const handleError = (error: unknown) => {
+    setStatus(SEARCH_STATUS.ERROR);
+    setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred');
+  };
+
+  const searchByKeyword = async (): Promise<void> => {
     resetSearch();
 
-    const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(
-      searchKeyword,
-      DEFAULT_PAGE_INDEX
-    );
+    try {
+      const gifs = await gifAPIService.searchByKeyword(searchKeyword, DEFAULT_PAGE_INDEX);
 
-    if (gifs.length === 0) {
-      setStatus(SEARCH_STATUS.NO_RESULT);
-      return;
+      if (gifs.length === 0) {
+        setStatus(SEARCH_STATUS.NO_RESULT);
+        return;
+      }
+
+      setGifList(gifs);
+      setStatus(SEARCH_STATUS.FOUND);
+    } catch (error) {
+      handleError(error);
     }
-
-    setGifList(gifs);
-    setStatus(SEARCH_STATUS.FOUND);
   };
 
-  const loadMore = async () => {
-    const nextPageIndex = currentPageIndex + 1;
-    const gifs: GifImageModel[] = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
+  const loadMore = async (): Promise<void> => {
+    if (status === SEARCH_STATUS.LOADING) return;
 
-    setGifList([...gifList, ...gifs]);
-    setCurrentPageIndex(nextPageIndex);
+    setStatus(SEARCH_STATUS.LOADING);
+    const nextPageIndex = currentPageIndex + 1;
+
+    try {
+      const newGitList = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
+
+      setGifList((prevGifList) => [...prevGifList, ...newGitList]);
+      setCurrentPageIndex(nextPageIndex);
+      setStatus(SEARCH_STATUS.FOUND);
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   useEffect(() => {
-    const fetch = async () => {
-      if (status === SEARCH_STATUS.BEFORE_SEARCH) {
-        const gifs: GifImageModel[] = await gifAPIService.getTrending();
+    const fetchTrending = async () => {
+      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
+      try {
+        const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
+      } catch (error) {
+        handleError(error);
       }
     };
-    fetch();
 
-    return () => setStatus(SEARCH_STATUS.LOADING);
+    fetchTrending();
   }, []);
 
   return {
     status,
     searchKeyword,
     gifList,
+    errorMessage,
     searchByKeyword,
     updateSearchKeyword,
     loadMore

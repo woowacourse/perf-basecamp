@@ -1,25 +1,41 @@
-import { GifsResult, GiphyFetch, SearchOptions } from '@giphy/js-fetch-api';
+import { GifsResult } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
+import { apiClient, ApiError } from '../utils/apiClient';
 
-const apiKey = process.env.GIPHY_API_KEY || '';
-const gf = new GiphyFetch(apiKey);
+const API_KEY = process.env.GIPHY_API_KEY;
+if (!API_KEY) {
+  throw new Error('GIPHY_API_KEY is not set in environment variables');
+}
 
+const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
-const TRENDING_GIF_API = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
 
-function convertResponseToModel(gifList: IGif[]): GifImageModel[] {
-  return gifList.map((gif) => {
-    const { id, title, images } = gif;
-
+const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
+  return gifList.map(({ id, title, images }) => {
     return {
       id,
-      title,
+      title: title ?? '',
       imageUrl: images.original.url
     };
   });
-}
+};
+
+const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+  try {
+    const gifs = await apiClient.fetch<GifsResult>(url);
+
+    return convertResponseToModel(gifs.data);
+  } catch (error) {
+    if (error instanceof ApiError) {
+      console.error(`API Error: ${error.status} - ${error.message}`);
+    } else {
+      console.error('Unexpected error:', error);
+    }
+    throw error;
+  }
+};
 
 export const gifAPIService = {
   /**
@@ -27,13 +43,14 @@ export const gifAPIService = {
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
-  getTrending: async function (): Promise<GifImageModel[]> {
-    try {
-      const gifs: GifsResult = await fetch(TRENDING_GIF_API).then((res) => res.json());
-      return convertResponseToModel(gifs.data);
-    } catch (e) {
-      return [];
-    }
+  getTrending: async (): Promise<GifImageModel[]> => {
+    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
+      api_key: API_KEY,
+      limit: `${DEFAULT_FETCH_COUNT}`,
+      rating: 'g'
+    });
+
+    return fetchGifs(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
@@ -42,18 +59,16 @@ export const gifAPIService = {
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/search
    */
-  searchByKeyword: async function (keyword: string, page: number): Promise<GifImageModel[]> {
-    const searchOptions: SearchOptions = {
-      limit: DEFAULT_FETCH_COUNT,
-      lang: 'en',
-      offset: page * DEFAULT_FETCH_COUNT
-    };
+  searchByKeyword: async (keyword: string, page: number): Promise<GifImageModel[]> => {
+    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/search`), {
+      api_key: API_KEY,
+      q: keyword,
+      limit: `${DEFAULT_FETCH_COUNT}`,
+      offset: `${page * DEFAULT_FETCH_COUNT}`,
+      rating: 'g',
+      lang: 'en'
+    });
 
-    try {
-      const gifs: GifsResult = await gf.search(keyword, searchOptions);
-      return convertResponseToModel(gifs.data);
-    } catch (e) {
-      return [];
-    }
+    return fetchGifs(url);
   }
 };
