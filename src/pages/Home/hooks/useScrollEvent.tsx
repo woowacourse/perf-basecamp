@@ -1,11 +1,19 @@
 import { useEffect } from 'react';
 
-const useScrollEvent = (onScroll: (e: Event) => void) => {
-  useEffect(() => {
-    window.addEventListener('scroll', onScroll);
+type ScrollHandler = () => void;
 
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+const useScrollEvent = (onScroll: ScrollHandler) => {
+  useEffect(() => {
+    const handleScroll = (event: Event) => {
+      onScroll();
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [onScroll]);
 };
 
 export default useScrollEvent;

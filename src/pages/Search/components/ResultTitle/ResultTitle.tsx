@@ -20,6 +20,12 @@ const ResultTitle = ({ status }: ResultTitleProps) => {
           🔥 <span>Trending Now</span> 🔥
         </h3>
       );
+    case SEARCH_STATUS.ERROR:
+      return (
+        <h3 className={styles.resultTitle}>
+          <span>Something Went Wrong</span>🥲
+        </h3>
+      );
     default:
       return (
         <h3 className={styles.resultTitle}>

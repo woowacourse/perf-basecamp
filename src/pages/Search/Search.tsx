@@ -12,11 +12,9 @@ const Search = () => {
     useGifSearch();
 
   const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== 'Enter') {
-      return;
+    if (e.key === 'Enter') {
+      searchByKeyword();
     }
-
-    searchByKeyword();
   };
 
   return (
