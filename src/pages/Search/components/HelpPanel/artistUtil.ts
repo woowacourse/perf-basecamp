@@ -1,6 +1,6 @@
 import { Artist } from '../../../../models/help/artist';
 
-const DUMMY_ARTISTS_LENGTH = 10000;
+const DUMMY_ARTISTS_LENGTH = 100;
 const DUMMY_ARTISTS: Artist[] = [
   {
     name: 'Pola Lucas',
@@ -30,5 +30,9 @@ const DUMMY_ARTISTS: Artist[] = [
   }
 ];
 
-export const getArtists = () =>
-  Array.from({ length: DUMMY_ARTISTS_LENGTH }, (_v, k) => DUMMY_ARTISTS[k % DUMMY_ARTISTS.length]);
+const artists = Array.from(
+  { length: DUMMY_ARTISTS_LENGTH },
+  (_v, k) => DUMMY_ARTISTS[k % DUMMY_ARTISTS.length]
+);
+
+export const getArtists = () => artists;
