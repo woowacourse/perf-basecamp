@@ -13,7 +13,7 @@ export const SEARCH_STATUS = {
   ERROR: 'ERROR'
 } as const;
 
-export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
+export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -57,9 +57,6 @@ const useGifSearch = () => {
   };
 
   const loadMore = async (): Promise<void> => {
-    if (status === SEARCH_STATUS.LOADING) return;
-
-    setStatus(SEARCH_STATUS.LOADING);
     const nextPageIndex = currentPageIndex + 1;
 
     try {
@@ -67,7 +64,6 @@ const useGifSearch = () => {
 
       setGifList((prevGifList) => [...prevGifList, ...newGitList]);
       setCurrentPageIndex(nextPageIndex);
-      setStatus(SEARCH_STATUS.FOUND);
     } catch (error) {
       handleError(error);
     }
