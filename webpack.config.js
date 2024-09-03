@@ -11,6 +11,7 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     clean: true
   },
+  cache: false,
   devServer: {
     hot: true,
     open: true,
