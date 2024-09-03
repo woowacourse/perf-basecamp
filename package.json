@@ -6,13 +6,15 @@
   },
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
+  "sideEffects": false,
   "scripts": {
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
     "prettier": "prettier --write .",
-    "deploy": "npm run build:prod && npx gh-pages -d dist"
+    "deploy": "npm run build:prod && npx gh-pages -d dist",
+    "analyze": "webpack --mode=production"
   },
   "keywords": [],
   "author": "woowacourse",
@@ -28,9 +30,9 @@
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "^7.25.2",
     "@babel/plugin-transform-runtime": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.14.5",
     "@types/node": "^18.7.13",
     "@types/react": "^18.3.4",
@@ -38,7 +40,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@webpack-cli/generators": "^2.2.0",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.3.0",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
     "dotenv-webpack": "^7.0.3",
@@ -58,6 +60,7 @@
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
     "webpack": "^5.88.2",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },

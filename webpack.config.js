@@ -2,12 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -24,7 +26,10 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin({
+      defaultSizes: 'gzip'
+    })
   ],
   module: {
     rules: [
@@ -33,6 +38,13 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'ts-loader'
+        }
+      },
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
         }
       },
       {
@@ -49,6 +61,22 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    splitChunks: {
+      chunks: 'all'
+    },
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            drop_debugger: true,
+            dead_code: true
+          },
+          output: {
+            comments: false
+          }
+        }
+      })
+    ]
   }
 };
