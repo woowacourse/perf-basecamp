@@ -3,7 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // css minify
+const os = require('os');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -26,7 +28,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin()
   ],
   module: {
     rules: [
@@ -52,6 +55,13 @@ module.exports = {
   },
   optimization: {
     // js minify
-    minimize: true
+    minimize: true,
+    minimizer: [
+      // 플러그인 인스턴스 생성
+      new CssMinimizerPlugin({
+        // CPU 멀티 프로세서 병렬화 옵션 (기본 값: true)
+        parallel: os.cpus().length - 1
+      })
+    ]
   }
 };
