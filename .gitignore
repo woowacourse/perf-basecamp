@@ -6,3 +6,6 @@
 
 # build
 /dist
+
+# macOS
+.DS_Store
