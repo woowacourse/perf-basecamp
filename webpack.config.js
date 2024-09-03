@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -33,7 +34,8 @@ module.exports = {
       reportFilename: 'bundle-report.html',
       openAnalyzer: false,
       excludeAssets: [/node_modules/]
-    })
+    }),
+    new CompressionPlugin({ algorithm: 'gzip' })
   ],
   module: {
     rules: [
