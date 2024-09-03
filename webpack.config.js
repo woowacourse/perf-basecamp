@@ -23,7 +23,19 @@ module.exports = {
       template: './index.html'
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
+      patterns: [
+        {
+          from: './public',
+          to: './public',
+          globOptions: {
+            ignore: ['**/404.html'] // 404.html 파일을 제외하고 모든 파일을 복사
+          }
+        },
+        {
+          from: path.resolve(__dirname, './public/404.html'),
+          to: path.resolve(__dirname, 'dist')
+        }
+      ]
     }),
     new Dotenv()
   ],
