@@ -10,7 +10,9 @@ import './App.css';
 
 const App = () => {
   return (
-    <Router basename={'/perf-basecamp'}>
+    // 배포를 위한 코드
+    // <Router basename={'/perf-basecamp'}>
+    <Router>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
