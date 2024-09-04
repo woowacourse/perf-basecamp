@@ -3,6 +3,7 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import CacheStore from '../utils/cache';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -37,6 +38,10 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const CACHE_DURATION = 2 * 1000;
+
+const trendingCacheStore = new CacheStore<GifImageModel>(CACHE_DURATION);
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -44,13 +49,15 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
-    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
-      api_key: API_KEY,
-      limit: `${DEFAULT_FETCH_COUNT}`,
-      rating: 'g'
-    });
+    return trendingCacheStore.execute(async () => {
+      const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
+        api_key: API_KEY,
+        limit: `${DEFAULT_FETCH_COUNT}`,
+        rating: 'g'
+      });
 
-    return fetchGifs(url);
+      return fetchGifs(url);
+    });
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
