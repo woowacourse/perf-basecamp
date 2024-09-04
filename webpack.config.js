@@ -10,6 +10,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 // image lossless minify
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
@@ -32,7 +34,8 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
