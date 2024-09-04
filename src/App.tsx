@@ -1,22 +1,26 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import Home from './pages/Home/Home';
-import Search from './pages/Search/Search';
+const Home = lazy(() => import('./types/Home'));
+const Search = lazy(() => import('./pages/Search/Search'));
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
+import { lazy, Suspense } from 'react';
+import LoadingBar from './components/LoadingBar/LoadingBar';
 
 const App = () => {
   return (
     <Router basename={'/'}>
       <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
-      </Routes>
-      <Footer />
+      <Suspense fallback={<LoadingBar />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+        </Routes>
+        <Footer />
+      </Suspense>
     </Router>
   );
 };
