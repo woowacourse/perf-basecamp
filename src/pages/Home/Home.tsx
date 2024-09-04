@@ -2,10 +2,11 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.webp';
-import trendingGif from '../../assets/images/trending.webm';
-import findGif from '../../assets/images/find.webm';
-import freeGif from '../../assets/images/free.webm';
+import heroImage_png from '../../assets/images/hero.png';
+import heroImage_webp from '../../assets/images/hero.webp';
+import trending_webm from '../../assets/images/trending.webm';
+import find_webm from '../../assets/images/find.webm';
+import free_webm from '../../assets/images/free.webm';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -21,7 +22,10 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source srcSet={heroImage_webp} type="image/webp" media="all" />
+          <img className={styles.heroImage} src={heroImage_png} alt="hero" />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
@@ -35,9 +39,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem title="See trending gif" imageSrc={trending_webm} />
+            <FeatureItem title="Find gif for free" imageSrc={find_webm} />
+            <FeatureItem title="Free for everyone" imageSrc={free_webm} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
