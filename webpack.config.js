@@ -34,7 +34,7 @@ module.exports = {
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       reportFilename: 'bundle-report.html',
-      openAnalyzer: true,
+      openAnalyzer: false,
       excludeAssets: [/node_modules/]
     }),
     new CompressionPlugin({ algorithm: 'gzip' }),
