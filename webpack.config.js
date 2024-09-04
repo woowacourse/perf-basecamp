@@ -60,6 +60,9 @@ module.exports = {
     ]
   },
   optimization: {
-    minimizer: [new CssMinimizerPlugin()]
+    minimizer: [`...`, new CssMinimizerPlugin()],
+    splitChunks: {
+      chunks: 'all'
+    }
   }
 };
