@@ -13,7 +13,7 @@ const Loading = () => <div>Loading...</div>;
 
 const App = () => {
   return (
-    <Router basename={'/perf-basecamp'}>
+    <Router>
       <NavBar />
       <Suspense fallback={<Loading />}>
         <Routes>
