@@ -3,20 +3,20 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
-const Home = lazy(() => import('./pages/Home/Home'));
-const Search = lazy(() => import('./pages/Search/Search'));
-
 import './App.css';
 import { lazy, Suspense } from 'react';
 
+const Home = lazy(() => import('./pages/Home/Home'));
+const About = lazy(() => import('./pages/Search/Search'));
+
 const App = () => {
   return (
-    <Router>
+    <Router basename={'/perf-basecamp'}>
       <NavBar />
-      <Suspense fallback={<div>loading...</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </Suspense>
       <Footer />
