@@ -8,7 +8,8 @@ type FeatureItemProps = {
 const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
   return (
     <div className={styles.featureItem}>
-      <img className={styles.featureImage} src={imageSrc} />
+      <video className={styles.featureImage} src={imageSrc} autoPlay muted loop playsInline />
+      {/* <img className={styles.featureImage} src={imageSrc} /> */}
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
     </div>

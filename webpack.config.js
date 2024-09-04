@@ -2,7 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+
+const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   entry: './src/index.tsx',
@@ -19,14 +23,21 @@ module.exports = {
   },
   devtool: 'source-map',
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
+    }),
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      exclude: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|txt|map|ico)$/i
+    })
   ],
   module: {
     rules: [
@@ -39,10 +50,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -51,6 +62,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true
   }
 };
