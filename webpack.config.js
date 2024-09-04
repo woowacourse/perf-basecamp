@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin'); // CompressionPlugin 추가
 
 module.exports = {
   entry: './src/index.tsx',
@@ -24,7 +25,11 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      exclude: /\.(png|jpg|gif|webp|webm|map|ico)$/i
+    })
   ],
   module: {
     rules: [
