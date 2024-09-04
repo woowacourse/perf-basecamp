@@ -1,19 +1,27 @@
 import './App.css';
 
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
 
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
 import NavBar from './components/NavBar/NavBar';
-import Search from './pages/Search/Search';
 
+const Search = lazy(() => import('./pages/Search/Search'));
 const App = () => {
   return (
     <Router>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
+        <Route
+          path="/search"
+          element={
+            <Suspense fallback={<Home />}>
+              <Search />
+            </Suspense>
+          }
+        />
       </Routes>
       <Footer />
     </Router>
