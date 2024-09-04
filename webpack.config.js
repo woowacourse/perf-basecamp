@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CompressionPlugin = require('compression-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -32,10 +33,13 @@ module.exports = {
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       reportFilename: 'bundle-report.html',
-      openAnalyzer: false,
+      openAnalyzer: true,
       excludeAssets: [/node_modules/]
     }),
-    new CompressionPlugin({ algorithm: 'gzip' })
+    new CompressionPlugin({ algorithm: 'gzip' }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    })
   ],
   module: {
     rules: [
@@ -48,7 +52,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
@@ -58,8 +62,5 @@ module.exports = {
         }
       }
     ]
-  },
-  optimization: {
-    minimize: true
   }
 };
