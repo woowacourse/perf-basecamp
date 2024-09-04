@@ -4,6 +4,9 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "sideEffects": [
+    "./src/*"
+  ],
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
   "scripts": {
