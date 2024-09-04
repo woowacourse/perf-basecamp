@@ -4,7 +4,8 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -28,7 +29,8 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new CompressionPlugin()
   ],
   module: {
     rules: [
@@ -55,6 +57,7 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
+      new CssMinimizerPlugin(),
       new TerserPlugin({
         terserOptions: {
           compress: true, // 압축을 활성화합니다.
