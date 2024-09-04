@@ -2,10 +2,10 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+import heroImage from '../../assets/images/hero.webp';
+import trendingGif from '../../assets/images/trending.webm';
+import findGif from '../../assets/images/find.webm';
+import freeGif from '../../assets/images/free.webm';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
