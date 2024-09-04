@@ -2,13 +2,13 @@
 
 ## 성능 개선 전 체크 사항
 
-- [] Lighthouse
-- [] Home 페이지에서 불러오는 스크립트 리소스 크기
-- [] 히어로 이미지 크기
-- [] 프랑스 파이 Fast 3G환경 접속 시 LCP 속도
-  - [] Home 첫번째 로드 시 LCP 속도
-  - [] Home 두번째 로드 시 LCP 속도
-- [] Chrome CPU 6x slowdown Network Fast 3G 환경에서 화면 버벅임
+- [x] Lighthouse
+- [x] Home 페이지에서 불러오는 스크립트 리소스 크기
+- [x] 히어로 이미지 크기
+- [x] 프랑스 파이 Fast 3G환경 접속 시 LCP 속도
+  - [x] Home 첫번째 로드 시 LCP 속도
+  - [x] Home 두번째 로드 시 LCP 속도
+- [x] Chrome CPU 6x slowdown Network Fast 3G 환경에서 화면 버벅임
 
   - Dropped Frame
   - Partially Presented Frame
@@ -28,19 +28,19 @@
 
 ### 1 요청 크기 줄이기
 
-- [ ] 소스코드 크기 줄이기
-- [ ] 이미지 크기 줄이기
+- [x] 소스코드 크기 줄이기
+- [x] 이미지 크기 줄이기
 
 도구
 
-- webpack
-- CloudFront
+- [x] webpack
+- [] CloudFront
 
 키워드
 
-- css/js minify, uglify
-- gzip
-- image optimization - image format, compression
+- [x] css/js minify, uglify
+- [x] gzip (CloudFront의 gzip 사용)
+- [x] image optimization - image format, compression
 
 ### 2 필요한 것만 요청하기
 
