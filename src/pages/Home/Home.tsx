@@ -7,11 +7,10 @@ import trendingGif from '../../assets/images/trending.webp';
 import findGif from '../../assets/images/find.webp';
 import freeGif from '../../assets/images/free.webp';
 
+import styles from './Home.module.css';
+import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
-import AnimatedPath from './components/AnimatedPath/AnimatedPath';
-
-import styles from './Home.module.css';
 
 const cx = classNames.bind(styles);
 
