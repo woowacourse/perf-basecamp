@@ -7,6 +7,9 @@ const os = require('os');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
+// image lossless minify
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
@@ -45,11 +48,19 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
         }
+      },
+      {
+        rules: [
+          {
+            test: /\.(jpe?g|png|gif|svg)$/i,
+            type: 'asset'
+          }
+        ]
       }
     ]
   },
@@ -61,7 +72,31 @@ module.exports = {
       new CssMinimizerPlugin({
         // CPU 멀티 프로세서 병렬화 옵션 (기본 값: true)
         parallel: os.cpus().length - 1
-      })
+      }),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminMinify,
+          options: {
+            plugins: ['imagemin-gifsicle', 'imagemin-mozjpeg', 'imagemin-pngquant', 'imagemin-svgo']
+          }
+        },
+        generator: [
+          {
+            // You can apply generator using `?as=webp`, you can use any name and provide more options
+            preset: 'webp',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                // Please specify only one codec here, multiple codecs will not work
+                webp: {
+                  quality: 1
+                }
+              }
+            }
+          }
+        ]
+      }),
+      '...'
     ]
   }
 };
