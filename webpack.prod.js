@@ -10,7 +10,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 module.exports = merge(common, {
   mode: 'production',
   output: {
-    filename: 'bundle.[contenthash].js' // 해시를 추가하여 캐싱 전략 개선
+    filename: 'bundle.[contenthash].js'
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -44,21 +44,11 @@ module.exports = merge(common, {
             encodeOptions: {
               webp: { quality: 80 },
               png: { quality: 80 },
-              gif: { quality: 80 }
+              gif: { quality: 80 },
+              jpeg: { quality: 80 }
             }
           }
-        },
-        generator: [
-          {
-            preset: 'webp',
-            implementation: ImageMinimizerPlugin.sharpGenerate,
-            options: {
-              encodeOptions: {
-                webp: { quality: 80 }
-              }
-            }
-          }
-        ]
+        }
       })
     ]
   }
