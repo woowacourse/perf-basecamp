@@ -77,15 +77,12 @@ const useGifSearch = () => {
       const cachedGifs = getCache<GifImageModel[]>('trendingCache');
       if (cachedGifs) {
         setGifList(cachedGifs);
-        setStatus(SEARCH_STATUS.FOUND);
         return;
       }
 
       try {
         const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
-        setStatus(SEARCH_STATUS.FOUND);
-
         setCache('trendingCache', gifs);
       } catch (error) {
         handleError(error);
