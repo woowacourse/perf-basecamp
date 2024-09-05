@@ -7,6 +7,13 @@ import heroImageSmall from '../../assets/images/hero-small.jpeg';
 import heroImageWebp from '../../assets/images/hero.webp';
 import heroImageSmallWebp from '../../assets/images/hero-small.webp';
 
+import trendingWebm from '../../assets/images/trending.webm';
+import findWebm from '../../assets/images/find.webm';
+import freeWebm from '../../assets/images/free.webm';
+import trendingMp4 from '../../assets/images/trending.mp4';
+import findMp4 from '../../assets/images/find.mp4';
+import freeMp4 from '../../assets/images/free.mp4';
+
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 import AnimatedPath from './components/AnimatedPath/AnimatedPath';
@@ -22,11 +29,7 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source
-            className={styles.heroImage}
-            srcSet={`${heroImageSmallWebp} 600w, ${heroImageWebp} 1200w`}
-            type="image/webp"
-          />
+          <source srcSet={`${heroImageSmallWebp} 600w, ${heroImageWebp} 1200w`} type="image/webp" />
 
           <img
             className={styles.heroImage}
