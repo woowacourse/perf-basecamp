@@ -5,7 +5,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 module.exports = (env, argv) => {
   const mode = argv.mode || 'development';
@@ -37,10 +36,6 @@ module.exports = (env, argv) => {
         analyzerMode: 'static',
         reportFilename: 'bundle-report.html',
         excludeAssets: [/node_modules/]
-      }),
-      new CompressionWebpackPlugin({
-        algorithm: 'gzip',
-        test: /\.(js|css|html)$/
       }),
       new Dotenv()
     ],
