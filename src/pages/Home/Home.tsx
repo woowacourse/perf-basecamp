@@ -26,19 +26,21 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <picture>
-          <source
-            className={styles.heroImage}
-            srcSet={`
+        <div className={styles.heroImage}>
+          <picture>
+            <source
+              className={styles.heroImage}
+              srcSet={`
             ${heroMobileImage} 375w,
             ${heroTabletImage} 768w,
             ${heroDesktopImage} 1000w,
             `}
-            src={hero}
-            type="image/webp"
-          ></source>
-          <img className={styles.heroImage} src={heroImage} alt="hero image" />
-        </picture>
+              src={hero}
+              type="image/webp"
+            ></source>
+            <img className={styles.heroImage} src={heroImage} alt="hero image" />
+          </picture>
+        </div>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>

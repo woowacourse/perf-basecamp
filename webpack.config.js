@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
 
@@ -21,11 +22,13 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: mode === 'production' ? false : 'source-map',
   plugins: [
     new MiniCssExtractPlugin({
+      /* 나중에 캐시쓸 떄 해쉬값 사용 */
       filename: '[name].[contenthash].css'
     }),
+    new CssMinimizerPlugin(),
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
@@ -36,7 +39,7 @@ module.exports = {
     new Dotenv(),
     new CompressionPlugin({
       algorithm: 'gzip',
-      exclude: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|txt|map|ico)$/i
+      exclude: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|txt|map|ico|mp4)$/i
     })
   ],
   module: {
@@ -62,6 +65,7 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: true
+    minimize: true,
+    minimizer: [`...`, new CssMinimizerPlugin()]
   }
 };
