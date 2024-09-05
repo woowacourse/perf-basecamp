@@ -10,13 +10,32 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 // image lossless minify
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
+// analyzing bundle size
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+// gzip plugin
+const CompressionPlugin = require('compression-webpack-plugin');
+
 module.exports = {
-  entry: './src/index.tsx',
+  // entry: './src/index.tsx',
+  entry: {
+    index: {
+      import: './src/index.tsx'
+    },
+    home: {
+      import: './src/pages/Home/Home.tsx'
+    },
+    search: {
+      import: './src/pages/Search/Search.tsx'
+    },
+
+    react: {
+      import: './node_modules/react'
+    }
+  },
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -35,7 +54,14 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin(),
+    new CompressionPlugin({
+      filename: '[path][base].gz',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
   ],
   module: {
     rules: [
