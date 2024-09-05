@@ -38,9 +38,6 @@ const Home = () => {
             <FeatureItem title="See trending gif" imageSrc={trendingMp4} />
             <FeatureItem title="Find gif for free" imageSrc={freeMp4} />
             <FeatureItem title="Free for everyone" imageSrc={findMp4} />
-            {/* <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} /> */}
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
