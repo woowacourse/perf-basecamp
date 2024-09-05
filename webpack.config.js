@@ -36,7 +36,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'index.css'
     }),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: 'report.html',
+      openAnalyzer: true
+    })
   ],
   module: {
     rules: [
