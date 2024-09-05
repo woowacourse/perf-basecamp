@@ -51,7 +51,7 @@ module.exports = {
         use: 'babel-loader'
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|mp4|webp)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|mp4|webp|webm)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
