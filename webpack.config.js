@@ -8,6 +8,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const isDevMode = process.env.NODE_ENV === 'development';
 
@@ -55,6 +56,12 @@ const prodPlugins = [
   new MiniCssExtractPlugin({
     filename: '[name].[contenthash].css',
     chunkFilename: '[id].[contenthash].css' // 코드 스플리팅 시 생성되는 추가적인 청크 파일의 이름
+  }),
+  new CompressionPlugin({
+    algorithm: 'gzip',
+    test: /\.(js|css|html|svg)$/,
+    threshold: 10240,
+    minRatio: 0.8
   })
 ];
 
