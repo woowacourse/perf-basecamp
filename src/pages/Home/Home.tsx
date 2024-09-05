@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage from '../../assets/images/hero.avif';
+import heroMediumImage from '../../assets/images/hero_medium.avif';
+import heroSmallImage from '../../assets/images/hero_small.avif';
 
 import trendingWebm from '../../assets/images/trending.webm';
 import findWebm from '../../assets/images/find.webm';
@@ -22,7 +24,12 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <img
+          className={styles.heroImage}
+          src={heroImage}
+          alt="hero image"
+          srcSet={`${heroSmallImage} 1025w, ${heroMediumImage} 1367w`}
+        />
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
