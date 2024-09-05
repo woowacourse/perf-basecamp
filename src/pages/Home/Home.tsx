@@ -21,13 +21,16 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img
-          className={styles.heroImage}
-          srcSet={`${HeroMobile} 768w, ${HeroDesktop} 1440w, ${HeroOriginal} 4100w`}
-          sizes="(max-width:768px) 100vw, (max-width:1440px) 100vw, 100vw"
-          src={HeroOriginal}
-          alt="hero image"
-        />
+        <picture>
+          <source
+            type="image/webp"
+            src={HeroOriginal}
+            srcSet={`${HeroMobile} 768w, ${HeroDesktop} 1440w, ${HeroOriginal} 4100w`}
+            sizes="(max-width:768px) 100vw, (max-width:1440px) 100vw, 100vw"
+          />
+          <img className={styles.heroImage} src={HeroOriginal} alt="hero image" />
+        </picture>
+
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
