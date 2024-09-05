@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -26,7 +27,11 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin(),
+    new CompressionPlugin({
+      algorithm: 'gzip'
+    })
   ],
   module: {
     rules: [
@@ -39,7 +44,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader']
+        use: [
+          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader'
+        ]
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
