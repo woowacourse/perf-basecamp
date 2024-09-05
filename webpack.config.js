@@ -20,7 +20,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -46,7 +46,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|webp|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|webp|png|jpg|gif|mp4)$/i,
         type: 'asset',
         generator: {
           filename: 'static/[name][ext]'
