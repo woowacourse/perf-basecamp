@@ -1,5 +1,4 @@
 const path = require('path');
-const os = require('os');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
@@ -73,6 +72,8 @@ module.exports = {
     ]
   },
   optimization: {
+    runtimeChunk: 'single',
+    splitChunks: { chunks: 'all' },
     minimize: true,
     minimizer: [
       // '...',

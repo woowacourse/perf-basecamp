@@ -13,24 +13,12 @@ const App = () => {
   return (
     <Router>
       <NavBar />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Suspense fallback={<div>"Loading..."</div>}>
-              <Home />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <Suspense fallback={<div>"Loading..."</div>}>
-              <Search />
-            </Suspense>
-          }
-        />
-      </Routes>
+      <Suspense fallback={<div>"Loading..."</div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+        </Routes>
+      </Suspense>
       <Footer />
     </Router>
   );
