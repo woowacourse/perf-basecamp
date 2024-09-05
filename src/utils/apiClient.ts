@@ -5,9 +5,23 @@ export class ApiError extends Error {
   }
 }
 
+interface ApiClientFetchParams {
+  url: URL;
+  method?: string;
+  cache?: RequestCache;
+}
+
 export const apiClient = {
-  fetch: async <T>(url: URL): Promise<T> => {
-    const response = await fetch(url.toString());
+  fetch: async <T>({
+    url,
+    method = 'GET',
+    cache = 'default'
+  }: ApiClientFetchParams): Promise<T> => {
+    const response = await fetch(url.toString(), {
+      method,
+      cache
+    });
+    console.log('cache', cache);
     if (!response.ok) {
       throw new ApiError(response.status, `HTTP error! status: ${response.status}`);
     }
