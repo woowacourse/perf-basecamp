@@ -2,8 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -13,12 +11,6 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     clean: true
   },
-  devServer: {
-    hot: true,
-    open: true,
-    historyApiFallback: true
-  },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -26,57 +18,35 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv(),
-    new BundleAnalyzerPlugin({
-      defaultSizes: 'gzip'
-    })
+    new Dotenv()
   ],
   module: {
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/i,
         exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
-        }
+        use: 'ts-loader'
       },
       {
         test: /\.m?js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
+        use: 'babel-loader'
       },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4|webp)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
         }
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        type: 'asset'
       }
-    ]
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all'
-    },
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          compress: {
-            drop_console: true,
-            drop_debugger: true,
-            dead_code: true
-          },
-          output: {
-            comments: false
-          }
-        }
-      })
     ]
   }
 };
