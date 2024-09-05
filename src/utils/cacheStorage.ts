@@ -1,4 +1,4 @@
-const CACHE_EXPIRY = 60 * 60 * 1000; // 1시간 (캐시 유효 시간)
+const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24시간 (캐시 유효 시간)
 
 type CacheData<T> = {
   data: T;
