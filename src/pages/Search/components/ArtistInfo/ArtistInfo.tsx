@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Artist } from '../../../../models/help/artist';
 
 import styles from './ArtistInfo.module.css';
@@ -22,3 +23,5 @@ const ArtistInfo = ({ artist }: ArtistProps) => {
 };
 
 export default ArtistInfo;
+
+export const MemoizedArtistInfo = memo(ArtistInfo);
