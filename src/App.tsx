@@ -14,8 +14,22 @@ const App = () => {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Suspense fallback={<div></div>}>{<Home />}</Suspense>} />
-        <Route path="/search" element={<Suspense fallback={<div></div>}>{<Search />}</Suspense>} />
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<div>"Loading..."</div>}>
+              <Home />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <Suspense fallback={<div>"Loading..."</div>}>
+              <Search />
+            </Suspense>
+          }
+        />
       </Routes>
       <Footer />
     </Router>
