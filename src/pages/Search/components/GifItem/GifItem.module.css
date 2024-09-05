@@ -14,7 +14,8 @@
 }
 
 .gifItem:hover {
-  top: -0.75rem;
+  transform: translateY(-0.75rem);
+  animation: transform 0.1s ease-in-out;
 }
 
 .gifImage {
