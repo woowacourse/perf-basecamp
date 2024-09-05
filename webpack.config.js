@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -25,7 +26,11 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      exclude: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|txt|map|ico)$/i
+    })
   ],
   module: {
     rules: [
