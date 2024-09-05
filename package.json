@@ -13,7 +13,6 @@
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "start": "webpack serve --open --config webpack.config.js",
     "serve": "webpack serve --mode=development",
     "serve-prod": " webpack serve --mode=production",
     "prettier": "prettier --write .",
