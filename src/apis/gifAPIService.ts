@@ -24,8 +24,7 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
 
 const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   try {
-    const gifs = await apiClient.fetch<GifsResult>(url);
-
+    const gifs = await apiClient.fetch<GifsResult>({ url, cache: 'force-cache' });
     return convertResponseToModel(gifs.data);
   } catch (error) {
     if (error instanceof ApiError) {
