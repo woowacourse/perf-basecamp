@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
+
 import classNames from 'classnames/bind';
 
 import ArtistList from '../ArtistList/ArtistList';
 import { getArtists } from './artistUtil';
 
 import styles from './HelpPanel.module.css';
+import { AiOutlineInfo } from '@react-icons/all-files/ai/AiOutlineInfo';
+import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
 
 const cx = classNames.bind(styles);
 
