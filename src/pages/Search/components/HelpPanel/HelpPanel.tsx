@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
 import classNames from 'classnames/bind';
+import { useState } from 'react';
+import { AiOutlineClose, AiOutlineInfo } from 'react-icons/ai';
 
 import ArtistList from '../ArtistList/ArtistList';
 import { getArtists } from './artistUtil';
