@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-const Home = React.lazy(() => import('./pages/Home/Home'));
-const Search = React.lazy(() => import('./pages/Search/Search'));
+const Home = lazy(() => import('./pages/Home/Home'));
+const Search = lazy(() => import('./pages/Search/Search'));
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
