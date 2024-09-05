@@ -26,7 +26,9 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin({
+      defaultSizes: 'gzip'
+    })
   ],
   module: {
     rules: [
