@@ -33,6 +33,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
     }),
+    new CssMinimizerPlugin(),
     new CompressionPlugin({
       algorithm: 'gzip'
     })
@@ -60,6 +61,7 @@ module.exports = {
     ]
   },
   optimization: {
+    minimize: true,
     minimizer: [`...`, new CssMinimizerPlugin()],
     splitChunks: {
       chunks: 'all'
