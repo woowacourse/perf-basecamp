@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
@@ -48,7 +49,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
