@@ -18,3 +18,5 @@ const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
 };
 
 export default memo(GifItem);
+
+GifItem.displayName = 'GifItem';
