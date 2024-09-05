@@ -10,8 +10,8 @@
 
 .selectedItemContainer {
   position: fixed;
-  right: -320px;
   top: 0;
+  transform: translateX(100vw);
   width: 320px;
   height: 100%;
   z-index: 10;
@@ -24,7 +24,7 @@
 }
 
 .selectedItemContainer.showSheet {
-  right: 0;
+  transform: translateX(-320px) translateX(100vw);
   opacity: 1;
 }
 
