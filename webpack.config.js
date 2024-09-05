@@ -32,6 +32,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'image-webpack-loader',
+        enforce: 'pre'
+      },
+      {
         test: /\.(js|jsx|ts|tsx)$/i,
         exclude: /node_modules/,
         use: {
@@ -43,7 +48,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
