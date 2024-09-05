@@ -1,8 +1,9 @@
 import { GifsResult } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
-
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import apiCallWithCache from './utils/apiWithCache';
+import { GIF_KEYS } from './queries/keys';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -11,21 +12,19 @@ if (!API_KEY) {
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
+const TRENDING_STALE_TIME = 1000 * 60 * 10;
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
-  return gifList.map(({ id, title, images }) => {
-    return {
-      id,
-      title: title ?? '',
-      imageUrl: images.original.url
-    };
-  });
+  return gifList.map(({ id, title, images }) => ({
+    id,
+    title: title ?? '',
+    imageUrl: images.original.url
+  }));
 };
 
 const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   try {
     const gifs = await apiClient.fetch<GifsResult>(url);
-
     return convertResponseToModel(gifs.data);
   } catch (error) {
     if (error instanceof ApiError) {
@@ -37,21 +36,29 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const fetchTrendingGifs = async (): Promise<GifImageModel[]> => {
+  const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
+    api_key: API_KEY,
+    limit: `${DEFAULT_FETCH_COUNT}`,
+    rating: 'g'
+  });
+
+  return fetchGifs(url);
+};
+
 export const gifAPIService = {
   /**
-   * treding gif 목록을 가져옵니다.
+   * 트렌딩 gif 목록을 가져옵니다.
    * @returns {Promise<GifImageModel[]>}
-   * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
-    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
-      api_key: API_KEY,
-      limit: `${DEFAULT_FETCH_COUNT}`,
-      rating: 'g'
+    return apiCallWithCache({
+      queryKey: GIF_KEYS.trending,
+      queryFn: fetchTrendingGifs,
+      staleTime: TRENDING_STALE_TIME
     });
-
-    return fetchGifs(url);
   },
+
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
