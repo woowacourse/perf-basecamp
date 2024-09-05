@@ -67,7 +67,13 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react"
+      "@babel/preset-react",
+      {
+        "modules": false
+      }
+    ],
+    "sideEffects": [
+      "*.css"
     ],
     "plugins": [
       "@babel/plugin-transform-runtime"
