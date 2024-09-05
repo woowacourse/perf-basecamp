@@ -10,16 +10,16 @@ const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
   return (
-    <Router>
-      <NavBar />
-      <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={'Loading'}>
+      <Router>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
-      </Suspense>
-      <Footer />
-    </Router>
+        <Footer />
+      </Router>
+    </Suspense>
   );
 };
 
