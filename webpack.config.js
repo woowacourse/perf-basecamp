@@ -92,8 +92,14 @@ module.exports = {
       }),
       new TerserPlugin({
         terserOptions: {
-          compress: {}
-        }
+          format: {
+            comments: false // 모든 주석 제거
+          },
+          compress: {
+            drop_console: true // 빌드 시, console.* 구문 코드 제거
+          }
+        },
+        extractComments: false // license.txt 파일 생성을 방지
       }),
       new ImageMinimizerPlugin({
         minimizer: {
