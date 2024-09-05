@@ -29,8 +29,14 @@
 ### 1 요청 크기 줄이기
 
 - [x] 소스코드 크기 줄이기
+  - js: webpack의 내장 기능을 사용해 압축
+  - css
+    - css 파일을 분리 :MiniCssExtractPlugin
+    - css 파일 압축 :CssMinimizerPlugin
 - [x] 이미지 크기 줄이기
-- [ ] 폰트 크기?
+  - 이미지 포맷 변경: webp
+    // TODO
+  - 화면 크기에 따라 이미지 크기 변경 :
 
 도구
 
@@ -55,14 +61,14 @@
 
 키워드
 
-- [zx]Code Splitting
+- [x]Code Splitting
 
 ### 3 같은 건 매번 새로 요청하지 않기
 
 - [x] CDN을 적용하고, 한 번 요청한 리소스는 CDN 캐시에서 불러와야 한다.
-- [ ] GIPHY의 trending API를 Search 페이지에 들어올 때마다 새로 요청하지 않아야 한다.
-
-도구
+  - cloudFront의 cache 설정 사용
+- [x] GIPHY의 trending API를 Search 페이지에 들어올 때마다 새로 요청하지 않아야 한다. - fetch의 cache 옵션 사용
+      도구
 
 - CloudFront
 - Chrome DevTools > Network
