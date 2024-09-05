@@ -52,7 +52,6 @@ export const gifAPIService = {
     });
 
     const result = await fetchGifs(url);
-    console.log(result);
     return result;
   },
   /**
@@ -73,7 +72,6 @@ export const gifAPIService = {
     });
 
     const result = await fetchGifs(url);
-    console.log(result);
     return result;
   }
 };
