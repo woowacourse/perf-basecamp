@@ -17,3 +17,5 @@ const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
 };
 
 export default GifItem;
+
+GifItem.displayName = 'GifItem';
