@@ -7,11 +7,11 @@
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
   "scripts": {
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --config webpack.dev.js --mode=development",
+    "build:prod": "webpack --config webpack.prod.js --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve --mode=development",
-    "serve:prod": "webpack serve --mode=production",
+    "serve": "webpack serve --config webpack.dev.js --mode=development",
+    "serve:prod": "webpack serve --config webpack.prod.js --mode=production",
     "prettier": "prettier --write .",
     "deploy": "npm run build:prod && npx gh-pages -d dist"
   },
