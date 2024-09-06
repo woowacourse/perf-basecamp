@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -57,7 +58,21 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: [new CssMinimizerPlugin()],
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new TerserPlugin({
+        test: /\.(js|jsx|ts|tsx)$/,
+        parallel: true,
+        terserOptions: {
+          format: {
+            comments: false
+          },
+          compress: {
+            drop_console: true
+          }
+        },
+        extractComments: false
+      }),
     splitChunks: {
       chunks: 'all'
     }
