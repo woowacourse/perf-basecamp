@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
@@ -51,4 +51,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default memo(Home);

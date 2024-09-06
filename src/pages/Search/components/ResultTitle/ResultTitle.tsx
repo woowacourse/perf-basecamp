@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
 import styles from './ResultTitle.module.css';
@@ -35,4 +36,4 @@ const ResultTitle = ({ status }: ResultTitleProps) => {
   }
 };
 
-export default ResultTitle;
+export default memo(ResultTitle);

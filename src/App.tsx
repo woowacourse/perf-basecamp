@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, memo } from 'react';
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
@@ -26,4 +26,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default memo(App);

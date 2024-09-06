@@ -6,6 +6,7 @@ import GifItem from '../GifItem/GifItem';
 import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
 import styles from './SearchResult.module.css';
+import { memo } from 'react';
 
 type SearchResultProps = {
   status: SearchStatus;
@@ -54,4 +55,4 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   );
 };
 
-export default SearchResult;
+export default memo(SearchResult);
