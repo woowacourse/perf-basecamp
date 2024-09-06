@@ -18,7 +18,22 @@ module.exports = () => {
     plugins: [new MiniCssExtractPlugin()],
     optimization: {
       minimize: true,
-      minimizer: ['...', new CssMinimizerPlugin()]
+      minimizer: ['...', new CssMinimizerPlugin()],
+      splitChunks: {
+        cacheGroups: {
+          react: {
+            test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+            name: 'react',
+            chunks: 'all'
+          },
+          reactIcons: {
+            test: /[\\/]node_modules[\\/](react-icons)[\\/]/,
+            name: 'react-icons',
+            chunks: 'all'
+          }
+        },
+        chunks: 'all'
+      }
     }
   });
 };

@@ -6,8 +6,10 @@ import Footer from '@components/Footer/Footer';
 
 import './App.css';
 
-const Home = lazy(async () => await import('@pages/Home/Home'));
-const Search = lazy(async () => await import('@pages/Search/Search'));
+const Home = lazy(async () => await import(/* webpackChunkName: "home" */ '@pages/Home/Home'));
+const Search = lazy(
+  async () => await import(/* webpackChunkName: "search" */ '@pages/Search/Search')
+);
 
 const App = () => {
   return (
