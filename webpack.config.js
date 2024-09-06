@@ -91,17 +91,17 @@ module.exports = {
         // CPU 멀티 프로세서 병렬화 옵션 (기본 값: true)
         parallel: true
       }),
-      new TerserPlugin({
-        terserOptions: {
-          format: {
-            comments: false // 모든 주석 제거
-          },
-          compress: {
-            drop_console: true // 빌드 시, console.* 구문 코드 제거
-          }
-        },
-        extractComments: false // license.txt 파일 생성을 방지
-      }),
+      // new TerserPlugin({
+      //   terserOptions: {
+      //     format: {
+      //       comments: false // 모든 주석 제거
+      //     },
+      //     compress: {
+      //       drop_console: true // 빌드 시, console.* 구문 코드 제거
+      //     }
+      //   },
+      //   extractComments: false // license.txt 파일 생성을 방지
+      // }),
       new ImageMinimizerPlugin({
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
