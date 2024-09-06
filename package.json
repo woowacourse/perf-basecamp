@@ -23,10 +23,12 @@
     "@giphy/js-fetch-api": "^4.1.1",
     "@giphy/js-types": "^4.2.1",
     "@react-icons/all-files": "^4.1.0",
+    "@types/react-window": "^1.8.8",
     "classnames": "^2.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "react-window": "^1.8.10"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
