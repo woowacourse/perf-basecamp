@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
+import heroPng from '../../assets/images/hero.png';
 import trendingVideo from '../../assets/images/trending.mp4';
 import findVideo from '../../assets/images/find.mp4';
 import freeVideo from '../../assets/images/free.mp4';
@@ -14,7 +14,7 @@ import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 import heroMobileImage from '../../assets/images/hero-375w.webp';
 import heroTabletImage from '../../assets/images/hero-768w.webp';
 import heroDesktopImage from '../../assets/images/hero-1000w.webp';
-import hero from '../../assets/images/hero-1980w.webp';
+import heroFullImage from '../../assets/images/hero-1980w.webp';
 
 import styles from './Home.module.css';
 
@@ -29,16 +29,15 @@ const Home = () => {
         <div className={styles.heroImage}>
           <picture>
             <source
-              className={styles.heroImage}
               srcSet={`
-            ${heroMobileImage} 375w,
-            ${heroTabletImage} 768w,
-            ${heroDesktopImage} 1000w,
-            `}
-              src={hero}
+      ${heroMobileImage} 375w,
+      ${heroTabletImage} 768w,
+      ${heroDesktopImage} 1000w,
+      ${heroFullImage} 1980w,
+    `}
               type="image/webp"
-            ></source>
-            <img className={styles.heroImage} src={heroImage} alt="hero image" />
+            />
+            <img className={styles.heroImage} src={heroPng} alt="Hero Image" />
           </picture>
         </div>
         <div className={styles.projectTitle}>

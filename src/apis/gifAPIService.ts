@@ -50,7 +50,9 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    console.log('api');
+
+    return await fetchGifs(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.

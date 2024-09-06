@@ -12,7 +12,7 @@ const Footer = lazy(() => import('./components/Footer/Footer'));
 const App = () => {
   return (
     <div style={{ minHeight: '100vh' }}>
-      <Router basename={'/perf-basecamp'}>
+      <Router>
         <NavBar />
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
