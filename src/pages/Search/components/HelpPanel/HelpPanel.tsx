@@ -9,17 +9,16 @@ import styles from './HelpPanel.module.css';
 
 const cx = classNames.bind(styles);
 
-const HelpPanel = () => {
+interface HelpPanelProps {
+  isShow: boolean;
+  closeSheet: () => void;
+}
+
+const HelpPanel = ({ isShow, closeSheet }: HelpPanelProps) => {
   const artists = getArtists();
-  const [isShow, setIsShow] = useState(false);
-  const openSheet = () => setIsShow(true);
-  const closeSheet = () => setIsShow(false);
 
   return (
     <>
-      <button type="button" className={styles.floatingButton} onClick={openSheet}>
-        <AiOutlineInfo color="white" size="24px" />
-      </button>
       <section
         className={cx('selectedItemContainer', {
           showSheet: isShow

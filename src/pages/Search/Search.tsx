@@ -1,13 +1,20 @@
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useState, Suspense, lazy } from 'react';
+import { AiOutlineInfo } from 'react-icons/ai';
+
 import useGifSearch from './hooks/useGifSearch';
 
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResult from './components/SearchResult/SearchResult';
-import HelpPanel from './components/HelpPanel/HelpPanel';
 
 import styles from './Search.module.css';
 
+const HelpPanel = lazy(() => import('./components/HelpPanel/HelpPanel'));
+
 const Search = () => {
+  const [isShow, setIsShow] = useState(false);
+  const openSheet = () => setIsShow(true);
+  const closeSheet = () => setIsShow(false);
+
   const { status, searchKeyword, gifList, searchByKeyword, updateSearchKeyword, loadMore } =
     useGifSearch();
 
@@ -26,7 +33,13 @@ const Search = () => {
         onSearch={searchByKeyword}
       />
       <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
-      <HelpPanel />
+      <button type="button" className={styles.floatingButton} onClick={openSheet}>
+        <AiOutlineInfo color="white" size="24px" />
+      </button>
+
+      <Suspense fallback={<div>Loading...</div>}>
+        {isShow && <HelpPanel isShow={isShow} closeSheet={closeSheet} />}
+      </Suspense>
     </div>
   );
 };

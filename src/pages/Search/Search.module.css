@@ -130,3 +130,13 @@
     width: 5rem;
   }
 }
+
+.floatingButton {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #bd00ff;
+}
