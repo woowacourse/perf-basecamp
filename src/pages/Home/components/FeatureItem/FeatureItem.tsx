@@ -1,14 +1,17 @@
 import styles from './FeatureItem.module.css';
 
-type FeatureItemProps = {
+interface FeatureItemProps {
   title: string;
-  imageSrc: string;
-};
+  videoSrc: string;
+}
 
-const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
+const FeatureItem = ({ title, videoSrc }: FeatureItemProps) => {
   return (
     <div className={styles.featureItem}>
-      <img className={styles.featureImage} src={imageSrc} />
+      <video className={styles.featureVideo} autoPlay muted loop>
+        <source src={videoSrc} type="video/webm" />
+        현재 브라우저에서는 video 태그가 지원되지 않습니다. 😢
+      </video>
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
     </div>
