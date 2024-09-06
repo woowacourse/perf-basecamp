@@ -1,7 +1,7 @@
+import { GifItemSkeleton, MemorizedGifItem } from '../GifItem/GifItem';
 import { SEARCH_STATUS, SearchStatus } from '../../hooks/useGifSearch';
 
 import { GifImageModel } from '../../../../models/image/gifImage';
-import { MemorizedGifItem } from '../GifItem/GifItem';
 import ResultTitle from '../ResultTitle/ResultTitle';
 import styles from './SearchResult.module.css';
 
@@ -10,6 +10,14 @@ type SearchResultProps = {
   gifList: GifImageModel[];
   loadMore: () => void;
 };
+
+const renderGifSkeleton = () => (
+  <div className={styles.gifResultWrapper}>
+    {Array.from({ length: 16 }).map((_, i) => (
+      <GifItemSkeleton key={i} />
+    ))}
+  </div>
+);
 
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   const renderGifList = () => (
@@ -36,6 +44,7 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
           </>
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
+        if (gifList.length === 0) return renderGifSkeleton();
         return renderGifList();
       case SEARCH_STATUS.NO_RESULT:
       case SEARCH_STATUS.ERROR:

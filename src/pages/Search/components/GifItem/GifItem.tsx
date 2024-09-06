@@ -24,3 +24,13 @@ export const MemorizedGifItem = memo(
     return prevImageUrl === nextImageUrl && prevTitle === nextTitle;
   }
 );
+
+export const GifItemSkeleton = () => {
+  return (
+    <div className={styles.gifItem}>
+      <div className={styles.gifTitleContainer}>
+        <div className={styles.gifTitleBg}></div>
+      </div>
+    </div>
+  );
+};
