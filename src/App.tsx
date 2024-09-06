@@ -13,7 +13,9 @@ const App = () => {
   return (
     <Router basename={'/perf-basecamp'}>
       <NavBar />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={<div style={{ backgroundColor: '#000', height: '167.1rem' }}>Loading...</div>}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
