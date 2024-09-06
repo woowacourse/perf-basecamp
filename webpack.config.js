@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -43,15 +44,42 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|ttf|woff|woff2)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
         }
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg|avif)$/i,
+        type: 'asset'
       }
     ]
   },
   optimization: {
-    minimizer: [`...`, new CssMinimizerPlugin()]
+    minimizer: [
+      `...`,
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        deleteOriginalAssets: true,
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminMinify,
+          options: {
+            plugins: [['gifsicle', { interlaced: true }]]
+          }
+        },
+        generator: [
+          {
+            preset: 'webp',
+            implementation: ImageMinimizerPlugin.imageminGenerate,
+            options: {
+              plugins: [
+                ['webp', { preset: 'photo', quality: 70, resize: { width: 1920, height: 1280 } }]
+              ]
+            }
+          }
+        ]
+      })
+    ]
   }
 };
