@@ -34,11 +34,10 @@ module.exports = {
 
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+
   output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, '/dist'),
-    clean: true,
-    chunkFilename: '[name].bundle.js'
+    filename: '[name].bundle.js',
+    path: path.join(__dirname, '/dist')
   },
   devServer: {
     hot: true,
