@@ -82,5 +82,7 @@
       "last 1 firefox version"
     ]
   },
-  "sideEffects": false
+  "sideEffects": [
+    "*.css"
+  ]
 }
