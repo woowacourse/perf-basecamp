@@ -11,7 +11,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[chunkhash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -62,6 +62,9 @@ module.exports = {
       new CssMinimizerPlugin({
         parallel: os.cpus().length - 1
       })
-    ]
+    ],
+    splitChunks: {
+      chunks: 'all'
+    }
   }
 };
