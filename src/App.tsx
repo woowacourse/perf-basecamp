@@ -1,13 +1,14 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-const Home = lazy(() => import('./pages/Home/Home'));
-const Search = lazy(() => import('./pages/Search/Search'));
+import Home from './pages/Home/Home';
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
+
+const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
   return (
