@@ -1,3 +1,4 @@
+import React from 'react';
 import { Artist } from '../../../../models/help/artist';
 
 import styles from './ArtistInfo.module.css';
@@ -6,11 +7,11 @@ export type ArtistProps = {
   artist: Artist;
 };
 
-const ArtistInfo = ({ artist }: ArtistProps) => {
+const ArtistInfo = ({ artist, ...props }: ArtistProps & React.HTMLAttributes<HTMLLIElement>) => {
   const { name, profileUrl, profileImageUrl } = artist;
 
   return (
-    <li className={styles.artistContainer}>
+    <li className={styles.artistContainer} {...props}>
       <img className={styles.profileImage} src={profileImageUrl} />
       <p>
         <a className={styles.profileUrl} href={profileUrl}>
@@ -21,4 +22,4 @@ const ArtistInfo = ({ artist }: ArtistProps) => {
   );
 };
 
-export default ArtistInfo;
+export default React.memo(ArtistInfo);
