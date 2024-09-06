@@ -71,6 +71,7 @@ module.exports = {
       }
     ]
   },
+  devtool: isDev ? 'eval-source-map' : 'source-map',
   optimization: {
     usedExports: true,
     splitChunks: {

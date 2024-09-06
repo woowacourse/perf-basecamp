@@ -1,11 +1,26 @@
 export class ApiError extends Error {
-  constructor(public status: number, message?: string) {
+  constructor(
+    public status: number,
+    message?: string
+  ) {
     super(message);
     this.name = 'ApiError';
   }
 }
 
+const cachePromise = caches.open('api-cache');
+
 export const apiClient = {
+  fetchWithCache: async <T>(url: URL): Promise<T> => {
+    const cache = await cachePromise;
+    const result = await cache.match(url);
+    if (result === undefined) {
+      await cache.add(url);
+    }
+    const response = await cache.match(url);
+    const data = await response?.json();
+    return data as T;
+  },
   fetch: async <T>(url: URL): Promise<T> => {
     const response = await fetch(url.toString());
     if (!response.ok) {
