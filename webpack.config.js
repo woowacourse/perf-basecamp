@@ -4,7 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -29,9 +29,7 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
-    new CompressionPlugin({
-      algorithm: 'gzip'
-    })
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -56,9 +54,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimizer: [`...`, new CssMinimizerPlugin()],
-    splitChunks: {
-      chunks: 'all'
-    }
+    minimizer: [`...`, new CssMinimizerPlugin()]
   }
 };
