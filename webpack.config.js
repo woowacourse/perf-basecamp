@@ -13,7 +13,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[contenthash].js',
+    chunkFilename: '[name].[contenthash].chunk.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -75,6 +76,9 @@ module.exports = {
         extractComments: false
       }),
       new CssMinimizerPlugin()
-    ]
+    ],
+    splitChunks: {
+      chunks: 'all'
+    }
   }
 };
