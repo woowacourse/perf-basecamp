@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -63,7 +64,17 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: [new CssMinimizerPlugin()],
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            pure_funcs: ['console.info', 'console.debug']
+          }
+        }
+      })
+    ],
     usedExports: true,
     splitChunks: { chunks: 'all' }
   }
