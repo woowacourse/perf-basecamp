@@ -11,7 +11,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -25,11 +25,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
+    }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin(),
     new BundleAnalyzerPlugin()
   ],
   module: {
