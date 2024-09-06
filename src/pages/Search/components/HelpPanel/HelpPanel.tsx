@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { useState, useMemo, lazy, Suspense } from 'react';
 import { AiOutlineInfo } from '@react-icons/all-files/ai/AiOutlineInfo';
 import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
 import classNames from 'classnames/bind';
 
-import ArtistList from '../ArtistList/ArtistList';
 import { getArtists } from './artistUtil';
 
 import styles from './HelpPanel.module.css';
 
+const ArtistList = lazy(() => import('../ArtistList/ArtistList'));
+
 const cx = classNames.bind(styles);
 
 const HelpPanel = () => {
-  const artists = getArtists();
+  const artists = useMemo(() => getArtists(), []);
   const [isShow, setIsShow] = useState(false);
   const openSheet = () => setIsShow(true);
   const closeSheet = () => setIsShow(false);
@@ -53,7 +54,9 @@ const HelpPanel = () => {
           <p>Here are some artists you can refer to.</p>
           <br />
           <section>
-            <ArtistList artists={artists} />
+            <Suspense fallback={<div style={{ height: '100vh' }}>Loading...</div>}>
+              <ArtistList artists={artists} />
+            </Suspense>
           </section>
         </div>
       </section>
