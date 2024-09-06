@@ -5,6 +5,9 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/index.tsx',
@@ -28,8 +31,13 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin()
-  ],
+    new MiniCssExtractPlugin(),
+    !isProduction &&
+      new BundleAnalyzerPlugin({
+        reportFilename: 'bundle-report.html',
+        excludeAssets: [/node_modules/]
+      })
+  ].filter(Boolean),
   module: {
     rules: [
       {
