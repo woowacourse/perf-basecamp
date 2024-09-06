@@ -6,13 +6,17 @@
   "extends": [
     "standard-with-typescript",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "plugin:prettier/recommended"
   ],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
   },
   "plugins": ["react", "prettier"],
-  "rules": {}
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off"
+  }
 }
