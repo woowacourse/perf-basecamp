@@ -1,7 +1,7 @@
 import { GifsResult } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 
-import { GifImageModel } from '../models/image/gifImage';
+import { GifConvertedData, GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
 
 const API_KEY = process.env.GIPHY_API_KEY;
@@ -22,11 +22,16 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   });
 };
 
-const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+const fetchGifs = async (url: URL): Promise<GifConvertedData> => {
   try {
     const gifs = await apiClient.fetch<GifsResult>(url);
 
-    return convertResponseToModel(gifs.data);
+    const convertedGifs: GifConvertedData = {
+      pagination: gifs.pagination,
+      gifImages: convertResponseToModel(gifs.data)
+    };
+
+    return convertedGifs;
   } catch (error) {
     if (error instanceof ApiError) {
       console.error(`API Error: ${error.status} - ${error.message}`);
@@ -43,7 +48,7 @@ export const gifAPIService = {
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
-  getTrending: async (): Promise<GifImageModel[]> => {
+  getTrending: async (): Promise<GifConvertedData> => {
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
@@ -59,7 +64,7 @@ export const gifAPIService = {
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/search
    */
-  searchByKeyword: async (keyword: string, page: number): Promise<GifImageModel[]> => {
+  searchByKeyword: async (keyword: string, page: number): Promise<GifConvertedData> => {
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/search`), {
       api_key: API_KEY,
       q: keyword,
