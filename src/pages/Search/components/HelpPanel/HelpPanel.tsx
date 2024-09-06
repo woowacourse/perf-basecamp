@@ -54,7 +54,7 @@ const HelpPanel = () => {
           <p>Here are some artists you can refer to.</p>
           <br />
           <section>
-            <Suspense fallback={<div style={{ height: '100vh' }}>Loading...</div>}>
+            <Suspense fallback={null}>
               <ArtistList artists={artists} />
             </Suspense>
           </section>
