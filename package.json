@@ -1,6 +1,7 @@
 {
   "name": "frontend-performance-basecamp",
   "version": "0.0.0",
+  "sideEffects": false,
   "engines": {
     "node": ">=18.0.0"
   },
