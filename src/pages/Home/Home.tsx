@@ -2,8 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage_png from '../../assets/images/hero.png';
-import heroImage_webp from '../../assets/images/hero.webp';
+import heroImage from '../../assets/images/hero.webp';
 import trending_webm from '../../assets/images/trending.webm';
 import find_webm from '../../assets/images/find.webm';
 import free_webm from '../../assets/images/free.webm';
@@ -23,8 +22,7 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source srcSet={heroImage_webp} type="image/webp" media="all" />
-          <img className={styles.heroImage} src={heroImage_png} alt="hero" />
+          <img className={styles.heroImage} src={heroImage} alt="hero" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
