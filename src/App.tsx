@@ -12,7 +12,7 @@ const Search = lazy(() => import('./pages/Search/Search'));
 const App = () => {
   return (
     <Suspense fallback={<>로딩 중...</>}>
-      <Router>
+      <Router basename="/perf-basecamp">
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />

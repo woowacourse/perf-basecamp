@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
@@ -14,6 +14,8 @@ export const SEARCH_STATUS = {
 } as const;
 
 export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+
+const TRENDING_CACHE_KEY = 'trendingGifs';
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -69,20 +71,34 @@ const useGifSearch = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchTrending = async () => {
-      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
+  const fetchTrending = useCallback(async () => {
+    const cachedGifs = sessionStorage.getItem(TRENDING_CACHE_KEY);
 
-      try {
-        const gifs = await gifAPIService.getTrending();
-        setGifList(gifs);
-      } catch (error) {
-        handleError(error);
-      }
+    if (cachedGifs) {
+      return JSON.parse(cachedGifs) as GifImageModel[];
+    }
+
+    try {
+      const gifs = await gifAPIService.getTrending();
+      sessionStorage.setItem(TRENDING_CACHE_KEY, JSON.stringify(gifs));
+      return gifs;
+    } catch (error) {
+      handleError(error);
+      return [];
+    }
+  }, []);
+
+  useEffect(() => {
+    if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
+
+    const fetchData = async () => {
+      const gifs = await fetchTrending();
+      setGifList(gifs);
+      setStatus(SEARCH_STATUS.FOUND);
     };
 
-    fetchTrending();
-  }, []);
+    fetchData();
+  }, [status, fetchTrending]);
 
   return {
     status,
