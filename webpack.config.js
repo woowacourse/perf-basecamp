@@ -13,8 +13,10 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].chunk.js',
     path: path.join(__dirname, '/dist'),
+    publicPath: '/',
     clean: true
   },
   devServer: {
@@ -84,7 +86,7 @@ module.exports = {
                 width: 1920
               },
               encodeOptions: {
-                //   // Please specify only one codec here, multiple codecs will not work
+                // Please specify only one codec here, multiple codecs will not work
                 webp: {
                   quality: 30
                 }
@@ -93,6 +95,12 @@ module.exports = {
           }
         ]
       })
-    ]
+    ],
+    splitChunks: {
+      // 가능한 값: 'initial', 'async', 'all'
+      chunks: 'all',
+      // 이는 분할 청크의 이름입니다. false를 제공하면 청크의 이름이 동일하게 유지되므로 불필요하게 이름이 변경되지 않습니다. 프로덕션 빌드에 권장되는 값입니다.
+      name: false
+    }
   }
 };
