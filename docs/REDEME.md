@@ -15,12 +15,16 @@
 
   ## 성능 개선 후 체크 사항
 
-- [] Lighthouse 95점 이상
-- [] Home 페이지에서 불러오는 스크립트 리소스 크기 < 60kb
-- [] 히어로 이미지 크기 < 120kb
+- [x] Lighthouse 95점 이상
+- [x] Home 페이지에서 불러오는 스크립트 리소스 크기 < 60kb
+- [x] 히어로 이미지 크기 < 120kb
 - [] 프랑스 파리에서 Fast 3G 환경으로 접속했을 때 Home 두 번째 이후 로드시 LCP < 1.2s
-- [] WebPageTest에서 Paris - EC2 Chrome CPU 6x slowdown Network Fast 3G 환경 기준으로 확인
-- [] Chrome CPU 6x slowdown Network Fast 3G 환경에서 화면 버벅임 최소화
+  - WebPageTest에서 Paris - EC2 Chrome CPU 6x slowdown Network Fast 3G 환경 기준으로 확인
+- [] Layout Shift 없이 애니메이션이 일어나야한다
+  - [x] CustomCursor
+  - [] 검색 결과 -> hover
+  - [] 도움말 패널 열고 닫기
+- [] Chrome CPU 6x slowdown Network Fast 3G 환경에서 화면 버벅임 최소화 (대상: 메인 페이지 CustomCursor, 스크롤 애니메이션)
   - [] Dropped Frame 없음.
   - [] Partially Presented Frame 최소화.
 
@@ -88,12 +92,12 @@
   - [x] CustomCursor
   - [x] 검색 결과 > hover
   - [x] 도움말 패널 열고닫기 애니메이션
-- [ ] Frame Drop이 일어나지 않아야 한다.(Chrome DevTools 기준)
-  - [] 메인 페이지의 CustomCursor
-  - [] 스크롤 애니메이션
-- [] Partially Presented Frame 역시 최소로 발생해야 한다.
-  - [] 메인 페이지의 CustomCursor
-  - [] 스크롤 애니메이션
+- [x] Frame Drop이 일어나지 않아야 한다.(Chrome DevTools 기준)
+  - [x] 메인 페이지의 CustomCursor
+  - [x] 스크롤 애니메이션
+- [x] Partially Presented Frame 역시 최소로 발생해야 한다.
+  - [x] 메인 페이지의 CustomCursor
+  - [x] 스크롤 애니메이션
 
 도구
 
