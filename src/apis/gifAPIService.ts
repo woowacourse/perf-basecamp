@@ -38,7 +38,7 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
-const CACHE_DURATION = 2 * 1000;
+const CACHE_DURATION = 5 * 60 * 1000;
 
 const trendingCacheStore = new CacheStore<GifImageModel>(CACHE_DURATION);
 
