@@ -9,12 +9,13 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
   mode: 'production',
   optimization: {
+    usedExports: true,
     minimize: true,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
           compress: {
-            drop_console: true, // console.log 같은 콘솔 출력 제거
+            // drop_console: true, // console.log 같은 콘솔 출력 제거
             drop_debugger: true, // debugger 구문 제거
             pure_funcs: ['console.info'], // 특정 함수 호출 제거 (ex: console.info)
             dead_code: true, // 사용되지 않는 코드 제거
@@ -34,6 +35,12 @@ module.exports = {
 
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+  // output: {
+  //   filename: '[name].[contenthash].js', // 엔트리 파일 이름을 동적으로 지정, 해시값 추가
+  //   path: path.join(__dirname, '/dist'),
+  //   clean: true,
+  //   chunkFilename: '[name].[contenthash].bundle.js' // 코드 스플리팅 청크 이름도 고유한 이름으로 설정
+  // },
 
   output: {
     filename: '[name].bundle.js',
