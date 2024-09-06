@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('./assets/fonts/JosefinSans-Regular.ttf') format('ttf'),
+    url('./assets/fonts/JosefinSans-Regular.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('./assets/fonts/JosefinSans-Bold.ttf') format('ttf'),
+    url('./assets/fonts/JosefinSans-Bold.ttf') format('ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
