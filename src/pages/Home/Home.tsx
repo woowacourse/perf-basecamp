@@ -26,12 +26,7 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source
-            src={heroImage}
-            className={styles.heroImage}
-            type="image/webp"
-            srcSet={heroImageWebp}
-          />
+          <source className={styles.heroImage} srcSet={heroImageWebp} type="image/webp" />
           <img className={styles.heroImage} src={heroImage} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
