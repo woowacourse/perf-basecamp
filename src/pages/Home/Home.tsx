@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import findGif from '../../assets/images/find.gif?as=webp';
 import freeGif from '../../assets/images/free.gif?as=webp';
-import heroImage from '../../assets/images/hero.png?as=webp&w=1200';
+import heroImage from '../../assets/images/hero.png?as=webp&w=1980';
 import trendingGif from '../../assets/images/trending.gif?as=webp';
 
 import AnimatedPath from './components/AnimatedPath/AnimatedPath';

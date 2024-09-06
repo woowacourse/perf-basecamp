@@ -14,6 +14,7 @@ export const apiClient = {
   fetchWithCache: async <T>(url: URL): Promise<T> => {
     const cache = await cachePromise;
     const result = await cache.match(url);
+    console.log(result);
     if (result === undefined) {
       await cache.add(url);
     }
