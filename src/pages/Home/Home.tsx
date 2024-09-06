@@ -22,7 +22,7 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <img className={styles.heroImage} src={heroImage} alt="hero" />
+          <img fetchPriority="high" className={styles.heroImage} src={heroImage} alt="hero" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
