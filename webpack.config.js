@@ -2,13 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin'); // CompressionPlugin 추가
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[chunkhash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -48,12 +48,14 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[chunkhash].[ext]'
         }
       }
     ]
   },
   optimization: {
-    minimize: true
+    splitChunks: {
+      chunks: 'all'
+    }
   }
 };
