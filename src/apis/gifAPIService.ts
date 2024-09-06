@@ -40,7 +40,7 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
 const fetchGifsWithCache = (() => {
   let cache: GifImageModel[];
 
-  return async (url: URL) => {
+  return async (url: URL): Promise<GifImageModel[]> => {
     return cache ? cache : (cache = await fetchGifs(url));
   };
 })();
