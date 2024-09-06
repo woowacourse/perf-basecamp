@@ -13,11 +13,7 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 // analyzing bundle size
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-// gzip plugin
-const CompressionPlugin = require('compression-webpack-plugin');
-
 module.exports = {
-  // entry: './src/index.tsx',
   entry: {
     index: {
       import: './src/index.tsx'
@@ -44,7 +40,6 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -54,14 +49,7 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
-    new BundleAnalyzerPlugin(),
-    new CompressionPlugin({
-      filename: '[path][base].gz',
-      algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.8
-    })
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
