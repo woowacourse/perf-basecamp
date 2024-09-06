@@ -10,12 +10,12 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 module.exports = merge(common, {
   mode: 'production',
   output: {
-    filename: 'bundle.[contenthash].js'
+    chunkFilename: '[name].chunk.bundle.[contenthash].js'
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
-      chunkFilename: '[id].[contenthash].css'
+      chunkFilename: '[name].chunk.bundle.[contenthash].css'
     }),
     new CompressionPlugin({
       algorithm: 'gzip',
@@ -32,7 +32,8 @@ module.exports = merge(common, {
   ],
   optimization: {
     splitChunks: {
-      chunks: 'all'
+      chunks: 'all',
+      name: 'vendors'
     },
     minimizer: [
       '...',
