@@ -5,6 +5,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -30,7 +31,8 @@ module.exports = {
     new Dotenv(),
     new MiniCssExtractPlugin({
       linkType: false
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
