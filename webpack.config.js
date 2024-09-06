@@ -35,7 +35,8 @@ module.exports = (env, argv) => {
       new BundleAnalyzerPlugin({
         analyzerMode: 'static',
         reportFilename: 'bundle-report.html',
-        excludeAssets: [/node_modules/]
+        excludeAssets: [/node_modules/],
+        openAnalyzer: false
       }),
       new Dotenv()
     ],

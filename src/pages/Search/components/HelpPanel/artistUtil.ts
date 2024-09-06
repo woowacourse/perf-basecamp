@@ -1,6 +1,6 @@
 import { Artist } from '../../../../models/help/artist';
 
-const DUMMY_ARTISTS_LENGTH = 100;
+export const DUMMY_ARTISTS_LENGTH = 10000;
 const DUMMY_ARTISTS: Artist[] = [
   {
     name: 'Pola Lucas',
