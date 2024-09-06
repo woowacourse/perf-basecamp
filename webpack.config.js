@@ -3,7 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+// image minimizer
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+
+// bundle analyzer
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -26,7 +30,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -51,6 +56,8 @@ module.exports = {
     ]
   },
   optimization: {
+    // 임시 설정 (analyzing을 위한 설정)
+    concatenateModules: false,
     minimize: true,
     minimizer: [
       '...',
