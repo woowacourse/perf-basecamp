@@ -5,6 +5,8 @@
   left: 0;
   z-index: 10;
   padding: 0 16px;
+  min-width: 24px;
+  height: 24px;
   color: var(--white);
 }
 
@@ -23,6 +25,7 @@
 .cursor span {
   display: inline-block;
   animation: wave-text 1s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 .cursor span:nth-of-type(1) {
@@ -50,11 +53,14 @@
 @keyframes wave-text {
   00% {
     transform: translateY(0em);
+    opacity: 1;
   }
   60% {
     transform: translateY(-0.6em);
+    opacity: 0.8;
   }
   100% {
     transform: translateY(0em);
+    opacity: 1;
   }
 }
