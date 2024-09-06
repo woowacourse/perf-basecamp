@@ -1,9 +1,9 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.config.js');
 
+const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -17,12 +17,6 @@ module.exports = merge(common, {
       filename: '[name].[contenthash].css',
       chunkFilename: '[name].chunk.bundle.[contenthash].css'
     }),
-    new CompressionPlugin({
-      algorithm: 'gzip',
-      test: /\.(js|css|html|svg)$/,
-      threshold: 10240,
-      minRatio: 0.8
-    }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       reportFilename: 'bundle-report.html',
@@ -31,6 +25,7 @@ module.exports = merge(common, {
     })
   ],
   optimization: {
+    sideEffects: true,
     splitChunks: {
       chunks: 'all',
       name: 'vendors'
@@ -38,6 +33,7 @@ module.exports = merge(common, {
     minimizer: [
       '...',
       new CssMinimizerPlugin(),
+      new TerserPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
           implementation: ImageMinimizerPlugin.sharpMinify,
