@@ -6,18 +6,21 @@
   z-index: 10;
   padding: 0 16px;
   color: var(--white);
+  transform: translate(0, 0);
+  will-change: transform;
 }
 
 .cursor::before {
   content: '';
   display: block;
   position: absolute;
-  top: -12px;
-  left: -12px;
+  top: 50%;
+  left: 50%;
   width: 24px;
   height: 24px;
   background: rgba(255, 255, 255, 0.25);
   border-radius: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .cursor span {
