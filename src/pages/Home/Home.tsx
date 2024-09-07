@@ -26,7 +26,7 @@ const Home = () => {
             type="image/webp"
             sizes="(max-width: 425px) 425px, (max-width: 768px) 768px,(max-width: 1024px) 1024px, (max-width: 1440px) 1440px, 100vw"
           />
-          <img src={heroImage.src} alt="Hero" />
+          <img className={styles.heroImage} src={heroImage.src} alt="Hero" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
