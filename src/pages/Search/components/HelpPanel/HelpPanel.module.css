@@ -20,11 +20,11 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   opacity: 0;
-  transition: 0.5s all cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  transition: 0.5s transform cubic-bezier(0.82, 0.085, 0.395, 0.895);
 }
 
 .selectedItemContainer.showSheet {
-  right: 0;
+  transform: translateX(-320px);
   opacity: 1;
 }
 
