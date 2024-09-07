@@ -3,7 +3,7 @@ import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
 
 const DEFAULT_PAGE_INDEX = 0;
-const TRENDING_CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+const TRENDING_CACHE_EXPIRY = 10 * 60 * 1000; // 24 hours in milliseconds
 const TRENDING_CACHE_KEY = 'trendingGifs';
 
 export const SEARCH_STATUS = {
