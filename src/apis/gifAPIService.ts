@@ -22,9 +22,14 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   });
 };
 
-const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+const fetchGifs = async (url: URL, cache: boolean = false): Promise<GifImageModel[]> => {
   try {
-    const gifs = await apiClient.fetch<GifsResult>(url);
+    let gifs: GifsResult;
+    if (cache) {
+      gifs = await apiClient.fetchWithCache<GifsResult>(url, [], 60 * 60);
+    } else {
+      gifs = await apiClient.fetch<GifsResult>(url);
+    }
 
     return convertResponseToModel(gifs.data);
   } catch (error) {
@@ -50,7 +55,7 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return fetchGifs(url, true);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
