@@ -39,7 +39,7 @@ const Home = () => {
       <section ref={wrapperRef} className={styles.featureSection}>
         <AnimatedPath wrapperRef={wrapperRef} />
         <div className={styles.featureSectionWrapper}>
-          <h2 className={styles.featureTitle}>Features</h2>
+          <h3 className={styles.featureTitle}>Features</h3>
           <div className={styles.featureItemContainer}>
             <FeatureItem title="See trending gif" imageSrc={trendingGif} />
             <FeatureItem title="Find gif for free" imageSrc={findGif} />
