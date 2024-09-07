@@ -126,7 +126,7 @@ module.exports = {
             encodeOptions: {
               webp: { quality: 60 },
               jpg: { quality: 60 },
-              gift: {}
+              gift: { quality: 50 }
             }
           }
         }
