@@ -8,73 +8,78 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const CompressionPlugin = require('compression-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
-module.exports = {
-  entry: './src/index.tsx',
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
-  output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].chunk.bundle.js',
-    path: path.join(__dirname, '/dist'),
-    clean: true
-  },
-  devServer: {
-    hot: true,
-    open: true,
-    historyApiFallback: true
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
-    }),
-    new Dotenv(),
-    new MiniCssExtractPlugin(),
-    new BundleAnalyzerPlugin(),
-    new CompressionPlugin({
-      filename: '[path][base].gz',
-      algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.8
-    })
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx|ts|tsx)$/i,
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
-        }
-      },
-      {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
-      }
-    ]
-  },
-  optimization: {
-    minimizer: [
-      '...',
-      new CssMinimizerPlugin(),
-      new ImageMinimizerPlugin({
-        deleteOriginalAssets: false,
-        minimizer: {
-          implementation: ImageMinimizerPlugin.imageminGenerate,
+module.exports = (env, argv) => {
+  const mode = argv.mode || 'development';
+  return {
+    entry: './src/index.tsx',
+    resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+    output: {
+      filename: '[name].bundle.js',
+      chunkFilename: '[name].chunk.bundle.js',
+      path: path.join(__dirname, '/dist'),
+      clean: true
+    },
+    devServer: {
+      hot: true,
+      open: true,
+      historyApiFallback: true
+    },
+    devtool: mode === 'development' ? 'source-map' : false,
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: './index.html'
+      }),
+      new CopyWebpackPlugin({
+        patterns: [{ from: './public', to: './public' }]
+      }),
+      new Dotenv(),
+      new MiniCssExtractPlugin(),
+      new BundleAnalyzerPlugin(),
+      new CompressionPlugin({
+        filename: '[path][base].gz',
+        algorithm: 'gzip',
+        test: /\.js$|\.css$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8
+      })
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx|ts|tsx)$/i,
+          exclude: /node_modules/,
+          use: {
+            loader: 'ts-loader'
+          }
+        },
+        {
+          test: /\.css$/i,
+          use: [mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
+        },
+        {
+          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
+          loader: 'file-loader',
           options: {
-            plugins: [['imagemin-webp', { quality: 40, resize: { width: 1920, height: 1280 } }]]
+            name: 'static/[name].[ext]'
           }
         }
-      })
-    ]
-  }
+      ]
+    },
+    optimization: {
+      usedExports: true,
+      minimizer: [
+        '...',
+        new CssMinimizerPlugin(),
+        new ImageMinimizerPlugin({
+          deleteOriginalAssets: false,
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminGenerate,
+            options: {
+              plugins: [['imagemin-webp', { quality: 40, resize: { width: 1920, height: 1080 } }]]
+            }
+          }
+        })
+      ]
+    }
+  };
 };
