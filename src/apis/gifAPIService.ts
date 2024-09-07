@@ -44,13 +44,33 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
-    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
-      api_key: API_KEY,
-      limit: `${DEFAULT_FETCH_COUNT}`,
-      rating: 'g'
-    });
+    try {
+      const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
+        api_key: API_KEY,
+        limit: `${DEFAULT_FETCH_COUNT}`,
+        rating: 'g'
+      });
 
-    return fetchGifs(url);
+      const cacheStorage = await caches.open('trending');
+      const cachedResponse = await cacheStorage.match(url.toString());
+
+      if (cachedResponse) {
+        const gifs: GifsResult = await cachedResponse.json();
+        return convertResponseToModel(gifs.data);
+      }
+
+      const response = await fetch(url);
+
+      if (response.ok) {
+        await cacheStorage.put(url, response.clone());
+        const gifs: GifsResult = await response.json();
+        return convertResponseToModel(gifs.data);
+      } else {
+        throw new Error('Failed to fetch');
+      }
+    } catch (e) {
+      return [];
+    }
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
