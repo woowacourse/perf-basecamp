@@ -20,9 +20,13 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   const renderGifList = useMemo(
     () => (
       <div className={styles.gifResultWrapper}>
-        {gifList.map((gif: GifImageModel) => (
-          <MemoizedGifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
-        ))}
+        {gifList.length
+          ? gifList.map((gif: GifImageModel) => (
+              <MemoizedGifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+            ))
+          : Array.from({ length: 16 }).map((_, index) => (
+              <MemoizedGifItem key={index} imageUrl="" title="" />
+            ))}
       </div>
     ),
     [gifList]
