@@ -16,12 +16,6 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     clean: true
   },
-  devServer: {
-    hot: true,
-    open: true,
-    historyApiFallback: true
-  },
-  // devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -78,7 +72,9 @@ module.exports = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
           options: {
-            plugins: [['webp', { preset: 'photo', quality: 40 }]]
+            plugins: [
+              ['webp', { preset: 'photo', quality: 40, resize: { width: 1920, height: 1280 } }]
+            ]
           }
         }
       })
