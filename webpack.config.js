@@ -13,6 +13,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
+    // 파일의 내용이 변경될 때마다 contenthash 값이 바뀜. 내용이 동일하면 hash 값도 동일하게 유지됨
     filename: '[name].[contenthash].js',
     chunkFilename: '[name].[contenthash].chunk.js',
     path: path.join(__dirname, '/dist'),
