@@ -25,11 +25,6 @@ module.exports = () => {
             test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
             name: 'react',
             chunks: 'all'
-          },
-          reactIcons: {
-            test: /[\\/]node_modules[\\/](react-icons)[\\/]/,
-            name: 'react-icons',
-            chunks: 'all'
           }
         },
         chunks: 'all'
