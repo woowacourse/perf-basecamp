@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.responsive.jpg';
+import heroImage from '../../assets/images/hero.responsive.png';
 import trendingGif from '../../assets/images/trending.gif?as=webp';
 import findGif from '../../assets/images/find.gif?as=webp';
 import freeGif from '../../assets/images/free.gif?as=webp';
