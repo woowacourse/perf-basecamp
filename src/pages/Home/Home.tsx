@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage from '@assets/images/hero.webp';
-import trendingVideo from '@assets/videos/trending.webm';
-import findVideo from '@assets/videos/find.webm';
-import freeVideo from '@assets/videos/free.webm';
+import trendingVideo from '@assets/videos/trending.mp4';
+import findVideo from '@assets/videos/find.mp4';
+import freeVideo from '@assets/videos/free.mp4';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
