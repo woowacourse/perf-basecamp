@@ -12,16 +12,16 @@
   position: fixed;
   top: 0;
   right: 0;
-  transform: translateX(320px);
+  transform: translateX(100%);
   width: 320px;
   height: 100%;
   z-index: 10;
   background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   opacity: 0;
-  transition: 0.5s all cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: 0.6s transform cubic-bezier(0.82, 0.085, 0.395, 0.895),
+    0.6s opacity cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  will-change: transform, opacity;
 }
 
 .selectedItemContainer.showSheet {
