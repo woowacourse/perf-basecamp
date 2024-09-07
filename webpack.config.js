@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const { name } = require('file-loader');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -43,6 +44,25 @@ module.exports = {
         }
       },
       {
+        test: /\.responsive.(jpg|jpe?g|png|webp)$/i,
+        type: 'javascript/auto',
+        use: [
+          {
+            loader: 'responsive-loader',
+            options: {
+              adapter: require('responsive-loader/sharp'),
+              format: 'webp',
+              name: '[name]-[width]w.[ext]',
+              sizes: [1440, 1020, 768, 425],
+              placeholder: true,
+              placeholderSize: 20,
+              quality: 60,
+              outputPath: 'static'
+            }
+          }
+        ]
+      },
+      {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         loader: 'file-loader',
         options: {
@@ -76,10 +96,38 @@ module.exports = {
         }
       }),
       new ImageMinimizerPlugin({
+        generator: [
+          {
+            preset: 'webp',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                webp: {
+                  quality: 60
+                }
+              }
+            }
+          },
+          {
+            preset: 'jpg',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                jpg: {
+                  quality: 50
+                }
+              }
+            }
+          }
+        ],
         minimizer: {
-          implementation: ImageMinimizerPlugin.imageminGenerate,
+          implementation: ImageMinimizerPlugin.sharpMinify,
           options: {
-            plugins: [['imagemin-webp', { quality: 75 }]]
+            encodeOptions: {
+              webp: { quality: 60 },
+              jpg: { quality: 60 },
+              gift: {}
+            }
           }
         }
       })
