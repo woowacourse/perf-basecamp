@@ -22,11 +22,37 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   });
 };
 
+type CacheEntry<T> = {
+  data: T;
+  expiry: number;
+};
+
+const cache: Record<string, CacheEntry<GifImageModel[]>> = {};
+const CACHE_DURATION = 5 * 60 * 1000; // 5분
+
 const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+  const cacheKey = url.toString(); // URL을 기반으로 캐시 키 생성
+
+  // 1. 캐시 확인
+  const cachedData = cache[cacheKey];
+  const now = Date.now();
+
+  if (cachedData && cachedData.expiry > now) {
+    return cachedData.data;
+  }
+
   try {
     const gifs = await apiClient.fetch<GifsResult>(url);
 
-    return convertResponseToModel(gifs.data);
+    const gifModels = convertResponseToModel(gifs.data);
+
+    // 3. API 요청 결과를 캐시에 저장 (5분 동안 유효)
+    cache[cacheKey] = {
+      data: gifModels,
+      expiry: now + CACHE_DURATION
+    };
+
+    return gifModels;
   } catch (error) {
     if (error instanceof ApiError) {
       console.error(`API Error: ${error.status} - ${error.message}`);
