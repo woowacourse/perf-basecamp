@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import './Footer.module.css';
 
 const Footer = () => {
@@ -11,4 +12,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);
