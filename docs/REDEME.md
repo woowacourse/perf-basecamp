@@ -20,13 +20,13 @@
 - [x] 히어로 이미지 크기 < 120kb
 - [] 프랑스 파리에서 Fast 3G 환경으로 접속했을 때 Home 두 번째 이후 로드시 LCP < 1.2s
   - WebPageTest에서 Paris - EC2 Chrome CPU 6x slowdown Network Fast 3G 환경 기준으로 확인
-- [] Layout Shift 없이 애니메이션이 일어나야한다
+- [x] Layout Shift 없이 애니메이션이 일어나야한다
   - [x] CustomCursor
-  - [] 검색 결과 -> hover
-  - [] 도움말 패널 열고 닫기
-- [] Chrome CPU 6x slowdown Network Fast 3G 환경에서 화면 버벅임 최소화 (대상: 메인 페이지 CustomCursor, 스크롤 애니메이션)
-  - [] Dropped Frame 없음.
-  - [] Partially Presented Frame 최소화.
+  - [x] 검색 결과 -> hover
+  - [x] 도움말 패널 열고 닫기
+- [x] Chrome CPU 6x slowdown Network Fast 3G 환경에서 화면 버벅임 최소화 (대상: 메인 페이지 CustomCursor, 스크롤 애니메이션)
+  - [x] Dropped Frame 없음.
+  - [x] Partially Presented Frame 최소화.
 
 ## 성능 개선을 위한 목록
 
@@ -39,8 +39,10 @@
     - css 파일 압축 :CssMinimizerPlugin
 - [x] 이미지 크기 줄이기
   - 이미지 포맷 변경: webp
-    // TODO
-  - 화면 크기에 따라 이미지 크기 변경 :
+  - 화면 크기에 따라 다른 크기의 이미지 적용
+  - hero preload
+- [x] 폰트 로딩 속도 개선
+  - subset 추가 적용
 
 도구
 
