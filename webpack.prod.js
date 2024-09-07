@@ -39,10 +39,10 @@ module.exports = merge(common, {
           implementation: ImageMinimizerPlugin.sharpMinify,
           options: {
             encodeOptions: {
-              webp: { quality: 80 },
-              png: { quality: 80 },
-              gif: { quality: 80 },
-              jpeg: { quality: 80 }
+              webp: { quality: 60 },
+              png: { quality: 60 },
+              gif: { quality: 60 },
+              jpeg: { quality: 60 }
             }
           }
         }
