@@ -5,19 +5,38 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'] // 공통 확장자 처리
+  },
   output: {
     filename: 'bundle.js',
-    path: path.join(__dirname, '/dist'),
-    clean: true
+    path: path.resolve(__dirname, 'dist'), // 공통 출력 경로
+    clean: true // dist 폴더 청소
   },
-  cache: false,
-  devServer: {
-    hot: true,
-    open: true,
-    historyApiFallback: true
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx|ts|tsx)$/i,
+        exclude: /node_modules/,
+        use: 'ts-loader' // 공통 TypeScript 처리
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'] // 개발 환경에서는 style-loader 사용
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|mp4|webm)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'static/[name].[ext]' // 공통 이미지 처리
+            }
+          }
+        ]
+      }
+    ]
   },
-  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -26,30 +45,5 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv()
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx|ts|tsx)$/i,
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
-        }
-      },
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
-      }
-    ]
-  },
-  optimization: {
-    minimize: false
-  }
+  ]
 };
