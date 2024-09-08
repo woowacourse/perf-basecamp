@@ -15,9 +15,9 @@ export default class CacheService {
     this.defaultCacheDuration = defaultCacheDuration;
   }
 
-  async set(
+  async set<T>(
     key: string,
-    value: any,
+    value: T,
     cacheDuration: number = this.defaultCacheDuration
   ): Promise<void> {
     const cache = await caches.open(this.cacheName);
@@ -41,7 +41,7 @@ export default class CacheService {
 
     const data = await response.json();
 
-    if (Date.now() > data.expiry) {
+    if (Date.now() > data.cacheExpireTime) {
       await cache.delete(key);
       return null;
     }
