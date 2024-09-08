@@ -6,6 +6,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const CompressionPlugin = require('compression-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -13,7 +14,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -39,7 +40,19 @@ module.exports = {
     }),
     new CompressionPlugin({ algorithm: 'gzip' }),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: '[name].[contenthash].css'
+    }),
+    new ImageMinimizerPlugin({
+      minimizer: {
+        implementation: ImageMinimizerPlugin.sharpMinify,
+        options: {
+          encodeOptions: {
+            webp: {
+              quality: 40
+            }
+          }
+        }
+      }
     })
   ],
   module: {
