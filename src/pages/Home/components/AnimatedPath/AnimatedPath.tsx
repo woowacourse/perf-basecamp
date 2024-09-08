@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { clamp } from '../../../../utils/number';
 import useScrollEvent from '../../hooks/useScrollEvent';
 
@@ -13,25 +13,37 @@ const TOP_PERCENTAGE_OF_DRAW_POINT = 0.8; // 현재 보이는 화면의 80% 지�
 const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   const pathRef = useRef<SVGPathElement>(null);
   const [strokeOffset, setStrokeOffset] = useState(0);
+  const animationRef = useRef<number | null>(null);
 
   const drawPath = () => {
     const wrapper = wrapperRef.current;
     const path = pathRef.current;
 
-    if (!wrapper || !path) {
-      return;
-    }
+    if (!wrapper || !path) return;
 
     const drawPointY = window.scrollY + window.innerHeight * TOP_PERCENTAGE_OF_DRAW_POINT;
     const scrollRatio = (drawPointY - wrapper.offsetTop) / wrapper.offsetHeight;
-
-    const pathLength = pathRef.current.getTotalLength();
+    const pathLength = path.getTotalLength();
     const currentScrollOffset = pathLength - pathLength * scrollRatio;
 
-    setStrokeOffset(clamp(currentScrollOffset, 0, pathLength));
+    // requestAnimationFrame으로 스크롤 이벤트 최적화
+    if (animationRef.current !== null) {
+      cancelAnimationFrame(animationRef.current);
+    }
+    animationRef.current = requestAnimationFrame(() => {
+      setStrokeOffset(clamp(currentScrollOffset, 0, pathLength));
+    });
   };
 
   useScrollEvent(drawPath);
+
+  useEffect(() => {
+    return () => {
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
 
   return (
     <svg
