@@ -4,6 +4,7 @@ declare module '*.gif';
 declare module '*.svg';
 declare module '*.webp';
 declare module '*as=webp';
+declare module '*as=jpg';
 
 interface ResponsiveImageOutput {
   src: string;
