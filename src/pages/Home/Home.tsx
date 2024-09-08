@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import findGif from '../../assets/images/find.gif?as=webp';
 import freeGif from '../../assets/images/free.gif?as=webp';
-import heroImage from '../../assets/images/hero.png?as=webp&w=1980';
+import heroImage from '../../assets/images/hero.png?as=webp&w=1920';
 import trendingGif from '../../assets/images/trending.gif?as=webp';
 
 import AnimatedPath from './components/AnimatedPath/AnimatedPath';
@@ -22,7 +22,7 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <div className={styles.imageWrapper}>
-          <img className={styles.heroImage} src={heroImage} alt="hero image" fetchPriority="high" />
+          <img className={styles.heroImage} src={heroImage} alt="hero image" />
         </div>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>

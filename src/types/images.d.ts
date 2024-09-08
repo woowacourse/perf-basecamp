@@ -7,7 +7,7 @@ declare module '*.png?as=webp' {
   const value: string;
   export default value;
 }
-declare module '*.png?as=webp&w=1980' {
+declare module '*.png?as=webp&w=1920' {
   const value: string;
   export default value;
 }

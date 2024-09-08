@@ -33,8 +33,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
-    new Dotenv()
-    // new BundleAnalyzerPlugin()
+    new Dotenv(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -71,7 +71,7 @@ module.exports = {
       }
     ]
   },
-  devtool: isDev ? 'eval-source-map' : 'source-map',
+  devtool: isDev ? 'eval-source-map' : false,
   optimization: {
     usedExports: true,
     splitChunks: {
