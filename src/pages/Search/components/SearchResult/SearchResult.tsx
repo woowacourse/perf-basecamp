@@ -16,9 +16,11 @@ type SearchResultProps = {
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   const renderGifList = () => (
     <div className={styles.gifResultWrapper}>
-      {gifList.map((gif: GifImageModel) => (
-        <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
-      ))}
+      {gifList.length === 0
+        ? Array.from({ length: 16 }).map((_, idx) => <GifItem key={idx} imageUrl="" title="" />)
+        : gifList.map((gif: GifImageModel) => (
+            <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+          ))}
     </div>
   );
 
