@@ -14,7 +14,7 @@ import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 import heroMobileImage from '../../assets/images/hero-375w.webp';
 import heroTabletImage from '../../assets/images/hero-768w.webp';
 import heroDesktopImage from '../../assets/images/hero-1000w.webp';
-import heroFullImage from '../../assets/images/hero-1980w.webp';
+import heroFullImage from '../../assets/images/hero-1920w.webp';
 
 import styles from './Home.module.css';
 
@@ -33,7 +33,7 @@ const Home = () => {
       ${heroMobileImage} 375w,
       ${heroTabletImage} 768w,
       ${heroDesktopImage} 1000w,
-      ${heroFullImage} 1980w,
+      ${heroFullImage} 1920w,
     `}
               type="image/webp"
             />
