@@ -11,7 +11,7 @@ const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
       <img className={styles.gifImage} src={imageUrl} />
       <div className={styles.gifTitleContainer}>
         <div className={styles.gifTitleBg}></div>
-        <h4 className={styles.gifTitle}>{title}</h4>
+        <p className={styles.gifTitle}>{title}</p>
       </div>
     </div>
   );

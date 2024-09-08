@@ -24,7 +24,7 @@ const Home = () => {
         <img className={styles.heroImage} src={heroImage} alt="hero image" />
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
-          <h3 className={styles.subtitle}>gif search engine for you</h3>
+          <h2 className={styles.subtitle}>gif search engine for you</h2>
         </div>
         <Link to="/search">
           <button className={cx('cta', 'linkButton')}>start search</button>

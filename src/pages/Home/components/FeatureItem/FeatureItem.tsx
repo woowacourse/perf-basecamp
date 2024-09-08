@@ -13,7 +13,7 @@ const FeatureItem = ({ title, videoSrc }: FeatureItemProps) => {
         현재 브라우저에서는 video 태그가 지원되지 않습니다. 😢
       </video>
       <div className={styles.featureTitleBg}></div>
-      <h4 className={styles.featureTitle}>{title}</h4>
+      <p className={styles.featureTitle}>{title}</p>
     </div>
   );
 };
