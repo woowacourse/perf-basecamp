@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -30,7 +31,8 @@ module.exports = {
     new CompressionPlugin({
       algorithm: 'gzip',
       exclude: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|txt|map|ico|webm|avif)$/i
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
