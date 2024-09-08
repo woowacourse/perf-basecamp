@@ -1,19 +1,10 @@
-.searchResultSection {
-  min-height: 90vh;
-  max-width: 1180px;
-  margin: 0 auto;
-}
-
 .gifResultWrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   gap: 1.25rem;
-  padding-bottom: 5rem;
 }
 
 .loadMoreButton {
-  width: 100%;
   height: 3.5rem;
   background: var(--radial-gradient);
   font-style: normal;
@@ -25,7 +16,8 @@
   cursor: pointer;
   border: none;
   margin-bottom: 2.5rem;
-  transition: all 0.5s ease-in-out 0s;
+  transition: transform 0.5s ease-in-out 0s;
+  width: 100%;
 }
 
 .loadMoreButton:hover {
