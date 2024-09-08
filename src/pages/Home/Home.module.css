@@ -1,14 +1,14 @@
 .heroSection {
   position: relative;
   color: var(--white);
-  width: 100%;
-  height: 46.5rem;
+  width: 100vw;
   padding-top: 3.5rem;
 }
 
 .heroImage {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  max-height: 46.5rem;
+  display: block;
 }
 
 .projectTitle {
@@ -68,7 +68,7 @@
 .featureSection {
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
   padding: 3.75rem 0;
   text-align: center;
   background: linear-gradient(
