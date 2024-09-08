@@ -2,7 +2,9 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.webp';
+import heroImage_L from '../../assets/images/hero_L.webp';
+import heroImage_M from '../../assets/images/hero_M.webp';
+import heroImage_S from '../../assets/images/hero_S.webp';
 import trendingGif from '../../assets/images/trending.webm';
 import findGif from '../../assets/images/find.webm';
 import freeGif from '../../assets/images/free.webm';
@@ -17,15 +19,23 @@ const cx = classNames.bind(styles);
 
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
-
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source
+            srcSet={`${heroImage_S} 375w, ${heroImage_M} 768w,${heroImage_L} 1980w`}
+            sizes="(max-width: 375px) 375px, (max-width: 768px) 768px, (max-width: 1980px) 1980px, 100vw"
+            type="image/webp"
+          />
+          <img className={styles.heroImage} src={heroImage_L} alt="hero image" sizes="100vw" />
+        </picture>
+
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
-          <h3 className={styles.subtitle}>gif search engine for you</h3>
+          <h2 className={styles.subtitle}>gif search engine for you</h2>
         </div>
+
         <Link to="/search">
           <button className={cx('cta', 'linkButton')}>start search</button>
         </Link>
