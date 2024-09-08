@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'Josefin Sans';
+  font-family: 'Josefin Sans', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -7,7 +7,7 @@
 }
 
 @font-face {
-  font-family: 'Josefin Sans';
+  font-family: 'Josefin Sans', Arial, sans-serif;
   font-style: italic;
   font-weight: 400;
   font-display: swap;
@@ -15,7 +15,7 @@
 }
 
 @font-face {
-  font-family: 'Josefin Sans';
+  font-family: 'Josefin Sans', Arial, sans-serif;
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -23,7 +23,7 @@
 }
 
 @font-face {
-  font-family: 'Josefin Sans';
+  font-family: 'Josefin Sans', Arial, sans-serif;
   font-style: italic;
   font-weight: 700;
   font-display: swap;
