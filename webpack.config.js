@@ -33,7 +33,10 @@ module.exports = {
       exclude: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|txt|map|ico|webm|avif)$/i
     }),
     new BundleAnalyzerPlugin({
-      analyzerMode: 'static'
+      analyzerMode: 'static',
+      statsFilename: 'bundle-report.json',
+      reportFilename: 'bundle-report.html',
+      excludeAssets: [/node_modules/]
     })
   ],
   module: {
