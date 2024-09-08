@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import { HeroOriginal, HeroDesktop, HeroMobile } from '../../assets/images/hero';
+import { HeroDesktop, HeroMobile } from '../../assets/images/hero';
 import { Trending, Find, Free } from '../../assets/images/video';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
@@ -22,11 +22,17 @@ const Home = () => {
         <picture>
           <source
             type="image/webp"
-            src={HeroOriginal}
-            srcSet={`${HeroMobile} 768w, ${HeroDesktop} 1440w, ${HeroOriginal} 4100w`}
-            sizes="(max-width:768px) 100vw, (max-width:1440px) 100vw, 100vw"
+            src={HeroDesktop}
+            srcSet={`${HeroMobile} 768w, ${HeroDesktop} 1440w`}
+            sizes="(max-width:768px) 100vw, 100vw"
           />
-          <img className={styles.heroImage} src={HeroOriginal} alt="hero image" />
+          <img
+            className={styles.heroImage}
+            src={HeroDesktop}
+            alt="hero image"
+            width="1440"
+            height="960"
+          />
         </picture>
 
         <div className={styles.projectTitle}>
