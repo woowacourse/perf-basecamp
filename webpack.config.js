@@ -32,7 +32,9 @@ module.exports = {
       algorithm: 'gzip',
       exclude: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|txt|map|ico|webm|avif)$/i
     }),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static'
+    })
   ],
   module: {
     rules: [
