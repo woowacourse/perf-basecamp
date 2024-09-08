@@ -63,9 +63,7 @@ module.exports = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
           options: {
-            plugins: [
-              ['webp', { preset: 'photo', quality: 50, resize: { width: 2040, height: 1376 } }]
-            ]
+            plugins: [['webp', { preset: 'photo', quality: 50 }]]
           }
         }
       })
