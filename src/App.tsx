@@ -13,7 +13,7 @@ const App = () => {
   return (
     <Router basename={'/'}>
       <NavBar />
-      <Suspense fallback={<div>...loading</div>}>
+      <Suspense fallback={<div style={{ height: '100vh', width: '100vw' }}>...loading</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
