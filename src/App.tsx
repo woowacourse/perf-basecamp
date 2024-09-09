@@ -12,14 +12,14 @@ import './App.css';
 const App = () => {
   return (
     <Router>
+      <NavBar />
       <Suspense fallback={<div>로딩중!</div>}>
-        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
-        <Footer />
       </Suspense>
+      <Footer />
     </Router>
   );
 };
