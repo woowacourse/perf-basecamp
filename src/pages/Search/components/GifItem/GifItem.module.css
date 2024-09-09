@@ -9,9 +9,9 @@
     rgba(232, 109, 198, 0.1) 97.71%
   );
   overflow: hidden;
+  transform: translateZ(0);
   transition: transform 0.2s ease-in;
   border-radius: 4%;
-  will-change: transform;
 }
 
 .gifItem:hover {
