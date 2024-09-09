@@ -1,12 +1,12 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const isDevMode = process.env.NODE_ENV?.includes('dev');
+const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 const plugins = [
   new webpack.EnvironmentPlugin({
@@ -64,7 +64,7 @@ module.exports = {
       },
 
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         use: [
           {
             loader: 'file-loader',
@@ -79,12 +79,6 @@ module.exports = {
                 enabled: true
               },
               enforce: 'pre'
-            }
-          },
-          {
-            loader: 'webp-loader',
-            options: {
-              quality: 80
             }
           }
         ]
