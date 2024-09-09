@@ -20,7 +20,7 @@ export const useScrollTop = <T extends HTMLElement>(): UseScrollTopReturn<T> => 
     return () => {
       targetRef.current?.removeEventListener('scroll', trackScrollTop);
     };
-  });
+  }, []);
 
   return {
     targetRef,

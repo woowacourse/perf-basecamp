@@ -1,11 +1,11 @@
-import { memo } from 'react';
+import { type CSSProperties, memo } from 'react';
 import { Artist } from '../../../../models/help/artist';
 
 import styles from './ArtistInfo.module.css';
 
 export type ArtistProps = {
   artist: Artist;
-  style: any;
+  style: CSSProperties;
 };
 
 const ArtistInfo = ({ artist, style }: ArtistProps) => {
