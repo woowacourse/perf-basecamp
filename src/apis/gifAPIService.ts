@@ -3,6 +3,7 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import { getCacheDataOrFetch } from './cacheAPI';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -12,6 +13,7 @@ if (!API_KEY) {
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
+// 리스폰스 변환
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
@@ -22,6 +24,7 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   });
 };
 
+// 요청
 const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   try {
     const gifs = await apiClient.fetch<GifsResult>(url);
@@ -44,13 +47,15 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    const cacheKey = `${BASE_URL}/trending?api_key=${API_KEY}&limit=${DEFAULT_FETCH_COUNT}&rating=g`;
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return getCacheDataOrFetch<GifImageModel[]>(cacheKey, () => fetchGifs(url));
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
