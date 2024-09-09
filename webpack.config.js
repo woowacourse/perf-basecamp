@@ -2,6 +2,10 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const isDevMode = process.env.NODE_ENV === 'development';
 
 module.exports = {
   entry: './src/index.tsx',
@@ -16,15 +20,25 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: isDevMode ? 'source-map' : false,
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      minify: {
+        collapseWhitespace: true, // 빈칸 제거
+        removeComments: true // 주석 제거
+      },
+      template: './index.html',
+      hash: true
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin({
+      filename: ({ chunk }) => `${chunk.name.replace('/js/', '/css/')}.css`,
+      chunkFilename: '[id].[contenthash].css'
+    }),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -37,10 +51,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -49,6 +63,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true
   }
 };
