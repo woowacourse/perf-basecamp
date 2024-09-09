@@ -1,10 +1,9 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import { cacheService } from '../../../utils/cacheService';
 
 const DEFAULT_PAGE_INDEX = 0;
-const TRENDING_CACHE_EXPIRY = 10 * 60 * 1000; // 24 hours in milliseconds
-const TRENDING_CACHE_KEY = 'trendingGifs';
 
 export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
@@ -15,30 +14,6 @@ export const SEARCH_STATUS = {
 } as const;
 
 export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
-
-interface CachedData {
-  gifs: GifImageModel[];
-  timestamp: number;
-}
-
-const getTrendingCache = (): GifImageModel[] | null => {
-  const storedData = localStorage.getItem(TRENDING_CACHE_KEY);
-  if (storedData) {
-    const { gifs, timestamp } = JSON.parse(storedData) as CachedData;
-    if (Date.now() - timestamp < TRENDING_CACHE_EXPIRY) {
-      return gifs;
-    }
-  }
-  return null;
-};
-
-const setTrendingCache = (gifs: GifImageModel[]) => {
-  const cacheData: CachedData = {
-    gifs,
-    timestamp: Date.now()
-  };
-  localStorage.setItem(TRENDING_CACHE_KEY, JSON.stringify(cacheData));
-};
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -60,11 +35,11 @@ const useGifSearch = () => {
 
   const handleError = (error: unknown) => {
     setStatus(SEARCH_STATUS.ERROR);
-    setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred');
+    setErrorMessage(error instanceof Error ? error.message : '에러가 발생했습니다.');
   };
 
   const fetchTrendingGifs = async () => {
-    const cachedGifs = getTrendingCache();
+    const cachedGifs = await cacheService.getTrendingCache();
     if (cachedGifs) {
       setGifList(cachedGifs);
       setStatus(SEARCH_STATUS.FOUND);
@@ -76,7 +51,7 @@ const useGifSearch = () => {
       const gifs = await gifAPIService.getTrending();
       setGifList(gifs);
       setStatus(SEARCH_STATUS.FOUND);
-      setTrendingCache(gifs);
+      await cacheService.setTrendingCache(gifs);
     } catch (error) {
       handleError(error);
     }
@@ -84,12 +59,19 @@ const useGifSearch = () => {
 
   const searchByKeyword = async (): Promise<void> => {
     if (!searchKeyword.trim()) {
-      fetchTrendingGifs(); // 검색어가 비어있으면 trending GIFs를 보여줌
+      fetchTrendingGifs();
       return;
     }
 
     resetSearch();
     try {
+      const cachedGifs = await cacheService.getCachedResponse(searchKeyword);
+      if (cachedGifs) {
+        setGifList(cachedGifs);
+        setStatus(SEARCH_STATUS.FOUND);
+        return;
+      }
+
       const gifs = await gifAPIService.searchByKeyword(searchKeyword, DEFAULT_PAGE_INDEX);
 
       if (gifs.length === 0) {
@@ -99,6 +81,7 @@ const useGifSearch = () => {
 
       setGifList(gifs);
       setStatus(SEARCH_STATUS.FOUND);
+      await cacheService.cacheResponse(searchKeyword, gifs);
     } catch (error) {
       handleError(error);
     }
@@ -109,7 +92,6 @@ const useGifSearch = () => {
 
     try {
       const newGifList = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
-
       setGifList((prevGifList) => [...prevGifList, ...newGifList]);
       setCurrentPageIndex(nextPageIndex);
     } catch (error) {
@@ -119,7 +101,7 @@ const useGifSearch = () => {
 
   useEffect(() => {
     fetchTrendingGifs();
-  }, []); // 컴포넌트 마운트 시 한 번만 실행
+  }, []);
 
   return {
     status,
