@@ -32,7 +32,7 @@ module.exports = {
       filename: '[name].css'
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin({ defaultSizes: 'gzip' })
   ],
   module: {
     rules: [
