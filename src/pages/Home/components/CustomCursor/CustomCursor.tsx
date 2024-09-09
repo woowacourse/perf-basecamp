@@ -11,11 +11,24 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const [...cursorTextChars] = text;
   const mousePosition = useMousePosition();
   const cursorRef = useRef<HTMLDivElement>(null);
+  const requestRef = useRef<number | null>(null);
 
-  useEffect(() => {
+  const updateCursorPosition = () => {
     if (cursorRef.current) {
       cursorRef.current.style.transform = `translate(${mousePosition.pageX}px, ${mousePosition.pageY}px)`;
     }
+
+    requestRef.current = requestAnimationFrame(updateCursorPosition);
+  };
+
+  useEffect(() => {
+    requestRef.current = requestAnimationFrame(updateCursorPosition);
+
+    return () => {
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+    };
   }, [mousePosition]);
 
   return (
