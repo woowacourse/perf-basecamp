@@ -11,7 +11,7 @@ export const apiClient = {
     if (!response.ok) {
       throw new ApiError(response.status, `HTTP error! status: ${response.status}`);
     }
-    return response.json();
+    return await response.json();
   },
 
   appendSearchParams: (url: URL, params: Record<string, string>): URL => {

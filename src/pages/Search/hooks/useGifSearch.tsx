@@ -2,8 +2,10 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import CacheService from '@utils/cacheService';
 
 const DEFAULT_PAGE_INDEX = 0;
+const CACHE_KEY = 'trending-gifs';
 
 export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
@@ -21,6 +23,8 @@ const useGifSearch = () => {
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const cacheService = new CacheService({ cacheName: CACHE_KEY });
 
   const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.target.value);
@@ -74,8 +78,16 @@ const useGifSearch = () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
       try {
+        const cachedGifs = await cacheService.get<GifImageModel[]>(CACHE_KEY);
+        if (cachedGifs) {
+          setGifList(cachedGifs);
+          return;
+        }
+
         const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
+
+        await cacheService.set(CACHE_KEY, gifs);
       } catch (error) {
         handleError(error);
       }

@@ -1,14 +1,14 @@
-import React from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
+import React, { memo } from 'react';
+import { AiOutlineSearch } from '@react-icons/all-files/ai/AiOutlineSearch';
 
 import styles from './SearchBar.module.css';
 
-type SearchbarProps = {
+interface SearchbarProps {
   searchKeyword: string;
   onEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch: () => void;
-};
+}
 
 const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProps) => {
   return (
@@ -30,4 +30,4 @@ const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProp
   );
 };
 
-export default SearchBar;
+export default memo(SearchBar);
