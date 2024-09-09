@@ -4,6 +4,7 @@ import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
 
 const DEFAULT_PAGE_INDEX = 0;
+const TRENDING_CACHE_KEY = 'trendingGifs';
 
 export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
@@ -60,13 +61,24 @@ const useGifSearch = () => {
     const nextPageIndex = currentPageIndex + 1;
 
     try {
-      const newGitList = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
+      const newGifList = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
 
-      setGifList((prevGifList) => [...prevGifList, ...newGitList]);
+      setGifList((prevGifList) => [...prevGifList, ...newGifList]);
       setCurrentPageIndex(nextPageIndex);
     } catch (error) {
       handleError(error);
     }
+  };
+
+  const getCachedTrending = (): GifImageModel[] | null => {
+    const cachedData = localStorage.getItem(TRENDING_CACHE_KEY);
+    if (!cachedData) return null;
+
+    return JSON.parse(cachedData);
+  };
+
+  const setCachedTrending = (gifs: GifImageModel[]): void => {
+    localStorage.setItem(TRENDING_CACHE_KEY, JSON.stringify(gifs));
   };
 
   useEffect(() => {
@@ -74,8 +86,15 @@ const useGifSearch = () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
       try {
+        const cachedGifs = getCachedTrending();
+        if (cachedGifs) {
+          setGifList(cachedGifs);
+          return;
+        }
+
         const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
+        setCachedTrending(gifs);
       } catch (error) {
         handleError(error);
       }
