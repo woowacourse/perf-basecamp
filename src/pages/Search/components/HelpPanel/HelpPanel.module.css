@@ -24,7 +24,7 @@
 }
 
 .selectedItemContainer.showSheet {
-  right: 0;
+  transform: translateX(-320px);
   opacity: 1;
 }
 
@@ -41,7 +41,7 @@
 
 .sheetContentsContainer {
   padding: 20px 16px 80px 16px;
-  height: 100%;
+  height: 875px;
   line-height: 1.5rem;
   overflow-y: scroll;
 }
