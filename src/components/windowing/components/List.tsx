@@ -37,11 +37,10 @@ const List = <T,>({
   const estimatedHeight = itemHeight * dataList.length;
 
   return (
-    <ul style={{ height: estimatedHeight }}>
+    <ul style={{ height: estimatedHeight, transform: `translateY(${scrollOffset}px)` }}>
       {dataList.slice(start, end).map((data, index) => {
         const style = {
-          height: itemHeight,
-          transform: `translateY(${scrollOffset}px)`
+          height: itemHeight
         };
 
         return children({ index, data, style });

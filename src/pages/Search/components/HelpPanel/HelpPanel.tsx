@@ -7,7 +7,7 @@ import { getArtists } from './artistUtil';
 
 import styles from './HelpPanel.module.css';
 import { Scroller, List } from '../../../../components/windowing';
-import ArtistInfo from '../ArtistInfo/ArtistInfo';
+import { MemoizedArtistInfo } from '../ArtistInfo/ArtistInfo';
 
 const cx = classNames.bind(styles);
 
@@ -57,7 +57,9 @@ const HelpPanel = () => {
           </div>
           <section>
             <List itemHeight={76} dataList={artists} offsetTop={597}>
-              {({ data, style, index }) => <ArtistInfo key={index} artist={data} style={style} />}
+              {({ data, style }) => (
+                <MemoizedArtistInfo key={data.id} artist={data} style={style} />
+              )}
             </List>
           </section>
         </Scroller>

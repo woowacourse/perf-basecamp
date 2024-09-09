@@ -30,9 +30,8 @@ const DUMMY_ARTISTS: Artist[] = [
   }
 ];
 
-const artists = Array.from(
-  { length: DUMMY_ARTISTS_LENGTH },
-  (_v, k) => DUMMY_ARTISTS[k % DUMMY_ARTISTS.length]
-);
+const artists = Array.from({ length: DUMMY_ARTISTS_LENGTH }, (_v, k) => {
+  return { id: k, ...DUMMY_ARTISTS[k % DUMMY_ARTISTS.length] };
+});
 
 export const getArtists = () => artists;
