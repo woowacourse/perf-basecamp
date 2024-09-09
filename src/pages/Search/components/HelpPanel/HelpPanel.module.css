@@ -10,7 +10,7 @@
 
 .selectedItemContainer {
   position: fixed;
-  right: 0; /* right를 고정 */
+  right: 0;
   top: 0;
   width: 320px;
   height: 100%;
@@ -18,14 +18,13 @@
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  transform: translateX(320px); /* 요소를 화면 밖으로 이동 */
+  transform: translate3d(320px, 0, 0);
   opacity: 0;
-  transition: 0.5s all cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  transition: transform 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895), opacity 0.5s ease;
 }
 
 .selectedItemContainer.showSheet {
-  transform: translateX(0);
+  transform: translate3d(0, 0, 0);
   opacity: 1;
 }
 
