@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import { getCache, setCache } from '../../../utils/cacheStorage';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -73,14 +74,20 @@ const useGifSearch = () => {
     const fetchTrending = async () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
+      const cachedGifs = getCache<GifImageModel[]>('trendingCache');
+      if (cachedGifs) {
+        setGifList(cachedGifs);
+        return;
+      }
+
       try {
         const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
+        setCache('trendingCache', gifs);
       } catch (error) {
         handleError(error);
       }
     };
-
     fetchTrending();
   }, []);
 

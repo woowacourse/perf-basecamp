@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Artist } from '../../../../models/help/artist';
 
 import styles from './ArtistInfo.module.css';
@@ -11,7 +12,7 @@ const ArtistInfo = ({ artist }: ArtistProps) => {
 
   return (
     <li className={styles.artistContainer}>
-      <img className={styles.profileImage} src={profileImageUrl} />
+      <img className={styles.profileImage} src={profileImageUrl} alt="artist info image" />
       <p>
         <a className={styles.profileUrl} href={profileUrl}>
           {name}
@@ -21,4 +22,4 @@ const ArtistInfo = ({ artist }: ArtistProps) => {
   );
 };
 
-export default ArtistInfo;
+export default memo(ArtistInfo);
