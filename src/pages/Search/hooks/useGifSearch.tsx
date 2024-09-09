@@ -4,6 +4,8 @@ import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
 
 const DEFAULT_PAGE_INDEX = 0;
+const TRENDING_GIFS = 'trendingGifs';
+const CACHE_EXPIRATION = 1000 * 60 * 60 * 3; //3시간
 
 export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
@@ -73,9 +75,28 @@ const useGifSearch = () => {
     const fetchTrending = async () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
+      const cachedTrendingGifs = localStorage.getItem(TRENDING_GIFS);
+
+      if (cachedTrendingGifs) {
+        const { data, timestamp } = JSON.parse(cachedTrendingGifs);
+
+        if (Date.now() - timestamp < CACHE_EXPIRATION) {
+          setGifList(data);
+          return;
+        }
+      }
+
       try {
         const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
+
+        localStorage.setItem(
+          TRENDING_GIFS,
+          JSON.stringify({
+            data: gifs,
+            timestamp: Date.now()
+          })
+        );
       } catch (error) {
         handleError(error);
       }
