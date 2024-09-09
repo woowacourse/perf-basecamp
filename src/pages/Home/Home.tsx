@@ -7,9 +7,9 @@ import heroImageWpMedium from '../../assets/images/hero_medium.webp';
 import heroImageWpSmall from '../../assets/images/hero_small.webp';
 import heroImageWpLarge from '../../assets/images/hero.webp';
 
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+import trendingMp4 from '../../assets/images/trending.mp4';
+import findMp4 from '../../assets/images/find.mp4';
+import freeMp4 from '../../assets/images/free.mp4';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -46,9 +46,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem title="See trending mp4" imageSrc={trendingMp4} />
+            <FeatureItem title="Find mp4 for free" imageSrc={findMp4} />
+            <FeatureItem title="Free for everyone" imageSrc={freeMp4} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
