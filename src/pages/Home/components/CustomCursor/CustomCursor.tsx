@@ -12,10 +12,27 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const mousePosition = useMousePosition();
   const cursorRef = useRef<HTMLDivElement>(null);
 
+  const rafRef = useRef<number>();
+
   useEffect(() => {
-    if (cursorRef.current) {
-      cursorRef.current.style.transform = `translate(${mousePosition.pageX}px, ${mousePosition.pageY}px)`;
+    function updateCursorPosition() {
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${mousePosition.pageX}px, ${mousePosition.pageY}px)`;
+      }
     }
+
+    function animate() {
+      updateCursorPosition();
+      rafRef.current = requestAnimationFrame(animate);
+    }
+
+    rafRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, [mousePosition]);
 
   return (
