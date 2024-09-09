@@ -11,6 +11,8 @@ if (!API_KEY) {
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
+const CACHE_NAME = 'giphy-cache';
+const CACHE_EXPIRATION_TIME = 10 * 60 * 1000;
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
@@ -37,12 +39,32 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const cacheTrendingGifs = async (url: URL): Promise<GifImageModel[]> => {
+  const cache = await caches.open(CACHE_NAME);
+  const cachedResponse = await cache.match(url);
+
+  if (cachedResponse) {
+    const cachedData = await cachedResponse.json();
+    const cacheTime = cachedResponse.headers.get('cache-time');
+
+    if (cacheTime && Date.now() - Number(cacheTime) < CACHE_EXPIRATION_TIME) {
+      return convertResponseToModel(cachedData.data);
+    } else {
+      await cache.delete(url);
+    }
+  }
+
+  const gifs = await fetchGifs(url);
+
+  const responseToCache = new Response(JSON.stringify({ data: gifs }), {
+    headers: { 'cache-time': `${Date.now()}` }
+  });
+
+  cache.put(url, responseToCache);
+  return gifs;
+};
+
 export const gifAPIService = {
-  /**
-   * treding gif 목록을 가져옵니다.
-   * @returns {Promise<GifImageModel[]>}
-   * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
-   */
   getTrending: async (): Promise<GifImageModel[]> => {
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
@@ -50,15 +72,9 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return cacheTrendingGifs(url);
   },
-  /**
-   * 검색어에 맞는 gif 목록을 가져옵니다.
-   * @param {string} keyword
-   * @param {number} page
-   * @returns {Promise<GifImageModel[]>}
-   * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/search
-   */
+
   searchByKeyword: async (keyword: string, page: number): Promise<GifImageModel[]> => {
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/search`), {
       api_key: API_KEY,
