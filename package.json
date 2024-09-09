@@ -21,10 +21,10 @@
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.1",
     "@giphy/js-types": "^4.2.1",
+    "@react-icons/all-files": "^4.1.0",
     "classnames": "^2.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
@@ -65,7 +65,11 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react"
+      "@babel/preset-react",
+      {
+        "modules": false,
+        "sideEffect": "./src/*"
+      }
     ],
     "plugins": [
       "@babel/plugin-transform-runtime"
