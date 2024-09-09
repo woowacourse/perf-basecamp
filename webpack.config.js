@@ -12,6 +12,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 // CSS extract
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+// CSS minimizer
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
@@ -96,7 +99,8 @@ module.exports = {
             }
           }
         ]
-      })
+      }),
+      new CssMinimizerPlugin()
     ],
     splitChunks: {
       // 이는 webpack이 자동으로 생성하는 청크를 제어하는 방법을 지정합니다.
