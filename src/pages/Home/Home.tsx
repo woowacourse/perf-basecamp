@@ -37,9 +37,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trending_webm} />
-            <FeatureItem title="Find gif for free" imageSrc={find_webm} />
-            <FeatureItem title="Free for everyone" imageSrc={free_webm} />
+            <FeatureItem preload title="See trending gif" imageSrc={trending_webm} />
+            <FeatureItem preload title="Find gif for free" imageSrc={find_webm} />
+            <FeatureItem preload title="Free for everyone" imageSrc={free_webm} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
