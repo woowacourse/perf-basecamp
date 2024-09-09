@@ -50,11 +50,31 @@ module.exports = {
         use: [isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm|mp4)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'static/[name].[ext]'
+            }
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              optipng: {
+                optimitzationLevel: 5
+              },
+              pngquant: {
+                quality: [0.5, 0.8],
+                speed: 7
+              },
+              gifsicle: {
+                interlaced: false,
+                optimitzationLevel: 3
+              }
+            }
+          }
+        ]
       }
     ]
   },

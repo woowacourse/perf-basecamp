@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["src/*"]
+    },
     "target": "ES2015",
     "jsx": "react-jsx",
     "module": "esnext",
