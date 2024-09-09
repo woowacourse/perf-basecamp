@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import { getArtists } from './artistUtil';
 
 import styles from './HelpPanel.module.css';
-import { Scroller, List } from '../../../Test/windowing';
+import { Scroller, List } from '../../../../components/windowing';
 import ArtistInfo from '../ArtistInfo/ArtistInfo';
 
 const cx = classNames.bind(styles);
