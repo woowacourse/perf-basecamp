@@ -2,10 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// css minify
-const os = require('os');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 // image lossless minify
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
@@ -48,7 +44,6 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin(),
     new BundleAnalyzerPlugin()
   ],
   module: {
@@ -62,7 +57,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/i,
@@ -85,11 +80,6 @@ module.exports = {
     // js minify
     minimize: true,
     minimizer: [
-      // 플러그인 인스턴스 생성
-      new CssMinimizerPlugin({
-        // CPU 멀티 프로세서 병렬화 옵션 (기본 값: true)
-        parallel: os.cpus().length - 1
-      }),
       new ImageMinimizerPlugin({
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
