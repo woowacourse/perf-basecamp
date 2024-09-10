@@ -33,7 +33,6 @@ const Home = () => {
           <source
             type="image/webp"
             srcSet={`${heroImage_small} 500w, ${heroImage_medium} 1000w, ${heroImage_large} 2000w`}
-            sizes="(max-width: 500px) 500px, (max-width: 1000px) 1000px, 2000px"
           />
           <img className={styles.heroImage} src={heroImage} alt="hero image" />
         </picture>
