@@ -52,7 +52,6 @@ const createGifAPIService = () => {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   const getTrending = async (): Promise<GifImageModel[]> => {
-    console.log(cacheTrending);
     if (cacheTrending.length > 0) {
       return cacheTrending;
     }
