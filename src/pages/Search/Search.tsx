@@ -1,5 +1,5 @@
 import { KeyboardEvent, useState, Suspense, lazy } from 'react';
-import { AiOutlineInfo } from 'react-icons/ai';
+import { AiOutlineInfo } from '@react-icons/all-files/ai/AiOutlineInfo';
 
 import useGifSearch from './hooks/useGifSearch';
 

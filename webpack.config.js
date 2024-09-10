@@ -31,7 +31,6 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
-    new CompressionPlugin(),
     new BundleAnalyzerPlugin()
   ],
   module: {
