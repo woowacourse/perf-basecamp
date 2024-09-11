@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlineInfo } from 'react-icons/ai';
+
+import { MemoizedArtistList } from '../ArtistList/ArtistList';
 import classNames from 'classnames/bind';
-
-import ArtistList from '../ArtistList/ArtistList';
 import { getArtists } from './artistUtil';
-
 import styles from './HelpPanel.module.css';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -52,7 +51,7 @@ const HelpPanel = () => {
           <p>Here are some artists you can refer to.</p>
           <br />
           <section>
-            <ArtistList artists={artists} />
+            <MemoizedArtistList artists={artists} />
           </section>
         </div>
       </section>

@@ -1,8 +1,8 @@
-import { GifsResult } from '@giphy/js-fetch-api';
-import { IGif } from '@giphy/js-types';
+import { ApiError, apiClient } from '../utils/apiClient';
 
 import { GifImageModel } from '../models/image/gifImage';
-import { apiClient, ApiError } from '../utils/apiClient';
+import { GifsResult } from '@giphy/js-fetch-api';
+import { IGif } from '@giphy/js-types';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -17,7 +17,7 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.url
+      imageUrl: images.fixed_width_downsampled.url
     };
   });
 };
@@ -47,10 +47,11 @@ export const gifAPIService = {
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
-      rating: 'g'
+      rating: 'g',
+      bundle: 'messaging_non_clips'
     });
 
-    return fetchGifs(url);
+    return await fetchGifs(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
@@ -69,6 +70,7 @@ export const gifAPIService = {
       lang: 'en'
     });
 
-    return fetchGifs(url);
+    const result = await fetchGifs(url);
+    return result;
   }
 };
