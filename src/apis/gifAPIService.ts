@@ -13,6 +13,7 @@ const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 const CACHE_NAME = 'memegle-cache';
 const TRENDING_CACHE_KEY = 'trending-gifs';
+const CACHE_EXPIRATION_MS = 60 * 60 * 1000; // 1시간
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
@@ -39,9 +40,16 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const getTimestamp = () => new Date().getTime();
+
 const cacheTrendingGifs = async (gifs: GifImageModel[]) => {
   const cache = await caches.open(CACHE_NAME);
-  const response = new Response(JSON.stringify(gifs));
+  const response = new Response(
+    JSON.stringify({
+      gifs,
+      timestamp: getTimestamp()
+    })
+  );
   await cache.put(TRENDING_CACHE_KEY, response);
 };
 
@@ -51,8 +59,16 @@ const getTrendingFromCache = async (): Promise<GifImageModel[] | null> => {
   if (!cachedResponse || !cachedResponse.ok) {
     return null;
   }
-  const cachedGifs = await cachedResponse.json();
-  return cachedGifs as GifImageModel[];
+
+  const { gifs, timestamp } = await cachedResponse.json();
+  const now = getTimestamp();
+
+  if (now - timestamp > CACHE_EXPIRATION_MS) {
+    // 캐시 만료
+    return null;
+  }
+
+  return gifs as GifImageModel[];
 };
 
 export const gifAPIService = {
