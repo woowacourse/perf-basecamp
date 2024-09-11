@@ -72,8 +72,8 @@ module.exports = {
           implementation: ImageMinimizerPlugin.imageminMinify,
           options: {
             plugins: [
-              ['gifsicle', { interlaced: true }],
-              ['optipng', { optimizationLevel: 5 }]
+              ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 64 }],
+              ['optipng', { optimizationLevel: 7 }]
             ]
           }
         },
