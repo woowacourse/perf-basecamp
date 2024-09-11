@@ -7,13 +7,48 @@
     <link rel="icon" href="./public/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload assets -->
+    <link
+      rel="preload"
+      fetchpriority="high"
+      href="/static/hero.[chunkhash].webp"
+      as="image"
+      type="image/webp"
+    />
+    <link
+      rel="preload"
+      fetchpriority="high"
+      href="/static/find.[chunkhash].webm"
+      as="video"
+      type="video/webm"
+    />
+    <link
+      rel="preload"
+      fetchpriority="high"
+      href="/static/free.[chunkhash].webm"
+      as="video"
+      type="video/webm"
+    />
+    <link
+      rel="preload"
+      fetchpriority="high"
+      href="/static/trending.[chunkhash].webm"
+      as="video"
+      type="video/webm"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="preload"
+      as="style"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
       rel="stylesheet"
     />
     <title>memegle - gif search engine for you</title>
   </head>
-
   <body>
     <div id="app"></div>
   </body>

@@ -6,6 +6,7 @@
   height: 48px;
   border-radius: 50%;
   background: #bd00ff;
+  will-change: transform; /* 성능 최적화 */
 }
 
 .selectedItemContainer {
@@ -20,11 +21,14 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   opacity: 0;
-  transition: 0.5s all cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  transform: translateX(0);
+  transition: 0.5s transform cubic-bezier(0.82, 0.085, 0.395, 0.895),
+    0.5s opacity cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  will-change: transform, opacity;
 }
 
 .selectedItemContainer.showSheet {
-  right: 0;
+  transform: translateX(-320px);
   opacity: 1;
 }
 
@@ -44,6 +48,7 @@
   height: 100%;
   line-height: 1.5rem;
   overflow-y: scroll;
+  will-change: scroll-position;
 }
 
 .sheetContentsContainer img {

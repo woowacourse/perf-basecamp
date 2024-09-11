@@ -34,4 +34,5 @@
   left: 0;
   height: 100%;
   transform: translateX(-10%);
+  will-change: transform;
 }
