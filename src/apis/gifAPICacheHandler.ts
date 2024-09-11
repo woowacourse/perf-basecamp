@@ -10,7 +10,6 @@ async function addToCache(cacheName: string) {
 
   await cache.put(request, response); // 캐시에 현재 시각을 저장
 }
-
 // 캐시 업데이트 함수 (현재 시각으로 갱신)
 async function updateToCache(cacheName: string) {
   const cache = await caches.open(cacheName);

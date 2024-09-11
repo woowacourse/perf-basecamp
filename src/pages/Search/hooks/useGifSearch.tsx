@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
-import { manageTrendingGifCache } from '../../../apis/gifAPICacheHander';
+import { manageTrendingGifCache } from '../../../apis/gifAPICacheHandler';
 
 const DEFAULT_PAGE_INDEX = 0;
 const MAX_AGE = 900;
