@@ -5,7 +5,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const os = require('os');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const isDevMode = process.env.NODE_ENV !== 'production';
@@ -49,7 +48,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm|mp4)$/i,
@@ -90,9 +89,7 @@ module.exports = {
           }
         }
       }),
-      new CssMinimizerPlugin({
-        parallel: os.cpus().length - 1
-      })
+      new CssMinimizerPlugin()
     ]
   }
 };
