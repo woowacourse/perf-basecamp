@@ -1,16 +1,16 @@
-import { GifImageModel } from '../models/image/gifImage';
-
 const cacheVersion = 'v1';
 const cacheName = `sick-cache-${cacheVersion}`;
 
-class LocalCache {
-  static EXPIRE_TIME = 5 * 60 * 1000; // 하루
+class LocalCache<T> {
+  // 기본 캐싱 시간 (하루)
+  static DEFAULT_EXPIRE_TIME = 24 * 60 * 60 * 1000;
+  private expireTime: number;
 
-  async writeToCache(
-    key: string,
-    data: GifImageModel[],
-    expireTime: number = LocalCache.EXPIRE_TIME
-  ) {
+  constructor(expireTime: number = LocalCache.DEFAULT_EXPIRE_TIME) {
+    this.expireTime = expireTime;
+  }
+
+  async writeToCache(key: string, data: T, expireTime: number = this.expireTime) {
     try {
       const cache = await caches.open(cacheName);
       const expired = new Date().getTime() + expireTime;
@@ -22,13 +22,13 @@ class LocalCache {
       };
 
       const response = new Response(JSON.stringify(responseData));
-      cache.put(request, response);
+      await cache.put(request, response);
     } catch (error) {
       console.error('데이터 캐싱 중 오류가 발생했습니다:', error);
     }
   }
 
-  async readFromCache(key: string) {
+  async readFromCache(key: string): Promise<T | []> {
     try {
       const cache = await caches.open(cacheName);
       const response = await cache.match(key);
@@ -39,7 +39,7 @@ class LocalCache {
       const now = new Date().getTime();
 
       if (now > responseData.expired) {
-        cache.delete(key);
+        await cache.delete(key);
         return [];
       }
 
@@ -51,5 +51,4 @@ class LocalCache {
   }
 }
 
-const localCache = new LocalCache();
-export default localCache;
+export default LocalCache;
