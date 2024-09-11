@@ -8,6 +8,7 @@ export class ApiError extends Error {
 interface ApiClientFetchParams {
   url: URL;
   method?: string;
+  headers?: HeadersInit;
   cache?: RequestCache;
 }
 
@@ -15,13 +16,14 @@ export const apiClient = {
   fetch: async <T>({
     url,
     method = 'GET',
+    headers,
     cache = 'default'
   }: ApiClientFetchParams): Promise<T> => {
     const response = await fetch(url.toString(), {
       method,
+      headers,
       cache
     });
-    console.log('cache', cache);
     if (!response.ok) {
       throw new ApiError(response.status, `HTTP error! status: ${response.status}`);
     }

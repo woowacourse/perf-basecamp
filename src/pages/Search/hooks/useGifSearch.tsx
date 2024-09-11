@@ -2,8 +2,10 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import { manageTrendingGifCache } from '../../../apis/gifAPICacheHander';
 
 const DEFAULT_PAGE_INDEX = 0;
+const MAX_AGE = 900;
 
 export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
@@ -72,9 +74,9 @@ const useGifSearch = () => {
   useEffect(() => {
     const fetchTrending = async () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
-
+      const cacheOption = await manageTrendingGifCache(MAX_AGE);
       try {
-        const gifs = await gifAPIService.getTrending();
+        const gifs = await gifAPIService.getTrending(MAX_AGE, cacheOption);
         setGifList(gifs);
       } catch (error) {
         handleError(error);
