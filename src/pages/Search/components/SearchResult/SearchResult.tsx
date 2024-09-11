@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import GifItem from '../GifItem/GifItem';
 import ResultTitle from '../ResultTitle/ResultTitle';
 
-import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
+import { SEARCH_STATUS, SearchStatus } from '../../hooks/useGifSearch';
 
 import styles from './SearchResult.module.css';
 
@@ -17,19 +17,16 @@ type SearchResultProps = {
 const MemoizedGifItem = React.memo(GifItem);
 
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
-  const renderGifList = useMemo(
-    () => (
-      <div className={styles.gifResultWrapper}>
-        {gifList.length
-          ? gifList.map((gif: GifImageModel) => (
-              <MemoizedGifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
-            ))
-          : Array.from({ length: 16 }).map((_, index) => (
-              <MemoizedGifItem key={index} imageUrl="" title="" />
-            ))}
-      </div>
-    ),
-    [gifList]
+  const renderGifList = () => (
+    <div className={styles.gifResultWrapper}>
+      {gifList.length
+        ? gifList.map((gif: GifImageModel) => (
+            <MemoizedGifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+          ))
+        : Array.from({ length: 16 }).map((_, index) => (
+            <MemoizedGifItem key={index} imageUrl="" title="" />
+          ))}
+    </div>
   );
 
   const renderLoadMoreButton = () => (
@@ -43,12 +40,12 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
       case SEARCH_STATUS.FOUND:
         return (
           <>
-            {renderGifList}
+            {renderGifList()}
             {renderLoadMoreButton()}
           </>
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
-        return renderGifList;
+        return renderGifList();
       case SEARCH_STATUS.NO_RESULT:
       case SEARCH_STATUS.ERROR:
       default:
