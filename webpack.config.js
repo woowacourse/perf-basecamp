@@ -11,7 +11,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.[contenthash].js',
+    filename: '[name].[contenthash].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -23,14 +23,13 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
-      filename: 'index.[contenthash].html'
+      template: './index.html'
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: '[name].[contenthash].css'
     }),
     new Dotenv(),
     new BundleAnalyzerPlugin({ defaultSizes: 'gzip' })
@@ -52,14 +51,14 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[contenthash].[ext]'
+          name: 'static/[name].[ext]'
         }
       }
     ]
   },
   optimization: {
     minimize: true,
-    minimizer: [new CssMinimizerPlugin({ filename: '[name].[contenthash].css' }), '...'],
+    minimizer: [new CssMinimizerPlugin(), '...'],
     usedExports: true,
     sideEffects: true
   }
