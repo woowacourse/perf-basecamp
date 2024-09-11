@@ -37,21 +37,37 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
-export const gifAPIService = {
+const createGifAPIService = () => {
+  let cacheTrending: GifImageModel[] = [];
+
+  const setCacheTredingTimer = () => {
+    setTimeout(() => {
+      cacheTrending = [];
+    }, 10000);
+  };
+
   /**
    * treding gif 목록을 가져옵니다.
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
-  getTrending: async (): Promise<GifImageModel[]> => {
+  const getTrending = async (): Promise<GifImageModel[]> => {
+    if (cacheTrending.length > 0) {
+      return cacheTrending;
+    }
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
-  },
+    const newTreding = fetchGifs(url);
+    cacheTrending = await newTreding;
+    setCacheTredingTimer();
+
+    return newTreding;
+  };
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
@@ -59,7 +75,7 @@ export const gifAPIService = {
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/search
    */
-  searchByKeyword: async (keyword: string, page: number): Promise<GifImageModel[]> => {
+  const searchByKeyword = async (keyword: string, page: number): Promise<GifImageModel[]> => {
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/search`), {
       api_key: API_KEY,
       q: keyword,
@@ -70,5 +86,13 @@ export const gifAPIService = {
     });
 
     return fetchGifs(url);
-  }
+  };
+
+  return {
+    getTrending,
+    searchByKeyword
+  };
 };
+
+// SINGLETON
+export const gifAPIService = createGifAPIService();

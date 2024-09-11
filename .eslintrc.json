@@ -14,5 +14,6 @@
     "sourceType": "module"
   },
   "plugins": ["react", "prettier"],
-  "rules": {}
+  "rules": {},
+  "ignorePatterns": ["!src/**/*"]
 }
