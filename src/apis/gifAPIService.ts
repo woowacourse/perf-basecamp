@@ -37,6 +37,14 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const fetchGifsWithCache = (() => {
+  let cache: GifImageModel[];
+
+  return async (url: URL): Promise<GifImageModel[]> => {
+    return cache ? cache : (cache = await fetchGifs(url));
+  };
+})();
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -50,7 +58,7 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return fetchGifsWithCache(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
