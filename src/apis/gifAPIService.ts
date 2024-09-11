@@ -51,8 +51,7 @@ export const gifAPIService = {
       bundle: 'messaging_non_clips'
     });
 
-    const result = await fetchGifs(url);
-    return result;
+    return await fetchGifs(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
