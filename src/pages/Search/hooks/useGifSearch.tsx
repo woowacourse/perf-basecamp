@@ -75,30 +75,30 @@ const useGifSearch = () => {
     }
   };
 
-  const fetchTrending = async () => {
-    if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
-
-    try {
-      const cachedTrending = await getCacheItem<{
-        data: GifImageModel[];
-        timestamp: number;
-      }>(TRENDING_CACHE_KEY);
-
-      if (cachedTrending && !isCacheExpired(cachedTrending.timestamp, TRENDING_CACHE_EXPIRY)) {
-        setGifList(cachedTrending.data);
-        return;
-      }
-
-      const gifs = await gifAPIService.getTrending();
-      setGifList(gifs);
-
-      await setCacheItem(TRENDING_CACHE_KEY, { data: gifs, timestamp: Date.now() });
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
   useEffect(() => {
+    const fetchTrending = async () => {
+      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
+
+      try {
+        const cachedTrending = await getCacheItem<{
+          data: GifImageModel[];
+          timestamp: number;
+        }>(TRENDING_CACHE_KEY);
+
+        if (cachedTrending && !isCacheExpired(cachedTrending.timestamp, TRENDING_CACHE_EXPIRY)) {
+          setGifList(cachedTrending.data);
+          return;
+        }
+
+        const gifs = await gifAPIService.getTrending();
+        setGifList(gifs);
+
+        await setCacheItem(TRENDING_CACHE_KEY, { data: gifs, timestamp: Date.now() });
+      } catch (error) {
+        handleError(error);
+      }
+    };
+
     fetchTrending();
   }, []);
 
