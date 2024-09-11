@@ -2,9 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
@@ -32,15 +31,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
-    // new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv(),
-    new CompressionPlugin({
-      algorithm: 'gzip',
-      exclude: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|txt|map|ico|mp4)$/i
-    })
+    new Dotenv()
   ],
   module: {
     rules: [
