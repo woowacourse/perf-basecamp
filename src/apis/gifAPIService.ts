@@ -37,6 +37,21 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const fetchGifsWithCache = async (url: URL): Promise<GifImageModel[]> => {
+  try {
+    const gifs = await apiClient.fetchWithCache<GifsResult>(url, 'giphy');
+
+    return convertResponseToModel(gifs.data);
+  } catch (error) {
+    if (error instanceof ApiError) {
+      console.error(`API Error: ${error.status} - ${error.message}`);
+    } else {
+      console.error('Unexpected error:', error);
+    }
+    throw error;
+  }
+};
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -50,7 +65,7 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return fetchGifsWithCache(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
