@@ -33,12 +33,8 @@ const Home = () => {
       <section className={styles.heroSection}>
         <picture>
           <source
-            srcSet={`${heroImage360} 360w
-            ${heroImage640} 640w
-            ${heroImage1280} 1280w
-            ${heroImage1920} 1920w
-            `}
-            sizes="(max-width: 360px) 360px, (max-width: 640px) 640px, (max-width: 1280px) 1280px, 1920px"
+            srcSet={`${heroImage360} 360w, ${heroImage640} 640w, ${heroImage1280} 1280w, ${heroImage1920} 1920w`}
+            sizes="(max-width: 360px) 360px, (max-width: 640px) 640px, (max-width: 1280px) 1280px, 100vw"
             type="image/webp"
           />
           <source srcSet={heroImagePng} type="image/png" />
