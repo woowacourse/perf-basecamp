@@ -15,6 +15,7 @@ html {
 body {
   line-height: 1;
   font-family: 'Josefin Sans', sans-serif;
+  unicode-range: U+0000-007F;
 }
 
 button {
