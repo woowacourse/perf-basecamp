@@ -35,7 +35,7 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin({
-      filename: ({ chunk }) => `${chunk.name.replace('/js/', '/css/')}.css`,
+      filename: '[name].[contenthash].css',
       chunkFilename: '[id].[contenthash].css'
     }),
     new BundleAnalyzerPlugin()
