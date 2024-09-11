@@ -1,11 +1,11 @@
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
-import GifItem from '../GifItem/GifItem';
 
 import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
 import styles from './SearchResult.module.css';
+import { GifItem } from '../GifItem/GifItem';
 
 type SearchResultProps = {
   status: SearchStatus;

@@ -2,6 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   entry: './src/index.tsx',
@@ -16,11 +21,17 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: mode === 'production' ? false : 'source-map',
   plugins: [
+    new MiniCssExtractPlugin({
+      /* 나중에 캐시쓸 떄 해쉬값 사용 */
+      filename: '[name].[contenthash].css'
+    }),
+    new CssMinimizerPlugin(),
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
+    new BundleAnalyzerPlugin(),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
@@ -37,10 +48,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -49,6 +60,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimizer: [`...`, new CssMinimizerPlugin()]
   }
 };

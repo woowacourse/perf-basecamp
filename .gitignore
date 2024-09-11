@@ -1,8 +1,10 @@
 # api keys
 .env
+dist
 
 # dependencies
 /node_modules
-
+.DS_Store
+*/.DS_Store
 # build
-/dist
+/dist.DS_Store

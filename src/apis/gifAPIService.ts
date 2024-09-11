@@ -3,6 +3,7 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import CacheAPIService from './cacheAPIService';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -50,7 +51,19 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return await fetchGifs(url);
+  },
+  /**
+   * treding gif 목록을 가져올 때 캐시된 데이터가 있으면 캐시된 데이터를 가져오고,
+   * 없을 경우 가져온 데이터를 캐시합니다.
+   */
+  getCacheTrending: async (): Promise<GifImageModel[]> => {
+    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
+      limit: `${DEFAULT_FETCH_COUNT}`,
+      rating: 'g'
+    });
+
+    return await CacheAPIService.getCacheData(url, gifAPIService.getTrending);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.

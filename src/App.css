@@ -15,6 +15,7 @@ html {
 body {
   line-height: 1;
   font-family: 'Josefin Sans', sans-serif;
+  /* font-display: swap; */
 }
 
 button {
