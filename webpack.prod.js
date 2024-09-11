@@ -38,8 +38,6 @@ module.exports = merge(common, {
           options: {
             encodeOptions: {
               webp: { quality: 40 },
-              png: { quality: 40 },
-              gif: { quality: 40 },
               jpeg: { quality: 40 }
             }
           }
