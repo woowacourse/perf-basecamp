@@ -11,6 +11,9 @@ if (!API_KEY) {
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
+const CACHE_DURATION = 60 * 1000; // 1 minutes
+
+const cache: Record<string, { data: GifImageModel[]; timestamp: number }> = {};
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
@@ -22,11 +25,17 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   });
 };
 
-const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+const fetchGifsWithCache = async (url: URL): Promise<GifImageModel[]> => {
+  const cacheKey = url.toString();
+  if (cache[cacheKey] && Date.now() - cache[cacheKey].timestamp < CACHE_DURATION) {
+    return cache[cacheKey].data;
+  }
+
   try {
     const gifs = await apiClient.fetch<GifsResult>(url);
-
-    return convertResponseToModel(gifs.data);
+    const models = convertResponseToModel(gifs.data);
+    cache[cacheKey] = { data: models, timestamp: Date.now() };
+    return models;
   } catch (error) {
     if (error instanceof ApiError) {
       console.error(`API Error: ${error.status} - ${error.message}`);
@@ -50,7 +59,7 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return fetchGifsWithCache(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
@@ -69,6 +78,6 @@ export const gifAPIService = {
       lang: 'en'
     });
 
-    return fetchGifs(url);
+    return fetchGifsWithCache(url);
   }
 };
