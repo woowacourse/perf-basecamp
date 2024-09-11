@@ -81,27 +81,25 @@ const useGifSearch = () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
       if (isQueryKeyValid(QUERY_KEYS.getTrending)) {
-        // 저장된 데이터를 반환하는지 여부를 확인하는 console
-        console.log('저장된 데이터 반환');
         const gifs = getQueryData(QUERY_KEYS.getTrending);
 
         setGifList(gifs);
-      } else {
-        // 저장된 데이터를 반환하는지 여부를 확인하는 console
-        console.log('fetch하여 데이터 반환');
-        try {
-          const gifs = await gifAPIService.getTrending();
-          const query: Query<GifImageModel[]> = {
-            requestTime: Date.now(),
-            data: gifs,
-            staleTime: 1000 * 3
-          };
 
-          setQuery(QUERY_KEYS.getTrending, query);
-          setGifList(gifs);
-        } catch (error) {
-          handleError(error);
-        }
+        return;
+      }
+
+      try {
+        const gifs = await gifAPIService.getTrending();
+        const query: Query<GifImageModel[]> = {
+          requestTime: Date.now(),
+          data: gifs,
+          staleTime: 1000 * 60 * 30
+        };
+
+        setQuery(QUERY_KEYS.getTrending, query);
+        setGifList(gifs);
+      } catch (error) {
+        handleError(error);
       }
     };
 
