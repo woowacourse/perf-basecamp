@@ -1,7 +1,19 @@
+@keyframes moveAndFade {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .artistContainer {
   display: flex;
   align-items: center;
   margin-bottom: 16px;
+  animation: moveAndFade 0.5s ease-out;
 }
 
 .artistContainer .profileImage {
