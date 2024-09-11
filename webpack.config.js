@@ -27,7 +27,7 @@ module.exports = {
     }),
     new Dotenv(),
     new CompressionPlugin({
-      algorithm: 'gzip',
+      algorithm: 'brotliCompress',
       exclude: /\.(png|jpg|gif|webp|webm|map|ico)$/i
     })
   ],
