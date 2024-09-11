@@ -11,18 +11,16 @@ const Footer = lazy(() => import('./components/Footer/Footer'));
 
 const App = () => {
   return (
-    <div style={{ minHeight: '100vh' }}>
-      <Router>
-        <NavBar />
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/search" element={<Search />} />
-          </Routes>
-        </Suspense>
-        <Footer />
-      </Router>
-    </div>
+    <Router>
+      <NavBar />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+        </Routes>
+      </Suspense>
+      <Footer />
+    </Router>
   );
 };
 
