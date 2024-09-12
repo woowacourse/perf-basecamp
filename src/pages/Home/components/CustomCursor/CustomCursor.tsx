@@ -15,16 +15,16 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const rafRef = useRef<number>();
 
   useEffect(() => {
-    function updateCursorPosition() {
+    const updateCursorPosition = () => {
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${mousePosition.pageX}px, ${mousePosition.pageY}px)`;
       }
-    }
+    };
 
-    function animate() {
+    const animate = () => {
       updateCursorPosition();
       rafRef.current = requestAnimationFrame(animate);
-    }
+    };
 
     rafRef.current = requestAnimationFrame(animate);
 
