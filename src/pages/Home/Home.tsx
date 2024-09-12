@@ -2,10 +2,8 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+import { HeroDesktop, HeroMobile } from '../../assets/images/hero';
+import { Trending, Find, Free } from '../../assets/images/video';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -21,7 +19,22 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source
+            type="image/webp"
+            src={HeroDesktop}
+            srcSet={`${HeroMobile} 768w, ${HeroDesktop} 1440w`}
+            sizes="(max-width:768px) 100vw, 100vw"
+          />
+          <img
+            className={styles.heroImage}
+            src={HeroDesktop}
+            alt="hero image"
+            width="1440"
+            height="960"
+          />
+        </picture>
+
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
@@ -35,9 +48,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem title="See trending gif" imageSrc={Trending} />
+            <FeatureItem title="Find gif for free" imageSrc={Find} />
+            <FeatureItem title="Free for everyone" imageSrc={Free} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>

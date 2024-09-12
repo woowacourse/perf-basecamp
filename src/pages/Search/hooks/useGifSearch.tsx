@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import { apiCallWithCache } from '../../../utils/cache';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -13,7 +14,7 @@ export const SEARCH_STATUS = {
   ERROR: 'ERROR'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -74,7 +75,7 @@ const useGifSearch = () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
       try {
-        const gifs = await gifAPIService.getTrending();
+        const gifs = await apiCallWithCache('trending', gifAPIService.getTrending);
         setGifList(gifs);
       } catch (error) {
         handleError(error);

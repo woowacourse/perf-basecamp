@@ -1,6 +1,8 @@
 footer {
+  display: flex;
   justify-content: center;
-  width: 100%;
+  align-items: center;
+  width: 100vw;
   height: 7.5rem;
   background: var(--black);
   color: var(--white);
@@ -11,7 +13,7 @@ footer p {
   font-style: normal;
   font-weight: 400;
   font-size: 1.25rem;
-  line-height: 7.5rem;
+  font-family: 'Josefin Sans', Arial, sans-serif;
 }
 
 footer a {
