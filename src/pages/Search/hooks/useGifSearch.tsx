@@ -1,9 +1,12 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import { createCacheUtil } from '../../../utils/cache';
 
 const DEFAULT_PAGE_INDEX = 0;
+const CACHE_NAME = 'gif-search-cache';
+const TRENDING_CACHE_KEY = 'trending-gifs';
+const TRENDING_CACHE_EXPIRY = 1000 * 60 * 60; // 1 hour
 
 export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
@@ -14,6 +17,9 @@ export const SEARCH_STATUS = {
 } as const;
 
 export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+
+const cacheUtil = createCacheUtil(CACHE_NAME);
+const { getCacheItem, setCacheItem, isCacheExpired } = cacheUtil;
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -74,8 +80,20 @@ const useGifSearch = () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
       try {
+        const cachedTrending = await getCacheItem<{
+          data: GifImageModel[];
+          timestamp: number;
+        }>(TRENDING_CACHE_KEY);
+
+        if (cachedTrending && !isCacheExpired(cachedTrending.timestamp, TRENDING_CACHE_EXPIRY)) {
+          setGifList(cachedTrending.data);
+          return;
+        }
+
         const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
+
+        await setCacheItem(TRENDING_CACHE_KEY, { data: gifs, timestamp: Date.now() });
       } catch (error) {
         handleError(error);
       }

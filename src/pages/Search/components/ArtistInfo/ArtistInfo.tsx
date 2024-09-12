@@ -8,7 +8,6 @@ export type ArtistProps = {
 
 const ArtistInfo = ({ artist }: ArtistProps) => {
   const { name, profileUrl, profileImageUrl } = artist;
-
   return (
     <li className={styles.artistContainer}>
       <img className={styles.profileImage} src={profileImageUrl} />
