@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import styles from './FeatureItem.module.css';
 
 type FeatureItemProps = {
