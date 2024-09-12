@@ -2,12 +2,17 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].chunk.bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -22,9 +27,14 @@ module.exports = {
       template: './index.html'
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
+      patterns: [
+        { from: './public', to: './public' },
+        { from: './src/assets/fonts', to: './assets/fonts' }
+      ]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -37,18 +47,51 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(jpe?g|png|gif|svg|avif)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'assets/images/[name][ext][query]'
         }
+      },
+      {
+        test: /\.(eot|ttf|woff|woff2)$/i,
+        type: 'asset'
       }
     ]
   },
   optimization: {
-    minimize: false
+    splitChunks: {
+      chunks: 'all'
+    },
+    minimizer: [
+      `...`,
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        deleteOriginalAssets: true,
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminMinify,
+          options: {
+            plugins: [
+              ['gifsicle', { interlaced: true, optimizationLevel: 3, colors: 64 }],
+              ['optipng', { optimizationLevel: 7 }]
+            ]
+          }
+        },
+        generator: [
+          {
+            preset: 'webp',
+            implementation: ImageMinimizerPlugin.imageminGenerate,
+            options: {
+              plugins: [
+                ['webp', { preset: 'photo', quality: 50, resize: { width: 1920, height: 1280 } }]
+              ]
+            }
+          }
+        ]
+      })
+    ]
   }
 };

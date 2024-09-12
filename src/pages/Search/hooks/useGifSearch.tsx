@@ -2,6 +2,13 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import {
+  getQueryData,
+  isQueryKeyValid,
+  Query,
+  QUERY_KEYS,
+  setQuery
+} from '../../../utils/queryKey';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -13,7 +20,7 @@ export const SEARCH_STATUS = {
   ERROR: 'ERROR'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -73,8 +80,23 @@ const useGifSearch = () => {
     const fetchTrending = async () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
+      if (isQueryKeyValid(QUERY_KEYS.getTrending)) {
+        const gifs = getQueryData(QUERY_KEYS.getTrending);
+
+        setGifList(gifs);
+
+        return;
+      }
+
       try {
         const gifs = await gifAPIService.getTrending();
+        const query: Query<GifImageModel[]> = {
+          requestTime: Date.now(),
+          data: gifs,
+          staleTime: 1000 * 60 * 30
+        };
+
+        setQuery(QUERY_KEYS.getTrending, query);
         setGifList(gifs);
       } catch (error) {
         handleError(error);
