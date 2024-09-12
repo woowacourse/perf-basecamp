@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styles from './FeatureItem.module.css';
 
 type FeatureItemProps = {
@@ -9,7 +10,7 @@ type FeatureItemProps = {
 const FeatureItem = ({ title, imageSrc, srcSet }: FeatureItemProps) => {
   return (
     <div className={styles.featureItem}>
-      <img className={styles.featureImage} src={imageSrc} srcSet={srcSet} />
+      <video className={styles.featureImage} src={imageSrc} loop muted autoPlay playsInline />
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
     </div>
