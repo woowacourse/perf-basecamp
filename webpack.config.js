@@ -35,17 +35,13 @@ module.exports = {
 
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
-  // output: {
-  //   filename: '[name].[contenthash].js', // 엔트리 파일 이름을 동적으로 지정, 해시값 추가
-  //   path: path.join(__dirname, '/dist'),
-  //   clean: true,
-  //   chunkFilename: '[name].[contenthash].bundle.js' // 코드 스플리팅 청크 이름도 고유한 이름으로 설정
-  // },
-
   output: {
-    filename: '[name].bundle.js',
-    path: path.join(__dirname, '/dist')
+    filename: '[name].[contenthash].js',
+    path: path.join(__dirname, '/dist'),
+    clean: true,
+    chunkFilename: '[name].[contenthash].bundle.js'
   },
+
   devServer: {
     hot: true,
     open: true,
