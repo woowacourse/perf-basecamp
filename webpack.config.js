@@ -13,7 +13,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: isDevMode ? '[name].js' : '[name]-[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -31,10 +31,17 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
-    }),
+    new MiniCssExtractPlugin(
+      isDevMode
+        ? {
+            filename: '[name].css',
+            chunkFilename: '[id].css'
+          }
+        : {
+            filename: '[name]-[contenthash].css',
+            chunkFilename: '[id]-[contenthash].css'
+          }
+    ),
     new BundleAnalyzerPlugin()
   ],
   module: {
