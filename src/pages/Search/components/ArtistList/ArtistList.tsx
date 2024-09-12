@@ -1,3 +1,4 @@
+import { FixedSizeList as List } from 'react-window';
 import { Artist } from '../../../../models/help/artist';
 import { MemoizedArtistInfo } from '../ArtistInfo/ArtistInfo';
 
@@ -7,11 +8,13 @@ type ArtistListProps = {
 
 const ArtistList = ({ artists }: ArtistListProps) => {
   return (
-    <ul>
-      {artists.map((artist, index) => {
-        return <MemoizedArtistInfo key={index} artist={artist} />;
-      })}
-    </ul>
+    <List height={600} itemCount={artists.length} itemSize={60} width="100%">
+      {({ index, style }) => (
+        <div style={style}>
+          <MemoizedArtistInfo artist={artists[index]} />
+        </div>
+      )}
+    </List>
   );
 };
 
