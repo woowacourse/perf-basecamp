@@ -30,7 +30,7 @@ const Home = () => {
             srcSet={`${heroImageWpSmall} 500w, ${heroImageWpMedium} 1000w,${heroImageWpLarge} 2000vw`}
             type="image/webp"
           />
-          <img fetchPriority="high" className={styles.heroImage} src={heroImage} alt="hero image" />
+          <img className={styles.heroImage} src={heroImage} alt="hero image" />
         </picture>
 
         <div className={styles.projectTitle}>
@@ -46,8 +46,8 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending mp4" imageSrc={trendingMp4} />
-            <FeatureItem title="Find mp4 for free" imageSrc={findMp4} />
+            <FeatureItem title="See trending gif" imageSrc={trendingMp4} />
+            <FeatureItem title="Find gif for free" imageSrc={findMp4} />
             <FeatureItem title="Free for everyone" imageSrc={freeMp4} />
           </div>
           <Link to="/search">
