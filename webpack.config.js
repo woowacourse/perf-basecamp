@@ -127,7 +127,7 @@ module.exports = {
             options: {
               encodeOptions: {
                 webp: {
-                  quality: 35,
+                  quality: 30,
                   animated: true // 애니메이션 WebP 생성 옵션
                 }
               }
