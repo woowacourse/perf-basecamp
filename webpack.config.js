@@ -120,16 +120,14 @@ module.exports = {
             ]
           }
         },
-        // loader: false,
         generator: [
           {
-            // type: 'asset',
             preset: 'webp',
-            implementation: ImageMinimizerPlugin.sharpGenerate, // `sharp`으로 변경
+            implementation: ImageMinimizerPlugin.sharpGenerate,
             options: {
               encodeOptions: {
                 webp: {
-                  quality: 40,
+                  quality: 35,
                   animated: true // 애니메이션 WebP 생성 옵션
                 }
               }
