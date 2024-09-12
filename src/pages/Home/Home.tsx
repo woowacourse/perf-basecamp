@@ -13,7 +13,12 @@ const cx = classNames.bind(styles);
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
 
-  const heroImageUrl = `${process.env.IMAGE_URL}/hero.avif`;
+  const heroImageUrl = `${process.env.IMAGE_URL}/hero`;
+  const getHeroImageUrl = (size: 480 | 768 | 1024 | 1920 | 'original', format: 'avif' | 'webp') => {
+    return `${heroImageUrl}_${size}.${format}`;
+  };
+
+  const heroImageAvif = `${heroImageUrl}.avif`;
   const trendingGifUrl = `${process.env.IMAGE_URL}/trending.avif`;
   const findGifUrl = `${process.env.IMAGE_URL}/find.avif`;
   const freeGifUrl = `${process.env.IMAGE_URL}/free.avif`;
@@ -21,12 +26,38 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img
-          className={styles.heroImage}
-          src={`${heroImageUrl}?w=1920`}
-          alt="hero image"
-          srcSet={`${heroImageUrl}?w=768 768w, ${heroImageUrl} 1920w`}
-        />
+        <picture>
+          {/* WebP 지원 시 WebP 형식 이미지 사용 */}
+          <source
+            srcSet={`
+              ${getHeroImageUrl(480, 'avif')} 480w, 
+              ${getHeroImageUrl(768, 'avif')} 768w, 
+              ${getHeroImageUrl(1024, 'avif')}  1024w, 
+              ${getHeroImageUrl(1920, 'avif')}  1920w,
+              ${getHeroImageUrl('original', 'avif')} 2560w
+            `}
+            type="image/webp"
+          />
+
+          <source
+            srcSet={`
+              ${getHeroImageUrl(480, 'webp')} 480w, 
+              ${getHeroImageUrl(768, 'webp')} 768w, 
+              ${getHeroImageUrl(1024, 'webp')}  1024w, 
+              ${getHeroImageUrl(1920, 'webp')}  1920w,
+              ${getHeroImageUrl('original', 'webp')} 2560w
+            `}
+            type="image/avif"
+          />
+
+          {/* 폴백 이미지 (최종적으로 지원하지 않는 경우) */}
+          <img
+            fetchPriority="high"
+            className={styles.heroImage}
+            src={`${heroImageAvif}_original.avif`}
+            alt="hero image"
+          />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
