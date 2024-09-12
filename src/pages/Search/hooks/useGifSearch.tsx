@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+import LocalCache from '../../../utils/cacheStorage';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -71,11 +72,22 @@ const useGifSearch = () => {
 
   useEffect(() => {
     const fetchTrending = async () => {
-      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
+      const localCache = new LocalCache<GifImageModel[]>(24 * 60 * 60 * 1000); // 하루
+      const CACHE_KEY = 'trending_gifs';
 
       try {
+        const cachedGifs = await localCache.readFromCache(CACHE_KEY);
+        if (cachedGifs.length > 0) {
+          setGifList(cachedGifs);
+          setStatus(SEARCH_STATUS.FOUND);
+          return;
+        }
+
         const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
+        setStatus(SEARCH_STATUS.FOUND);
+
+        await localCache.writeToCache(CACHE_KEY, gifs);
       } catch (error) {
         handleError(error);
       }
