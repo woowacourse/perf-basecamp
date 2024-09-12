@@ -53,7 +53,7 @@ module.exports = {
         test: /\.(jpe?g|png|gif|svg|avif)$/i,
         type: 'asset',
         generator: {
-          filename: 'assets/images/[name][hash][ext][query]'
+          filename: 'assets/images/[name][ext][query]'
         }
       },
       {
