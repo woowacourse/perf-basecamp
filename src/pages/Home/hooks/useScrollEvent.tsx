@@ -6,10 +6,8 @@ const useScrollEvent = (onScroll: ScrollHandler) => {
   const rafRef = useRef<number>();
 
   useEffect(() => {
-    const handleScroll = (event: Event) => {
-      rafRef.current = requestAnimationFrame(() => {
-        onScroll();
-      });
+    const handleScroll = () => {
+      rafRef.current = requestAnimationFrame(onScroll);
     };
 
     window.addEventListener('scroll', handleScroll);
