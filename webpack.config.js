@@ -65,7 +65,16 @@ module.exports = {
           implementation: ImageMinimizerPlugin.sharpMinify,
           options: {
             encodeOptions: {
+              gif: {
+                colors: 64,
+                effort: 10,
+                dither: 0,
+                interFrameMaxError: 8
+              },
               png: {
+                quality: 80
+              },
+              jpg: {
                 quality: 80
               },
               webp: {
