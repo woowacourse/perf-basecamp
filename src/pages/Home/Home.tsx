@@ -54,7 +54,7 @@ const Home = () => {
           <img
             fetchPriority="high"
             className={styles.heroImage}
-            src={`${heroImageAvif}_original.avif`}
+            src={`${heroImageAvif}_original.webp`}
             alt="hero image"
           />
         </picture>
