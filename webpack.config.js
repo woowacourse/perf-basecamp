@@ -15,7 +15,7 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           compress: {
-            // drop_console: true, // console.log 같은 콘솔 출력 제거
+            drop_console: true, // console.log 같은 콘솔 출력 제거
             drop_debugger: true, // debugger 구문 제거
             pure_funcs: ['console.info'], // 특정 함수 호출 제거 (ex: console.info)
             dead_code: true, // 사용되지 않는 코드 제거
