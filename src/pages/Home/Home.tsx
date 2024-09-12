@@ -27,7 +27,6 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          {/* WebP 지원 시 WebP 형식 이미지 사용 */}
           <source
             srcSet={`
               ${getHeroImageUrl(480, 'avif')} 480w, 
@@ -36,7 +35,7 @@ const Home = () => {
               ${getHeroImageUrl(1920, 'avif')}  1920w,
               ${getHeroImageUrl('original', 'avif')} 2560w
             `}
-            type="image/webp"
+            type="image/avif"
           />
 
           <source
@@ -47,10 +46,9 @@ const Home = () => {
               ${getHeroImageUrl(1920, 'webp')}  1920w,
               ${getHeroImageUrl('original', 'webp')} 2560w
             `}
-            type="image/avif"
+            type="image/webp"
           />
 
-          {/* 폴백 이미지 (최종적으로 지원하지 않는 경우) */}
           <img
             fetchPriority="high"
             className={styles.heroImage}
