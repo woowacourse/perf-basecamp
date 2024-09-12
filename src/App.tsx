@@ -13,7 +13,7 @@ const App = () => {
   return (
     <Router>
       <NavBar />
-      <Suspense fallback={<div>로딩중임</div>}>
+      <Suspense fallback={<div style={{ width: '100vw', height: '100vh' }}>로딩중임</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
