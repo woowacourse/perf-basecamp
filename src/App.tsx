@@ -12,16 +12,17 @@ import { lazy, Suspense } from 'react';
 const App = () => {
   return (
     <Router>
-      <Suspense fallback={<div>loading...please wait...</div>}>
-        <NavBar />
+      <NavBar />
+      <Suspense
+        fallback={<div style={{ width: '100vw', height: '100vh' }}>loading...please wait...</div>}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
-        <Footer />
       </Suspense>
+      <Footer />
     </Router>
   );
 };
-
 export default App;
