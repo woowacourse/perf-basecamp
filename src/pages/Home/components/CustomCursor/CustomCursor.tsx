@@ -13,7 +13,7 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let animationFrameId;
+    let animationFrameId: any;
 
     const updateCursorPosition = () => {
       if (cursorRef.current) {
