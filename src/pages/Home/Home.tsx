@@ -19,9 +19,9 @@ const Home = () => {
   };
 
   const heroImageAvif = `${heroImageUrl}.avif`;
-  const trendingGifUrl = `${process.env.IMAGE_URL}/trending.avif`;
-  const findGifUrl = `${process.env.IMAGE_URL}/find.avif`;
-  const freeGifUrl = `${process.env.IMAGE_URL}/free.avif`;
+  const trendingGifUrl = `${process.env.IMAGE_URL}/trending.mp4`;
+  const findGifUrl = `${process.env.IMAGE_URL}/find.mp4`;
+  const freeGifUrl = `${process.env.IMAGE_URL}/free.mp4`;
 
   return (
     <>
