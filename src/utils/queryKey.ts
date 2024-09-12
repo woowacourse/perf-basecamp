@@ -14,7 +14,7 @@ export const QUERY_KEYS = {
   getTrending: 'getTrending'
 };
 
-const QUERY_DATA: QueryKey<GifImageModel[]> = {};
+const QUERY_DATA: QueryKey<any> = {};
 
 export const isQueryKeyValid = (queryKey: string) => {
   if (!QUERY_DATA[queryKey]) return false;
