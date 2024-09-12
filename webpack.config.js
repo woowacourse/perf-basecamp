@@ -56,7 +56,6 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new MiniCssExtractPlugin({
-      linkType: false,
       filename: '[name].[contenthash].css',
       chunkFilename: '[id].[contenthash].css'
     }),
