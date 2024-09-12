@@ -11,9 +11,7 @@ const useScrollEvent = (onScroll: ScrollHandler) => {
         cancelAnimationFrame(animationFrameRef.current);
       }
 
-      animationFrameRef.current = requestAnimationFrame(() => {
-        onScroll();
-      });
+      animationFrameRef.current = requestAnimationFrame(onScroll);
     };
 
     window.addEventListener('scroll', handleScroll);
