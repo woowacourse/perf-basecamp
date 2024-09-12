@@ -2,10 +2,11 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png?as=webp';
-import trendingGif from '../../assets/images/trending.gif?as=webp';
-import findGif from '../../assets/images/find.gif?as=webp';
-import freeGif from '../../assets/images/free.gif?as=webp';
+import heroImageWebp from '../../assets/images/hero.png?as=webp';
+import heroImageJpg from '../../assets/images/hero.jpg';
+import trendingGif from '../../assets/images/trending.gif';
+import findGif from '../../assets/images/find.gif';
+import freeGif from '../../assets/images/free.gif';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -21,9 +22,17 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source srcSet={heroImageWebp} type="image/webp" />
+          <img
+            className={styles.heroImage}
+            src={heroImageJpg}
+            alt="hero image"
+            fetchPriority="high"
+          />
+        </picture>
         <div className={styles.projectTitle}>
-          <h1 className={styles.title}>memegle</h1>
+          <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
         </div>
         <Link to="/search">
