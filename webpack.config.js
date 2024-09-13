@@ -1,13 +1,19 @@
+/* eslint-disable prettier/prettier */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -24,10 +30,21 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
-  ],
+    new Dotenv(),
+    new MiniCssExtractPlugin(),
+    !isProduction &&
+      new BundleAnalyzerPlugin({
+        reportFilename: 'bundle-report.html',
+        excludeAssets: [/node_modules/]
+      })
+  ].filter(Boolean),
   module: {
     rules: [
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'image-webpack-loader',
+        enforce: 'pre'
+      },
       {
         test: /\.(js|jsx|ts|tsx)$/i,
         exclude: /node_modules/,
@@ -37,10 +54,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -49,6 +66,7 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true,
+    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };
