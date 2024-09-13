@@ -31,11 +31,7 @@ const Home = () => {
             src={heroImage_1280}
             srcSet={`${heroImage_1920} 1920w, ${heroImage_768} 768w, ${heroImage_400} 400w`}
           />
-<<<<<<< HEAD
           <img className={styles.heroImage} src={heroImage_1280} alt="hero" />
-=======
-          <img className={styles.heroImage} src={heroImage_1280} alt="hero" />
->>>>>>> 033af96dc034afdf8936dcad59c6daa783c83142
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
