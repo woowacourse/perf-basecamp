@@ -4,6 +4,13 @@ import { IGif } from '@giphy/js-types';
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
 
+const CACHE_NAME = 'gif-cache';
+const CACHE_LIFETIME = 10 * 60 * 1000;
+
+const openCache = async () => {
+  return await caches.open(CACHE_NAME);
+};
+
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
   throw new Error('GIPHY_API_KEY is not set in environment variables');
@@ -22,9 +29,38 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   });
 };
 
-const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+const fetchGifsWithCache = async (url: URL): Promise<GifImageModel[]> => {
   try {
+    const cache = await openCache();
+    const cacheKey = url.toString();
+    const cachedResponse = await cache.match(cacheKey);
+
+    if (cachedResponse) {
+      const cachedData = await cachedResponse.json();
+
+      const cacheTime = cachedData.timestamp;
+      const now = Date.now();
+
+      if (now - cacheTime < CACHE_LIFETIME) {
+        return convertResponseToModel(cachedData.data);
+      } else {
+        await cache.delete(cacheKey);
+      }
+    }
+
     const gifs = await apiClient.fetch<GifsResult>(url);
+
+    const cacheData = {
+      data: gifs.data,
+      timestamp: Date.now()
+    };
+
+    cache.put(
+      cacheKey,
+      new Response(JSON.stringify(cacheData), {
+        headers: { 'Content-Type': 'application/json' }
+      })
+    );
 
     return convertResponseToModel(gifs.data);
   } catch (error) {
@@ -50,7 +86,7 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return fetchGifsWithCache(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
@@ -69,6 +105,6 @@ export const gifAPIService = {
       lang: 'en'
     });
 
-    return fetchGifs(url);
+    return fetchGifsWithCache(url);
   }
 };

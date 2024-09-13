@@ -1,6 +1,6 @@
 import { Artist } from '../../../../models/help/artist';
 
-const DUMMY_ARTISTS_LENGTH = 100;
+const DUMMY_ARTISTS_LENGTH = 10000;
 const DUMMY_ARTISTS: Artist[] = [
   {
     name: 'Pola Lucas',
@@ -30,9 +30,13 @@ const DUMMY_ARTISTS: Artist[] = [
   }
 ];
 
-const artists = Array.from(
-  { length: DUMMY_ARTISTS_LENGTH },
-  (_v, k) => DUMMY_ARTISTS[k % DUMMY_ARTISTS.length]
-);
+// 테스트에 용이하도록 더미 데이터 artist name에 번호를 붙여주고자 했습니다.
+const artists = Array.from({ length: DUMMY_ARTISTS_LENGTH }, (_v, k) => {
+  const artist = DUMMY_ARTISTS[k % DUMMY_ARTISTS.length];
+  return {
+    ...artist,
+    name: `${artist.name} ${k}`
+  };
+});
 
 export const getArtists = () => artists;
