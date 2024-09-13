@@ -32,10 +32,18 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
     switch (status) {
       case SEARCH_STATUS.FOUND:
         return (
-          <>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              margin: '0 5rem',
+              gap: '5rem'
+            }}
+          >
             {renderGifList()}
             {renderLoadMoreButton()}
-          </>
+          </div>
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
         return renderGifList();

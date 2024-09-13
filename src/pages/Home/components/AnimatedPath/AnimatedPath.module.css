@@ -1,4 +1,5 @@
 .animatedPath {
   position: absolute;
   stroke-width: 2px;
+  will-change: stroke-dashoffset;
 }
