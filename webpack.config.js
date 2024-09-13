@@ -1,7 +1,38 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
+const CompressionPlugin = require('compression-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isDevMode = process.env.NODE_ENV?.includes('dev');
+const path = require('path');
+const Dotenv = require('dotenv-webpack');
+
+const plugins = [
+  new webpack.EnvironmentPlugin({
+    NODE_ENV: 'development'
+  }),
+  new HtmlWebpackPlugin({
+    template: './index.html'
+  }),
+  new CopyWebpackPlugin({
+    patterns: [{ from: './public', to: './public' }]
+  }),
+  new CompressionPlugin({
+    algorithm: 'gzip'
+  }),
+  new Dotenv(),
+  new MiniCssExtractPlugin()
+];
+
+if (!isDevMode) {
+  plugins.push(
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[id].[contenthash].css'
+    })
+  );
+}
 
 module.exports = {
   entry: './src/index.tsx',
@@ -17,15 +48,7 @@ module.exports = {
     historyApiFallback: true
   },
   devtool: 'source-map',
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
-    }),
-    new Dotenv()
-  ],
+  plugins,
   module: {
     rules: [
       {
@@ -37,18 +60,33 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
       },
+
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'static/[name].[ext]'
+            }
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              optipng: {
+                enabled: true
+              },
+              enforce: 'pre'
+            }
+          }
+        ]
       }
     ]
   },
   optimization: {
-    minimize: false
+    minimize: !isDevMode,
+    minimizer: [`...`, new CssMinimizerPlugin()]
   }
 };
