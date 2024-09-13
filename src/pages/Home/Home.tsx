@@ -2,7 +2,10 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.webp';
+import heroImage_1920 from '../../assets/images/hero1920.webp';
+import heroImage_1280 from '../../assets/images/hero1280.webp';
+import heroImage_768 from '../../assets/images/hero768.webp';
+import heroImage_400 from '../../assets/images/hero400.webp';
 import trendingVideo from '../../assets/images/trending.webm';
 import findVideo from '../../assets/images/find.webm';
 import freeGVideo from '../../assets/images/free.webm';
@@ -21,7 +24,15 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero" />
+        <picture>
+          <source
+            type="image/webp"
+            className={styles.heroImage}
+            src={heroImage_1280}
+            srcSet={`${heroImage_1920} 1920w, ${heroImage_768} 768w, ${heroImage_400} 400w`}
+          />
+          <img className={styles.heroImage} src={heroImage_1280} alt="hero" />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h2 className={styles.subtitle}>gif search engine for you</h2>
