@@ -13,10 +13,22 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (cursorRef.current) {
-      cursorRef.current.style.top = `${mousePosition.pageY}px`;
-      cursorRef.current.style.left = `${mousePosition.pageX}px`;
-    }
+    let animationFrameId: any;
+
+    const updateCursorPosition = () => {
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${mousePosition.pageX}px, ${mousePosition.pageY}px, 0)`;
+      }
+      animationFrameId = requestAnimationFrame(updateCursorPosition);
+    };
+
+    // 최초 실행
+    animationFrameId = requestAnimationFrame(updateCursorPosition);
+
+    // 컴포넌트 언마운트 시 requestAnimationFrame 해제
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
   }, [mousePosition]);
 
   return (
