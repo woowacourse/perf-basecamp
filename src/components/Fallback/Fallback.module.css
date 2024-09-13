@@ -1,0 +1,16 @@
+.fallback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--black);
+  color: var(--white);
+}
+
+.fallback p {
+  text-align: center;
+  font-style: bold;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 7.5rem;
+}
