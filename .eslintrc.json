@@ -8,6 +8,7 @@
     "plugin:react/recommended",
     "plugin:prettier/recommended"
   ],
+  "ignorePatterns": [".eslintrc.json", "dist", "tsconfig.json"],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
