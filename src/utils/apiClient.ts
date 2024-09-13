@@ -1,3 +1,5 @@
+import cache from './cache';
+
 export class ApiError extends Error {
   constructor(public status: number, message?: string) {
     super(message);
@@ -21,4 +23,25 @@ export const apiClient = {
     });
     return newUrl;
   }
+};
+
+interface ApiClientWithCacheArgs<T> {
+  queryFn: () => Promise<T>;
+  queryKey: string;
+  staleTime: number;
+}
+
+export const apiClientWithCache = async <T>({
+  queryFn,
+  queryKey,
+  staleTime
+}: ApiClientWithCacheArgs<T>) => {
+  const cachedData = cache.get<T>(queryKey);
+
+  if (cachedData && cache.isValidCache(queryKey)) return cachedData;
+
+  const newData = await queryFn();
+  cache.set(queryKey, newData, staleTime);
+
+  return newData;
 };

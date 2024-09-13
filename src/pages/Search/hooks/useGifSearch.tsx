@@ -74,7 +74,7 @@ const useGifSearch = () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
       try {
-        const gifs = await gifAPIService.getTrending();
+        const gifs = await gifAPIService.getTrendingWithCache();
         setGifList(gifs);
       } catch (error) {
         handleError(error);

@@ -2,7 +2,7 @@ import { GifsResult } from '@giphy/js-fetch-api';
 import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
-import { apiClient, ApiError } from '../utils/apiClient';
+import { apiClient, apiClientWithCache, ApiError } from '../utils/apiClient';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -43,7 +43,7 @@ export const gifAPIService = {
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
-  getTrending: async (): Promise<GifImageModel[]> => {
+  getTrending(): Promise<GifImageModel[]> {
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
@@ -51,6 +51,14 @@ export const gifAPIService = {
     });
 
     return fetchGifs(url);
+  },
+
+  getTrendingWithCache: async () => {
+    return await apiClientWithCache({
+      queryKey: 'trending-gifs',
+      staleTime: 1000 * 60 * 5,
+      queryFn: gifAPIService.getTrending
+    });
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
