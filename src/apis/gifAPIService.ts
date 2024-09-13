@@ -12,6 +12,13 @@ if (!API_KEY) {
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
+const CACHE_DURATION = 5 * 60 * 1000; // 5분
+
+let trendingCache: {
+  data: GifImageModel[];
+  timestamp: number;
+} | null = null;
+
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
@@ -44,13 +51,20 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    const now = Date.now();
+    if (trendingCache && now - trendingCache.timestamp < CACHE_DURATION) {
+      return trendingCache.data;
+    }
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    const data = await fetchGifs(url);
+    trendingCache = { data, timestamp: now };
+    return data;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
