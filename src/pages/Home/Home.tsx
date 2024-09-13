@@ -31,22 +31,22 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source srcSet={heroDesktopWebp} type="image/webp" media="(min-width: 1440px)" />
-          <source srcSet={heroDesktopJpg} type="image/jpeg" media="(min-width: 1440px)" />
+          <source srcSet={heroDesktopWebp} type="image/webp" media="(min-width: 1024px)" />
+          <source srcSet={heroDesktopJpg} type="image/jpeg" media="(min-width: 1024px)" />
 
           <source
             srcSet={heroTabletWebp}
             type="image/webp"
-            media="(min-width: 1024px) and (max-width: 1439px)"
+            media="(min-width: 768px) and (max-width: 1023px)"
           />
           <source
             srcSet={heroTabletJpg}
             type="image/jpeg"
-            media="(min-width: 1024px) and (max-width: 1439px)"
+            media="(min-width: 768px) and (max-width: 1023px)"
           />
 
-          <source srcSet={heroMobileWebp} type="image/webp" media="(max-width: 1023px)" />
-          <source srcSet={heroMobileJpg} type="image/jpeg" media="(max-width: 1023px)" />
+          <source srcSet={heroMobileWebp} type="image/webp" media="(max-width: 767px)" />
+          <source srcSet={heroMobileJpg} type="image/jpeg" media="(max-width: 767px)" />
 
           <img src={heroMobileJpg} alt="Hero Image" className={styles.heroImage} />
         </picture>
