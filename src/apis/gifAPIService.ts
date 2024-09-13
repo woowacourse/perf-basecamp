@@ -37,6 +37,13 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const CACHE_EXPIRATION_TIME = 10 * 60 * 1000;
+
+interface TrendingCache {
+  data: IGif[];
+  timestamp: number;
+}
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -44,13 +51,46 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
-    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
-      api_key: API_KEY,
-      limit: `${DEFAULT_FETCH_COUNT}`,
-      rating: 'g'
-    });
+    try {
+      const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
+        api_key: API_KEY,
+        limit: `${DEFAULT_FETCH_COUNT}`,
+        rating: 'g'
+      });
 
-    return fetchGifs(url);
+      const cacheStorage = await caches.open('trending');
+      const cachedResponse = await cacheStorage.match(url.toString());
+
+      if (cachedResponse) {
+        const cachedData: TrendingCache = await cachedResponse.json();
+        const now = Date.now();
+
+        if (cachedData.timestamp && now - cachedData.timestamp < CACHE_EXPIRATION_TIME) {
+          const gifs = cachedData.data;
+          return convertResponseToModel(gifs);
+        } else {
+          await cacheStorage.delete(url.toString());
+        }
+      }
+
+      const response = await fetch(url.toString());
+
+      if (response.ok) {
+        const gifs: GifsResult = await response.json();
+
+        const dataToCache = {
+          data: gifs.data,
+          timestamp: Date.now()
+        };
+
+        await cacheStorage.put(url.toString(), new Response(JSON.stringify(dataToCache)));
+        return convertResponseToModel(gifs.data);
+      } else {
+        throw new Error('Failed to fetch');
+      }
+    } catch (e) {
+      return [];
+    }
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
