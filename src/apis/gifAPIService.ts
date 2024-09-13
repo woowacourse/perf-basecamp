@@ -12,6 +12,13 @@ if (!API_KEY) {
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
+const CACHE_DURATION = 5 * 60 * 1000; // 5분
+
+let trendingCache: {
+  data: GifImageModel[];
+  timestamp: number;
+} | null = null;
+
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
