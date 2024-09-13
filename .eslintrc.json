@@ -4,7 +4,7 @@
     "es2021": true
   },
   "extends": [
-    "standard-with-typescript",
+    // "standard-with-typescript",
     "plugin:react/recommended",
     "plugin:prettier/recommended"
   ],
@@ -14,5 +14,10 @@
     "sourceType": "module"
   },
   "plugins": ["react", "prettier"],
-  "rules": {}
+  "rules": {},
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
