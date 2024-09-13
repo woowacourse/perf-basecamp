@@ -27,7 +27,6 @@
   font-size: 1rem;
   padding: 0 1rem;
   box-sizing: border-box;
-  transition: transform 0.2s ease-in-out;
 }
 
 .searchButton {
