@@ -12,6 +12,7 @@ footer p {
   font-weight: 400;
   font-size: 1.25rem;
   line-height: 7.5rem;
+  min-height: 7.5rem;
 }
 
 footer a {
