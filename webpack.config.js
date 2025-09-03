@@ -3,6 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { fileURLToPath } from 'url';
+import sharpAdapter from 'responsive-loader/sharp.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +40,23 @@ export default (_, argv) => {
     module: {
       rules: [
         {
+          test: /\.(png|jpe?g)$/i,
+          type: 'javascript/auto',
+          use: [
+            {
+              loader: 'responsive-loader',
+              options: {
+                adapter: sharpAdapter,
+                name: 'static/[name]-[width].[contenthash:8].[ext]',
+                size: 1280,
+                format: 'webp',
+                quality: 50,
+                esModule: true
+              }
+            }
+          ]
+        },
+        {
           test: /\.(js|jsx|ts|tsx)$/i,
           exclude: /node_modules/,
           use: {
@@ -50,7 +68,7 @@ export default (_, argv) => {
           use: ['style-loader', 'css-loader']
         },
         {
-          test: /\.(png|jpe?g|gif|svg|eot|ttf|woff2?)$/i,
+          test: /\.(gif|svg|eot|ttf|woff2?)$/i,
           type: 'asset',
           parser: {
             dataUrlCondition: {
