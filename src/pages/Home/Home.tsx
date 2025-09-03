@@ -47,9 +47,24 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem
+              title="See trending gif"
+              imageSrc={trendingGif}
+              videoSources={{
+                webm: '/public/videos/trending.webm',
+                mp4: '/public/videos/trending.mp4'
+              }}
+            />
+            <FeatureItem
+              title="Find gif for free"
+              imageSrc={findGif}
+              videoSources={{ webm: '/public/videos/find.webm', mp4: '/public/videos/find.mp4' }}
+            />
+            <FeatureItem
+              title="Free for everyone"
+              imageSrc={freeGif}
+              videoSources={{ webm: '/public/videos/free.webm', mp4: '/public/videos/free.mp4' }}
+            />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
