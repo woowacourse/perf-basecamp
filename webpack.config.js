@@ -69,7 +69,7 @@ export default (_, argv) => {
           test: /\.(mp4|webm|ogg|mov)$/i,
           type: 'asset/resource',
           generator: {
-            filename: 'static/videos/[name].[contenthash:8][ext]'
+            filename: 'static/[name].[contenthash:8][ext]'
           }
         },
         {
