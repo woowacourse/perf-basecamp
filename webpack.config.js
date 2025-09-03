@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -24,7 +25,37 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new ImageMinimizerPlugin({
+      test: /\.(jpe?g|png)$/i,
+      minimizer: {
+        implementation: ImageMinimizerPlugin.imageminGenerate,
+        options: {
+          plugins: [
+            ['imagemin-webp', { quality: 75 }],
+            ['imagemin-avif', { quality: 50 }]
+          ]
+        }
+      },
+      generator: [
+        {
+          preset: 'webp',
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [['imagemin-webp', { quality: 75, metadata: 'none' }]]
+          },
+          filename: 'static/[name][ext].webp'
+        },
+        {
+          preset: 'avif',
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [['imagemin-avif', { quality: 50, metadata: 'none' }]]
+          },
+          filename: 'static/[name][ext].avif'
+        }
+      ]
+    })
   ],
   module: {
     rules: [

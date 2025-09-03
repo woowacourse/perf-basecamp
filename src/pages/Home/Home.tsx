@@ -21,7 +21,11 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source srcSet="/static/hero.avif" type="image/avif" />
+          <source srcSet="/static/hero.webp" type="image/webp" />
+          <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
