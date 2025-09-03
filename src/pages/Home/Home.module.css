@@ -12,8 +12,10 @@
 }
 
 .projectTitle {
-  margin: auto;
-  transform: translateY(-325%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   height: 8.5rem;
 }
 
@@ -37,7 +39,9 @@
 
 .cta {
   position: absolute;
-  transform: translate(47%, -17.65rem);
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .linkButton {
@@ -53,11 +57,6 @@
   background: var(--radial-gradient);
   color: var(--white);
   cursor: pointer;
-  transition: all 0.5s ease-in-out 0s;
-}
-
-.linkButton:hover {
-  background: var(--radial-gradient);
 }
 
 .featureSection {
@@ -72,6 +71,9 @@
     rgba(232, 109, 198, 0.64248) 0.01%,
     #bd00ff 77.6%
   );
+  content-visibility: auto;
+  contain: layout paint;
+  contain-intrinsic-size: 1200px 800px;
 }
 
 .featureSectionWrapper {
