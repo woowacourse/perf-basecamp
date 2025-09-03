@@ -14,6 +14,8 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   const pathRef = useRef<SVGPathElement>(null);
   const rafIdRef = useRef<number | null>(null);
   const pathLengthRef = useRef<number>(0);
+  const wrapperTopRef = useRef<number>(0);
+  const wrapperHeightRef = useRef<number>(1);
 
   const drawPath = () => {
     const wrapper = wrapperRef.current;
@@ -23,9 +25,8 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
       return;
     }
 
-    const rect = wrapper.getBoundingClientRect();
-    const drawPointY = window.innerHeight * TOP_PERCENTAGE_OF_DRAW_POINT;
-    const scrollRatio = (drawPointY - rect.top) / rect.height;
+    const drawPointY = window.scrollY + window.innerHeight * TOP_PERCENTAGE_OF_DRAW_POINT;
+    const scrollRatio = (drawPointY - wrapperTopRef.current) / wrapperHeightRef.current;
 
     const pathLength = pathLengthRef.current;
     const currentScrollOffset = clamp(pathLength - pathLength * scrollRatio, 0, pathLength);
@@ -49,9 +50,23 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
       path.setAttribute('stroke-dasharray', String(length));
       path.setAttribute('stroke-dashoffset', String(length));
     }
+    // cache wrapper metrics to avoid layout reads on every scroll frame
+    const wrapper = wrapperRef.current;
+    if (wrapper) {
+      wrapperTopRef.current = wrapper.offsetTop;
+      wrapperHeightRef.current = wrapper.offsetHeight || 1;
+    }
+    const handleResize = () => {
+      const w = wrapperRef.current;
+      if (!w) return;
+      wrapperTopRef.current = w.offsetTop;
+      wrapperHeightRef.current = w.offsetHeight || 1;
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
     const id = requestAnimationFrame(drawPath);
     return () => {
       cancelAnimationFrame(id);
+      window.removeEventListener('resize', handleResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
