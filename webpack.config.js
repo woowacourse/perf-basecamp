@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -63,7 +64,9 @@ module.exports = {
           mangle: { safari10: true },
           format: { safari10: true }
         }
-      })
+      }),
+      new CssMinimizerPlugin(),
+      '...'
     ]
   }
 };
