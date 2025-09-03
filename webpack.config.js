@@ -40,11 +40,26 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|ttf|woff|woff2|gif)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
         }
+      },
+      {
+        test: /\.(jpe?g|png|webp)$/i,
+        use: [
+          {
+            loader: 'responsive-loader',
+            options: {
+              adapter: require('responsive-loader/sharp'),
+              sizes: [1920],
+              placeholder: true,
+              format: 'webp',
+              quality: 70
+            }
+          }
+        ]
       }
     ]
   }
