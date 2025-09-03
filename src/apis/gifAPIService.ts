@@ -13,6 +13,7 @@ const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_CACHE_KEY = 'giphy_trending_cache_v1';
 const TRENDING_CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const TRENDING_CACHE_STORE = 'memegle-trending-cache-v1';
 
 type TrendingCacheRecord = {
   data: GifImageModel[];
@@ -59,15 +60,21 @@ export const gifAPIService = {
     }
 
     try {
-      const raw = window.sessionStorage.getItem(TRENDING_CACHE_KEY);
-      if (raw) {
-        const stored: TrendingCacheRecord = JSON.parse(raw);
+      const cache = await caches.open(TRENDING_CACHE_STORE);
+      const cachedResponse = await cache.match(TRENDING_CACHE_KEY);
+      if (cachedResponse) {
+        const stored: TrendingCacheRecord = await cachedResponse.json();
         if (now - stored.ts < TRENDING_CACHE_TTL_MS && Array.isArray(stored.data)) {
           trendingMemoryCache = stored;
           return stored.data;
         }
       }
-    } catch (_) {}
+    } catch (error) {
+      console.error(
+        'Cache Storage Error:',
+        error instanceof Error ? error.message : 'Unknown error'
+      );
+    }
 
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
@@ -79,9 +86,20 @@ export const gifAPIService = {
 
     trendingMemoryCache = { data, ts: now };
     try {
+      const cache = await caches.open(TRENDING_CACHE_STORE);
       const record: TrendingCacheRecord = { data, ts: now };
-      window.sessionStorage.setItem(TRENDING_CACHE_KEY, JSON.stringify(record));
-    } catch (_) {}
+      await cache.put(
+        TRENDING_CACHE_KEY,
+        new Response(JSON.stringify(record), {
+          headers: { 'Content-Type': 'application/json', 'Cache-Control': 'private, max-age=0' }
+        })
+      );
+    } catch (error) {
+      console.error(
+        'Cache Storage Error:',
+        error instanceof Error ? error.message : 'Unknown error'
+      );
+    }
 
     return data;
   },
