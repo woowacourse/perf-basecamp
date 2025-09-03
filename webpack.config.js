@@ -59,7 +59,7 @@ export default (_, argv) => {
                 name: 'static/[name]-[width].[contenthash:8].[ext]',
                 size: 1280,
                 format: 'webp',
-                quality: 50,
+                quality: 70,
                 esModule: true
               }
             }

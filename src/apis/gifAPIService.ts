@@ -11,6 +11,15 @@ if (!API_KEY) {
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
+const TRENDING_CACHE_KEY = 'giphy_trending_cache_v1';
+const TRENDING_CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+
+type TrendingCacheRecord = {
+  data: GifImageModel[];
+  ts: number;
+};
+
+let trendingMemoryCache: TrendingCacheRecord | null = null;
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
@@ -44,13 +53,39 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    const now = Date.now();
+    if (trendingMemoryCache && now - trendingMemoryCache.ts < TRENDING_CACHE_TTL_MS) {
+      return trendingMemoryCache.data;
+    }
+
+    try {
+      const raw = window.sessionStorage.getItem(TRENDING_CACHE_KEY);
+      if (raw) {
+        const stored: TrendingCacheRecord = JSON.parse(raw);
+        if (now - stored.ts < TRENDING_CACHE_TTL_MS && Array.isArray(stored.data)) {
+          trendingMemoryCache = stored;
+          return stored.data;
+        }
+      }
+    } catch (_) {
+    }
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    const data = await fetchGifs(url);
+
+    trendingMemoryCache = { data, ts: now };
+    try {
+      const record: TrendingCacheRecord = { data, ts: now };
+      window.sessionStorage.setItem(TRENDING_CACHE_KEY, JSON.stringify(record));
+    } catch (_) {
+    }
+
+    return data;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
