@@ -2,16 +2,16 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+import heroImage from '../../assets/hero.png';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 
 import styles from './Home.module.css';
+import trendingMp4 from '../../assets/trending.mp4';
+import findMp4 from '../../assets/find.mp4';
+import freeMp4 from '../../assets/free.mp4';
 
 const cx = classNames.bind(styles);
 
@@ -47,24 +47,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem
-              title="See trending gif"
-              imageSrc={trendingGif}
-              videoSources={{
-                webm: '/public/videos/trending.webm',
-                mp4: '/public/videos/trending.mp4'
-              }}
-            />
-            <FeatureItem
-              title="Find gif for free"
-              imageSrc={findGif}
-              videoSources={{ webm: '/public/videos/find.webm', mp4: '/public/videos/find.mp4' }}
-            />
-            <FeatureItem
-              title="Free for everyone"
-              imageSrc={freeGif}
-              videoSources={{ webm: '/public/videos/free.webm', mp4: '/public/videos/free.mp4' }}
-            />
+            <FeatureItem title="See trending gif" videoSources={trendingMp4} />
+            <FeatureItem title="Find gif for free" videoSources={findMp4} />
+            <FeatureItem title="Free for everyone" videoSources={freeMp4} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>

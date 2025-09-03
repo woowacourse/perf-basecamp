@@ -2,20 +2,16 @@ import styles from './FeatureItem.module.css';
 
 type FeatureItemProps = {
   title: string;
-  imageSrc: string;
-  videoSources?: {
-    webm?: string;
-    mp4?: string;
-  };
+  videoSources: string;
 };
 
-const FeatureItem = ({ title, imageSrc, videoSources }: FeatureItemProps) => {
+const FeatureItem = ({ title, videoSources }: FeatureItemProps) => {
   return (
     <div className={styles.featureItem}>
-      {videoSources ? (
+      {videoSources && (
         <video
           className={styles.featureVideo}
-          poster={imageSrc}
+          poster={videoSources}
           width={480}
           height={416}
           autoPlay
@@ -23,18 +19,8 @@ const FeatureItem = ({ title, imageSrc, videoSources }: FeatureItemProps) => {
           muted
           playsInline
         >
-          {videoSources.webm ? <source src={videoSources.webm} type="video/webm" /> : null}
-          {videoSources.mp4 ? <source src={videoSources.mp4} type="video/mp4" /> : null}
+          <source src={videoSources} type="video/mp4" />;
         </video>
-      ) : (
-        <img
-          className={styles.featureImage}
-          src={imageSrc}
-          width={480}
-          height={416}
-          loading="lazy"
-          alt={title}
-        />
       )}
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
