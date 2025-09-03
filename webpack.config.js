@@ -4,6 +4,7 @@ import Dotenv from 'dotenv-webpack';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { fileURLToPath } from 'url';
 import sharpAdapter from 'responsive-loader/sharp.js';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,7 +36,18 @@ export default (_, argv) => {
       new CopyWebpackPlugin({
         patterns: [{ from: './public', to: './public' }]
       }),
-      new Dotenv()
+      new Dotenv(),
+      ...(process.env.ANALYZE
+        ? [
+            new BundleAnalyzerPlugin({
+              analyzerMode: 'static',
+              openAnalyzer: false,
+              reportFilename: 'bundle-report.html',
+              generateStatsFile: true,
+              statsFilename: 'bundle-stats.json'
+            })
+          ]
+        : [])
     ],
     module: {
       rules: [
@@ -76,7 +88,7 @@ export default (_, argv) => {
             }
           },
           generator: {
-            filename: 'static/[name].[contenthash][ext]'
+            filename: 'static/[name].[contenthash:8].[ext]'
           }
         }
       ]
