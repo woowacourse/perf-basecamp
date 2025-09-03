@@ -59,7 +59,7 @@ export default (_, argv) => {
               loader: 'responsive-loader',
               options: {
                 adapter: sharpAdapter,
-                name: 'static/[name]-[width].[ext]',
+                name: 'static/[name]-[width].[contenthash:8].[ext]',
                 size: 1280,
                 format: 'webp',
                 quality: 70,
@@ -72,7 +72,7 @@ export default (_, argv) => {
           test: /\.(mp4|webm|ogg|mov)$/i,
           type: 'asset/resource',
           generator: {
-            filename: 'static/[name].[ext]'
+            filename: 'static/[name].[contenthash:8].[ext]'
           }
         },
         {
@@ -95,7 +95,7 @@ export default (_, argv) => {
             }
           },
           generator: {
-            filename: 'static/[name].[ext]'
+            filename: 'static/[name].[contenthash:8].[ext]'
           }
         }
       ]
