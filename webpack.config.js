@@ -25,7 +25,7 @@ export default (_, argv) => {
       open: true,
       historyApiFallback: true
     },
-    devtool: isProd ? 'source-map' : 'eval-cheap-module-source-map',
+    devtool: isProd ? false : 'source-map',
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html'
