@@ -37,12 +37,11 @@
 
 .cta {
   position: absolute;
-  bottom: 5.5rem;
+  transform: translate(47%, -17.65rem);
 }
 
 .linkButton {
   margin: 0 auto;
-  transform: translateX(47%);
   width: 23.5rem;
   height: 3.5rem;
   font-style: normal;
