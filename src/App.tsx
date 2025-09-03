@@ -10,9 +10,8 @@ const Home = lazy(() => import('./pages/Home/Home'));
 const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
-  const basename = process.env.NODE_ENV === 'production' ? '/perf-basecamp' : '/';
   return (
-    <Router basename={basename}>
+    <Router>
       <NavBar />
       <Suspense fallback={null}>
         <Routes>
