@@ -29,8 +29,8 @@ module.exports = {
     }),
     new Dotenv(),
     new BundleAnalyzerPlugin({
-      analyzerMode: 'server',
-      openAnalyzer: true
+      analyzerMode: 'static',
+      openAnalyzer: false
     })
   ],
   module: {
