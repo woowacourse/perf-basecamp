@@ -67,8 +67,7 @@ export const gifAPIService = {
           return stored.data;
         }
       }
-    } catch (_) {
-    }
+    } catch (_) {}
 
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
@@ -82,8 +81,7 @@ export const gifAPIService = {
     try {
       const record: TrendingCacheRecord = { data, ts: now };
       window.sessionStorage.setItem(TRENDING_CACHE_KEY, JSON.stringify(record));
-    } catch (_) {
-    }
+    } catch (_) {}
 
     return data;
   },
