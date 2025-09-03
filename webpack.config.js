@@ -33,7 +33,7 @@ export default (_, argv) => {
       new CopyWebpackPlugin({
         patterns: [
           { from: './public', to: './public' },
-          { from: './public/robots.txt', to: './' }
+          { from: './robots.txt', to: './' }
         ]
       }),
       new Dotenv(),
