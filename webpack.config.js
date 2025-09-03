@@ -17,9 +17,6 @@ export default (_, argv) => {
     resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
     output: {
       filename: isProd ? 'static/js/[name].[contenthash:8].js' : 'static/js/[name].js',
-      chunkFilename: isProd
-        ? 'static/js/[name].[contenthash:8].chunk.js'
-        : 'static/js/[name].chunk.js',
       path: path.join(__dirname, '/dist'),
       clean: true
     },
