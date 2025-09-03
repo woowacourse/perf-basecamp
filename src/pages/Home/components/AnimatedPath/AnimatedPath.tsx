@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { clamp } from '../../../../utils/number';
 import useScrollEvent from '../../hooks/useScrollEvent';
 
@@ -32,6 +32,20 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   };
 
   useScrollEvent(drawPath);
+
+  // ensure initial frame draws without waiting for scroll
+  useEffect(() => {
+    let rafId: number | null = null;
+    const tick = () => {
+      drawPath();
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => {
+      if (rafId != null) cancelAnimationFrame(rafId);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <svg
