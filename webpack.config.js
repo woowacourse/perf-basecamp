@@ -31,7 +31,10 @@ export default (_, argv) => {
         template: './index.html'
       }),
       new CopyWebpackPlugin({
-        patterns: [{ from: './public', to: './public' }]
+        patterns: [
+          { from: './public', to: './public' },
+          { from: './public/robots.txt', to: './' }
+        ]
       }),
       new Dotenv(),
       ...(process.env.ANALYZE
