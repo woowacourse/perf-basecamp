@@ -8,7 +8,14 @@ type GifItemProps = Omit<GifImageModel, 'id'>;
 const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
   return (
     <div className={styles.gifItem}>
-      <img className={styles.gifImage} src={imageUrl} />
+      <img
+        className={styles.gifImage}
+        src={imageUrl}
+        width={280}
+        height={280}
+        loading="lazy"
+        alt={title}
+      />
       <div className={styles.gifTitleContainer}>
         <div className={styles.gifTitleBg}></div>
         <h4 className={styles.gifTitle}>{title}</h4>

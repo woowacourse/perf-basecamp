@@ -27,8 +27,10 @@ const Home = () => {
             className={styles.heroImage}
             src={heroImage.src}
             srcSet={heroImage.srcSet}
+            width={heroImage.width}
+            height={heroImage.height}
             alt="hero image"
-            loading="lazy"
+            loading="eager"
             decoding="async"
           />
         </picture>
