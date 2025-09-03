@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -29,7 +30,8 @@ module.exports = {
     new Dotenv(),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
-    })
+    }),
+    new CompressionPlugin()
   ],
   module: {
     rules: [
