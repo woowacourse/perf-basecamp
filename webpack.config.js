@@ -3,52 +3,70 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = {
-  entry: './src/index.tsx',
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
-  output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, '/dist'),
-    clean: true
-  },
-  devServer: {
-    hot: true,
-    open: true,
-    historyApiFallback: true
-  },
-  devtool: 'source-map',
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
-    }),
-    new Dotenv()
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx|ts|tsx)$/i,
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
+module.exports = (env, argv) => {
+  const isProduction = argv.mode === 'production';
+
+  return {
+    entry: './src/index.tsx',
+    resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+    output: {
+      filename: isProduction ? '[name].[contenthash].js' : 'bundle.js',
+      chunkFilename: isProduction ? '[name].[contenthash].js' : '[name].js',
+      path: path.join(__dirname, '/dist'),
+      clean: true
+    },
+    devServer: {
+      hot: true,
+      open: true,
+      historyApiFallback: true,
+      compress: true
+    },
+    devtool: isProduction ? 'hidden-source-map' : 'source-map',
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: './index.html',
+        scriptLoading: 'defer',
+        minify: isProduction
+          ? {
+              removeComments: true,
+              collapseWhitespace: true,
+              removeRedundantAttributes: true,
+              minifyJS: true,
+              minifyCSS: true
+            }
+          : false
+      }),
+      new CopyWebpackPlugin({ patterns: [{ from: './public', to: './public' }] }),
+      new Dotenv()
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx|ts|tsx)$/i,
+          exclude: /node_modules/,
+          use: { loader: 'ts-loader' }
+        },
+        { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
+        {
+          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+          type: 'asset/resource',
+          generator: { filename: 'static/[name][ext]' }
+        }
+      ]
+    },
+    optimization: {
+      minimize: isProduction,
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all'
+          }
         }
       },
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
-      }
-    ]
-  },
-  optimization: {
-    minimize: false
-  }
+      runtimeChunk: 'single'
+    }
+  };
 };
