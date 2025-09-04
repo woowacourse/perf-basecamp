@@ -2,11 +2,14 @@ import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/hero.png';
-
 import FeatureItem from './components/FeatureItem/FeatureItem';
 const AnimatedPath = lazy(() => import('./components/AnimatedPath/AnimatedPath'));
 const CustomCursor = lazy(() => import('./components/CustomCursor/CustomCursor'));
+
+import hero440Webp from '../../assets/hero-440.webp';
+import hero768Webp from '../../assets/hero-768.webp';
+import hero1024Webp from '../../assets/hero-1024.webp';
+import hero1280Webp from '../../assets/hero-1280.webp';
 
 import styles from './Home.module.css';
 import trendingMp4 from '../../assets/trending.mp4';
@@ -35,17 +38,15 @@ const Home = () => {
       <section className={styles.heroSection}>
         <picture>
           <source
-            srcSet={heroImage.srcSet}
+            srcSet={`${hero440Webp} 440w, ${hero768Webp} 768w, ${hero1024Webp} 1024w, ${hero1280Webp} 1280w`}
             sizes="(min-width: 1280px) 1280px, (min-width: 1024px) 1024px, (min-width: 768px) 768px, 440px"
             type="image/webp"
           />
           <img
             className={styles.heroImage}
-            src={heroImage.src}
-            srcSet={heroImage.srcSet}
+            src={hero1280Webp}
+            srcSet={`${hero440Webp} 440w, ${hero768Webp} 768w, ${hero1024Webp} 1024w, ${hero1280Webp} 1280w`}
             sizes="(min-width: 1280px) 1280px, (min-width: 1024px) 1024px, (min-width: 768px) 768px, 440px"
-            width={heroImage.width}
-            height={heroImage.height}
             alt="hero image"
             loading="eager"
             decoding="async"

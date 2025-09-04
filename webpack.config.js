@@ -3,7 +3,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { fileURLToPath } from 'url';
-import sharpAdapter from 'responsive-loader/sharp.js';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -52,27 +51,10 @@ export default (_, argv) => {
     module: {
       rules: [
         {
-          test: /\.(png|jpe?g)$/i,
-          type: 'javascript/auto',
-          use: [
-            {
-              loader: 'responsive-loader',
-              options: {
-                adapter: sharpAdapter,
-                name: 'static/[name]-[width].[contenthash:8].[ext]',
-                sizes: [440, 768, 1024, 1280],
-                format: 'webp',
-                quality: 70,
-                esModule: true
-              }
-            }
-          ]
-        },
-        {
           test: /\.(mp4|webm|ogg|mov)$/i,
           type: 'asset/resource',
           generator: {
-            filename: 'static/[name].[contenthash:8].[ext]'
+            filename: 'public/videos/[name][ext]'
           }
         },
         {
@@ -87,15 +69,10 @@ export default (_, argv) => {
           use: ['style-loader', 'css-loader']
         },
         {
-          test: /\.(gif|svg|eot|ttf|woff2?)$/i,
-          type: 'asset',
-          parser: {
-            dataUrlCondition: {
-              maxSize: 8 * 1024
-            }
-          },
+          test: /\.(png|jpe?g|webp|gif|svg|eot|ttf|woff2?)$/i,
+          type: 'asset/resource',
           generator: {
-            filename: 'static/[name].[contenthash:8].[ext]'
+            filename: 'public/images/[name][ext]'
           }
         }
       ]
