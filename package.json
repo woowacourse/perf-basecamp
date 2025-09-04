@@ -18,6 +18,9 @@
   "author": "woowacourse",
   "homepage": "https://h0ngju.github.io/perf-basecamp",
   "license": "MIT",
+  "sideEffects": [
+    "*.css"
+  ],
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.1",
     "@giphy/js-types": "^4.2.1",
