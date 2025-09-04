@@ -57,19 +57,24 @@
     "image-minimizer-webpack-plugin": "^4.1.4",
     "imagemin": "^9.0.1",
     "imagemin-webp": "^8.0.0",
+    "mini-css-extract-plugin": "^2.9.4",
     "prettier": "^2.3.2",
     "sharp": "^0.34.3",
     "style-loader": "^3.2.1",
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
     "webpack": "^5.88.2",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react"
+      "@babel/preset-react",
+      {
+        "modules": false
+      }
     ],
     "plugins": [
       "@babel/plugin-transform-runtime"
