@@ -37,6 +37,11 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const trendingGifListCache: { store: GifImageModel[] | null; date: string | null } = {
+  store: null,
+  date: null
+};
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -44,13 +49,26 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    const nowDate = new Date().toISOString().split('T')[0];
+
+    if (trendingGifListCache.store !== null && trendingGifListCache.date === nowDate) {
+      return trendingGifListCache.store;
+    }
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    try {
+      const gifs = await fetchGifs(url);
+      trendingGifListCache.store = gifs;
+      trendingGifListCache.date = nowDate;
+      return gifs;
+    } catch {
+      return [];
+    }
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
