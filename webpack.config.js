@@ -22,7 +22,8 @@ export default (_, argv) => {
     devServer: {
       hot: true,
       open: true,
-      historyApiFallback: true
+      historyApiFallback: true,
+      static: { directory: path.join(__dirname, 'src/assets'), publicPath: '/assets' }
     },
     devtool: isProd ? false : 'source-map',
     plugins: [

@@ -38,19 +38,18 @@ const Home = () => {
       <section className={styles.heroSection}>
         <picture>
           <source
-            srcSet={`${hero440Webp} 440w, ${hero768Webp} 768w, ${hero1024Webp} 1024w, ${hero1280Webp} 1280w`}
+            srcSet={`${hero440Webp.srcSet} 440w, ${hero768Webp.srcSet} 768w, ${hero1024Webp.srcSet} 1024w, ${hero1280Webp.srcSet} 1280w`}
             sizes="(min-width: 1280px) 1280px, (min-width: 1024px) 1024px, (min-width: 768px) 768px, 440px"
             type="image/webp"
           />
           <img
             className={styles.heroImage}
-            src={hero1280Webp}
-            srcSet={`${hero440Webp} 440w, ${hero768Webp} 768w, ${hero1024Webp} 1024w, ${hero1280Webp} 1280w`}
+            src={hero1280Webp.src || hero1024Webp.src || hero768Webp.src || hero440Webp.src}
+            srcSet={`${hero440Webp.srcSet} 440w, ${hero768Webp.srcSet} 768w, ${hero1024Webp.srcSet} 1024w, ${hero1280Webp.srcSet} 1280w`}
             sizes="(min-width: 1280px) 1280px, (min-width: 1024px) 1024px, (min-width: 768px) 768px, 440px"
             alt="hero image"
             loading="eager"
             decoding="async"
-            fetchPriority="high"
           />
         </picture>
         <div className={styles.projectTitle}>
