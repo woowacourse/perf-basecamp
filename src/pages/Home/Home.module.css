@@ -33,6 +33,7 @@
   font-weight: 400;
   font-size: 3rem;
   line-height: 3rem;
+  min-height: 3rem;
   text-align: center;
   padding-top: 1.25rem;
 }
@@ -71,9 +72,6 @@
     rgba(232, 109, 198, 0.64248) 0.01%,
     #bd00ff 77.6%
   );
-  content-visibility: auto;
-  contain: layout paint;
-  contain-intrinsic-size: 1200px 800px;
 }
 
 .featureSectionWrapper {
@@ -87,6 +85,7 @@
   font-weight: 700;
   font-size: 3.75rem;
   line-height: 3.75rem;
+  min-height: 3.75rem;
   text-align: center;
   color: var(--white);
 }
