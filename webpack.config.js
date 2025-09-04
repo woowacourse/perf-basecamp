@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -43,7 +44,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -68,6 +69,20 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: [`...`, new CssMinimizerPlugin()]
+    minimizer: [
+      `...`,
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminMinify,
+          options: {
+            plugins: [
+              ['mozjpeg', { quality: 75 }],
+              ['pngquant', { optimizationLevel: 5 }]
+            ]
+          }
+        }
+      })
+    ]
   }
 };
