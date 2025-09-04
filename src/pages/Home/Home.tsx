@@ -22,16 +22,22 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source srcSet={heroImage.srcSet} type="image/webp" />
+          <source
+            srcSet={heroImage.srcSet}
+            sizes="(min-width: 1280px) 1280px, (min-width: 1024px) 1024px, (min-width: 768px) 768px, 440px"
+            type="image/webp"
+          />
           <img
             className={styles.heroImage}
             src={heroImage.src}
             srcSet={heroImage.srcSet}
+            sizes="(min-width: 1280px) 1280px, (min-width: 1024px) 1024px, (min-width: 768px) 768px, 440px"
             width={heroImage.width}
             height={heroImage.height}
             alt="hero image"
             loading="eager"
             decoding="async"
+            fetchPriority="high"
           />
         </picture>
         <div className={styles.projectTitle}>

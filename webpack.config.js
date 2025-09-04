@@ -60,7 +60,7 @@ export default (_, argv) => {
               options: {
                 adapter: sharpAdapter,
                 name: 'static/[name]-[width].[contenthash:8].[ext]',
-                size: 1280,
+                sizes: [440, 768, 1024, 1280],
                 format: 'webp',
                 quality: 70,
                 esModule: true
