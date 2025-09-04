@@ -28,35 +28,25 @@ module.exports = {
     new Dotenv(),
     new ImageMinimizerPlugin({
       test: /\.(jpe?g|png)$/i,
-      minimizer: {
-        implementation: ImageMinimizerPlugin.imageminGenerate,
-        options: {
-          plugins: [
-            ['imagemin-webp', { quality: 75 }],
-            ['imagemin-avif', { quality: 40 }]
-          ]
-        }
-      },
       generator: [
         {
-          preset: 'webp',
+          type: 'asset',
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: [['imagemin-webp', { quality: 75, metadata: 'none' }]]
-          },
-          filename: 'static/[name][ext].webp'
+            plugins: [['imagemin-avif', { quality: 40 }]]
+          }
         },
         {
-          preset: 'avif',
+          type: 'asset',
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: [['imagemin-avif', { quality: 40, metadata: 'none' }]]
-          },
-          filename: 'static/[name][ext].avif'
+            plugins: [['imagemin-webp', { quality: 75 }]]
+          }
         }
       ]
     })
   ],
+
   module: {
     rules: [
       {
