@@ -30,6 +30,7 @@ module.exports = {
     new Dotenv(),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
+      reportFilename: path.resolve(__dirname, 'dist', 'bundle-report.html'),
       openAnalyzer: false
     })
   ],
