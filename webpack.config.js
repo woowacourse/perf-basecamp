@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -52,7 +53,22 @@ module.exports = (env, argv) => {
       ]
     },
     optimization: {
-      minimize: false
+      minimize: isProduction,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            compress: {
+              drop_console: isProduction,
+              drop_debugger: isProduction
+            },
+            mangle: true,
+            format: {
+              comments: false
+            }
+          },
+          extractComments: false
+        })
+      ]
     }
   };
 };
