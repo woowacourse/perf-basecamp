@@ -33,7 +33,7 @@ module.exports = {
         options: {
           plugins: [
             ['imagemin-webp', { quality: 75 }],
-            ['imagemin-avif', { quality: 50 }]
+            ['imagemin-avif', { quality: 40 }]
           ]
         }
       },
@@ -50,7 +50,7 @@ module.exports = {
           preset: 'avif',
           implementation: ImageMinimizerPlugin.imageminGenerate,
           options: {
-            plugins: [['imagemin-avif', { quality: 50, metadata: 'none' }]]
+            plugins: [['imagemin-avif', { quality: 40, metadata: 'none' }]]
           },
           filename: 'static/[name][ext].avif'
         }
