@@ -16,6 +16,8 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   const pathLengthRef = useRef<number>(0);
   const wrapperTopRef = useRef<number>(0);
   const wrapperHeightRef = useRef<number>(1);
+  const isActiveRef = useRef<boolean>(true);
+  const lastOffsetRef = useRef<number>(Infinity);
 
   const drawPath = () => {
     const wrapper = wrapperRef.current;
@@ -30,10 +32,15 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
 
     const pathLength = pathLengthRef.current;
     const currentScrollOffset = clamp(pathLength - pathLength * scrollRatio, 0, pathLength);
-    path.setAttribute('stroke-dashoffset', String(currentScrollOffset));
+    // 만약 변화량이 아주 작으면 DOM 업데이트를 생략해 페인트 비용을 줄입니다.
+    if (Math.abs(currentScrollOffset - lastOffsetRef.current) >= 0.5) {
+      path.setAttribute('stroke-dashoffset', String(currentScrollOffset));
+      lastOffsetRef.current = currentScrollOffset;
+    }
   };
 
   useScrollEvent(() => {
+    if (!isActiveRef.current) return;
     if (rafIdRef.current != null) return;
     rafIdRef.current = requestAnimationFrame(() => {
       drawPath();
@@ -56,6 +63,15 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
       wrapperTopRef.current = wrapper.offsetTop;
       wrapperHeightRef.current = wrapper.offsetHeight || 1;
     }
+    // 뷰포트에 있을 때만 업데이트
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        isActiveRef.current = entry.isIntersecting;
+      },
+      { root: null, rootMargin: '200px 0px', threshold: 0 }
+    );
+    if (wrapper) io.observe(wrapper);
     const handleResize = () => {
       const w = wrapperRef.current;
       if (!w) return;
@@ -67,6 +83,8 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     return () => {
       cancelAnimationFrame(id);
       window.removeEventListener('resize', handleResize);
+      if (wrapper) io.unobserve(wrapper);
+      io.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
