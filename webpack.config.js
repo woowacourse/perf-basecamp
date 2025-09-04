@@ -5,6 +5,21 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const plugins = [
+  new HtmlWebpackPlugin({
+    template: './index.html'
+  }),
+  new CopyWebpackPlugin({
+    patterns: [{ from: './public', to: './public' }]
+  }),
+  new Dotenv(),
+  new MiniCssExtractPlugin()
+];
+
+if (process.env.WEBPACK_DEV_SERVER) {
+  plugins.push(new BundleAnalyzerPlugin());
+}
+
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
@@ -19,17 +34,7 @@ module.exports = {
     historyApiFallback: true
   },
   devtool: 'source-map',
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
-    }),
-    new Dotenv(),
-    new BundleAnalyzerPlugin(),
-    new MiniCssExtractPlugin()
-  ],
+  plugins,
   module: {
     rules: [
       {
