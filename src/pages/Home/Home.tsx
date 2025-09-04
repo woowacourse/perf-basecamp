@@ -1,12 +1,12 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage from '../../assets/hero.png';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
-import CustomCursor from './components/CustomCursor/CustomCursor';
-import AnimatedPath from './components/AnimatedPath/AnimatedPath';
+const AnimatedPath = lazy(() => import('./components/AnimatedPath/AnimatedPath'));
+const CustomCursor = lazy(() => import('./components/CustomCursor/CustomCursor'));
 
 import styles from './Home.module.css';
 import trendingMp4 from '../../assets/trending.mp4';
@@ -17,6 +17,18 @@ const cx = classNames.bind(styles);
 
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
+  const [showEnhancements, setShowEnhancements] = useState(false);
+
+  useEffect(() => {
+    const idle = (window as any).requestIdleCallback as
+      | ((cb: () => void, opts?: { timeout?: number }) => number)
+      | undefined;
+    if (idle) {
+      idle(() => setShowEnhancements(true), { timeout: 2000 });
+    } else {
+      setTimeout(() => setShowEnhancements(true), 0);
+    }
+  }, []);
 
   return (
     <>
@@ -49,7 +61,11 @@ const Home = () => {
         </Link>
       </section>
       <section ref={wrapperRef} className={styles.featureSection}>
-        <AnimatedPath wrapperRef={wrapperRef} />
+        {showEnhancements ? (
+          <Suspense fallback={null}>
+            <AnimatedPath wrapperRef={wrapperRef} />
+          </Suspense>
+        ) : null}
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
@@ -62,7 +78,11 @@ const Home = () => {
           </Link>
         </div>
       </section>
-      <CustomCursor text="memegle" />
+      {showEnhancements ? (
+        <Suspense fallback={null}>
+          <CustomCursor text="memegle" />
+        </Suspense>
+      ) : null}
     </>
   );
 };
