@@ -83,7 +83,6 @@ const useGifSearch = () => {
         const gifs = await gifAPIService.getTrending();
         cachedTrending = gifs;
         setGifList(gifs);
-        console.log('캐시 안됨');
       } catch (error) {
         handleError(error);
       }
