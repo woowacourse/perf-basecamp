@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -41,19 +42,46 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[contenthash].[ext]'
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|avif)$/i,
+        type: 'asset'
+      },
+      {
+        test: /\.mp4$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/videos/[name].[contenthash][ext]'
         }
       }
     ]
   },
   optimization: {
     minimize: true,
-    minimizer: ['...', new CssMinimizerPlugin()]
+    minimizer: [
+      '...',
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        deleteOriginalAssets: false,
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ['webp', { preset: 'photo', quality: 40, resize: { width: 1920, height: 1280 } }]
+            ]
+          }
+        },
+        generator: [
+          {
+            preset: 'webp',
+            implementation: ImageMinimizerPlugin.imageminGenerate,
+            options: {
+              plugins: ['imagemin-webp']
+            }
+          }
+        ]
+      })
+    ]
   }
 };
