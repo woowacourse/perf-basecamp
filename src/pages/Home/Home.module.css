@@ -33,7 +33,6 @@
   font-weight: 400;
   font-size: 3rem;
   line-height: 3rem;
-  min-height: 3rem;
   text-align: center;
   padding-top: 1.25rem;
 }
@@ -85,7 +84,6 @@
   font-weight: 700;
   font-size: 3.75rem;
   line-height: 3.75rem;
-  min-height: 3.75rem;
   text-align: center;
   color: var(--white);
 }
