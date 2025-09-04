@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -70,6 +71,20 @@ module.exports = (env, argv) => {
     },
     optimization: {
       minimize: isProduction,
+      minimizer: [
+        '...',
+        new ImageMinimizerPlugin({
+          generator: [
+            {
+              preset: 'webp',
+              implementation: ImageMinimizerPlugin.imageminGenerate,
+              options: {
+                plugins: [['imagemin-webp', { quality: 75 }]]
+              }
+            }
+          ]
+        })
+      ],
       splitChunks: {
         chunks: 'all',
         maxInitialRequests: 3,
