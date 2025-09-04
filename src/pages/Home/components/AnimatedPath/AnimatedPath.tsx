@@ -32,8 +32,9 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
 
     const pathLength = pathLengthRef.current;
     const currentScrollOffset = clamp(pathLength - pathLength * scrollRatio, 0, pathLength);
-    // 만약 변화량이 아주 작으면 DOM 업데이트를 생략해 페인트 비용을 줄입니다.
-    if (Math.abs(currentScrollOffset - lastOffsetRef.current) >= 0.5) {
+    // 변화량 퀀타이즈로 초고속 스크롤 시 불필요한 미세 업데이트를 줄입니다.
+    const quant = Math.max(0.5, pathLength / 800);
+    if (Math.abs(currentScrollOffset - lastOffsetRef.current) >= quant) {
       path.setAttribute('stroke-dashoffset', String(currentScrollOffset));
       lastOffsetRef.current = currentScrollOffset;
     }
