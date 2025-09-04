@@ -70,7 +70,14 @@ module.exports = {
       '...'
     ],
     splitChunks: {
-      chunks: 'all'
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
     }
   }
 };
