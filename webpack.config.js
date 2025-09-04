@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -41,11 +42,33 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        test: /\.(png|jpe?g)$/i,
+        type: 'asset/resource',
+        generator: { filename: 'static/[name].webp' },
+        use: [
+          {
+            loader: ImageMinimizerPlugin.loader,
+            options: {
+              minimizer: {
+                implementation: ImageMinimizerPlugin.sharpGenerate,
+                options: {
+                  encodeOptions: {
+                    webp: { quality: 38, effort: 6 }
+                  },
+                  resize: {
+                    enabled: true,
+                    width: 1920
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(gif|svg|ico|eot|ttf|woff2?)$/i,
+        type: 'asset/resource',
+        generator: { filename: 'static/[name][ext]' }
       }
     ]
   },
