@@ -68,6 +68,9 @@ module.exports = {
       }),
       new CssMinimizerPlugin(),
       '...'
-    ]
+    ],
+    splitChunks: {
+      chunks: 'all'
+    }
   }
 };
