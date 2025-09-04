@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -31,6 +32,19 @@ module.exports = {
     new Dotenv(),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
+    }),
+    new ImageMinimizerPlugin({
+      generator: [
+        {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          type: 'asset',
+          filename: 'static/[name].webp',
+          filter: (_, sourcePath) => /\.webp$/i.test(sourcePath),
+          options: {
+            plugins: [['webp', { quality: 50, resize: { width: 1260, height: 0 } }]]
+          }
+        }
+      ]
     })
   ],
   module: {
@@ -48,10 +62,17 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|jpg|gif)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
+        }
+      },
+      {
+        test: /\.(png)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].webp[query]'
         }
       }
     ]
