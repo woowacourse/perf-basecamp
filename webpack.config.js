@@ -48,9 +48,23 @@ module.exports = (env, argv) => {
         },
         { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
         {
-          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
           type: 'asset/resource',
-          generator: { filename: 'static/[name][ext]' }
+          generator: {
+            filename: isProduction ? 'static/[name].[contenthash:8][ext]' : 'static/[name][ext]'
+          },
+          parser: {
+            dataUrlCondition: {
+              maxSize: 8 * 1024
+            }
+          }
+        },
+        {
+          test: /hero\.(webp|png|jpg|jpeg)$/i,
+          type: 'asset/resource',
+          generator: {
+            filename: isProduction ? 'static/[name].[contenthash:8][ext]' : 'static/[name][ext]'
+          }
         }
       ]
     },
@@ -58,11 +72,25 @@ module.exports = (env, argv) => {
       minimize: isProduction,
       splitChunks: {
         chunks: 'all',
+        maxInitialRequests: 3,
+        maxAsyncRequests: 5,
         cacheGroups: {
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true
+          },
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
+            priority: -10,
             chunks: 'all'
+          },
+          images: {
+            test: /\.(png|jpe?g|gif|svg|webp)$/i,
+            name: 'images',
+            chunks: 'all',
+            priority: 5
           }
         }
       },
