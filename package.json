@@ -13,7 +13,7 @@
     "serve": "webpack serve --mode=development",
     "prettier": "prettier --write .",
     "deploy": "npm run build:prod && npx gh-pages -d dist",
-    "analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json"
+    "analyze": "ANALYZE=true npm run build:prod"
   },
   "keywords": [],
   "author": "woowacourse",
