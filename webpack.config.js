@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const WebpackShellPluginNext = require('webpack-shell-plugin-next');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -29,6 +30,13 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
+    }),
+    new WebpackShellPluginNext({
+      onBuildEnd: {
+        scripts: ['node scripts/generate-sitemap.js', 'node scripts/generate-robots.js'],
+        blocking: true,
+        parallel: false
+      }
     }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
