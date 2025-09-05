@@ -50,7 +50,28 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    try {
+      const cacheStorage = await caches.open('trendingGifs');
+      const cacheKey = url.toString();
+      const cachedResponse = await cacheStorage.match(cacheKey);
+
+      if (cachedResponse) {
+        const json = await cachedResponse.clone().json();
+        return convertResponseToModel(json.data);
+      }
+
+      const response = await fetch(cacheKey);
+      if (!response.ok) {
+        throw new ApiError(response.status, `HTTP error! status: ${response.status}`);
+      }
+
+      await cacheStorage.put(cacheKey, response.clone());
+
+      const json = await response.json();
+      return convertResponseToModel(json.data);
+    } catch {
+      return [];
+    }
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
