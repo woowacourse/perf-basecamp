@@ -9,16 +9,6 @@ if (!API_KEY) {
   throw new Error('GIPHY_API_KEY is not set in environment variables');
 }
 
-const BASE_URL = 'https://api.giphy.com/v1/gifs';
-const DEFAULT_FETCH_COUNT = 16;
-const TRENDING_GIF_API = apiClient
-  .appendSearchParams(new URL(`${BASE_URL}/trending`), {
-    api_key: API_KEY,
-    limit: `${DEFAULT_FETCH_COUNT}`,
-    rating: 'g'
-  })
-  .toString();
-
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
@@ -44,6 +34,17 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const BASE_URL = 'https://api.giphy.com/v1/gifs';
+const DEFAULT_FETCH_COUNT = 16;
+const TRENDING_GIF_API = apiClient
+  .appendSearchParams(new URL(`${BASE_URL}/trending`), {
+    api_key: API_KEY,
+    limit: `${DEFAULT_FETCH_COUNT}`,
+    rating: 'g'
+  })
+  .toString();
+const CACHE_EXPIRATION_MS = 60 * 60 * 1000;
+
 export const gifAPIService = {
   getTrending: async (): Promise<GifImageModel[]> => {
     try {
@@ -51,15 +52,27 @@ export const gifAPIService = {
       const cachedResponse = await cacheStorage.match(TRENDING_GIF_API);
 
       if (cachedResponse) {
-        const gifs: GifsResult = await cachedResponse.json();
-        return convertResponseToModel(gifs.data);
+        const cachedData: GifsResult & { timestamp: number } = await cachedResponse.json();
+        const now = Date.now();
+
+        // 캐시 저장 시간과 현재 시간 차이 계산
+        if (now - cachedData.timestamp < CACHE_EXPIRATION_MS) {
+          // 유효한 캐시
+          return convertResponseToModel(cachedData.data);
+        }
+        // 만료된 캐시면 삭제
+        await cacheStorage.delete(TRENDING_GIF_API);
       }
 
       const response = await fetch(TRENDING_GIF_API);
 
       if (response.ok) {
-        await cacheStorage.put(TRENDING_GIF_API, response.clone());
         const gifs: GifsResult = await response.json();
+        const cacheDataToStore = JSON.stringify({
+          timestamp: Date.now(),
+          data: gifs.data
+        });
+        await cacheStorage.put(TRENDING_GIF_API, new Response(cacheDataToStore));
         return convertResponseToModel(gifs.data);
       } else {
         throw new Error('네트워크 요청 실패!');
