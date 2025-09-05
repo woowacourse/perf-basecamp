@@ -85,6 +85,8 @@ module.exports = (env, argv) => {
           ]
         })
       ],
+      usedExports: true,
+      sideEffects: false,
       splitChunks: {
         chunks: 'all',
         maxInitialRequests: 3,
@@ -100,6 +102,12 @@ module.exports = (env, argv) => {
             name: 'vendors',
             priority: -10,
             chunks: 'all'
+          },
+          reactIcons: {
+            test: /[\\/]node_modules[\\/]react-icons[\\/]/,
+            name: 'react-icons',
+            chunks: 'all',
+            priority: 20
           },
           images: {
             test: /\.(png|jpe?g|gif|svg|webp)$/i,
