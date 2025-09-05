@@ -8,7 +8,7 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -26,7 +26,7 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -51,6 +51,9 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: false,
+    splitChunks: {
+      chunks: 'all'
+    }
   }
 };
