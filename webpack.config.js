@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -59,6 +60,7 @@ module.exports = {
     splitChunks: {
       chunks: 'all'
     },
-    minimize: true
+    minimize: true,
+    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };

@@ -1,6 +1,8 @@
 {
   "name": "frontend-performance-basecamp",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "version": "0.0.0",
   "engines": {
     "node": ">=18.0.0"
@@ -43,6 +45,7 @@
     "compression-webpack-plugin": "^11.1.0",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
+    "css-minimizer-webpack-plugin": "^7.0.2",
     "dotenv-webpack": "^7.0.3",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.5.0",
