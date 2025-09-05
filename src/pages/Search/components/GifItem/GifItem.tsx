@@ -1,10 +1,11 @@
+import React from 'react';
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import styles from './GifItem.module.css';
 
 type GifItemProps = Omit<GifImageModel, 'id'>;
 
-const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
+const GifItem = React.memo(({ imageUrl = '', title = '' }: GifItemProps) => {
   const isVideo = imageUrl.includes('.mp4');
   return (
     <div className={styles.gifItem}>
@@ -21,6 +22,6 @@ const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default GifItem;
