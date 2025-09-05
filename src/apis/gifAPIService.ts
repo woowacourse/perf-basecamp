@@ -50,7 +50,20 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    const cache = await caches.open('trending-cache');
+
+    const cachedResponse = await cache.match(url);
+    if (cachedResponse) {
+      const data = await cachedResponse.json();
+      return convertResponseToModel(data.data);
+    }
+
+    const data = await fetchGifs(url);
+
+    const responseToCache = new Response(JSON.stringify({ data }));
+    await cache.put(url, responseToCache);
+
+    return data;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
