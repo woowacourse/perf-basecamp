@@ -26,7 +26,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "terser-webpack-plugin": "^5.3.14"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
