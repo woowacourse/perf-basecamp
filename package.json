@@ -9,6 +9,7 @@
   "scripts": {
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
+    "build:analyze": "ANALYZE=true webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
     "prettier": "prettier --write .",

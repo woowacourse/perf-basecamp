@@ -30,7 +30,7 @@ module.exports = (env, argv) => {
         patterns: [{ from: './public', to: './public' }]
       }),
       new Dotenv(),
-      new BundleAnalyzerPlugin()
+      ...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : [])
     ],
     module: {
       rules: [
