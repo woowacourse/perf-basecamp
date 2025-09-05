@@ -17,7 +17,7 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.url
+      imageUrl: images.original_mp4.mp4
     };
   });
 };
@@ -37,6 +37,9 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const CACHE_NAME = 'trending-cache';
+const CACHE_TTL = 1000 * 60 * 5;
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -44,26 +47,35 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    const cache = await caches.open(CACHE_NAME);
+    const cacheKey = 'trending';
+
+    // 캐시 확인
+    const cachedResponse = await cache.match(cacheKey);
+    if (cachedResponse) {
+      const cachedData = await cachedResponse.json();
+      const now = Date.now();
+
+      if (now - cachedData.timestamp < CACHE_TTL) {
+        console.log('캐시에서 GIF 불러옴');
+        return cachedData.data;
+      }
+    }
+
+    // 캐시 없거나 TTL 만료되면 API 호출
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    const cache = await caches.open('trending-cache');
+    const gifs = await fetchGifs(url);
 
-    const cachedResponse = await cache.match(url);
-    if (cachedResponse) {
-      const data = await cachedResponse.json();
-      return convertResponseToModel(data.data);
-    }
+    // 캐시에 저장
+    const responseToCache = new Response(JSON.stringify({ data: gifs, timestamp: Date.now() }));
+    await cache.put(cacheKey, responseToCache);
 
-    const data = await fetchGifs(url);
-
-    const responseToCache = new Response(JSON.stringify({ data }));
-    await cache.put(url, responseToCache);
-
-    return data;
+    return gifs;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
