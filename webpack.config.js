@@ -2,9 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/index.tsx',
+  mode: isProduction ? 'production' : 'development',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
     filename: 'bundle.js',
@@ -16,7 +18,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: isProduction ? false : 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -49,6 +51,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: isProduction 
   }
 };
