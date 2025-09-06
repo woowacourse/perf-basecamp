@@ -18,14 +18,17 @@ interface CacheDataType {
   timestamp: number;
 }
 
-let cacheData: CacheDataType | null = null;
+const cacheData: CacheDataType = {
+  data: [],
+  timestamp: 0
+};
 
 const isCacheValid = (timestamp: number): boolean => {
   return Date.now() - timestamp < CACHE_STALE_TIME;
 };
 
 const getCachedData = (): GifImageModel[] | null => {
-  if (cacheData && isCacheValid(cacheData.timestamp)) {
+  if (cacheData.data.length > 0 && isCacheValid(cacheData.timestamp)) {
     return cacheData.data;
   }
   return null;
@@ -73,10 +76,8 @@ export const gifAPIService = {
     if (cachedData) return cachedData;
 
     const fetchedData = await fetchGifs(url);
-    cacheData = {
-      data: fetchedData,
-      timestamp: Date.now()
-    };
+    cacheData.data = fetchedData;
+    cacheData.timestamp = Date.now();
 
     return fetchedData;
   },
