@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
@@ -26,7 +28,10 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    ...(isProduction
+      ? [new MiniCssExtractPlugin({ filename: 'styles/[name].[contenthash].css' })]
+      : [])
   ],
   module: {
     rules: [
@@ -39,7 +44,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
@@ -51,6 +56,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: isProduction 
+    minimize: isProduction
   }
 };
