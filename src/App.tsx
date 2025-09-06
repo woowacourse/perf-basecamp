@@ -10,11 +10,9 @@ const Home = lazy(() => import('./pages/Home/Home'));
 const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
-  const basename = process.env.NODE_ENV === 'production' ? '/perf-basecamp' : '';
-
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Router basename={basename}>
+      <Router>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
