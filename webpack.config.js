@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -56,6 +58,42 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: isProduction
+    minimize: isProduction,
+    minimizer: isProduction
+      ? [
+          new TerserPlugin({
+            terserOptions: {
+              compress: {
+                drop_console: true,
+                drop_debugger: true,
+                pure_funcs: ['console.info', 'console.debug', 'console.warn'],
+                dead_code: true,
+                unused: true
+              },
+              mangle: {
+                safari10: true
+              },
+              format: {
+                comments: false
+              }
+            }
+          }),
+          new CssMinimizerPlugin({
+            minimizerOptions: {
+              preset: [
+                'default',
+                {
+                  discardComments: { removeAll: true },
+                  normalizeWhitespace: true,
+                  colormin: true,
+                  convertValues: true,
+                  mergeLonghand: true,
+                  mergeRules: true
+                }
+              ]
+            }
+          })
+        ]
+      : []
   }
 };
