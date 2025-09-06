@@ -49,7 +49,7 @@ module.exports = (env, argv) => {
         },
         { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
         {
-          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
           type: 'asset/resource',
           generator: {
             filename: isProduction ? 'static/[name].[contenthash:8][ext]' : 'static/[name][ext]'
@@ -110,7 +110,7 @@ module.exports = (env, argv) => {
             priority: 20
           },
           images: {
-            test: /\.(png|jpe?g|gif|svg|webp)$/i,
+            test: /\.(png|jpe?g|gif|svg|webp|mp4)$/i,
             name: 'images',
             chunks: 'all',
             priority: 5

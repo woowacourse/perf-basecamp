@@ -6,16 +6,22 @@ type FeatureItemProps = {
 };
 
 const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
+  const isVideo = imageSrc.endsWith('.mp4');
+
   return (
     <div className={styles.featureItem}>
       <div className={styles.featureImageBox}>
-        <img
-          className={styles.featureImage}
-          src={imageSrc}
-          alt={`${title} feature illustration`}
-          loading="lazy"
-          decoding="async"
-        />
+        {isVideo ? (
+          <video className={styles.featureImage} src={imageSrc} autoPlay loop muted playsInline />
+        ) : (
+          <img
+            className={styles.featureImage}
+            src={imageSrc}
+            alt={`${title} feature illustration`}
+            loading="lazy"
+            decoding="async"
+          />
+        )}
       </div>
 
       <div className={styles.featureTitleBg}></div>
