@@ -1,6 +1,6 @@
 .cursor {
   pointer-events: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
@@ -11,9 +11,8 @@
 .cursor::before {
   content: '';
   display: block;
-  position: absolute;
-  top: -12px;
-  left: -12px;
+  position: fixed;
+  transform: translate(-12px, -12px);
   width: 24px;
   height: 24px;
   background: rgba(255, 255, 255, 0.25);
