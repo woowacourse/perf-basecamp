@@ -49,7 +49,7 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4)$/i,
-        loader: 'file-loader',
+        type: 'asset/resource',
         options: {
           name: 'static/[name].[contenthash].[ext]'
         }
