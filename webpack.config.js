@@ -6,6 +6,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin'); // 정적 파일 복�
 const CompressionPlugin = require('compression-webpack-plugin'); // Gzip 압축
 const TerserPlugin = require('terser-webpack-plugin'); // JavaScript 압축/난독화
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // 번들 분석
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin'); // 이미지 압축
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin'); // CSS 압축
 
 module.exports = {
   // 진입점: 애플리케이션의 시작 파일
@@ -110,6 +112,11 @@ module.exports = {
         type: 'asset/resource', // 파일을 별도 리소스로 처리
         generator: {
           filename: 'static/[name].[contenthash][ext]' // 파일명에 해시 포함
+        },
+        parser: {
+          dataUrlCondition: {
+            maxSize: 8 * 1024 // 8KB 이하는 인라인으로 처리하여 HTTP 요청 감소
+          }
         }
       }
     ]
@@ -121,6 +128,7 @@ module.exports = {
 
     // 압축 도구 설정
     minimizer: [
+      // JavaScript 압축
       new TerserPlugin({
         terserOptions: {
           compress: {
@@ -133,29 +141,92 @@ module.exports = {
           }
         },
         extractComments: false // 별도 라이선스 파일 생성 안함
+      }),
+
+      new CssMinimizerPlugin(),
+
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.sharpMinify,
+          options: {
+            encodeOptions: {
+              webp: {
+                quality: 45,
+                effort: 6,
+                lossless: false,
+                nearLossless: false,
+                smartSubsample: true,
+                preset: 'photo'
+              }
+            }
+          }
+        },
+        generator: [
+          {
+            type: 'asset',
+            preset: 'webp-custom-resize',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                webp: {
+                  quality: 45
+                }
+              }
+            }
+          }
+        ]
       })
     ],
 
     // 코드 분할 설정
     splitChunks: {
-      chunks: 'all', // 모든 청크에 대해 분할 적용
+      chunks: 'all',
+      minSize: 20000,
+      maxSize: 244000, // 244KB 미만으로 제한
       cacheGroups: {
-        // vendor 라이브러리들을 별도 번들로 분리
-        vendor: {
-          test: /[\\/]node_modules[\\/]/, // node_modules 파일들
-          name: 'vendors', // 번들명
-          chunks: 'all' // 모든 청크에서 분리
+        // Home 페이지 전용 경량 React 번들 (60KB 제한)
+        reactCore: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: 'react-core',
+          chunks: (chunk) => chunk.name === 'main' || chunk.name?.includes('Home'),
+          priority: 25,
+          enforce: true,
+          maxSize: 45000 // 45KB로 제한
         },
-        // react-icons를 별도 번들로 분리하여 tree-shaking 효과 극대화
+        // React Router는 별도 청크로 분리 (지연 로딩)
+        reactRouter: {
+          test: /[\\/]node_modules[\\/]react-router-dom[\\/]/,
+          name: 'react-router',
+          chunks: 'async',
+          priority: 20,
+          enforce: true,
+          maxSize: 15000 // 15KB로 제한
+        },
+        // react-icons를 Home 페이지에서 제외
         reactIcons: {
-          test: /[\\/]node_modules[\\/]react-icons[\\/]/, // react-icons 라이브러리
-          name: 'react-icons', // 번들명
-          chunks: 'async', // 비동기 청크에서만 분리 (더 나은 tree-shaking)
-          priority: 10, // 우선순위 (높을수록 먼저 적용)
-          // tree-shaking으로 인해 사용되지 않은 아이콘들이 제거됨
-          enforce: true, // 강제 적용
-          minSize: 0, // 최소 크기 제한 없음
-          maxSize: 5000 // 최대 5KB로 제한
+          test: /[\\/]node_modules[\\/]react-icons[\\/]/,
+          name: 'react-icons',
+          chunks: 'async', // Home 페이지에서 지연 로딩
+          priority: 15,
+          enforce: true,
+          maxSize: 25000 // 25KB로 제한
+        },
+        // 기타 vendor 라이브러리 최소화
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'async', // 필수가 아닌 라이브러리는 지연 로딩
+          priority: 10,
+          maxSize: 50000 // 50KB로 제한
+        },
+        // Home 페이지 전용 코드만 즉시 로딩
+        homeBundle: {
+          test: /src[\\/]pages[\\/]Home[\\/]/,
+          name: 'home',
+          chunks: 'initial',
+          priority: 30,
+          enforce: true,
+          maxSize: 15000 // 15KB로 제한
         }
       }
     }

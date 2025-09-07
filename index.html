@@ -5,26 +5,155 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="./public/favicon.ico" />
+
+    <link
+      rel="preload"
+      href="./src/assets/images/hero.webp"
+      as="image"
+      fetchpriority="high"
+      type="image/webp"
+    />
+    <link rel="modulepreload" href="./src/pages/Home/Home.tsx" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://api.giphy.com" />
+    <link rel="preconnect" href="https://api.giphy.com" crossorigin />
+    <!-- Optimized font loading with only needed weights -->
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap&subset=latin"
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"
     />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap&subset=latin"
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
       <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap&subset=latin"
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"
       />
     </noscript>
-    <title>memegle - gif search engine for you</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family: 'Josefin Sans', system-ui, -apple-system, sans-serif;
+        line-height: 1.5;
+        background: #131313;
+        color: #fcfcfc;
+        font-display: swap;
+        overflow-x: hidden;
+      }
+      #app {
+        min-height: 100vh;
+        contain: layout;
+      }
+      .heroSection {
+        position: relative;
+        color: #fcfcfc;
+        width: 100%;
+        height: 46.5rem;
+        padding-top: 3.5rem;
+        overflow: hidden;
+        contain: layout;
+      }
+      .heroImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        aspect-ratio: 16/9;
+        display: block;
+        background-color: #131313;
+        will-change: auto;
+        contain: layout;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        background-image: linear-gradient(135deg, #131313 0%, #1a1a1a 50%, #131313 100%);
+        background-size: 400% 400%;
+        animation: shimmer 1.5s ease-in-out infinite;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      .projectTitle {
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        height: 8.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        contain: layout;
+      }
+      .title {
+        font-style: italic;
+        font-weight: 700;
+        font-size: 4.5rem;
+        line-height: 4.5rem;
+        text-align: center;
+        margin: 0;
+        font-display: swap;
+        min-height: 4.5rem;
+      }
+      .subtitle {
+        font-style: italic;
+        font-weight: 400;
+        font-size: 3rem;
+        line-height: 3rem;
+        text-align: center;
+        margin: 0;
+        margin-top: 1.25rem;
+        font-display: swap;
+        min-height: 3rem;
+        contain: layout;
+      }
+      /* Footer CLS prevention */
+      footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 7.5rem;
+        height: 7.5rem;
+        background: #131313;
+        color: #fcfcfc;
+        position: relative;
+        box-sizing: border-box;
+        contain: layout;
+      }
+    </style>
+
+    <meta
+      name="description"
+      content="Memegle - A fast GIF search engine powered by GIPHY. Find and discover the best GIFs and animated stickers online."
+    />
+    <meta name="theme-color" content="#bd00ff" />
+
+    <title>Memegle - GIF Search Engine | Find the Best GIFs Online</title>
   </head>
 
   <body>
