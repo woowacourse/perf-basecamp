@@ -56,12 +56,15 @@ module.exports = (env, argv) => {
     },
     optimization: {
       minimize: isProduction,
+      usedExports: true,
+      sideEffects: false,
       minimizer: [
         new TerserPlugin({
           terserOptions: {
             compress: {
               drop_console: isProduction,
-              drop_debugger: isProduction
+              drop_debugger: isProduction,
+              pure_funcs: isProduction ? ['console.log', 'console.info', 'console.debug'] : []
             },
             mangle: true,
             format: {
