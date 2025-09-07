@@ -96,21 +96,6 @@ function measurePerformance() {
   console.log(`  JavaScript 최적화: ${Math.round(jsScore)}/100`);
   console.log(`  이미지 최적화: ${Math.round(imageScore)}/100`);
   console.log(`  전체 점수: ${overallScore}/100`);
-
-  console.log('\n 개선 제안:');
-  if (totalImageSize > 500 * 1024) {
-    console.log(' 이미지 최적화가 가장 시급합니다!');
-  }
-  if (totalJsSize > 200 * 1024) {
-    console.log('JavaScript 번들 크기 최적화');
-  }
-  if (overallScore >= 80) {
-    console.log('좋은 성능입니다!');
-  } else if (overallScore >= 60) {
-    console.log('개선이 필요합니다.');
-  } else {
-    console.log('긴급한 최적화가 필요합니다!');
-  }
 }
 
 measurePerformance();
