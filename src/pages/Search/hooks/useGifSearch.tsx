@@ -19,6 +19,7 @@ const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
+  const [previousGifCount, setPreviousGifCount] = useState(0);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -30,6 +31,7 @@ const useGifSearch = () => {
     setStatus(SEARCH_STATUS.LOADING);
     setCurrentPageIndex(DEFAULT_PAGE_INDEX);
     setGifList([]);
+    setPreviousGifCount(0);
     setErrorMessage(null);
   };
 
@@ -62,7 +64,10 @@ const useGifSearch = () => {
     try {
       const newGitList = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
 
-      setGifList((prevGifList) => [...prevGifList, ...newGitList]);
+      setGifList((prevGifList) => {
+        setPreviousGifCount(prevGifList.length);
+        return [...prevGifList, ...newGitList];
+      });
       setCurrentPageIndex(nextPageIndex);
     } catch (error) {
       handleError(error);
@@ -88,6 +93,7 @@ const useGifSearch = () => {
     status,
     searchKeyword,
     gifList,
+    previousGifCount,
     errorMessage,
     searchByKeyword,
     updateSearchKeyword,

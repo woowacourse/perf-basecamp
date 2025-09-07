@@ -11,16 +11,22 @@ import styles from './SearchResult.module.css';
 type SearchResultProps = {
   status: SearchStatus;
   gifList: GifImageModel[];
+  previousGifCount: number;
   loadMore: () => void;
 };
 
-const SearchResult = memo(({ status, gifList, loadMore }: SearchResultProps) => {
+const SearchResult = memo(({ status, gifList, previousGifCount, loadMore }: SearchResultProps) => {
   const memoizedGifItems = useMemo(
     () =>
       gifList.map((gif: GifImageModel, index: number) => (
-        <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+        <GifItem 
+          key={gif.id} 
+          imageUrl={gif.imageUrl} 
+          title={gif.title}
+          isNew={index >= previousGifCount}
+        />
       )),
-    [gifList]
+    [gifList, previousGifCount]
   );
 
   const renderGifList = () => <div className={styles.gifResultWrapper}>{memoizedGifItems}</div>;

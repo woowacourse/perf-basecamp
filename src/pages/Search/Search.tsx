@@ -8,7 +8,7 @@ import HelpPanel from './components/HelpPanel/HelpPanel';
 import styles from './Search.module.css';
 
 const Search = () => {
-  const { status, searchKeyword, gifList, searchByKeyword, updateSearchKeyword, loadMore } =
+  const { status, searchKeyword, gifList, previousGifCount, searchByKeyword, updateSearchKeyword, loadMore } =
     useGifSearch();
 
   const handleEnter = useCallback(
@@ -28,7 +28,7 @@ const Search = () => {
         onChange={updateSearchKeyword}
         onSearch={searchByKeyword}
       />
-      <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
+      <SearchResult status={status} gifList={gifList} previousGifCount={previousGifCount} loadMore={loadMore} />
       <HelpPanel />
     </div>
   );
