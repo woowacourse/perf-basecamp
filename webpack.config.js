@@ -15,7 +15,8 @@ module.exports = {
   mode: isProduction ? 'production' : 'development',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: isProduction ? 'chunks/[name].[contenthash].js' : 'chunks/[name].js',
+    chunkFilename: isProduction ? 'chunks/[name].[contenthash].js' : 'chunks/[name].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -35,7 +36,10 @@ module.exports = {
     new Dotenv(),
     ...(isProduction
       ? [
-          new MiniCssExtractPlugin({ filename: 'styles/[name].[contenthash].css' }),
+          new MiniCssExtractPlugin({
+            filename: 'styles/[name].[contenthash].css',
+            chunkFilename: 'styles/[name].[contenthash].css'
+          }),
           new CompressionPlugin({
             filename: '[path][base].gz',
             algorithm: 'gzip',
@@ -92,6 +96,17 @@ module.exports = {
     ]
   },
   optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    },
+    runtimeChunk: 'single',
     minimize: isProduction,
     minimizer: isProduction
       ? [
