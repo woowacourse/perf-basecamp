@@ -41,7 +41,7 @@ module.exports = {
           filename: 'static/[name].webp',
           filter: (_, sourcePath) => /\.webp$/i.test(sourcePath),
           options: {
-            plugins: [['webp', { quality: 50, resize: { width: 1260, height: 0 } }]]
+            plugins: [['webp', { quality: 40, resize: { width: 1920, height: 0 } }]]
           }
         }
       ]
