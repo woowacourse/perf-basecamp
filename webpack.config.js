@@ -9,7 +9,12 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: process.env.NODE_ENV === 'production'
+      ? 'static/js/[name].[contenthash].js'
+      : 'static/js/[name].js',
+    chunkFilename: process.env.NODE_ENV === 'production'
+      ? 'static/js/[name].[contenthash].chunk.js'
+      : 'static/js/[name].chunk.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -52,6 +57,8 @@ module.exports = {
     ]
   },
   optimization: {
+    splitChunks: { chunks: 'all' }, // 공통코드 분리
+    runtimeChunk: 'single',          // 런타임 분리
     minimizer: [
       '...',
       new ImageMinimizerPlugin({
