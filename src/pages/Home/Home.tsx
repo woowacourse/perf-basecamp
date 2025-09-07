@@ -2,7 +2,8 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
+import heroImagePng from '../../assets/images/hero.png';
+import heroImageWebP from '../../assets/images/hero.webp';
 import trendingVideo from '../../assets/images/trending.mp4';
 import findVideo from '../../assets/images/find.mp4';
 import freeVideo from '../../assets/images/free.mp4';
@@ -22,8 +23,13 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source srcSet={heroImage.replace('.png', '.webp')} type="image/webp" />
-          <img className={styles.heroImage} src={heroImage} alt="hero image" fetchPriority="high" />
+          <source type="image/webp" srcSet={heroImageWebP} />
+          <img
+            className={styles.heroImage}
+            src={heroImagePng}
+            alt="hero image"
+            fetchPriority="high"
+          />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>

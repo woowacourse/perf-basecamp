@@ -57,6 +57,7 @@ module.exports = {
         {
           type: 'asset',
           preset: 'webp',
+          filename: '[name].[contenthash].webp',
           implementation: ImageMinimizerPlugin.sharpGenerate,
           options: {
             encodeOptions: {
@@ -84,7 +85,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|webp|gif|mp4)$/i,
         type: 'asset/resource',
         generator: {
           filename: 'static/[name].[contenthash][ext]'
