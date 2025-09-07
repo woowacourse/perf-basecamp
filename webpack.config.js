@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -56,7 +57,21 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false,
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true, // console.log 제거
+            drop_debugger: true // debugger 구문 제거
+          },
+          format: {
+            comments: false // 주석 제거
+          }
+        },
+        extractComments: false // 라이선스 주석을 별도 파일로 추출하지 않음
+      })
+    ],
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
