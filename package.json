@@ -21,6 +21,7 @@
   "homepage": "https://jelee-river.github.io/perf-basecamp",
   "license": "MIT",
   "dependencies": {
+    "@fontsource/josefin-sans": "^5.2.7",
     "@giphy/js-fetch-api": "^4.1.1",
     "@giphy/js-types": "^4.2.1",
     "classnames": "^2.3.1",

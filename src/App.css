@@ -1,3 +1,8 @@
+@import '@fontsource/josefin-sans/400.css';
+@import '@fontsource/josefin-sans/400-italic.css';
+@import '@fontsource/josefin-sans/700.css';
+@import '@fontsource/josefin-sans/700-italic.css';
+
 * {
   margin: 0;
   padding: 0;
