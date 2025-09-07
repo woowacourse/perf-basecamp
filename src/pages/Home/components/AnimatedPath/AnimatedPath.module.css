@@ -1,4 +1,9 @@
 .animatedPath {
   position: absolute;
   stroke-width: 2px;
+  contain: layout style paint;
+}
+
+.animatedPath path {
+  will-change: stroke-dashoffset;
 }

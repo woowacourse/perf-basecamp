@@ -1,17 +1,28 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 type ScrollHandler = () => void;
 
 const useScrollEvent = (onScroll: ScrollHandler) => {
+  const rafRef = useRef<number>();
+
   useEffect(() => {
-    const handleScroll = (event: Event) => {
-      onScroll();
+    const handleScroll = () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+
+      rafRef.current = requestAnimationFrame(() => {
+        onScroll();
+      });
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
     };
   }, [onScroll]);
 };
