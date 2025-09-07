@@ -12,6 +12,29 @@ if (!API_KEY) {
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
+const TRENDING_TTL_MS = 30 * 60 * 1000; // 30분
+const TRENDING_CACHE_KEY = 'trending_gifs_cache_v1';
+const TRENDING_CACHE_AT_KEY = 'trending_gifs_cache_at_v1';
+
+let trendingCache: GifImageModel[] | null = null;
+let trendingCacheAt: number | null = null;
+let trendingPending: Promise<GifImageModel[]> | null = null;
+
+const readTrendingCacheFromStorage = (): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    const cached = localStorage.getItem(TRENDING_CACHE_KEY);
+    const cachedAt = localStorage.getItem(TRENDING_CACHE_AT_KEY);
+    if (cached && cachedAt) {
+      trendingCache = JSON.parse(cached) as GifImageModel[];
+      trendingCacheAt = Number(cachedAt);
+    }
+  } catch {}
+};
+readTrendingCacheFromStorage();
+
+const isFresh = (ts: number | null): boolean => ts !== null && Date.now() - ts < TRENDING_TTL_MS;
+
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
@@ -44,13 +67,38 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    if (trendingCache && isFresh(trendingCacheAt)) {
+      return trendingCache;
+    }
+    if (trendingPending) {
+      return trendingPending;
+    }
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    trendingPending = fetchGifs(url)
+      .then((gifs) => {
+        trendingCache = gifs;
+        trendingCacheAt = Date.now();
+
+        try {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(TRENDING_CACHE_KEY, JSON.stringify(gifs));
+            localStorage.setItem(TRENDING_CACHE_AT_KEY, String(trendingCacheAt));
+          }
+        } catch {}
+
+        return gifs;
+      })
+      .finally(() => {
+        trendingPending = null;
+      });
+
+    return trendingPending;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
