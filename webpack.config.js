@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
@@ -76,9 +75,5 @@ module.exports = {
         }
       }
     ]
-  },
-  optimization: {
-    minimize: true,
-    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };
