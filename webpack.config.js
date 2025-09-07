@@ -51,7 +51,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(png|jpe?g)$/i,
+        test: /\.(png|jpe?g|)$/i,
         type: 'asset/resource',
         generator: { filename: 'static/[name].webp' },
         use: [
@@ -75,7 +75,27 @@ module.exports = {
         ]
       },
       {
-        test: /\.(gif|svg|ico|eot|ttf|woff2?)$/i,
+        test: /\.(gif)$/i,
+        type: 'asset/resource',
+        generator: { filename: 'static/[name].webp' },
+        use: [
+          {
+            loader: ImageMinimizerPlugin.loader,
+            options: {
+              minimizer: {
+                implementation: ImageMinimizerPlugin.sharpGenerate,
+                options: {
+                  encodeOptions: {
+                    webp: { quality: 70 }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(|svg|ico|eot|ttf|woff2?)$/i,
         type: 'asset/resource',
         generator: { filename: 'static/[name][ext]' }
       }
