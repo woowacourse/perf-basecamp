@@ -2,46 +2,57 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
-module.exports = {
-  entry: './src/index.tsx',
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    alias: { '@': path.resolve(__dirname, 'src') }
-  },
-  output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, '/dist'),
-    clean: true
-  },
-  devServer: {
-    hot: true,
-    open: true,
-    historyApiFallback: true
-  },
-  devtool: 'source-map',
-  plugins: [
-    new HtmlWebpackPlugin({ template: './index.html' }),
-    new CopyWebpackPlugin({ patterns: [{ from: './public', to: './public' }] }),
-    new Dotenv()
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx|ts|tsx)$/i,
-        exclude: /node_modules/,
-        use: { loader: 'ts-loader' }
-      },
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif|webp)$/i,
-        type: 'asset/resource',
-        generator: { filename: 'static/media/[name].[contenthash][ext]' }
-      }
-    ]
-  },
-  optimization: { minimize: true }
+module.exports = (env, argv) => {
+  const isProd = argv.mode === 'production';
+
+  return {
+    entry: './src/index.tsx',
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      alias: { '@': path.resolve(__dirname, 'src') }
+    },
+    output: {
+      filename: isProd ? 'bundle.[contenthash].js' : '[name].js',
+      chunkFilename: isProd ? '[name].[contenthash].js' : '[name].js',
+      path: path.join(__dirname, '/dist'),
+      clean: true
+    },
+    devServer: {
+      hot: true,
+      open: true,
+      historyApiFallback: true
+    },
+    devtool: isProd ? false : 'source-map',
+    plugins: [
+      new HtmlWebpackPlugin({ template: './index.html' }),
+      new CopyWebpackPlugin({ patterns: [{ from: './public', to: './public' }] }),
+      new Dotenv()
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx|ts|tsx)$/i,
+          exclude: /node_modules/,
+          use: { loader: 'ts-loader' }
+        },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader']
+        },
+        {
+          test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif|webp)$/i,
+          type: 'asset/resource',
+          generator: { filename: 'static/media/[name].[contenthash][ext]' }
+        }
+      ]
+    },
+    optimization: {
+      minimize: isProd,
+      minimizer: ['...', new CssMinimizerPlugin()],
+      splitChunks: { chunks: 'all' },
+      runtimeChunk: 'single'
+    }
+  };
 };
