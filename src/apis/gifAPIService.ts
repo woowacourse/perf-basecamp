@@ -24,7 +24,7 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.webp ?? images.original.url
+      imageUrl: images.fixed_width_downsampled.webp ?? images.fixed_width_downsampled.url
     };
   });
 };
