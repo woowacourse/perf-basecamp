@@ -57,9 +57,11 @@ export const gifAPIService = {
    */
   getTrending: async (): Promise<GifImageModel[]> => {
     const now = Date.now();
-    if (trendingCache.data !== null &&
+    if (
+      trendingCache.data !== null &&
       trendingCache.timestamp !== null &&
-      now - trendingCache.timestamp < CACHE_DURATION) {
+      now - trendingCache.timestamp < CACHE_DURATION
+    ) {
       return trendingCache.data;
     }
 
