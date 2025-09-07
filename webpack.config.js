@@ -4,7 +4,6 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
@@ -76,17 +75,6 @@ module.exports = {
     },
     runtimeChunk: 'single',
     minimize: true,
-    minimizer: [
-      `...`,
-      new CssMinimizerPlugin(),
-      new ImageMinimizerPlugin({
-        minimizer: {
-          implementation: ImageMinimizerPlugin.imageminMinify,
-          options: {
-            plugins: [['imagemin-webp', { quality: 75 }]]
-          }
-        }
-      })
-    ]
+    minimizer: [`...`, new CssMinimizerPlugin()]
   }
 };
