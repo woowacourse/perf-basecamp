@@ -4,6 +4,8 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -32,7 +34,11 @@ module.exports = {
         analyzerMode: 'server',
         analyzerPort: 8888,
         openAnalyzer: true
-      })
+      }),
+    new MiniCssExtractPlugin({
+      filename: 'static/css/[name].[contenthash:8].css', // hash 길이 제한
+      chunkFilename: 'static/css/[id].[contenthash:8].css'
+    })
   ].filter(Boolean),
   module: {
     rules: [
@@ -45,7 +51,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|jpg|mp4|webp)$/i,
@@ -70,7 +76,8 @@ module.exports = {
           }
         },
         extractComments: false // 라이선스 주석을 별도 파일로 추출하지 않음
-      })
+      }),
+      new CssMinimizerPlugin()
     ],
     splitChunks: {
       chunks: 'all',
