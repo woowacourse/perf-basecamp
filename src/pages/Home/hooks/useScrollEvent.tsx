@@ -4,15 +4,20 @@ type ScrollHandler = () => void;
 
 const useScrollEvent = (onScroll: ScrollHandler) => {
   useEffect(() => {
-    const handleScroll = (event: Event) => {
-      onScroll();
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          onScroll();
+          ticking = false;
+        });
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [onScroll]);
 };
 
