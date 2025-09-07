@@ -32,7 +32,7 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new WebpackShellPluginNext({
-      onBuildEnd: {
+      onEmit: {
         scripts: ['node scripts/generate-sitemap.js', 'node scripts/generate-robots.js'],
         blocking: true,
         parallel: false
@@ -91,6 +91,27 @@ module.exports = {
           }
         ]
       })
-    ]
+    ],
+    splitChunks: {
+      chunks: 'all',
+      minSize: 20000,
+      minChunks: 2,
+      maxInitialRequests: 10,
+      maxAsyncRequests: 10,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          priority: -10,
+          reuseExistingChunk: true,
+          enforce: true
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
   }
 };
