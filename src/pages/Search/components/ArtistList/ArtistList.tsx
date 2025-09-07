@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Artist } from '../../../../models/help/artist';
 import ArtistInfo from '../ArtistInfo/ArtistInfo';
 
@@ -5,7 +6,7 @@ type ArtistListProps = {
   artists: Artist[];
 };
 
-const ArtistList = ({ artists }: ArtistListProps) => {
+const ArtistList = memo(({ artists }: ArtistListProps) => {
   return (
     <ul>
       {artists.map((artist, index) => {
@@ -13,6 +14,6 @@ const ArtistList = ({ artists }: ArtistListProps) => {
       })}
     </ul>
   );
-};
+});
 
 export default ArtistList;
