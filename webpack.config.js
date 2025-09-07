@@ -6,6 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -42,6 +43,28 @@ module.exports = {
             threshold: 8192,
             minRatio: 0.8,
             deleteOriginalAssets: false
+          }),
+          new ImageMinimizerPlugin({
+            minimizer: {
+              implementation: ImageMinimizerPlugin.sharpMinify,
+              options: {
+                encodeOptions: {
+                  jpeg: { quality: 75, progressive: true },
+                  png: { quality: 80, palette: true }
+                }
+              }
+            },
+            generator: [
+              {
+                type: 'asset',
+                implementation: ImageMinimizerPlugin.sharpGenerate,
+                options: {
+                  encodeOptions: { webp: { quality: 75 } }
+                },
+                filename: 'static/[name].webp',
+                filter: (source, sourcePath) => /\.(png|jpe?g)$/i.test(sourcePath)
+              }
+            ]
           })
         ]
       : [])
