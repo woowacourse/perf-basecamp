@@ -6,6 +6,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -38,6 +39,13 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'static/css/[name].[contenthash:8].css', // hash 길이 제한
       chunkFilename: 'static/css/[id].[contenthash:8].css'
+    }),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240, // 10KB 이상인 파일만 압축
+      minRatio: 0.8, // 압축률이 0.8보다 좋을 때만 압축
+      deleteOriginalAssets: false
     })
   ].filter(Boolean),
   module: {
