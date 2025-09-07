@@ -19,7 +19,7 @@ const App = () => {
         <Route
           path="/search"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div style={{ minHeight: '80vh' }}>Loading...</div>}>
               <Search />
             </Suspense>
           }
