@@ -5,7 +5,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: { '@': path.resolve(__dirname, 'src') }
+  },
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
@@ -18,12 +21,8 @@ module.exports = {
   },
   devtool: 'source-map',
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
-    }),
+    new HtmlWebpackPlugin({ template: './index.html' }),
+    new CopyWebpackPlugin({ patterns: [{ from: './public', to: './public' }] }),
     new Dotenv()
   ],
   module: {
@@ -31,24 +30,18 @@ module.exports = {
       {
         test: /\.(js|jsx|ts|tsx)$/i,
         exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
-        }
+        use: { loader: 'ts-loader' }
       },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif|webp)$/i,
+        type: 'asset/resource',
+        generator: { filename: 'static/media/[name].[contenthash][ext]' }
       }
     ]
   },
-  optimization: {
-    minimize: true
-  }
+  optimization: { minimize: true }
 };
