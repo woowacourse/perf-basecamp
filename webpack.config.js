@@ -50,7 +50,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|webp|avif|eot|ttf|woff2?)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'static/[name].[contenthash][ext]'
+          filename: 'static/[name][ext]'
         }
       }
     ]
