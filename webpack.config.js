@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -37,6 +38,10 @@ module.exports = {
       analyzerMode: 'static',
       reportFilename: path.resolve(__dirname, 'dist', 'bundle-report.html'),
       openAnalyzer: false
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'styles/[name].[contenthash].css',
+      chunkFilename: 'styles/[name].[contenthash].css'
     })
   ],
   module: {
@@ -50,7 +55,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [
+          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader'
+        ]
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|mp4)$/i,
