@@ -8,7 +8,12 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      'react-dom$': 'react-dom/profiling'
+    }
+  },
   output: {
     filename: '[name].[contenthash].bundle.js',
     path: path.join(__dirname, '/dist'),
@@ -19,7 +24,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: process.env.NODE_ENV === 'production' ? 'nosources-source-map' : 'eval-source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
