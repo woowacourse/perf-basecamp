@@ -76,6 +76,8 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           compress: {
+            arrows: true, // 화살표 함수 압축
+            dead_code: true, // 사용하지 않는 코드 제거
             drop_console: true, // console.log 제거
             drop_debugger: true // debugger 구문 제거
           },
