@@ -101,7 +101,7 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: isProduction ? 'static/[name].[contenthash].[ext]' : 'static/[name].[ext]'
         }
       }
     ]
