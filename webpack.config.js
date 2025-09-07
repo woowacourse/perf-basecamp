@@ -66,7 +66,7 @@ module.exports = {
           implementation: ImageMinimizerPlugin.sharpMinify,
           options: {
             encodeOptions: {
-              webp: { quality: 50 },
+              webp: { quality: 35 },
             },
             resize: {
               width: 1920,
