@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -27,25 +26,6 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new ImageMinimizerPlugin({
-      test: /\.(jpe?g|png)$/i,
-      generator: [
-        {
-          type: 'asset',
-          implementation: ImageMinimizerPlugin.imageminGenerate,
-          options: {
-            plugins: [['imagemin-avif', { quality: 40 }]]
-          }
-        },
-        {
-          type: 'asset',
-          implementation: ImageMinimizerPlugin.imageminGenerate,
-          options: {
-            plugins: [['imagemin-webp', { quality: 75 }]]
-          }
-        }
-      ]
-    }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       reportFilename: 'bundle-report.html',
@@ -67,10 +47,10 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(png|jpe?g|gif|svg|webp|avif|eot|ttf|woff2?)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[contenthash][ext]'
         }
       }
     ]
