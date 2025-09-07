@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -32,7 +33,17 @@ module.exports = {
     }),
     new Dotenv(),
     ...(isProduction
-      ? [new MiniCssExtractPlugin({ filename: 'styles/[name].[contenthash].css' })]
+      ? [
+          new MiniCssExtractPlugin({ filename: 'styles/[name].[contenthash].css' }),
+          new CompressionPlugin({
+            filename: '[path][base].gz',
+            algorithm: 'gzip',
+            test: /\.(js|css|html|svg)$/,
+            threshold: 8192,
+            minRatio: 0.8,
+            deleteOriginalAssets: false
+          })
+        ]
       : [])
   ],
   module: {
