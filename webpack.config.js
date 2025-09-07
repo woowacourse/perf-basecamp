@@ -98,10 +98,10 @@ module.exports = {
         use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: isProduction ? 'static/[name].[contenthash].[ext]' : 'static/[name].[ext]'
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: isProduction ? 'static/[name].[contenthash][ext]' : 'static/[name][ext]'
         }
       }
     ]
