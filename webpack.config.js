@@ -7,6 +7,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -69,7 +70,17 @@ module.exports = {
                 filter: (source, sourcePath) => /\.(png|jpe?g)$/i.test(sourcePath)
               }
             ]
-          })
+          }),
+          ...(isProduction
+            ? process.env.ANALYZE === 'true'
+              ? [
+                  new BundleAnalyzerPlugin({
+                    analyzerMode: 'static',
+                    reportFilename: 'report.html'
+                  })
+                ]
+              : []
+            : [])
         ]
       : [])
   ],
