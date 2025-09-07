@@ -32,7 +32,9 @@ module.exports = {
     // 출력 디렉토리
     path: path.join(__dirname, '/dist'),
     // 빌드 전 기존 dist 폴더 정리
-    clean: true
+    clean: true,
+
+    publicPath: '/'
   },
 
   // 개발 서버 설정

@@ -21,7 +21,7 @@
 
 .featureTitleBg {
   position: absolute;
-  top: 0;
+  transform: translate3d(0, 0);
   width: 30rem;
   height: 10.25rem;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #0d0310 71.35%);
@@ -30,8 +30,7 @@
 
 .featureImage {
   position: absolute;
-  top: 0;
-  left: 0;
+  transform: translate3d(0, 0);
   height: 100%;
   transform: translateX(-10%);
 }

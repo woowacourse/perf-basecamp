@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react';
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
@@ -13,14 +14,16 @@ type SearchResultProps = {
   loadMore: () => void;
 };
 
-const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
-  const renderGifList = () => (
-    <div className={styles.gifResultWrapper}>
-      {gifList.map((gif: GifImageModel) => (
+const SearchResult = memo(({ status, gifList, loadMore }: SearchResultProps) => {
+  const memoizedGifItems = useMemo(
+    () =>
+      gifList.map((gif: GifImageModel, index: number) => (
         <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
-      ))}
-    </div>
+      )),
+    [gifList]
   );
+
+  const renderGifList = () => <div className={styles.gifResultWrapper}>{memoizedGifItems}</div>;
 
   const renderLoadMoreButton = () => (
     <button className={styles.loadMoreButton} onClick={loadMore}>
@@ -52,6 +55,6 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
       {renderContent()}
     </section>
   );
-};
+});
 
 export default SearchResult;
