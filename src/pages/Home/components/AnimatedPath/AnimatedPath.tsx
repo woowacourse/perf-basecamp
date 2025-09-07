@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { clamp } from '../../../../utils/number';
 import useScrollEvent from '../../hooks/useScrollEvent';
 
@@ -14,7 +14,7 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   const pathRef = useRef<SVGPathElement>(null);
   const [strokeOffset, setStrokeOffset] = useState(0);
 
-  const drawPath = () => {
+  const drawPath = useCallback(() => {
     const wrapper = wrapperRef.current;
     const path = pathRef.current;
 
@@ -29,7 +29,7 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     const currentScrollOffset = pathLength - pathLength * scrollRatio;
 
     setStrokeOffset(clamp(currentScrollOffset, 0, pathLength));
-  };
+  }, []);
 
   useScrollEvent(drawPath);
 
