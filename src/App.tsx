@@ -12,14 +12,19 @@ import './App.css';
 const App = () => {
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-        <Footer />
-      </Suspense>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/search"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <Search />
+            </Suspense>
+          }
+        />
+      </Routes>
+      <Footer />
     </Router>
   );
 };
