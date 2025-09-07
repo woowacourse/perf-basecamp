@@ -57,8 +57,8 @@ module.exports = {
     ]
   },
   optimization: {
-    splitChunks: { chunks: 'all' }, // 공통코드 분리
-    runtimeChunk: 'single',          // 런타임 분리
+    splitChunks: { chunks: 'all' },
+    runtimeChunk: 'single',
     minimizer: [
       '...',
       new ImageMinimizerPlugin({
