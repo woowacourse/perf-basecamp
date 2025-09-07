@@ -1,10 +1,10 @@
 .searchResultSection {
-  max-width: 1180px;
+  width: 1180px;
+  min-height: 90vh;
   margin: 0 auto;
 }
 
 .gifResultWrapper {
-  min-height: 90vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
