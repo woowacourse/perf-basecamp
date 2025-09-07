@@ -16,7 +16,11 @@ module.exports = {
     // 확장자 생략 가능한 파일 타입들
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     // react-icons의 ES modules을 우선시하여 tree-shaking 최적화
-    mainFields: ['module', 'main']
+    mainFields: ['module', 'main'],
+    // react-icons의 정확한 경로 해석을 위한 설정
+    alias: {
+      'react-icons/ai': 'react-icons/ai/index.esm.js'
+    }
   },
 
   // 출력 설정
@@ -144,10 +148,12 @@ module.exports = {
         reactIcons: {
           test: /[\\/]node_modules[\\/]react-icons[\\/]/, // react-icons 라이브러리
           name: 'react-icons', // 번들명
-          chunks: 'all', // 모든 청크에서 분리
+          chunks: 'async', // 비동기 청크에서만 분리 (더 나은 tree-shaking)
           priority: 10, // 우선순위 (높을수록 먼저 적용)
           // tree-shaking으로 인해 사용되지 않은 아이콘들이 제거됨
-          enforce: true // 강제 적용
+          enforce: true, // 강제 적용
+          minSize: 0, // 최소 크기 제한 없음
+          maxSize: 5000 // 최대 5KB로 제한
         }
       }
     }
