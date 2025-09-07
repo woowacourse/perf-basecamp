@@ -83,10 +83,7 @@ module.exports = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
           options: {
-            plugins: [
-              ['mozjpeg', { quality: 75 }],
-              ['pngquant', { optimizationLevel: 5 }]
-            ]
+            plugins: [['imagemin-webp', { quality: 75 }]]
           }
         }
       })
