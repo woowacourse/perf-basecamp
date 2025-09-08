@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -30,6 +31,27 @@ module.exports = {
       analyzerMode: 'static',
       reportFilename: 'bundle-report.html',
       openAnalyzer: false
+    }),
+    new ImageMinimizerPlugin({
+      test: /\.(jpe?g|png)$/i,
+      generator: [
+        {
+          type: 'asset',
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [['imagemin-avif', { quality: 40 }]]
+          },
+          filename: 'static/[name][ext]'
+        },
+        {
+          type: 'asset',
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [['imagemin-webp', { quality: 75 }]]
+          },
+          filename: 'static/[name][ext]'
+        }
+      ]
     })
   ],
 
