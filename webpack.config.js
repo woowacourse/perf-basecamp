@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -77,7 +78,7 @@ module.exports = {
       {
         test: /\.(gif)$/i,
         type: 'asset/resource',
-        generator: { filename: 'static/[name].webp' },
+        generator: { filename: 'static/[name].avif' },
         use: [
           {
             loader: ImageMinimizerPlugin.loader,
@@ -86,7 +87,7 @@ module.exports = {
                 implementation: ImageMinimizerPlugin.sharpGenerate,
                 options: {
                   encodeOptions: {
-                    webp: { quality: 70 }
+                    webp: { quality: 50, effort: 6 }
                   }
                 }
               }
@@ -103,6 +104,21 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: ['...', new CssMinimizerPlugin()]
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            drop_debugger: true
+          },
+          mangle: true,
+          output: {
+            comments: false
+          }
+        },
+        extractComments: false
+      }),
+      new CssMinimizerPlugin()
+    ]
   }
 };
