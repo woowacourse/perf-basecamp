@@ -8,7 +8,9 @@ type FeatureItemProps = {
 const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
   return (
     <div className={styles.featureItem}>
-      <img className={styles.featureImage} src={imageSrc} />
+      <div className={styles.featureImageContainer}>
+        <img className={styles.featureImage} src={imageSrc} alt={title} />
+      </div>
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
     </div>
