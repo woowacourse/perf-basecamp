@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
@@ -56,7 +56,7 @@ const useGifSearch = () => {
     }
   };
 
-  const loadMore = async (): Promise<void> => {
+  const loadMore = useCallback(async (): Promise<void> => {
     const nextPageIndex = currentPageIndex + 1;
 
     try {
@@ -67,7 +67,7 @@ const useGifSearch = () => {
     } catch (error) {
       handleError(error);
     }
-  };
+  }, [currentPageIndex, searchKeyword]);
 
   useEffect(() => {
     const fetchTrending = async () => {
