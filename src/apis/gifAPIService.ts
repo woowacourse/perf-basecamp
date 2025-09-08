@@ -12,6 +12,9 @@ if (!API_KEY) {
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
+const CACHE_NAME = 'giphy-cache-v1';
+const CACHE_DURATION = 5 * 60 * 1000; // 5분
+
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
@@ -24,7 +27,28 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
 
 const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   try {
+    // 1. 캐시 확인
+    const cache = await caches.open(CACHE_NAME);
+    const cachedResponse = await cache.match(url.toString());
+
+    if (cachedResponse) {
+      const data = await cachedResponse.json();
+      const cachedTime = cachedResponse.headers.get('cache-time');
+
+      // 유효한 캐시면 사용
+      if (cachedTime && Date.now() - Number(cachedTime) < CACHE_DURATION) {
+        return convertResponseToModel(data.data);
+      }
+    }
+
+    // 2. 캐시 없으면 네트워크 요청
     const gifs = await apiClient.fetch<GifsResult>(url);
+
+    // 3. 응답을 캐시에 저장
+    const response = new Response(JSON.stringify(gifs), {
+      headers: { 'cache-time': Date.now().toString() }
+    });
+    await cache.put(url.toString(), response);
 
     return convertResponseToModel(gifs.data);
   } catch (error) {
