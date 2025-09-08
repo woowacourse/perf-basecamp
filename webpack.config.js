@@ -19,7 +19,16 @@ module.exports = {
   devServer: {
     hot: true,
     open: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    headers: {
+      'Content-Security-Policy':
+        "default-src 'self' https://api.giphy.com; img-src 'self' https://media.giphy.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;",
+      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'X-XSS-Protection': '1; mode=block',
+      'Referrer-Policy': 'strict-origin-when-cross-origin'
+    }
   },
   devtool: 'source-map',
   plugins: [
