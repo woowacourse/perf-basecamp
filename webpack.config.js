@@ -6,7 +6,12 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = {
   entry: './src/index.tsx',
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      'react-dom$': 'react-dom/profiling'
+    }
+  },
   output: {
     filename: 'bundle.[contenthash].js',
     path: path.join(__dirname, '/dist'),
