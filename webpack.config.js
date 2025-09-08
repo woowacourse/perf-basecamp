@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -45,27 +46,45 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|ttf|woff|woff2|gif)$/i,
+        test: /\.(eot|ttf|woff|woff2|gif|png|jpe?g|gif|svg)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
         }
-      },
-      {
-        test: /\.(jpe?g|png|webp)$/i,
-        use: [
+      }
+    ]
+  },
+  optimization: {
+    minimizer: [
+      '...',
+      new ImageMinimizerPlugin({
+        generator: [
           {
-            loader: 'responsive-loader',
+            preset: 'webp',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
             options: {
-              adapter: require('responsive-loader/sharp'),
-              sizes: [1920],
-              placeholder: true,
-              format: 'webp',
-              quality: 70
+              encodeOptions: {
+                webp: {
+                  quality: 65
+                }
+              },
+              resize: { enabled: true, width: 1200 }
+            }
+          },
+          {
+            preset: 'avif',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                avif: {
+                  quality: 65
+                }
+              },
+              resize: { enabled: true, width: 1200 }
             }
           }
         ]
-      }
+      })
     ]
   }
 };
