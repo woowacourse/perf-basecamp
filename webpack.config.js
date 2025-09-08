@@ -6,6 +6,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -66,7 +67,40 @@ module.exports = {
           }
         }
       }),
-      new CssMinimizerPlugin()
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.sharpMinify,
+          options: {
+            encodeOptions: {
+              webp: {
+                quality: 85
+              },
+              png: {
+                quality: 90,
+                compressionLevel: 9
+              },
+              gif: {
+                effort: 10
+              }
+            }
+          }
+        },
+        generator: [
+          {
+            type: 'asset',
+            preset: 'webp-custom-name',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                webp: {
+                  quality: 85
+                }
+              }
+            }
+          }
+        ]
+      })
     ],
     splitChunks: {
       chunks: 'all'
