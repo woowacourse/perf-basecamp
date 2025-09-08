@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env, argv) => {
   const isProd = argv.mode === 'production';
@@ -17,6 +18,7 @@ module.exports = (env, argv) => {
       filename: isProd ? 'bundle.[contenthash].js' : '[name].js',
       chunkFilename: isProd ? '[name].[contenthash].js' : '[name].js',
       path: path.join(__dirname, '/dist'),
+      publicPath: '/',
       clean: true
     },
     devServer: {
@@ -39,7 +41,7 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/i,
-          use: ['style-loader', 'css-loader']
+          use: [isProd ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader']
         },
         {
           test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif|webp)$/i,
