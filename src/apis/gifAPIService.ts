@@ -53,11 +53,9 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
     return convertResponseToModel(gifs.data);
   } catch (error) {
     if (error instanceof ApiError) {
-      console.error(`API Error: ${error.status} - ${error.message}`);
-    } else {
-      console.error('Unexpected error:', error);
+      throw new Error(`API Error: ${error.status} - ${error.message}`);
     }
-    throw error;
+    throw new Error('Unexpected error occurred while fetching GIFs');
   }
 };
 
