@@ -14,21 +14,30 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   const pathRef = useRef<SVGPathElement>(null);
   const [strokeOffset, setStrokeOffset] = useState(0);
 
+  const tickingRef = useRef(false);
+
   const drawPath = () => {
-    const wrapper = wrapperRef.current;
-    const path = pathRef.current;
+    if (tickingRef.current) return;
+    tickingRef.current = true;
 
-    if (!wrapper || !path) {
-      return;
-    }
+    requestAnimationFrame(() => {
+      const wrapper = wrapperRef.current;
+      const path = pathRef.current;
 
-    const drawPointY = window.scrollY + window.innerHeight * TOP_PERCENTAGE_OF_DRAW_POINT;
-    const scrollRatio = (drawPointY - wrapper.offsetTop) / wrapper.offsetHeight;
+      if (!wrapper || !path) {
+        return;
+      }
 
-    const pathLength = pathRef.current.getTotalLength();
-    const currentScrollOffset = pathLength - pathLength * scrollRatio;
+      const drawPointY = window.scrollY + window.innerHeight * TOP_PERCENTAGE_OF_DRAW_POINT;
+      const scrollRatio = (drawPointY - wrapper.offsetTop) / wrapper.offsetHeight;
 
-    setStrokeOffset(clamp(currentScrollOffset, 0, pathLength));
+      const pathLength = pathRef.current.getTotalLength();
+      const currentScrollOffset = pathLength - pathLength * scrollRatio;
+
+      setStrokeOffset(clamp(currentScrollOffset, 0, pathLength));
+
+      tickingRef.current = false;
+    });
   };
 
   useScrollEvent(drawPath);
