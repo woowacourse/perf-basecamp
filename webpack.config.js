@@ -2,7 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -38,7 +39,17 @@ module.exports = (env, argv) => {
           : false
       }),
       new CopyWebpackPlugin({ patterns: [{ from: './public', to: './public' }] }),
-      new Dotenv()
+      new Dotenv(),
+      ...(isProduction
+        ? [
+            new CompressionPlugin({
+              algorithm: 'gzip',
+              test: /\.(js|css|html|svg)$/,
+              threshold: 8192,
+              minRatio: 0.8
+            })
+          ]
+        : [])
     ],
     module: {
       rules: [
@@ -72,17 +83,20 @@ module.exports = (env, argv) => {
     optimization: {
       minimize: isProduction,
       minimizer: [
-        '...',
-        new ImageMinimizerPlugin({
-          generator: [
-            {
-              preset: 'webp',
-              implementation: ImageMinimizerPlugin.imageminGenerate,
-              options: {
-                plugins: [['imagemin-webp', { quality: 75 }]]
-              }
+        new TerserPlugin({
+          parallel: true,
+          extractComments: false,
+          terserOptions: {
+            compress: {
+              drop_console: isProduction,
+              drop_debugger: true,
+              pure_funcs: ['console.log']
+            },
+            mangle: true,
+            format: {
+              comments: false
             }
-          ]
+          }
         })
       ],
       usedExports: true,
@@ -97,23 +111,24 @@ module.exports = (env, argv) => {
             priority: -20,
             reuseExistingChunk: true
           },
+          react: {
+            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+            name: 'react',
+            priority: 10,
+            chunks: 'all'
+          },
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
             priority: -10,
-            chunks: 'all'
+            chunks: 'all',
+            enforce: true
           },
           reactIcons: {
             test: /[\\/]node_modules[\\/]react-icons[\\/]/,
             name: 'react-icons',
             chunks: 'all',
             priority: 20
-          },
-          images: {
-            test: /\.(png|jpe?g|gif|svg|webp|mp4)$/i,
-            name: 'images',
-            chunks: 'all',
-            priority: 5
           }
         }
       },
