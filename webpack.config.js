@@ -22,7 +22,7 @@ module.exports = {
     historyApiFallback: true,
     headers: {
       'Content-Security-Policy':
-        "default-src 'self' https://api.giphy.com; img-src 'self' https://media.giphy.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;",
+        "default-src 'self' https://api.giphy.com; img-src 'self' https://*.giphy.com https://giphy.com data: 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;",
       'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
       'X-Content-Type-Options': 'nosniff',
       'X-Frame-Options': 'DENY',
