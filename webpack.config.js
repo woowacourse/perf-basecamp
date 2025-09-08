@@ -30,7 +30,15 @@ module.exports = (env, argv) => {
     plugins: [
       new HtmlWebpackPlugin({ template: './index.html' }),
       new CopyWebpackPlugin({ patterns: [{ from: './public', to: './public' }] }),
-      new Dotenv()
+      new Dotenv(),
+      ...(isProd
+        ? [
+            new MiniCssExtractPlugin({
+              filename: 'styles.[contenthash].css',
+              chunkFilename: 'styles.[id].[contenthash].css'
+            })
+          ]
+        : [])
     ],
     module: {
       rules: [
