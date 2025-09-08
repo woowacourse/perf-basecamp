@@ -6,7 +6,6 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -30,7 +29,11 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: path.resolve(__dirname, 'dist', 'bundle-report.html'),
+      openAnalyzer: false
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
     })
@@ -67,40 +70,7 @@ module.exports = {
           }
         }
       }),
-      new CssMinimizerPlugin(),
-      new ImageMinimizerPlugin({
-        minimizer: {
-          implementation: ImageMinimizerPlugin.sharpMinify,
-          options: {
-            encodeOptions: {
-              webp: {
-                quality: 85
-              },
-              png: {
-                quality: 90,
-                compressionLevel: 9
-              },
-              gif: {
-                effort: 10
-              }
-            }
-          }
-        },
-        generator: [
-          {
-            type: 'asset',
-            preset: 'webp-custom-name',
-            implementation: ImageMinimizerPlugin.sharpGenerate,
-            options: {
-              encodeOptions: {
-                webp: {
-                  quality: 85
-                }
-              }
-            }
-          }
-        ]
-      })
+      new CssMinimizerPlugin()
     ],
     splitChunks: {
       chunks: 'all'
