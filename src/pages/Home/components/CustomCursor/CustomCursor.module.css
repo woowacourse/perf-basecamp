@@ -1,11 +1,14 @@
 .cursor {
   pointer-events: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
   padding: 0 16px;
   color: var(--white);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  contain: layout style paint;
 }
 
 .cursor::before {
@@ -45,16 +48,4 @@
 }
 .cursor span:nth-of-type(7) {
   animation-delay: 0.6s;
-}
-
-@keyframes wave-text {
-  00% {
-    transform: translateY(0em);
-  }
-  60% {
-    transform: translateY(-0.6em);
-  }
-  100% {
-    transform: translateY(0em);
-  }
 }
