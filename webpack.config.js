@@ -4,6 +4,8 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -27,7 +29,10 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
+    })
   ],
   module: {
     rules: [
@@ -40,10 +45,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|WebP|webp)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|WebP|webp|WebM|webm)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -60,7 +65,8 @@ module.exports = {
             drop_console: true // 콘솔 X
           }
         }
-      })
+      }),
+      new CssMinimizerPlugin()
     ],
     splitChunks: {
       chunks: 'all'
