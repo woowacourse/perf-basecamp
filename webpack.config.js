@@ -71,16 +71,10 @@ module.exports = {
               }
             ]
           }),
-          ...(isProduction
-            ? process.env.ANALYZE === 'true'
-              ? [
-                  new BundleAnalyzerPlugin({
-                    analyzerMode: 'static',
-                    reportFilename: 'report.html'
-                  })
-                ]
-              : []
-            : [])
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: '../analysis/bundle-report.html'
+          })
         ]
       : [])
   ],
