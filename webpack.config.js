@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -55,6 +56,46 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: ['...', new CssMinimizerPlugin()]
+    minimizer: [
+      '...',
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.sharpMinify,
+          options: {
+            encodeOptions: {
+              png: { quality: 80 },
+              jpeg: { quality: 80 }
+            }
+          }
+        },
+        generator: [
+          {
+            preset: 'webp-pc',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                webp: {
+                  quality: 50
+                }
+              },
+              resize: { enabled: true, width: 1920 }
+            }
+          },
+          {
+            preset: 'avif-pc',
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: {
+              encodeOptions: {
+                avif: {
+                  quality: 50
+                }
+              },
+              resize: { enabled: true, width: 1920 }
+            }
+          }
+        ]
+      })
+    ]
   }
 };
