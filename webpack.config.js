@@ -35,6 +35,28 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
+    new ImageMinimizerPlugin({
+      minimizer: {
+        implementation: ImageMinimizerPlugin.sharpMinify,
+        options: {
+          encodeOptions: {
+            jpeg: { quality: 75, progressive: true },
+            png: { quality: 80, palette: true },
+            webp: {
+              quality: 75,
+              effort: 6,
+              method: 6,
+              lossless: false
+            }
+          },
+          resize: {
+            width: 1200,
+            withoutEnlargement: true,
+            fit: 'inside'
+          }
+        }
+      }
+    }),
     ...(isProduction
       ? [
           new MiniCssExtractPlugin({
@@ -48,28 +70,6 @@ module.exports = {
             threshold: 8192,
             minRatio: 0.8,
             deleteOriginalAssets: false
-          }),
-          new ImageMinimizerPlugin({
-            minimizer: {
-              implementation: ImageMinimizerPlugin.sharpMinify,
-              options: {
-                encodeOptions: {
-                  jpeg: { quality: 75, progressive: true },
-                  png: { quality: 80, palette: true }
-                }
-              }
-            },
-            generator: [
-              {
-                type: 'asset',
-                implementation: ImageMinimizerPlugin.sharpGenerate,
-                options: {
-                  encodeOptions: { webp: { quality: 75 } }
-                },
-                filename: 'static/[name].webp',
-                filter: (source, sourcePath) => /\.(png|jpe?g)$/i.test(sourcePath)
-              }
-            ]
           }),
           new BundleAnalyzerPlugin({
             analyzerMode: 'static',
@@ -92,7 +92,7 @@ module.exports = {
         use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader']
       },
       {
-        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/i,
+        test: /\.(png|jpg|gif|svg|webp|eot|ttf|woff|woff2)$/i,
         type: 'asset/resource',
         generator: {
           filename: isProduction ? 'static/[name].[contenthash][ext]' : 'static/[name][ext]'

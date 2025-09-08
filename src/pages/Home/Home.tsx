@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage from '../../assets/images/hero.png';
+import heroImageWebp from '../../assets/images/hero.webp';
 import trendingGif from '../../assets/images/trending.gif';
 import findGif from '../../assets/images/find.gif';
 import freeGif from '../../assets/images/free.gif';
@@ -15,8 +16,6 @@ import styles from './Home.module.css';
 
 const cx = classNames.bind(styles);
 
-const isProduction = process.env.NODE_ENV === 'production';
-
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
 
@@ -24,9 +23,7 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          {isProduction && (
-            <source srcSet={heroImage.replace(/\.(png|jpe?g)$/i, '.webp')} type="image/webp" />
-          )}
+          <source srcSet={heroImageWebp} type="image/webp" />
           <img className={styles.heroImage} src={heroImage} alt="hero image" />
         </picture>
         <div className={styles.projectTitle}>
