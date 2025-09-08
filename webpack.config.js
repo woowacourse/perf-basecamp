@@ -3,25 +3,31 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
 
   return {
     entry: './src/index.tsx',
-    resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      mainFields: ['module', 'browser', 'main']
+    },
     output: {
       filename: isProduction ? '[name].[contenthash].js' : '[name].bundle.js',
       chunkFilename: isProduction ? '[name].[contenthash].js' : '[name].chunk.js',
-      path: path.join(__dirname, '/dist'),
+      path: path.join(__dirname, 'dist'),
       clean: true
     },
     devServer: {
       hot: true,
       open: true,
       historyApiFallback: true,
-      compress: true
+      compress: true,
+      port: 3000
     },
     devtool: isProduction ? 'hidden-source-map' : 'source-map',
     plugins: [
@@ -40,6 +46,9 @@ module.exports = (env, argv) => {
       }),
       new CopyWebpackPlugin({ patterns: [{ from: './public', to: './public' }] }),
       new Dotenv(),
+      new MiniCssExtractPlugin({
+        filename: isProduction ? '[name].[contenthash].css' : '[name].css'
+      }),
       ...(isProduction
         ? [
             new CompressionPlugin({
@@ -58,21 +67,22 @@ module.exports = (env, argv) => {
           exclude: /node_modules/,
           use: { loader: 'ts-loader' }
         },
-        { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
         {
-          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
-          type: 'asset/resource',
+          test: /\.css$/i,
+          use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader']
+        },
+        {
+          test: /\.(png|jpe?g|gif|webp|svg)$/i,
+          type: 'asset',
           generator: {
             filename: isProduction ? 'static/[name].[contenthash:8][ext]' : 'static/[name][ext]'
           },
           parser: {
-            dataUrlCondition: {
-              maxSize: 8 * 1024
-            }
+            dataUrlCondition: { maxSize: 8 * 1024 }
           }
         },
         {
-          test: /hero\.(webp|png|jpg|jpeg)$/i,
+          test: /\.(eot|ttf|woff|woff2|mp4)$/i,
           type: 'asset/resource',
           generator: {
             filename: isProduction ? 'static/[name].[contenthash:8][ext]' : 'static/[name][ext]'
@@ -93,24 +103,15 @@ module.exports = (env, argv) => {
               pure_funcs: ['console.log']
             },
             mangle: true,
-            format: {
-              comments: false
-            }
+            format: { comments: false }
           }
-        })
+        }),
+        new CssMinimizerPlugin()
       ],
       usedExports: true,
-      sideEffects: false,
       splitChunks: {
         chunks: 'all',
-        maxInitialRequests: 3,
-        maxAsyncRequests: 5,
         cacheGroups: {
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true
-          },
           react: {
             test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
             name: 'react',
@@ -121,14 +122,7 @@ module.exports = (env, argv) => {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
             priority: -10,
-            chunks: 'all',
-            enforce: true
-          },
-          reactIcons: {
-            test: /[\\/]node_modules[\\/]react-icons[\\/]/,
-            name: 'react-icons',
-            chunks: 'all',
-            priority: 20
+            chunks: 'all'
           }
         }
       },
