@@ -52,25 +52,17 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(png|jpe?g|)$/i,
-        type: 'asset/resource',
-        generator: { filename: 'static/[name].webp' },
+        test: /\.(png|jpe?g)$/i,
         use: [
           {
-            loader: ImageMinimizerPlugin.loader,
+            loader: 'responsive-loader',
             options: {
-              minimizer: {
-                implementation: ImageMinimizerPlugin.sharpGenerate,
-                options: {
-                  encodeOptions: {
-                    webp: { quality: 38, effort: 6 }
-                  },
-                  resize: {
-                    enabled: true,
-                    width: 1920
-                  }
-                }
-              }
+              adapter: require('responsive-loader/sharp'),
+              sizes: [375, 768, 1980],
+              format: 'webp',
+              quality: 70,
+              name: 'static/[name]-[width].[hash].webp',
+              placeholder: true
             }
           }
         ]
@@ -78,7 +70,7 @@ module.exports = {
       {
         test: /\.(gif)$/i,
         type: 'asset/resource',
-        generator: { filename: 'static/[name].avif' },
+        generator: { filename: 'static/[name].webp' },
         use: [
           {
             loader: ImageMinimizerPlugin.loader,
