@@ -3,9 +3,9 @@ import useMousePosition from '../../hooks/useMousePosition';
 
 import styles from './CustomCursor.module.css';
 
-type CustomCursorProps = {
+interface CustomCursorProps {
   text: string;
-};
+}
 
 const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const [...cursorTextChars] = text;
@@ -14,8 +14,7 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
 
   useEffect(() => {
     if (cursorRef.current != null) {
-      cursorRef.current.style.setProperty('--cx', `${mousePosition.pageX}px`);
-      cursorRef.current.style.setProperty('--cy', `${mousePosition.pageY}px`);
+      cursorRef.current.style.transform = `translate3d(${mousePosition.clientX}px, ${mousePosition.clientY}px, 0)`;
     }
   }, [mousePosition]);
 
