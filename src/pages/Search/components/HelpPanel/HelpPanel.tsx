@@ -36,6 +36,8 @@ const HelpPanel = () => {
           <img
             src="https://media0.giphy.com/media/3oKIPdiPGxPI7Dze7u/giphy.gif?cid=ecf05e475f5bct6ci09g3pgn43nf6bausx33fj7f96f6ig92&rid=giphy.gif&ct=g"
             loading="lazy"
+            width={288}
+            height={160}
           />
           <p>
             'memegle' is powered by GIPHY, the top source for the best & newest GIFs & Animated
@@ -43,7 +45,12 @@ const HelpPanel = () => {
           </p>
           <br />
 
-          <img src="https://giphy.com/static/img/artistdirectory_1040.gif" loading="lazy" />
+          <img
+            src="https://giphy.com/static/img/artistdirectory_1040.gif"
+            loading="lazy"
+            width={288}
+            height={42}
+          />
           <p>
             If you want more, you are always welcome to contribute as an artist. Please refer to the
             guideline&nbsp;
