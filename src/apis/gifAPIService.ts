@@ -57,7 +57,6 @@ export const gifAPIService = {
       const now = Date.now();
 
       if (now - cachedData.timestamp < CACHE_TTL) {
-        console.log('캐시에서 GIF 불러옴');
         return cachedData.data;
       }
     }
