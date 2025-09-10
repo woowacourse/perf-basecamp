@@ -16,7 +16,13 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
     />
-    <link rel="preload" as="image" href="/static/hero.webp" />
+    <link
+      rel="preload"
+      as="image"
+      imagesrcset="/static/hero-480.webp 480w, /static/hero-1200.webp 1200w, /static/hero.webp 1920w"
+      imagesizes="(max-width: 600px) 480px, (max-width: 1200px) 1200px, 1920px"
+    />
+
     <title>memegle - gif search engine for you</title>
   </head>
 

@@ -15,6 +15,15 @@ import styles from './Home.module.css';
 
 const cx = classNames.bind(styles);
 
+const toWebp = (suffix?: number) =>
+  heroImage.replace(/\/([^/]+)\.png$/, (_: string, name: string) =>
+    suffix ? `/${name}-${suffix}.webp` : `/${name}.webp`
+  );
+
+const heroWebp480 = toWebp(480);
+const heroWebp1200 = toWebp(1200);
+const heroWebp1920 = toWebp();
+
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
 
@@ -22,7 +31,11 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source type="image/webp" srcSet={heroImage.replace(/\.png$/, '.webp')} />
+          <source
+            type="image/webp"
+            srcSet={`${heroWebp480} 480w, ${heroWebp1200} 1200w, ${heroWebp1920} 1920w`}
+            sizes="(max-width: 600px) 480px, (max-width: 1200px) 1200px, 1920px"
+          />
           <img className={styles.heroImage} src={heroImage} alt="Hero" />
         </picture>
         <div className={styles.projectTitle}>

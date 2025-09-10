@@ -50,12 +50,33 @@ module.exports = {
     new ImageMinimizerPlugin({
       generator: [
         {
-          implementation: ImageMinimizerPlugin.imageminGenerate,
+          implementation: ImageMinimizerPlugin.sharpGenerate,
+          type: 'asset',
+          filter: (_, sourcePath) => /\.png$/i.test(sourcePath),
+          filename: 'static/[name]-480.webp',
+          options: {
+            encodeOptions: { webp: { quality: 40 } },
+            resize: { width: 480 }
+          }
+        },
+        {
+          implementation: ImageMinimizerPlugin.sharpGenerate,
+          type: 'asset',
+          filter: (_, sourcePath) => /\.png$/i.test(sourcePath),
+          filename: 'static/[name]-1200.webp',
+          options: {
+            encodeOptions: { webp: { quality: 40 } },
+            resize: { width: 1200 }
+          }
+        },
+        {
+          implementation: ImageMinimizerPlugin.sharpGenerate,
           type: 'asset',
           filter: (_, sourcePath) => /\.png$/i.test(sourcePath),
           filename: 'static/[name].webp',
           options: {
-            plugins: [['webp', { quality: 40, resize: { width: 1920, height: 0 } }]]
+            encodeOptions: { webp: { quality: 40 } },
+            resize: { width: 1920 }
           }
         }
       ]
