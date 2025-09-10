@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-module.exports = (env, argv) => {
+module.exports = (_, argv) => {
   const isProduction = argv.mode === 'production';
 
   return {
