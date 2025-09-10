@@ -37,6 +37,43 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const requestAndCache = async (url: URL, cacheKey: string): Promise<GifImageModel[]> => {
+  const cacheStorage = await caches.open(cacheKey);
+
+  const cachedResponse = await cacheStorage.match(url.toString());
+  if (cachedResponse) {
+    const { data, expires_at } = await cachedResponse.json();
+
+    if (Date.now() < expires_at) {
+      return convertResponseToModel(data);
+    } else {
+      await cacheStorage.delete(url.toString());
+    }
+  }
+
+  try {
+    const response = await fetch(url.toString());
+    if (!response.ok) throw new Error('네트워크 요청 실패!');
+    const gifs: GifsResult = await response.json();
+    const responseWithExpiry = new Response(
+      JSON.stringify({
+        data: gifs.data,
+        cached_at: Date.now(),
+        expires_at: Date.now() + 60 * 1000
+      })
+    );
+    await cacheStorage.put(url.toString(), responseWithExpiry);
+    return convertResponseToModel(gifs.data);
+  } catch (error) {
+    if (error instanceof ApiError) {
+      console.error(`API Error: ${error.status} - ${error.message}`);
+    } else {
+      console.error('Unexpected error:', error);
+    }
+    return [];
+  }
+};
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -49,9 +86,9 @@ export const gifAPIService = {
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
-
-    return fetchGifs(url);
+    return requestAndCache(url, 'trending');
   },
+
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword
