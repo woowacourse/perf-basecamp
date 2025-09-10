@@ -1,11 +1,11 @@
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, lazy, Suspense } from 'react';
 import useGifSearch from './hooks/useGifSearch';
 
-import SearchBar from './components/SearchBar/SearchBar';
-import SearchResult from './components/SearchResult/SearchResult';
-import HelpPanel from './components/HelpPanel/HelpPanel';
+const SearchBar = lazy(() => import('./components/SearchBar/SearchBar'));
+const SearchResult = lazy(() => import('./components/SearchResult/SearchResult'));
 
 import styles from './Search.module.css';
+import HelpPanel from './components/HelpPanel/HelpPanel';
 
 const Search = () => {
   const { status, searchKeyword, gifList, searchByKeyword, updateSearchKeyword, loadMore } =
@@ -19,13 +19,17 @@ const Search = () => {
 
   return (
     <div className={styles.searchContainer}>
-      <SearchBar
-        searchKeyword={searchKeyword}
-        onEnter={handleEnter}
-        onChange={updateSearchKeyword}
-        onSearch={searchByKeyword}
-      />
-      <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchBar
+          searchKeyword={searchKeyword}
+          onEnter={handleEnter}
+          onChange={updateSearchKeyword}
+          onSearch={searchByKeyword}
+        />
+      </Suspense>
+      <Suspense>
+        <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
+      </Suspense>
       <HelpPanel />
     </div>
   );

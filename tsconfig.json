@@ -7,7 +7,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "noUnusedLocals": true,
     "allowJs": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "removeComments": true,
     "noEmit": false,
     "esModuleInterop": true,

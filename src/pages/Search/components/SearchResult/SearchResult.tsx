@@ -46,6 +46,7 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
     }
   };
 
+  // TODO : renderContent() 의 layout shift 때문에 이렇게 변경했지만 추후 반응형 수정이 필요함
   return (
     <section className={styles.searchResultSection}>
       <ResultTitle status={status} />
