@@ -22,8 +22,7 @@ class TrendingCache {
   get(): GifImageModel[] | null {
     if (!this.cache) return null;
 
-    const now = Date.now();
-    if (now > this.cache.expiresAt) {
+    if (!this.isValid()) {
       this.clear();
       return null;
     }
