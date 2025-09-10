@@ -25,6 +25,7 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
       const path = pathRef.current;
 
       if (!wrapper || !path) {
+        tickingRef.current = false;
         return;
       }
 
