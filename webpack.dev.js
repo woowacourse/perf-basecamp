@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
@@ -11,19 +12,15 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     clean: true
   },
+  devtool: 'eval-cheap-module-source-map',
   devServer: {
     hot: true,
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
-    }),
+    new HtmlWebpackPlugin({ template: './index.html' }),
+    new CopyWebpackPlugin({ patterns: [{ from: './public', to: './public' }] }),
     new Dotenv()
   ],
   module: {
@@ -31,24 +28,17 @@ module.exports = {
       {
         test: /\.(js|jsx|ts|tsx)$/i,
         exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
-        }
+        use: { loader: 'ts-loader' }
       },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        test: /\.(png|jpe?g|gif|svg|webp|avif|eot|ttf|woff2?)$/i,
+        type: 'asset/resource',
+        generator: { filename: 'static/[name][ext]' }
       }
     ]
-  },
-  optimization: {
-    minimize: false
   }
 };

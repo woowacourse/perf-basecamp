@@ -14,8 +14,14 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
 
   useEffect(() => {
     if (cursorRef.current) {
-      cursorRef.current.style.top = `${mousePosition.pageY}px`;
-      cursorRef.current.style.left = `${mousePosition.pageX}px`;
+      const el = cursorRef.current;
+      el.style.transform = `translate3d(${mousePosition.pageX}px, ${mousePosition.pageY}px, 0)`;
+
+      const timeout = setTimeout(() => {
+        el.style.willChange = 'auto';
+      }, 150);
+
+      return () => clearTimeout(timeout);
     }
   }, [mousePosition]);
 
