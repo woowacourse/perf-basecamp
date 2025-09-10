@@ -3,6 +3,7 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import { getCachedData, setCacheData } from './cacheUtils';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -11,6 +12,7 @@ if (!API_KEY) {
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
+const GIPHY_CACHE_NAME = 'giphy-api-cache';
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
@@ -23,10 +25,19 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
 };
 
 const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+  const cachedData = await getCachedData<GifImageModel[]>(GIPHY_CACHE_NAME, url.href);
+
+  if (cachedData) {
+    return cachedData;
+  }
+
   try {
     const gifs = await apiClient.fetch<GifsResult>(url);
 
-    return convertResponseToModel(gifs.data);
+    const convertGifs = convertResponseToModel(gifs.data);
+    await setCacheData(GIPHY_CACHE_NAME, url.href, convertGifs);
+
+    return convertGifs;
   } catch (error) {
     if (error instanceof ApiError) {
       console.error(`API Error: ${error.status} - ${error.message}`);
