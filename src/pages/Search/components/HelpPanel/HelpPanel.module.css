@@ -8,10 +8,35 @@
   background: #bd00ff;
 }
 
+@keyframes slideIn {
+  0% {
+    transform: translateX(320px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(320px);
+    opacity: 0;
+  }
+}
+
 .selectedItemContainer {
   position: fixed;
   right: -320px;
   top: 0;
+  right: 0;
   width: 320px;
   height: 100%;
   z-index: 10;
@@ -19,13 +44,11 @@
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  opacity: 0;
-  transition: 0.5s all cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  animation: slideIn 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895) forwards;
 }
 
-.selectedItemContainer.showSheet {
-  right: 0;
-  opacity: 1;
+.selectedItemContainer.close {
+  animation: slideOut 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895) forwards;
 }
 
 .sheetTitleContainer {

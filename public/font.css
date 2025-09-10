@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('JosefinSans-Italic.woff2') format('woff2'),
+    url('JosefinSans-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('JosefinSans-BoldItalic.woff2') format('woff2'),
+    url('JosefinSans-BoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: block;
+}

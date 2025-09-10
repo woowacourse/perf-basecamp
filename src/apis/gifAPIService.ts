@@ -3,6 +3,7 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import { IWebP } from '@giphy/js-types/dist/images';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -12,12 +13,20 @@ if (!API_KEY) {
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
+const getMinSizeWebpImageUrl = (widthFixed: IWebP, heightFixed: IWebP): string => {
+  const image = heightFixed.webp_size <= widthFixed.webp_size ? heightFixed : widthFixed;
+  return image.webp;
+};
+
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.url
+      imageUrl: getMinSizeWebpImageUrl(
+        images.fixed_width_downsampled,
+        images.fixed_height_downsampled
+      )
     };
   });
 };
@@ -37,6 +46,21 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+const fetchGifsWithCacheStorage = async (url: URL, cacheName: string): Promise<GifImageModel[]> => {
+  try {
+    const gifs = await apiClient.fetchWithCacheStorage<GifsResult>(url, cacheName);
+
+    return convertResponseToModel(gifs.data);
+  } catch (error) {
+    if (error instanceof ApiError) {
+      console.error(`API Error: ${error.status} - ${error.message}`);
+    } else {
+      console.error('Unexpected error:', error);
+    }
+    throw error;
+  }
+};
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
@@ -44,13 +68,15 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    const cacheName = 'trending-gifs-cache';
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return fetchGifsWithCacheStorage(url, cacheName);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
