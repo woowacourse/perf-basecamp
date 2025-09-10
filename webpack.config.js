@@ -7,7 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
-  resolve: { 
+  resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     // react-icons의 ES modules을 우선시하여 tree-shaking 최적화
     mainFields: ['module', 'main']
@@ -57,9 +57,9 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        type: 'asset',
+        generator: {
+          filename: 'static/[name][ext]'
         }
       }
     ]
@@ -88,7 +88,7 @@ module.exports = {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
-          chunks: 'all',
+          chunks: 'all'
         },
         // react-icons를 별도 번들로 분리하여 tree-shaking 효과 극대화
         reactIcons: {
