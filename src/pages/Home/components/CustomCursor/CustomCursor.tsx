@@ -9,15 +9,14 @@ type CustomCursorProps = {
 
 const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const [...cursorTextChars] = text;
-  const mousePosition = useMousePosition();
+  const { clientX, clientY } = useMousePosition();
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (cursorRef.current) {
-      cursorRef.current.style.top = `${mousePosition.pageY}px`;
-      cursorRef.current.style.left = `${mousePosition.pageX}px`;
+      cursorRef.current.style.transform = `translate3d(${clientX}px, ${clientY}px, 0)`;
     }
-  }, [mousePosition]);
+  }, [clientX, clientY]);
 
   return (
     <div ref={cursorRef} className={styles.cursor}>

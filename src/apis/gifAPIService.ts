@@ -11,13 +11,35 @@ if (!API_KEY) {
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
+const CACHE_STALE_TIME = 30 * 60 * 1000;
+
+interface CacheDataType {
+  data: GifImageModel[];
+  timestamp: number;
+}
+
+const cacheData: CacheDataType = {
+  data: [],
+  timestamp: 0
+};
+
+const isCacheValid = (timestamp: number): boolean => {
+  return Date.now() - timestamp < CACHE_STALE_TIME;
+};
+
+const getCachedData = (): GifImageModel[] | null => {
+  if (cacheData.data.length > 0 && isCacheValid(cacheData.timestamp)) {
+    return cacheData.data;
+  }
+  return null;
+};
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.url
+      imageUrl: images.fixed_width_downsampled.webp
     };
   });
 };
@@ -50,7 +72,14 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    const cachedData = getCachedData();
+    if (cachedData) return cachedData;
+
+    const fetchedData = await fetchGifs(url);
+    cacheData.data = fetchedData;
+    cacheData.timestamp = Date.now();
+
+    return fetchedData;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
