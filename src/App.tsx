@@ -5,9 +5,8 @@ import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
+import Home from './pages/Home/Home';
 
-// Search 페이지를 동적으로 로드하여 Home 페이지 번들에서 분리
-const Home = lazy(() => import('./pages/Home/Home'));
 const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
