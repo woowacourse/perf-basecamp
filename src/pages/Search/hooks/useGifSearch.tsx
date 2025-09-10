@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
@@ -22,9 +22,9 @@ const useGifSearch = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
+  const updateSearchKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.target.value);
-  };
+  }, []);
 
   const resetSearch = () => {
     setStatus(SEARCH_STATUS.LOADING);
@@ -38,7 +38,7 @@ const useGifSearch = () => {
     setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred');
   };
 
-  const searchByKeyword = async (): Promise<void> => {
+  const searchByKeyword = useCallback(async (): Promise<void> => {
     resetSearch();
 
     try {
@@ -54,9 +54,9 @@ const useGifSearch = () => {
     } catch (error) {
       handleError(error);
     }
-  };
+  }, [searchKeyword]);
 
-  const loadMore = async (): Promise<void> => {
+  const loadMore = useCallback(async (): Promise<void> => {
     const nextPageIndex = currentPageIndex + 1;
 
     try {
@@ -67,7 +67,7 @@ const useGifSearch = () => {
     } catch (error) {
       handleError(error);
     }
-  };
+  }, [currentPageIndex, searchKeyword]);
 
   useEffect(() => {
     const fetchTrending = async () => {

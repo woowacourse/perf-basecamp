@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styles from './FeatureItem.module.css';
 
 type FeatureItemProps = {
@@ -5,7 +6,7 @@ type FeatureItemProps = {
   imageSrc: string;
 };
 
-const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
+const FeatureItem = memo(({ title, imageSrc }: FeatureItemProps) => {
   return (
     <div className={styles.featureItem}>
       <img className={styles.featureImage} src={imageSrc} />
@@ -13,6 +14,8 @@ const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
       <h4 className={styles.featureTitle}>{title}</h4>
     </div>
   );
-};
+});
+
+FeatureItem.displayName = 'FeatureItem';
 
 export default FeatureItem;

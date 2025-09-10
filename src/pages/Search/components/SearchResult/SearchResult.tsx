@@ -1,9 +1,10 @@
+import { memo, useMemo } from 'react';
 import { GifImageModel } from '../../../../models/image/gifImage';
 
-import ResultTitle from '../ResultTitle/ResultTitle';
 import GifItem from '../GifItem/GifItem';
+import ResultTitle from '../ResultTitle/ResultTitle';
 
-import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
+import { SEARCH_STATUS, SearchStatus } from '../../hooks/useGifSearch';
 
 import styles from './SearchResult.module.css';
 
@@ -13,13 +14,16 @@ type SearchResultProps = {
   loadMore: () => void;
 };
 
-const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
-  const renderGifList = () => (
-    <div className={styles.gifResultWrapper}>
-      {gifList.map((gif: GifImageModel) => (
-        <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
-      ))}
-    </div>
+const SearchResult = memo(({ status, gifList, loadMore }: SearchResultProps) => {
+  const renderGifList = useMemo(
+    () => (
+      <div className={styles.gifResultWrapper}>
+        {gifList.map((gif: GifImageModel) => (
+          <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+        ))}
+      </div>
+    ),
+    [gifList]
   );
 
   const renderLoadMoreButton = () => (
@@ -33,12 +37,12 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
       case SEARCH_STATUS.FOUND:
         return (
           <>
-            {renderGifList()}
+            {renderGifList}
             {renderLoadMoreButton()}
           </>
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
-        return renderGifList();
+        return renderGifList;
       case SEARCH_STATUS.NO_RESULT:
       case SEARCH_STATUS.ERROR:
       default:
@@ -52,6 +56,8 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
       {renderContent()}
     </section>
   );
-};
+});
+
+SearchResult.displayName = 'SearchResult';
 
 export default SearchResult;

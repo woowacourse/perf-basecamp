@@ -8,7 +8,6 @@
     "noUnusedLocals": true,
     "allowJs": true,
     "sourceMap": true,
-    "removeComments": true,
     "noEmit": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
