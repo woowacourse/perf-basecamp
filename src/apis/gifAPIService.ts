@@ -11,6 +11,16 @@ if (!API_KEY) {
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
+const TRENDING_CACHE_KEY = 'giphy_trending_cache_v1';
+const TRENDING_CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const TRENDING_CACHE_STORE = 'memegle-trending-cache-v1';
+
+type TrendingCacheRecord = {
+  data: GifImageModel[];
+  ts: number;
+};
+
+let trendingMemoryCache: TrendingCacheRecord | null = null;
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
@@ -44,13 +54,54 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    const now = Date.now();
+    if (trendingMemoryCache && now - trendingMemoryCache.ts < TRENDING_CACHE_TTL_MS) {
+      return trendingMemoryCache.data;
+    }
+
+    try {
+      const cache = await caches.open(TRENDING_CACHE_STORE);
+      const cachedResponse = await cache.match(TRENDING_CACHE_KEY);
+      if (cachedResponse) {
+        const stored: TrendingCacheRecord = await cachedResponse.json();
+        if (now - stored.ts < TRENDING_CACHE_TTL_MS && Array.isArray(stored.data)) {
+          trendingMemoryCache = stored;
+          return stored.data;
+        }
+      }
+    } catch (error) {
+      console.error(
+        'Cache Storage Error:',
+        error instanceof Error ? error.message : 'Unknown error'
+      );
+    }
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    const data = await fetchGifs(url);
+
+    trendingMemoryCache = { data, ts: now };
+    try {
+      const cache = await caches.open(TRENDING_CACHE_STORE);
+      const record: TrendingCacheRecord = { data, ts: now };
+      await cache.put(
+        TRENDING_CACHE_KEY,
+        new Response(JSON.stringify(record), {
+          headers: { 'Content-Type': 'application/json', 'Cache-Control': 'private, max-age=0' }
+        })
+      );
+    } catch (error) {
+      console.error(
+        'Cache Storage Error:',
+        error instanceof Error ? error.message : 'Unknown error'
+      );
+    }
+
+    return data;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.

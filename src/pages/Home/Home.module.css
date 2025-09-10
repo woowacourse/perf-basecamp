@@ -13,11 +13,9 @@
 
 .projectTitle {
   position: absolute;
-  margin: auto;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   height: 8.5rem;
 }
 
@@ -26,6 +24,7 @@
   font-weight: 700;
   font-size: 4.5rem;
   line-height: 4.5rem;
+  min-height: 4.5rem;
   text-align: center;
 }
 
@@ -41,12 +40,12 @@
 .cta {
   position: absolute;
   bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .linkButton {
   margin: 0 auto;
-  left: 0;
-  right: 0;
   width: 23.5rem;
   height: 3.5rem;
   font-style: normal;
@@ -58,11 +57,6 @@
   background: var(--radial-gradient);
   color: var(--white);
   cursor: pointer;
-  transition: all 0.5s ease-in-out 0s;
-}
-
-.linkButton:hover {
-  background: var(--radial-gradient);
 }
 
 .featureSection {

@@ -4,12 +4,43 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Memegle - GIF 검색 엔진. 트렌딩 GIF를 빠르게 찾고 저장하세요."
+    />
+    <meta name="theme-color" content="#bd00ff" />
+    <meta name="robots" content="index,follow" />
+    <meta name="googlebot" content="index,follow" />
+    <meta property="og:title" content="Memegle - GIF search engine for you" />
+    <meta property="og:description" content="트렌딩 GIF를 검색하고 저장하는 빠른 검색 엔진." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./public/favicon.ico" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Memegle - GIF search engine for you" />
+    <meta name="twitter:description" content="트렌딩 GIF를 검색하고 저장하는 빠른 검색 엔진." />
     <link rel="icon" href="./public/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+    <link
+      rel="preload"
+      as="image"
+      href="./public/images/hero-1280.webp"
+      imagesrcset="./public/images/hero-440.webp 440w, ./public/images/hero-768.webp 768w, ./public/images/hero-1024.webp 1024w, ./public/images/hero-1280.webp 1280w"
+      imagesizes="(min-width: 1280px) 1280px, (min-width: 1024px) 1024px, (min-width: 768px) 768px, 440px"
+      fetchpriority="high"
     />
     <title>memegle - gif search engine for you</title>
   </head>
