@@ -63,8 +63,7 @@ module.exports = (_, argv) => {
           terserOptions: {
             compress: {
               drop_console: isProduction,
-              drop_debugger: isProduction,
-              pure_funcs: isProduction ? ['console.log', 'console.info', 'console.debug'] : []
+              drop_debugger: isProduction
             },
             mangle: true,
             format: {
