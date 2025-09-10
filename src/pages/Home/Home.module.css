@@ -4,6 +4,7 @@
   width: 100%;
   height: 46.5rem;
   padding-top: 3.5rem;
+  aspect-ratio: 16 / 9;
 }
 
 .heroImage {

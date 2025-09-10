@@ -1,4 +1,6 @@
 import { GifImageModel } from '../../../../models/image/gifImage';
+import { useEffect } from 'react';
+import useIntersectionObserver from '../../../Home/hooks/useIntersectionObserver';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
 import GifItem from '../GifItem/GifItem';
@@ -14,14 +16,25 @@ type SearchResultProps = {
 };
 
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
+  const { targetRef, hasIntersected } = useIntersectionObserver<HTMLDivElement>({
+    threshold: 0.1,
+    rootMargin: '100px',
+    triggerOnce: false
+  });
+
+  useEffect(() => {
+    if (hasIntersected && status === SEARCH_STATUS.FOUND) {
+      loadMore();
+    }
+  }, [hasIntersected, status, loadMore]);
+
   const renderGifList = () => (
     <div className={styles.gifResultWrapper}>
-      {gifList.map((gif: GifImageModel) => (
-        <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+      {gifList.map((gif: GifImageModel, index) => (
+        <GifItem key={`${gif.id}-${index}`} imageUrl={gif.imageUrl} title={gif.title} />
       ))}
     </div>
   );
-
   const renderLoadMoreButton = () => (
     <button className={styles.loadMoreButton} onClick={loadMore}>
       load more
@@ -35,6 +48,11 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
           <>
             {renderGifList()}
             {renderLoadMoreButton()}
+            <div
+              ref={targetRef}
+              style={{ height: '1px', visibility: 'hidden' }}
+              aria-hidden="true"
+            />
           </>
         );
       case SEARCH_STATUS.BEFORE_SEARCH:

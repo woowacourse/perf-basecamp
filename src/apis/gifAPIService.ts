@@ -8,23 +8,44 @@ const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
   throw new Error('GIPHY_API_KEY is not set in environment variables');
 }
+type CachedGifResponse = {
+  savedAt: number;
+  gifs: GifsResult;
+};
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
+const ONE_HOUR = 60 * 60 * 1000;
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.url
+      imageUrl: images.original.webp || images.original.url
     };
   });
 };
 
 const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+  const cache = await caches.open('gif-api-cache');
+  const request = new Request(url.toString());
+
+  const cachedResponse = await cache.match(request);
+
+  if (cachedResponse) {
+    const data: CachedGifResponse = await cachedResponse.json();
+    const isExpired = Date.now() - data.savedAt > ONE_HOUR;
+    if (!isExpired) {
+      return convertResponseToModel(data.gifs.data);
+    }
+  }
+
   try {
     const gifs = await apiClient.fetch<GifsResult>(url);
+
+    const dataToCache: CachedGifResponse = { savedAt: Date.now(), gifs };
+    cache.put(request, new Response(JSON.stringify(dataToCache)));
 
     return convertResponseToModel(gifs.data);
   } catch (error) {
@@ -49,8 +70,7 @@ export const gifAPIService = {
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
-
-    return fetchGifs(url);
+    return await fetchGifs(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
