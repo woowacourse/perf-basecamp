@@ -1,7 +1,7 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-
+import { type ChangeEvent, useEffect, useState } from 'react';
 import { gifAPIService } from '../../../apis/gifAPIService';
-import { GifImageModel } from '../../../models/image/gifImage';
+import type { GifImageModel } from '../../../models/image/gifImage';
+import { fetchWithCache } from '../../../apis/fetchWithCache';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -69,19 +69,20 @@ const useGifSearch = () => {
     }
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    const fetchTrending = async () => {
-      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
+    if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
+    let alive = true;
 
-      try {
-        const gifs = await gifAPIService.getTrending();
-        setGifList(gifs);
-      } catch (error) {
-        handleError(error);
-      }
+    fetchWithCache('/api/trending', () => gifAPIService.getTrending(), {})
+      .then((gifs) => {
+        if (alive) setGifList(gifs);
+      })
+      .catch(handleError);
+
+    return () => {
+      alive = false;
     };
-
-    fetchTrending();
   }, []);
 
   return {

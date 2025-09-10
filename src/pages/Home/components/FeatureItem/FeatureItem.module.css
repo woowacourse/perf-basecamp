@@ -34,4 +34,6 @@
   left: 0;
   height: 100%;
   transform: translateX(-10%);
+  min-width: 480px;
+  min-height: 416px;
 }

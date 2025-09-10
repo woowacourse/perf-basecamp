@@ -1,0 +1,95 @@
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: block;
+  font-weight: 400;
+  font-display: block;
+  src: url('./fonts/josefin-sans/josefin-sans-400-normal-vietnamese.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: block;
+  font-weight: 400;
+  font-display: block;
+  src: url('./fonts/josefin-sans/josefin-sans-400-normal-latin-ext.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: block;
+  font-weight: 400;
+  font-display: block;
+  src: url('./fonts/josefin-sans/josefin-sans-400-normal-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: block;
+  src: url('./fonts/josefin-sans/josefin-sans-700-normal-vietnamese.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: block;
+  src: url('./fonts/josefin-sans/josefin-sans-700-normal-latin-ext.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: block;
+  src: url('./fonts/josefin-sans/josefin-sans-700-normal-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/josefin-sans/josefin-sans-400-italic-vietnamese.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/josefin-sans/josefin-sans-400-italic-latin-ext.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/josefin-sans/josefin-sans-400-italic-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: block;
+  src: url('./fonts/josefin-sans/josefin-sans-700-italic-vietnamese.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: block;
+  src: url('./fonts/josefin-sans/josefin-sans-700-italic-latin-ext.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: block;
+  src: url('./fonts/josefin-sans/josefin-sans-700-italic-latin.woff2') format('woff2');
+}
