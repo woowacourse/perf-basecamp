@@ -38,7 +38,7 @@ module.exports = {
           implementation: ImageMinimizerPlugin.imageminGenerate,
           type: 'asset',
           filename: 'static/[name].webp',
-          filter: (_, sourcePath) => /\.webp$/i.test(sourcePath),
+          filter: (_, sourcePath) => /\.png$/i.test(sourcePath),
           options: {
             plugins: [['webp', { quality: 40, resize: { width: 1920, height: 0 } }]]
           }
