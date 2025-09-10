@@ -46,34 +46,15 @@ module.exports = {
       ]
     })
   ],
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx|ts|tsx)$/i,
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
-        }
-      },
-      {
-        test: /\.css$/i,
-        // use: ['style-loader', 'css-loader']
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|jpg|gif|mp4)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
-      },
-      {
-        test: /\.(png)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'static/[name].webp[query]'
-        }
-      }
-    ]
+  output: {
+    filename: 'js/[name].[contenthash].js',
+    chunkFilename: 'js/[name].[contenthash].js',
+    path: path.join(__dirname, '/dist'),
+    clean: true
+  },
+  devServer: {
+    hot: true,
+    open: true,
+    historyApiFallback: true
   }
 };
