@@ -16,7 +16,7 @@
   },
   "keywords": [],
   "author": "woowacourse",
-  "homepage": "https://{username}.github.io/perf-basecamp",
+  "homepage": "https://ha-kuku.github.io/perf-basecamp",
   "license": "MIT",
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.1",
@@ -25,7 +25,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "uglify-js": "^3.19.3"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
@@ -58,6 +59,7 @@
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
     "webpack": "^5.88.2",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
