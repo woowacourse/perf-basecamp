@@ -11,6 +11,13 @@ if (!API_KEY) {
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
+const TRENDING_GIF_API = apiClient
+  .appendSearchParams(new URL(`${BASE_URL}/trending`), {
+    api_key: API_KEY,
+    limit: `${DEFAULT_FETCH_COUNT}`,
+    rating: 'g'
+  })
+  .toString();
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
@@ -38,27 +45,31 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
 };
 
 export const gifAPIService = {
-  /**
-   * treding gif 목록을 가져옵니다.
-   * @returns {Promise<GifImageModel[]>}
-   * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
-   */
   getTrending: async (): Promise<GifImageModel[]> => {
-    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
-      api_key: API_KEY,
-      limit: `${DEFAULT_FETCH_COUNT}`,
-      rating: 'g'
-    });
+    try {
+      const cacheStorage = await caches.open('trending');
+      const cachedResponse = await cacheStorage.match(TRENDING_GIF_API);
 
-    return fetchGifs(url);
+      if (cachedResponse) {
+        const gifs: GifsResult = await cachedResponse.json();
+        return convertResponseToModel(gifs.data);
+      }
+
+      const response = await fetch(TRENDING_GIF_API);
+
+      if (response.ok) {
+        await cacheStorage.put(TRENDING_GIF_API, response.clone());
+        const gifs: GifsResult = await response.json();
+        return convertResponseToModel(gifs.data);
+      } else {
+        throw new Error('네트워크 요청 실패!');
+      }
+    } catch (e) {
+      console.error('getTrending error:', e);
+      return [];
+    }
   },
-  /**
-   * 검색어에 맞는 gif 목록을 가져옵니다.
-   * @param {string} keyword
-   * @param {number} page
-   * @returns {Promise<GifImageModel[]>}
-   * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/search
-   */
+
   searchByKeyword: async (keyword: string, page: number): Promise<GifImageModel[]> => {
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/search`), {
       api_key: API_KEY,

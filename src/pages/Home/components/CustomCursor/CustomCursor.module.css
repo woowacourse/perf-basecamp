@@ -1,11 +1,12 @@
 .cursor {
   pointer-events: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
   padding: 0 16px;
   color: var(--white);
+  transform: translate3d(0, 0, 0);
 }
 
 .cursor::before {
