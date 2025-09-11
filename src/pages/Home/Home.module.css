@@ -25,17 +25,21 @@
   font-style: italic;
   font-weight: 700;
   font-size: 4.5rem;
-  line-height: 4.5rem;
+  line-height: 1;
   text-align: center;
+  min-height: 4.5rem;
+  display: block;
 }
 
 .subtitle {
   font-style: italic;
   font-weight: 400;
   font-size: 3rem;
-  line-height: 3rem;
+  line-height: 1;
   text-align: center;
   padding-top: 1.25rem;
+  min-height: 3rem;
+  display: block;
 }
 
 .cta {
