@@ -1,6 +1,5 @@
 import React from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
-
+import { AiOutlineSearch } from '@react-icons/all-files/ai/AiOutlineSearch';
 import styles from './SearchBar.module.css';
 
 type SearchbarProps = {

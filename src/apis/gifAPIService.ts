@@ -12,6 +12,10 @@ if (!API_KEY) {
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
+const CACHE_NAME = 'giphy-trending-cache';
+const CACHE_KEY = 'trending';
+const CACHE_TTL = 10 * 60 * 1000;
+
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
@@ -44,14 +48,42 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
-    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
-      api_key: API_KEY,
-      limit: `${DEFAULT_FETCH_COUNT}`,
-      rating: 'g'
-    });
+    try {
+      const cache = await caches.open(CACHE_NAME);
+      const cachedResponse = await cache.match(CACHE_KEY);
 
-    return fetchGifs(url);
+      if (cachedResponse) {
+        const { data, cachedAt } = await cachedResponse.json();
+        if (Date.now() - cachedAt < CACHE_TTL) {
+          return data;
+        }
+      }
+
+      const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
+        api_key: API_KEY,
+        limit: `${DEFAULT_FETCH_COUNT}`,
+        rating: 'g'
+      });
+
+      const gifs = await fetchGifs(url);
+
+      const wrapped = new Response(
+        JSON.stringify({
+          data: gifs,
+          cachedAt: Date.now()
+        }),
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+      await cache.put(CACHE_KEY, wrapped);
+
+      return gifs;
+    } catch (error) {
+      throw error;
+    }
   },
+
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
    * @param {string} keyword

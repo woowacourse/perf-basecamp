@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export type MousePosition = Partial<MouseEvent>;
 
@@ -12,24 +12,43 @@ const useMousePosition = () => {
     offsetY: 0
   });
 
-  const updateMousePosition = (e: MouseEvent) => {
-    const { clientX, clientY, pageX, pageY, offsetX, offsetY } = e;
-
-    setMousePosition({
-      clientX,
-      clientY,
-      pageX,
-      pageY,
-      offsetX,
-      offsetY
-    });
-  };
+  const frameRef = useRef<number>();
+  const latestEventRef = useRef<MouseEvent>();
 
   useEffect(() => {
-    window.addEventListener('mousemove', updateMousePosition);
+    const update = () => {
+      if (latestEventRef.current) {
+        const { clientX, clientY, pageX, pageY, offsetX, offsetY } = latestEventRef.current;
+
+        setMousePosition({
+          clientX,
+          clientY,
+          pageX,
+          pageY,
+          offsetX,
+          offsetY
+        });
+      }
+
+      frameRef.current = undefined;
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      latestEventRef.current = e;
+
+      if (!frameRef.current) {
+        frameRef.current = requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
 
     return () => {
-      window.removeEventListener('mousemove', updateMousePosition);
+      window.removeEventListener('mousemove', onMouseMove);
+
+      if (frameRef.current) {
+        cancelAnimationFrame(frameRef.current);
+      }
     };
   }, []);
 

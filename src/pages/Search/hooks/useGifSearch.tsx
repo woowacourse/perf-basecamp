@@ -1,5 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
 
@@ -33,14 +32,13 @@ const useGifSearch = () => {
     setErrorMessage(null);
   };
 
-  const handleError = (error: unknown) => {
+  const handleError = useCallback((error: unknown) => {
     setStatus(SEARCH_STATUS.ERROR);
     setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred');
-  };
+  }, []);
 
   const searchByKeyword = async (): Promise<void> => {
     resetSearch();
-
     try {
       const gifs = await gifAPIService.searchByKeyword(searchKeyword, DEFAULT_PAGE_INDEX);
 
@@ -58,11 +56,9 @@ const useGifSearch = () => {
 
   const loadMore = async (): Promise<void> => {
     const nextPageIndex = currentPageIndex + 1;
-
     try {
-      const newGitList = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
-
-      setGifList((prevGifList) => [...prevGifList, ...newGitList]);
+      const newGifList = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
+      setGifList((prevGifList) => [...prevGifList, ...newGifList]);
       setCurrentPageIndex(nextPageIndex);
     } catch (error) {
       handleError(error);
@@ -70,19 +66,29 @@ const useGifSearch = () => {
   };
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchTrending = async () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
       try {
         const gifs = await gifAPIService.getTrending();
-        setGifList(gifs);
+        if (isMounted) {
+          setGifList(gifs);
+        }
       } catch (error) {
-        handleError(error);
+        if (isMounted) {
+          handleError(error);
+        }
       }
     };
 
     fetchTrending();
-  }, []);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [status, handleError]);
 
   return {
     status,
