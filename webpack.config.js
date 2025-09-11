@@ -2,13 +2,20 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCSSExtractionPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
+  mode: 'production',
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].js',
     path: path.join(__dirname, '/dist'),
+    publicPath: '/',
     clean: true
   },
   devServer: {
@@ -18,8 +25,23 @@ module.exports = {
   },
   devtool: 'source-map',
   plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'server',
+      openAnalyzer: true,
+      generateStatsFile: true,
+      statsFilename: 'bundle-report.json'
+    }),
     new HtmlWebpackPlugin({
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true
+      },
+      hash: true,
       template: './index.html'
+    }),
+    new MiniCSSExtractionPlugin({
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[id].[contenthash].css'
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
@@ -37,10 +59,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCSSExtractionPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -49,6 +71,23 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new ImageMinimizerPlugin({
+        test: /\.webp$/i,
+        minimizer: {
+          implementation: ImageMinimizerPlugin.sharpMinify,
+          options: {
+            encodeOptions: {
+              webp: {
+                quality: 33,
+                effort: 4
+              }
+            }
+          }
+        }
+      })
+    ]
   }
 };
