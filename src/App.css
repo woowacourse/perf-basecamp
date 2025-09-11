@@ -3,7 +3,7 @@
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
+  font-family: inherit;
   vertical-align: baseline;
   box-sizing: border-box;
 }
@@ -14,7 +14,8 @@ html {
 
 body {
   line-height: 1;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Josefin Sans', 'Trebuchet MS', Arial, sans-serif;
+  font-size-adjust: 0.54;
 }
 
 button {

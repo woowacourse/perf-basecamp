@@ -11,6 +11,8 @@ import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 
+import { getAssetSrc, getOptimizedAssetSrcSet } from '../../utils/changeImageExtension';
+
 import styles from './Home.module.css';
 
 const cx = classNames.bind(styles);
@@ -18,16 +20,38 @@ const cx = classNames.bind(styles);
 const Home = () => {
   const wrapperRef = useRef<HTMLElement>(null);
 
+  const heroImageSrc = getAssetSrc(heroImage, 'png');
+  const heroImageWebpSrcSet = getOptimizedAssetSrcSet(heroImage, 'webp');
+  const heroImageAvifSrcSet = getOptimizedAssetSrcSet(heroImage, 'avif');
+
+  const isProduction = process.env.NODE_ENV === 'production';
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          {isProduction && (
+            <>
+              <source srcSet={heroImageAvifSrcSet} type="image/avif" />
+              <source srcSet={heroImageWebpSrcSet} type="image/webp" />
+            </>
+          )}
+          <img
+            src={heroImageSrc}
+            alt="Hero"
+            sizes="(max-width: 600px) 400px,
+             (max-width: 1200px) 1200px,
+             1600px"
+            className={styles.heroImage}
+          />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
-          <h3 className={styles.subtitle}>gif search engine for you</h3>
+          <h2 className={styles.subtitle}>gif search engine for you</h2>
         </div>
         <Link to="/search">
-          <button className={cx('cta', 'linkButton')}>start search</button>
+          <button type="button" className={cx('cta', 'linkButton')}>
+            start search
+          </button>
         </Link>
       </section>
       <section ref={wrapperRef} className={styles.featureSection}>
@@ -40,7 +64,9 @@ const Home = () => {
             <FeatureItem title="Free for everyone" imageSrc={freeGif} />
           </div>
           <Link to="/search">
-            <button className={styles.linkButton}>start search</button>
+            <button type="button" className={styles.linkButton}>
+              start search
+            </button>
           </Link>
         </div>
       </section>

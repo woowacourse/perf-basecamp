@@ -1,4 +1,4 @@
-import { Artist } from '../../../../models/help/artist';
+import type { Artist } from '../../../../models/help/artist';
 import ArtistInfo from '../ArtistInfo/ArtistInfo';
 
 type ArtistListProps = {

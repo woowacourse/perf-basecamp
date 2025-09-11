@@ -41,13 +41,13 @@
   color: var(--white);
   cursor: pointer;
   border: none;
-  transition: all 0.5s ease-in-out 0s;
+  transition: background 0.5s ease-in-out 0s;
 }
 
 .searchPageButton:hover {
   background: radial-gradient(
     110.23% 110.23% at 50% 50%,
-    #bd00ff 0%,
+    #bd00ff 20%,
     rgba(233, 97, 195, 0.77) 57.81%
   );
 }
