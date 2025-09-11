@@ -21,8 +21,9 @@ const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProp
           value={searchKeyword}
           onKeyUp={onEnter}
           onChange={onChange}
+          aria-label="검색어 입력"
         />
-        <button className={styles.searchButton} type="button" onClick={onSearch}>
+        <button className={styles.searchButton} type="button" onClick={onSearch} aria-label="검색">
           <AiOutlineSearch color="white" size="2rem" />
         </button>
       </div>
