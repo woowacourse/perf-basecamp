@@ -29,6 +29,7 @@
   text-align: center;
   min-height: 4.5rem;
   display: block;
+  font-size-adjust: 0.5;
 }
 
 .subtitle {
