@@ -54,9 +54,12 @@ export const gifAPIService = {
     if (inFlight) return inFlight;
 
     try {
-      const raw = localStorage.getItem(LS_KEY_TRENDING);
-      if (raw) {
-        const { ts, data } = JSON.parse(raw) as { ts: number; data: GifImageModel[] };
+      const trendingGifsRawData = localStorage.getItem(LS_KEY_TRENDING);
+      if (trendingGifsRawData) {
+        const { ts, data } = JSON.parse(trendingGifsRawData) as {
+          ts: number;
+          data: GifImageModel[];
+        };
         if (Date.now() - ts < TTL_MS && Array.isArray(data)) {
           cacheData = data;
           cacheTs = ts;
