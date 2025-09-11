@@ -1,11 +1,13 @@
 .cursor {
   pointer-events: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
   padding: 0 16px;
   color: var(--white);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 .cursor::before {
@@ -23,6 +25,7 @@
 .cursor span {
   display: inline-block;
   animation: wave-text 1s ease-in-out infinite;
+  will-change: transform;
 }
 
 .cursor span:nth-of-type(1) {

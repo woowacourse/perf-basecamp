@@ -19,6 +19,7 @@ const Search = () => {
 
   return (
     <div className={styles.searchContainer}>
+      <h1 className="visually-hidden">GIF Search</h1>
       <SearchBar
         searchKeyword={searchKeyword}
         onEnter={handleEnter}

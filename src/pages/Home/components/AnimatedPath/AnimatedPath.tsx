@@ -8,7 +8,7 @@ type AnimatedPathProps = {
   wrapperRef: React.RefObject<HTMLElement>;
 };
 
-const TOP_PERCENTAGE_OF_DRAW_POINT = 0.8; // 현재 보이는 화면의 80% 지점에서 선이 그려지는 게 보이도록 함
+const TOP_PERCENTAGE_OF_DRAW_POINT = 0.8;
 
 const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   const pathRef = useRef<SVGPathElement>(null);

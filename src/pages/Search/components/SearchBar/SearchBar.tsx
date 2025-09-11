@@ -13,7 +13,7 @@ type SearchbarProps = {
 const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProps) => {
   return (
     <section className={styles.searchbarSection}>
-      <h3 className={styles.searchbarTitle}>- find the best gif now -</h3>
+      <h2 className={styles.searchbarTitle}>- find the best gif now -</h2>
       <div className={styles.searchbarContainer}>
         <input
           className={styles.searchInput}
