@@ -41,3 +41,12 @@ a {
   --white: #fcfcfc;
   --black: #131313;
 }
+
+.main-content {
+  flex: 1;
+  min-height: 100vh;
+}
+
+.main-content > div {
+  min-height: 100vh;
+}

@@ -1,14 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 type ScrollHandler = () => void;
 
 const useScrollEvent = (onScroll: ScrollHandler) => {
+  const ticking = useRef<boolean>(false);
+
   useEffect(() => {
     const handleScroll = (event: Event) => {
-      onScroll();
+      if (!ticking.current) {
+      }
+      requestAnimationFrame(() => {
+        onScroll();
+        ticking.current = false;
+      });
+      ticking.current = true;
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);

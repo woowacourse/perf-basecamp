@@ -37,6 +37,7 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
             {renderLoadMoreButton()}
           </>
         );
+
       case SEARCH_STATUS.BEFORE_SEARCH:
         return renderGifList();
       case SEARCH_STATUS.NO_RESULT:
