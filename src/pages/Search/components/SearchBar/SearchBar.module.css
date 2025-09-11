@@ -1,6 +1,7 @@
 .searchbarSection {
   padding-top: 5rem;
   padding-bottom: 2.5rem;
+  contain: layout style;
 }
 
 .searchbarContainer {
@@ -27,11 +28,15 @@
   font-size: 1rem;
   padding: 0 1rem;
   box-sizing: border-box;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-out;
+  will-change: transform;
 }
 
 .searchButton {
   width: 2.75rem;
   height: 2.75rem;
   background: var(--radial-gradient);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
 }

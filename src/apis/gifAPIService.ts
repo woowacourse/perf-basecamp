@@ -3,6 +3,7 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import { apiCache } from '../utils/apiCache';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -44,13 +45,17 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
-    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
-      api_key: API_KEY,
-      limit: `${DEFAULT_FETCH_COUNT}`,
-      rating: 'g'
-    });
+    const cacheKey = 'giphy:trending';
+    
+    return apiCache.wrap(cacheKey, async () => {
+      const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
+        api_key: API_KEY,
+        limit: `${DEFAULT_FETCH_COUNT}`,
+        rating: 'g'
+      });
 
-    return fetchGifs(url);
+      return fetchGifs(url);
+    });
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
@@ -60,15 +65,19 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/search
    */
   searchByKeyword: async (keyword: string, page: number): Promise<GifImageModel[]> => {
-    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/search`), {
-      api_key: API_KEY,
-      q: keyword,
-      limit: `${DEFAULT_FETCH_COUNT}`,
-      offset: `${page * DEFAULT_FETCH_COUNT}`,
-      rating: 'g',
-      lang: 'en'
-    });
+    const cacheKey = `giphy:search:${keyword}:${page}`;
+    
+    return apiCache.wrap(cacheKey, async () => {
+      const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/search`), {
+        api_key: API_KEY,
+        q: keyword,
+        limit: `${DEFAULT_FETCH_COUNT}`,
+        offset: `${page * DEFAULT_FETCH_COUNT}`,
+        rating: 'g',
+        lang: 'en'
+      });
 
-    return fetchGifs(url);
+      return fetchGifs(url);
+    });
   }
 };

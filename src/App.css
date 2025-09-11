@@ -14,7 +14,7 @@ html {
 
 body {
   line-height: 1;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Josefin Sans', 'Josefin Sans Fallback', Arial, sans-serif;
 }
 
 button {

@@ -5,8 +5,9 @@
   overflow: hidden;
   margin-bottom: 5.5rem;
   text-align: center;
-  transition: 0.8s all ease-in-out;
+  transition: transform 0.3s ease-out;
   border-radius: 4%;
+  will-change: transform;
 }
 
 .featureTitle {
@@ -34,4 +35,5 @@
   left: 0;
   height: 100%;
   transform: translateX(-10%);
+  will-change: transform;
 }

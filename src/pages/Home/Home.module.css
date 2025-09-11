@@ -4,6 +4,7 @@
   width: 100%;
   height: 46.5rem;
   padding-top: 3.5rem;
+  contain: layout style;
 }
 
 .heroImage {
@@ -58,11 +59,13 @@
   background: var(--radial-gradient);
   color: var(--white);
   cursor: pointer;
-  transition: all 0.5s ease-in-out 0s;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  will-change: transform;
 }
 
 .linkButton:hover {
   background: var(--radial-gradient);
+  transform: translateY(-2px);
 }
 
 .featureSection {
@@ -77,6 +80,7 @@
     rgba(232, 109, 198, 0.64248) 0.01%,
     #bd00ff 77.6%
   );
+  contain: layout style;
 }
 
 .featureSectionWrapper {

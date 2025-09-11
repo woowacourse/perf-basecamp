@@ -11,6 +11,17 @@
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      /* Prevent layout shift by defining font fallbacks */
+      @font-face {
+        font-family: 'Josefin Sans Fallback';
+        src: local('Arial'), local('Helvetica');
+        size-adjust: 110%;
+        ascent-override: 95%;
+        descent-override: 25%;
+        line-gap-override: 0%;
+      }
+    </style>
     <title>memegle - gif search engine for you</title>
   </head>
 
