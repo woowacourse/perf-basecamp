@@ -12,6 +12,8 @@ if (!API_KEY) {
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
+const TTL = 3 * 24 * 60 * 60 * 1000;
+
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
@@ -50,7 +52,35 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    try {
+      const cacheStorage = await caches.open('trendingGifs');
+      const cacheKey = url.toString();
+      const cachedResponse = await cacheStorage.match(cacheKey);
+      const metaKey = `${cacheKey}-meta`;
+      const metaResponse = await cacheStorage.match(metaKey);
+
+      const now = Date.now();
+      const meta = metaResponse ? await metaResponse.json() : null;
+      const isFresh = meta && now - meta.time < TTL;
+
+      if (cachedResponse && isFresh) {
+        const json = await cachedResponse.clone().json();
+        return convertResponseToModel(json.data);
+      }
+
+      const response = await fetch(cacheKey);
+      if (!response.ok) {
+        throw new ApiError(response.status, `HTTP error! status: ${response.status}`);
+      }
+
+      await cacheStorage.put(cacheKey, response.clone());
+      await cacheStorage.put(metaKey, new Response(JSON.stringify({ time: now })));
+
+      const json = await response.json();
+      return convertResponseToModel(json.data);
+    } catch {
+      return [];
+    }
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
