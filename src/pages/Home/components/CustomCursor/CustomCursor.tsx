@@ -22,7 +22,7 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   useEffect(() => {
     const updatePosition = () => {
       if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${mousePositionRef.current.pageX}px, ${mousePositionRef.current.pageY}px)`;
+        cursorRef.current.style.transform = `translate(${mousePositionRef.current.clientX}px, ${mousePositionRef.current.clientY}px)`;
       }
       rafIdRef.current = requestAnimationFrame(updatePosition);
     };
