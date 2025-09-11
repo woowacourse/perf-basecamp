@@ -79,7 +79,7 @@ export const gifAPIService = {
         cacheData = data;
         cacheTs = Date.now();
         try {
-          localStorage.setItem(LS_KEY_TRENDING, JSON.stringify({ ts: cacheTs, data }));
+          sessionStorage.setItem(LS_KEY_TRENDING, JSON.stringify({ ts: cacheTs, data }));
         } catch {}
         return data;
       })
