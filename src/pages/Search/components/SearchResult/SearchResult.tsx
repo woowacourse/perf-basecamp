@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
@@ -14,13 +15,15 @@ type SearchResultProps = {
 };
 
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
-  const renderGifList = () => (
+  const memoizedGifList = useMemo(() => (
     <div className={styles.gifResultWrapper}>
       {gifList.map((gif: GifImageModel) => (
         <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
       ))}
     </div>
-  );
+  ), [gifList]);
+
+  const renderGifList = () => memoizedGifList;
 
   const renderLoadMoreButton = () => (
     <button className={styles.loadMoreButton} onClick={loadMore}>
