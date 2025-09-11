@@ -5,7 +5,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -62,14 +61,6 @@ module.exports = {
           new MiniCssExtractPlugin({
             filename: 'styles/[name].[contenthash].css',
             chunkFilename: 'styles/[name].[contenthash].css'
-          }),
-          new CompressionPlugin({
-            filename: '[path][base].gz',
-            algorithm: 'gzip',
-            test: /\.(js|css|html|svg)$/,
-            threshold: 8192,
-            minRatio: 0.8,
-            deleteOriginalAssets: false
           }),
           new BundleAnalyzerPlugin({
             analyzerMode: 'static',
