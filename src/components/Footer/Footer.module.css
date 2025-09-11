@@ -1,9 +1,8 @@
 footer {
-  position: fixed;
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  min-height: 7.5rem;
   height: 7.5rem;
   background: var(--black);
   color: var(--white);
@@ -14,7 +13,7 @@ footer p {
   font-style: normal;
   font-weight: 400;
   font-size: 1.25rem;
-  line-height: 7.5rem;
+  margin: 0;
 }
 
 footer a {
