@@ -15,6 +15,8 @@ import CustomCursor from './components/CustomCursor/CustomCursor';
 import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 
 import styles from './Home.module.css';
+import heroWebp from '@/assets/images/hero.webp';
+import heroPng from '@/assets/images/hero.png';
 
 const cx = classNames.bind(styles);
 
@@ -25,13 +27,8 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source srcSet={require('@/assets/images/hero.webp')} type="image/webp" />
-          <img
-            className={styles.heroImage}
-            src={require('@/assets/images/hero.png')}
-            alt="hero image"
-            loading="lazy"
-          />
+          <source srcSet={heroWebp} type="image/webp" />
+          <img className={styles.heroImage} src={heroPng} alt="hero image" loading="lazy" />
         </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
