@@ -3,13 +3,14 @@ import ArtistInfo from '../ArtistInfo/ArtistInfo';
 
 type ArtistListProps = {
   artists: Artist[];
+  style: React.CSSProperties;
 };
 
-const ArtistList = ({ artists }: ArtistListProps) => {
+const ArtistList = ({ artists, style }: ArtistListProps) => {
   return (
     <ul>
       {artists.map((artist, index) => {
-        return <ArtistInfo key={index} artist={artist} />;
+        return <ArtistInfo key={index} artist={artist} style={style} />;
       })}
     </ul>
   );

@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
 import classNames from 'classnames/bind';
 
-import ArtistList from '../ArtistList/ArtistList';
 import { getArtists } from './artistUtil';
 
 import styles from './HelpPanel.module.css';
+import VirtualizedList from '../VirtualizedList/VirtualizedList';
+import ArtistInfo from '../ArtistInfo/ArtistInfo';
 
 const cx = classNames.bind(styles);
 
@@ -52,7 +53,21 @@ const HelpPanel = () => {
           <p>Here are some artists you can refer to.</p>
           <br />
           <section>
-            <ArtistList artists={artists} />
+            <VirtualizedList
+              numItems={artists.length}
+              // height 60 + margin-bottom 16 = 76
+              itemHeight={76}
+              renderItem={({ index, style }) => {
+                return (
+                  <ArtistInfo
+                    key={index}
+                    artist={artists[index]}
+                    style={style as React.CSSProperties}
+                  />
+                );
+              }}
+              windowHeight={300}
+            />
           </section>
         </div>
       </section>

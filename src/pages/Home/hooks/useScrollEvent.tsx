@@ -1,11 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 type ScrollHandler = () => void;
 
 const useScrollEvent = (onScroll: ScrollHandler) => {
+  const animationFrameRef = useRef<number | null>(null);
+
   useEffect(() => {
     const handleScroll = (event: Event) => {
-      onScroll();
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      animationFrameRef.current = requestAnimationFrame(() => {
+        onScroll();
+      });
     };
 
     window.addEventListener('scroll', handleScroll);

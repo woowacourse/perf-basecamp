@@ -3,6 +3,7 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import { createCacheService } from './cacheService';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -17,16 +18,14 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.url
+      imageUrl: images.original.webp ?? images.original.mp4 ?? images.original.url
     };
   });
 };
 
-const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+export const fetchGifsFromApi = async (url: URL): Promise<GifsResult> => {
   try {
-    const gifs = await apiClient.fetch<GifsResult>(url);
-
-    return convertResponseToModel(gifs.data);
+    return await apiClient.fetch<GifsResult>(url);
   } catch (error) {
     if (error instanceof ApiError) {
       console.error(`API Error: ${error.status} - ${error.message}`);
@@ -35,6 +34,28 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
     }
     throw error;
   }
+};
+
+const cache = createCacheService('gif-api-cache');
+
+export const fetchGifsWithCaching = async (url: URL): Promise<GifImageModel[]> => {
+  const cacheKey = url.toString();
+
+  const cachedData = await cache.get<GifsResult>(cacheKey);
+
+  if (cachedData) {
+    return convertResponseToModel(cachedData.data);
+  }
+
+  const gifs = await fetchGifsFromApi(url);
+
+  await cache.set(cacheKey, gifs);
+
+  return convertResponseToModel(gifs.data);
+};
+export const fetchGifsWithoutCaching = async (url: URL): Promise<GifImageModel[]> => {
+  const gifs = await fetchGifsFromApi(url);
+  return convertResponseToModel(gifs.data);
 };
 
 export const gifAPIService = {
@@ -50,7 +71,7 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return fetchGifsWithCaching(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
@@ -69,6 +90,6 @@ export const gifAPIService = {
       lang: 'en'
     });
 
-    return fetchGifs(url);
+    return fetchGifsWithoutCaching(url);
   }
 };
