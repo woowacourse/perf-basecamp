@@ -2,9 +2,13 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImageWebp from '../../assets/images/hero.webp';
-import heroImageAvif from '../../assets/images/hero.avif';
-import heroImageJpg from '../../assets/images/hero.jpg';
+import heroImageDesktopWebp from '../../assets/images/hero/hero-desktop.webp';
+import heroImageDesktopAvif from '../../assets/images/hero/hero-desktop.avif';
+import heroImageTabletWebp from '../../assets/images/hero/hero-tablet.webp';
+import heroImageTabletAvif from '../../assets/images/hero/hero-tablet.avif';
+import heroImageMobileWebp from '../../assets/images/hero/hero-mobile.webp';
+import heroImageMobileAvif from '../../assets/images/hero/hero-mobile.avif';
+import heroImageJpg from '../../assets/images/hero/hero.jpg';
 import trendingMp4 from '../../assets/images/trending.mp4';
 import findMp4 from '../../assets/images/find.mp4';
 import freeMp4 from '../../assets/images/free.mp4';
@@ -24,10 +28,22 @@ const Home = () => {
     <>
       <section className={styles.heroSection}>
         <picture>
-          <source srcSet={heroImageAvif} type="image/avif" />
-          <source srcSet={heroImageWebp} type="image/webp" />
+          {/* 데스크탑 (1200px 이상) */}
+          <source srcSet={heroImageDesktopAvif} type="image/avif" media="(min-width: 1200px)" />
+          <source srcSet={heroImageDesktopWebp} type="image/webp" media="(min-width: 1200px)" />
+
+          {/* 태블릿 (768px ~ 1199px) */}
+          <source srcSet={heroImageTabletAvif} type="image/avif" media="(min-width: 768px)" />
+          <source srcSet={heroImageTabletWebp} type="image/webp" media="(min-width: 768px)" />
+
+          {/* 모바일 (최대 767px) */}
+          <source srcSet={heroImageMobileAvif} type="image/avif" media="(max-width: 767px)" />
+          <source srcSet={heroImageMobileWebp} type="image/webp" media="(max-width: 767px)" />
+
+          {/* 최종 fallback */}
           <img className={styles.heroImage} src={heroImageJpg} alt="hero image" />
         </picture>
+
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
