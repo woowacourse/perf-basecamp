@@ -11,6 +11,7 @@
     "removeComments": true,
     "noEmit": false,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
