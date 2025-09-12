@@ -44,13 +44,20 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    const cachedData = checkCache();
+    if (cachedData) {
+      return cachedData;
+    }
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    const data = await fetchGifs(url);
+    setCache(data);
+    return data;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
@@ -71,4 +78,26 @@ export const gifAPIService = {
 
     return fetchGifs(url);
   }
+};
+
+const CACHE_KEY = 'giphy:trending';
+const STALE_TIME = 1000 * 60 * 60 * 12; // 12시간
+
+const checkCache = () => {
+  const cached = localStorage.getItem(CACHE_KEY);
+  if (cached) {
+    const { data, fetchedAt } = JSON.parse(cached);
+    if (Date.now() - fetchedAt < STALE_TIME) {
+      return data;
+    }
+  }
+  return null;
+};
+
+const setCache = (data: GifImageModel[]) => {
+  const cacheData = {
+    data,
+    fetchedAt: Date.now()
+  };
+  localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
 };
