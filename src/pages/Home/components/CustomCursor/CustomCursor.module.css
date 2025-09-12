@@ -1,6 +1,6 @@
 .cursor {
   pointer-events: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
@@ -28,21 +28,27 @@
 .cursor span:nth-of-type(1) {
   animation-delay: 0s;
 }
+
 .cursor span:nth-of-type(2) {
   animation-delay: 0.1s;
 }
+
 .cursor span:nth-of-type(3) {
   animation-delay: 0.2s;
 }
+
 .cursor span:nth-of-type(4) {
   animation-delay: 0.3s;
 }
+
 .cursor span:nth-of-type(5) {
   animation-delay: 0.4s;
 }
+
 .cursor span:nth-of-type(6) {
   animation-delay: 0.5s;
 }
+
 .cursor span:nth-of-type(7) {
   animation-delay: 0.6s;
 }
@@ -51,9 +57,11 @@
   00% {
     transform: translateY(0em);
   }
+
   60% {
     transform: translateY(-0.6em);
   }
+
   100% {
     transform: translateY(0em);
   }

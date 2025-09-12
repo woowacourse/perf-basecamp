@@ -2,12 +2,19 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: process.env.NODE_ENV === 'production'
+      ? 'static/js/[name].[contenthash].js'
+      : 'static/js/[name].js',
+    chunkFilename: process.env.NODE_ENV === 'production'
+      ? 'static/js/[name].[contenthash].chunk.js'
+      : 'static/js/[name].chunk.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -16,7 +23,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -24,7 +31,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -40,7 +48,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
@@ -49,6 +57,25 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
-  }
+    splitChunks: { chunks: 'all' },
+    runtimeChunk: 'single',
+    minimizer: [
+      '...',
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.sharpMinify,
+          options: {
+            encodeOptions: {
+              webp: { quality: 35 },
+              png: { compressionLevel: 8 },
+            },
+            resize: {
+              width: 1920,
+              withoutEnlargement: true,
+            },
+          },
+        },
+      }),
+    ],
+  },
 };
