@@ -34,28 +34,6 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new ImageMinimizerPlugin({
-      minimizer: {
-        implementation: ImageMinimizerPlugin.sharpMinify,
-        options: {
-          encodeOptions: {
-            jpeg: { quality: 75, progressive: true },
-            png: { quality: 80, palette: true },
-            webp: {
-              quality: 75,
-              effort: 6,
-              method: 6,
-              lossless: false
-            }
-          },
-          resize: {
-            width: 1200,
-            withoutEnlargement: true,
-            fit: 'inside'
-          }
-        }
-      }
-    }),
     ...(isProduction
       ? [
           new MiniCssExtractPlugin({
@@ -136,6 +114,44 @@ module.exports = {
                 }
               ]
             }
+          }),
+          new ImageMinimizerPlugin({
+            minimizer: {
+              implementation: ImageMinimizerPlugin.sharpMinify,
+              options: {
+                encodeOptions: {
+                  png: { quality: 80, palette: true },
+                  jpg: { quality: 75, progressive: true },
+                  jpeg: { quality: 75, progressive: true }
+                },
+                resize: {
+                  width: 1200,
+                  withoutEnlargement: true,
+                  fit: 'inside'
+                }
+              }
+            },
+            generator: [
+              {
+                preset: 'webp',
+                implementation: ImageMinimizerPlugin.sharpGenerate,
+                options: {
+                  encodeOptions: {
+                    webp: {
+                      quality: 80,
+                      effort: 6,
+                      method: 6,
+                      lossless: false
+                    }
+                  },
+                  resize: {
+                    width: 1200,
+                    withoutEnlargement: true,
+                    fit: 'inside'
+                  }
+                }
+              }
+            ]
           })
         ]
       : []
