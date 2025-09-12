@@ -3,6 +3,7 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import { apiCache } from '../utils/cache';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -11,6 +12,11 @@ if (!API_KEY) {
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
+
+const DEFAULT_CACHE_DURATION = 1000 * 60 * 5;
+const CACHE_KEY = {
+  TRENDING: 'trending'
+};
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
@@ -50,7 +56,10 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    if (!apiCache.validate(CACHE_KEY.TRENDING)) {
+      apiCache.set(CACHE_KEY.TRENDING, fetchGifs(url), DEFAULT_CACHE_DURATION);
+    }
+    return apiCache.get(CACHE_KEY.TRENDING)!;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
