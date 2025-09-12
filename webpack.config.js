@@ -2,12 +2,21 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/index.tsx',
+  mode: isProduction ? 'production' : 'development',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: isProduction ? 'chunks/[name].[contenthash].js' : 'chunks/[name].js',
+    chunkFilename: isProduction ? 'chunks/[name].[contenthash].js' : 'chunks/[name].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -16,7 +25,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: isProduction ? false : 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -24,7 +33,19 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    ...(isProduction
+      ? [
+          new MiniCssExtractPlugin({
+            filename: 'styles/[name].[contenthash].css',
+            chunkFilename: 'styles/[name].[contenthash].css'
+          }),
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: '../analysis/bundle-report.html'
+          })
+        ]
+      : [])
   ],
   module: {
     rules: [
@@ -37,18 +58,102 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        test: /\.(png|jpg|gif|svg|webp|eot|ttf|woff|woff2)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: isProduction ? 'static/[name].[contenthash][ext]' : 'static/[name][ext]'
         }
       }
     ]
   },
   optimization: {
-    minimize: false
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    },
+    runtimeChunk: 'single',
+    minimize: isProduction,
+    minimizer: isProduction
+      ? [
+          new TerserPlugin({
+            terserOptions: {
+              compress: {
+                drop_console: true,
+                drop_debugger: true,
+                dead_code: true,
+                unused: true
+              },
+              mangle: {
+                safari10: true
+              },
+              format: {
+                comments: false
+              }
+            }
+          }),
+          new CssMinimizerPlugin({
+            minimizerOptions: {
+              preset: [
+                'default',
+                {
+                  discardComments: { removeAll: true },
+                  normalizeWhitespace: true,
+                  colormin: true,
+                  convertValues: true,
+                  mergeLonghand: true,
+                  mergeRules: true
+                }
+              ]
+            }
+          }),
+          new ImageMinimizerPlugin({
+            minimizer: {
+              implementation: ImageMinimizerPlugin.sharpMinify,
+              options: {
+                encodeOptions: {
+                  png: { quality: 80, palette: true },
+                  jpg: { quality: 75, progressive: true },
+                  jpeg: { quality: 75, progressive: true }
+                },
+                resize: {
+                  width: 1200,
+                  withoutEnlargement: true,
+                  fit: 'inside'
+                }
+              }
+            },
+            generator: [
+              {
+                preset: 'webp',
+                implementation: ImageMinimizerPlugin.sharpGenerate,
+                options: {
+                  encodeOptions: {
+                    webp: {
+                      quality: 80,
+                      effort: 6,
+                      method: 6,
+                      lossless: false
+                    }
+                  },
+                  resize: {
+                    width: 1200,
+                    withoutEnlargement: true,
+                    fit: 'inside'
+                  }
+                }
+              }
+            ]
+          })
+        ]
+      : []
   }
 };
