@@ -10,8 +10,8 @@
 
 .selectedItemContainer {
   position: fixed;
-  right: -320px;
   top: 0;
+  right: 0;
   width: 320px;
   height: 100%;
   z-index: 10;
@@ -20,12 +20,15 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   opacity: 0;
-  transition: 0.5s all cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895),
+    opacity 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895),
+    visibility 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
 }
 
 .selectedItemContainer.showSheet {
-  right: 0;
   opacity: 1;
+  transform: translateX(0);
 }
 
 .sheetTitleContainer {
@@ -41,9 +44,7 @@
 
 .sheetContentsContainer {
   padding: 20px 16px 80px 16px;
-  height: 100%;
   line-height: 1.5rem;
-  overflow-y: scroll;
 }
 
 .sheetContentsContainer img {

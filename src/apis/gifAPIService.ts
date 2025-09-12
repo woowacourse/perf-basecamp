@@ -3,6 +3,7 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import { trendingCache } from './TrendingCache';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -44,13 +45,26 @@ export const gifAPIService = {
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    const cachedData = trendingCache.get();
+    if (cachedData) {
+      // console.log(`Cache hit => Age: ${Math.round(trendingCache.getAge() / 1000)}s`);
+      return cachedData;
+    }
+
+    // console.log('Cache miss - fetching from API');
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    const gifs = await fetchGifs(url);
+
+    // 캐시에 저장
+    trendingCache.set(gifs);
+
+    return gifs;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
