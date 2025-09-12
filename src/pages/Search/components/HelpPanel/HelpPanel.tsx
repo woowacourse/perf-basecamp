@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
 import classNames from 'classnames/bind';
 
@@ -9,7 +9,7 @@ import styles from './HelpPanel.module.css';
 
 const cx = classNames.bind(styles);
 
-const HelpPanel = () => {
+const HelpPanel = memo(() => {
   const artists = getArtists();
   const [isShow, setIsShow] = useState(false);
   const openSheet = () => setIsShow(true);
@@ -58,6 +58,6 @@ const HelpPanel = () => {
       </section>
     </>
   );
-};
+});
 
 export default HelpPanel;

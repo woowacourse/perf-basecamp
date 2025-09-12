@@ -10,11 +10,17 @@
 
 html {
   font-size: 16px;
+  scroll-behavior: smooth;
 }
 
 body {
   line-height: 1;
   font-family: 'Josefin Sans', sans-serif;
+  font-display: swap;
+
+  overflow-x: hidden;
+  background-color: #131313;
+  color: #fcfcfc;
 }
 
 button {

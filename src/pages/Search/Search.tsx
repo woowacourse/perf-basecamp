@@ -1,4 +1,4 @@
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useCallback } from 'react';
 import useGifSearch from './hooks/useGifSearch';
 
 import SearchBar from './components/SearchBar/SearchBar';
@@ -8,14 +8,17 @@ import HelpPanel from './components/HelpPanel/HelpPanel';
 import styles from './Search.module.css';
 
 const Search = () => {
-  const { status, searchKeyword, gifList, searchByKeyword, updateSearchKeyword, loadMore } =
+  const { status, searchKeyword, gifList, previousGifCount, searchByKeyword, updateSearchKeyword, loadMore } =
     useGifSearch();
 
-  const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      searchByKeyword();
-    }
-  };
+  const handleEnter = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        searchByKeyword();
+      }
+    },
+    [searchByKeyword]
+  );
 
   return (
     <div className={styles.searchContainer}>
@@ -25,7 +28,7 @@ const Search = () => {
         onChange={updateSearchKeyword}
         onSearch={searchByKeyword}
       />
-      <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
+      <SearchResult status={status} gifList={gifList} previousGifCount={previousGifCount} loadMore={loadMore} />
       <HelpPanel />
     </div>
   );
