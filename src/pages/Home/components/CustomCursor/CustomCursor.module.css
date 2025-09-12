@@ -9,6 +9,9 @@
   transform: translate3d(0, 0, 0);
   will-change: transform;
   contain: layout style paint;
+  backface-visibility: hidden;
+  perspective: 1000;
+  -webkit-font-smoothing: antialiased;
 }
 
 .cursor::before {

@@ -57,18 +57,8 @@ const CustomCursor = memo(({ text = '' }: CustomCursorProps) => {
     [cursorTextChars]
   );
 
-  const cursorStyle = useMemo(
-    () => ({
-      willChange: 'transform',
-      backfaceVisibility: 'hidden' as const,
-      perspective: 1000,
-      WebkitFontSmoothing: 'antialiased'
-    }),
-    []
-  );
-
   return (
-    <div ref={cursorRef} className={styles.cursor} style={cursorStyle}>
+    <div ref={cursorRef} className={styles.cursor}>
       {characters}
     </div>
   );
