@@ -49,3 +49,15 @@
 .cursor span:nth-of-type(7) {
   animation-delay: 0.6s;
 }
+
+@keyframes wave-text {
+  00% {
+    transform: translateY(0em);
+  }
+  60% {
+    transform: translateY(-0.6em);
+  }
+  100% {
+    transform: translateY(0em);
+  }
+}
