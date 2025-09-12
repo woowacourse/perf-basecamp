@@ -20,11 +20,6 @@ const useMousePosition = () => {
   const updateMousePosition = useCallback((e: MouseEvent) => {
     const now = performance.now();
 
-    // 쓰로틀링 적용
-    if (now - lastUpdate.current < THROTTLE_INTERVAL) {
-      return;
-    }
-
     const { clientX, clientY } = e;
 
     // 이전 위치와 동일하면 업데이트 스킵
