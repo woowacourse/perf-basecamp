@@ -25,17 +25,24 @@
   font-style: italic;
   font-weight: 700;
   font-size: 4.5rem;
-  line-height: 4.5rem;
+  line-height: 1;
   text-align: center;
+  height: 4.5rem;
+  display: block;
+  font-size-adjust: 0.5;
 }
 
 .subtitle {
   font-style: italic;
   font-weight: 400;
   font-size: 3rem;
-  line-height: 3rem;
+  line-height: 1;
   text-align: center;
   padding-top: 1.25rem;
+  height: 3rem;
+  display: block;
+  font-size-adjust: 0.5;
+  margin: 0;
 }
 
 .cta {
@@ -58,7 +65,7 @@
   background: var(--radial-gradient);
   color: var(--white);
   cursor: pointer;
-  transition: all 0.5s ease-in-out 0s;
+  transition: transform 0.5s ease-in-out 0s;
 }
 
 .linkButton:hover {
