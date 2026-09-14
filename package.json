@@ -2,7 +2,7 @@
   "name": "frontend-performance-basecamp",
   "version": "0.0.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.19.0"
   },
   "description": "frontend-performance-basecamp",
   "main": "index.tsx",
@@ -11,6 +11,8 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "prettier": "prettier --write .",
     "deploy": "npm run build:prod && npx gh-pages -d dist"
   },
@@ -37,7 +39,6 @@
     "@types/react-dom": "^18.3.0",
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@webpack-cli/generators": "^2.2.0",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
