@@ -30,6 +30,28 @@ Memegle 프로젝트는 곳곳에 성능을 저하시키는 요소들로 가득�
 - 미션을 시작하기 전, GitHub Pages에 앱을 배포하고 개선 전 상태를 측정 및 기록해 주세요.
 - 개선 작업에서 필요한 S3, CloudFront는 우테코 AWS를 활용합니다.
 
+## 🛠 개발 환경 설정
+
+Node.js는 `.nvmrc`에 맞춰 사용해주세요. (nvm 사용 시 `nvm use`)
+
+```bash
+nvm use          # .nvmrc 기준 (Node 22)
+npm install      # 의존성 설치
+npm run serve    # 개발 서버 실행 (http://localhost:8080)
+```
+
+| 명령어 | 설명 |
+| --- | --- |
+| `npm run serve` | 개발 서버 실행 |
+| `npm run build:dev` | 개발 모드 빌드 |
+| `npm run build:prod` | 프로덕션 빌드 (`dist/`) |
+| `npm run lint` | ESLint 검사 |
+| `npm run lint:fix` | ESLint 자동 수정 |
+| `npm run prettier` | Prettier 포맷팅 |
+| `npm run deploy` | 프로덕션 빌드 후 GitHub Pages 배포 |
+
+> 빌드 시 나오는 번들·이미지 크기 경고는 의도된 것입니다. 이 미션에서 직접 개선할 대상이에요. 🙂
+
 ## 📅 **진행 방식**
 
 - 이번 미션은 개인 미션입니다.
@@ -122,7 +144,7 @@ Memegle 프로젝트는 곳곳에 성능을 저하시키는 요소들로 가득�
 
 ## ✍️ PR에 포함해야 할 내용
 
-[PR 템플릿](https://github.com/woowacourse/frontend-performance-basecamp/blob/main/.github/pull_request_template.md)을 참고해주세요
+[PR 템플릿](.github/pull_request_template.md)을 참고해주세요
 
 ## 👀 코드 리뷰 체크 리스트
 
