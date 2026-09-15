@@ -5,6 +5,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["node"],
     "noUnusedLocals": true,
     "allowJs": true,
     "sourceMap": true,
@@ -18,6 +19,6 @@
     "skipLibCheck": true
   },
   "compileOnSave": true,
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/**/*.d.ts"],
   "exclude": ["node_modules"]
 }

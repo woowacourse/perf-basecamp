@@ -8,9 +8,15 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 
+const GITHUB_PAGES_BASENAME = '/perf-basecamp';
+
 const App = () => {
+  const basename = window.location.pathname.startsWith(GITHUB_PAGES_BASENAME)
+    ? GITHUB_PAGES_BASENAME
+    : undefined;
+
   return (
-    <Router basename={'/perf-basecamp'}>
+    <Router basename={basename}>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
