@@ -1,8 +1,21 @@
 # api keys
 .env
+.env.local
+.env.*.local
 
 # dependencies
 /node_modules
 
 # build
 /dist
+
+# logs
+npm-debug.log*
+yarn-error.log*
+*.log
+
+# editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
