@@ -28,7 +28,7 @@ const Search = React.lazy(
 
 const App = () => {
   return (
-    <Router>
+    <Router basename="/perf-basecamp">
       <NavBar />
       <Suspense fallback={<div style={{ textAlign: 'center', padding: '50px' }}>Loading...</div>}>
         <Routes>

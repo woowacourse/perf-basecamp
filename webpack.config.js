@@ -70,7 +70,7 @@ module.exports = {
               },
               // WebP 포맷으로 변환,압축 옵션
               webp: {
-                quality: 75
+                quality: 50
               }
             }
           }
