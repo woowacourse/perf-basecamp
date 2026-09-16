@@ -15,16 +15,16 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": [
-    "react",
-    "prettier"
-  ],
-  "ignorePatterns": [
-    "dist/",
-    "node_modules/",
-    "webpack.config.js"
-  ],
-  "rules": {},
+  "plugins": ["react", "prettier"],
+  "ignorePatterns": ["dist/", "node_modules/", "webpack.config.js"],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  },
   "settings": {
     "react": {
       "version": "detect"
