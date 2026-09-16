@@ -15,15 +15,8 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": [
-    "react",
-    "prettier"
-  ],
-  "ignorePatterns": [
-    "dist/",
-    "node_modules/",
-    "webpack.config.js"
-  ],
+  "plugins": ["react", "prettier"],
+  "ignorePatterns": ["dist/", "node_modules/", "webpack.config.js"],
   "rules": {},
   "settings": {
     "react": {
