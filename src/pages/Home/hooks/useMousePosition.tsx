@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 export type MousePosition = Partial<MouseEvent>;
 
-const useMousePosition = () => {
+const useMousePosition = (): MousePosition => {
   const [mousePosition, setMousePosition] = useState<MousePosition>({
     clientX: 0,
     clientY: 0,
@@ -12,7 +12,7 @@ const useMousePosition = () => {
     offsetY: 0
   });
 
-  const updateMousePosition = (e: MouseEvent) => {
+  const updateMousePosition = (e: MouseEvent): void => {
     const { clientX, clientY, pageX, pageY, offsetX, offsetY } = e;
 
     setMousePosition({

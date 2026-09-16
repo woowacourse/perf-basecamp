@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './NavBar.module.css';
 
-const NavBar = () => {
+const NavBar = (): JSX.Element => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
