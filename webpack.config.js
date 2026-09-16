@@ -8,10 +8,11 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
-    chunkFilename: '[name].chunk.js',
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].chunk.js',
     path: path.join(__dirname, '/dist'),
-    clean: true
+    clean: true,
+    publicPath: '/'
   },
   devServer: {
     hot: true,
