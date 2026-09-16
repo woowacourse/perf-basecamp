@@ -8,6 +8,7 @@ module.exports = {
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
     filename: 'bundle.js',
+    chunkFilename: '[name].chunk.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -67,7 +68,7 @@ module.exports = {
               gifsicle: {
                 interlaced: false
               },
-              // WebP 포맷으로 강제 변환 및 압축 옵션
+              // WebP 포맷으로 변환,압축 옵션
               webp: {
                 quality: 75
               }
