@@ -6,5 +6,6 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "js/ts.tsdk.path": "node_modules/typescript/lib"
 }
