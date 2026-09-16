@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -25,7 +26,12 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static', // 빌드 후 결과 리포트를 생성
+      openAnalyzer: false, // 빌드 시 브라우저가 자동으로 열리는 것을 방지
+      reportFilename: 'bundle-report.html' // 생성될 리포트 파일 이름
+    })
   ],
   module: {
     rules: [
