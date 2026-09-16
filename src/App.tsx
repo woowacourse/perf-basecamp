@@ -10,7 +10,8 @@ import './App.css';
 
 const App = () => {
   return (
-    <Router basename={'/perf-basecamp'}>
+    // <Router basename={'/perf-basecamp'}>
+    <Router>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
