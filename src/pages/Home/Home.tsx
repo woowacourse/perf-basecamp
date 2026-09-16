@@ -15,7 +15,7 @@ import styles from './Home.module.css';
 
 const cx = classNames.bind(styles);
 
-const Home = () => {
+const Home = (): JSX.Element => {
   const wrapperRef = useRef<HTMLElement>(null);
 
   return (

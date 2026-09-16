@@ -9,11 +9,11 @@ import styles from './HelpPanel.module.css';
 
 const cx = classNames.bind(styles);
 
-const HelpPanel = () => {
+const HelpPanel = (): JSX.Element => {
   const artists = getArtists();
   const [isShow, setIsShow] = useState(false);
-  const openSheet = () => setIsShow(true);
-  const closeSheet = () => setIsShow(false);
+  const openSheet = (): void => setIsShow(true);
+  const closeSheet = (): void => setIsShow(false);
 
   return (
     <>
@@ -26,7 +26,7 @@ const HelpPanel = () => {
         })}
       >
         <div className={styles.sheetTitleContainer}>
-          <h4>What's all this? </h4>
+          <h4>What&apos;s all this? </h4>
           <button type="button" onClick={closeSheet}>
             <AiOutlineClose size="24px" />
           </button>
@@ -34,8 +34,8 @@ const HelpPanel = () => {
         <div className={styles.sheetContentsContainer}>
           <img src="https://media0.giphy.com/media/3oKIPdiPGxPI7Dze7u/giphy.gif?cid=ecf05e475f5bct6ci09g3pgn43nf6bausx33fj7f96f6ig92&rid=giphy.gif&ct=g" />
           <p>
-            'memegle' is powered by GIPHY, the top source for the best & newest GIFs & Animated
-            Stickers online. You can find any gif uploaded on GIPHY here.
+            &apos;memegle&apos; is powered by GIPHY, the top source for the best & newest GIFs &
+            Animated Stickers online. You can find any gif uploaded on GIPHY here.
           </p>
           <br />
 

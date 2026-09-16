@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 
 type ScrollHandler = () => void;
 
-const useScrollEvent = (onScroll: ScrollHandler) => {
+const useScrollEvent = (onScroll: ScrollHandler): void => {
   useEffect(() => {
-    const handleScroll = (event: Event) => {
+    const handleScroll = (event: Event): void => {
       onScroll();
     };
 

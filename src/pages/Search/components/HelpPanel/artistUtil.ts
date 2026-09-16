@@ -35,4 +35,4 @@ const artists = Array.from(
   (_v, k) => DUMMY_ARTISTS[k % DUMMY_ARTISTS.length]
 );
 
-export const getArtists = () => artists;
+export const getArtists = (): Artist[] => artists;
