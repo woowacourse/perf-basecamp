@@ -4,7 +4,7 @@
     "jsx": "react-jsx",
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    // "ignoreDeprecations": "6.0",
+    "types": ["node"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "noUnusedLocals": true,
     "allowJs": true,

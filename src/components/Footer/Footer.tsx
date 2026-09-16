@@ -1,6 +1,6 @@
 import './Footer.module.css';
 
-const Footer = () => {
+const Footer = (): React.JSX.Element => {
   return (
     <footer>
       <p>

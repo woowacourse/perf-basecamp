@@ -5,7 +5,7 @@ import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
 
 const API_KEY = process.env.GIPHY_API_KEY;
-if (!API_KEY) {
+if (API_KEY === undefined || API_KEY === null || API_KEY === '') {
   throw new Error('GIPHY_API_KEY is not set in environment variables');
 }
 
@@ -50,7 +50,7 @@ export const gifAPIService = {
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    return await fetchGifs(url);
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
@@ -69,6 +69,6 @@ export const gifAPIService = {
       lang: 'en'
     });
 
-    return fetchGifs(url);
+    return await fetchGifs(url);
   }
 };
