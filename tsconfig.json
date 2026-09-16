@@ -15,7 +15,8 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node"]
   },
   "compileOnSave": true,
   "include": ["src/**/*"],
