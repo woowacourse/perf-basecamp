@@ -8,7 +8,7 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 
-const App = () => {
+const App = (): React.JSX.Element => {
   return (
     <Router basename={'/perf-basecamp'}>
       <NavBar />
