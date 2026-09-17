@@ -8,10 +8,11 @@
   "main": "index.tsx",
   "scripts": {
     "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
+    "build:prod": "BASE_PATH=/perf-basecamp webpack --mode=production --node-env=production",
+    "build:lighthouse": "BASE_PATH=/ webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
-    "serve:prod": "npx serve dist",
+    "serve:lighthouse": "npm run build:lighthouse && serve dist",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "prettier": "prettier --write .",
