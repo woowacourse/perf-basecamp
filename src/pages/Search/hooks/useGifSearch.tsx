@@ -13,7 +13,9 @@ export const SEARCH_STATUS = {
   ERROR: 'ERROR'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
+
+let trendingData: GifImageModel[] | null = null;
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -73,8 +75,15 @@ const useGifSearch = () => {
     const fetchTrending = async () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
+      if (trendingData !== null) {
+        setGifList(trendingData);
+        return;
+      }
+
       try {
         const gifs = await gifAPIService.getTrending();
+
+        trendingData = gifs;
         setGifList(gifs);
       } catch (error) {
         handleError(error);
