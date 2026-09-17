@@ -25,7 +25,7 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     const drawPointY = window.scrollY + window.innerHeight * TOP_PERCENTAGE_OF_DRAW_POINT;
     const scrollRatio = (drawPointY - wrapper.offsetTop) / wrapper.offsetHeight;
 
-    const pathLength = pathRef.current.getTotalLength();
+    const pathLength = path.getTotalLength();
     const currentScrollOffset = pathLength - pathLength * scrollRatio;
 
     setStrokeOffset(clamp(currentScrollOffset, 0, pathLength));
