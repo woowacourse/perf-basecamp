@@ -7,11 +7,11 @@ import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
 import styles from './SearchResult.module.css';
 
-type SearchResultProps = {
+interface SearchResultProps {
   status: SearchStatus;
   gifList: GifImageModel[];
   loadMore: () => void;
-};
+}
 
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   const renderGifList = () => (

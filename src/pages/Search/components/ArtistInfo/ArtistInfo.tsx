@@ -2,9 +2,9 @@ import { Artist } from '../../../../models/help/artist';
 
 import styles from './ArtistInfo.module.css';
 
-export type ArtistProps = {
+export interface ArtistProps {
   artist: Artist;
-};
+}
 
 const ArtistInfo = ({ artist }: ArtistProps) => {
   const { name, profileUrl, profileImageUrl } = artist;
