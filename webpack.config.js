@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -28,6 +30,10 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[name].[contenthash].chunk.css'
+    }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static', // 빌드 후 결과 리포트를 생성
       openAnalyzer: false, // 빌드 시 브라우저가 자동으로 열리는 것을 방지
@@ -45,24 +51,29 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|webp)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[contenthash][ext]'
         }
       },
       {
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.gif$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[contenthash][ext]'
+        }
+      },
+      {
+        test: /\.(png|jpg)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[contenthash][ext]'
+        },
         use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'static/[name].[ext]'
-            }
-          },
           {
             loader: 'image-webpack-loader',
             options: {
@@ -70,14 +81,6 @@ module.exports = {
               pngquant: {
                 quality: [0.65, 0.9],
                 speed: 4
-              },
-              // GIF 최적화 옵션
-              gifsicle: {
-                interlaced: false
-              },
-              // WebP 포맷으로 변환,압축 옵션
-              webp: {
-                quality: 50
               }
             }
           }
@@ -86,6 +89,7 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: true
+    minimize: true,
+    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };
