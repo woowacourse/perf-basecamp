@@ -29,6 +29,33 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './index.html'
       }),
+      // LCP 이미지인 hero를 JS 실행 전에 받도록 해시 파일명으로 preload 태그 삽입
+      {
+        apply(compiler) {
+          compiler.hooks.compilation.tap('PreloadHeroPlugin', (compilation) => {
+            HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tap(
+              'PreloadHeroPlugin',
+              (data) => {
+                const heroAsset = Object.keys(compilation.assets).find((name) =>
+                  /^static\/hero\..+\.webp$/.test(name)
+                );
+                if (heroAsset) {
+                  data.headTags.unshift(
+                    HtmlWebpackPlugin.createHtmlTagObject('link', {
+                      rel: 'preload',
+                      as: 'image',
+                      href: heroAsset,
+                      type: 'image/webp',
+                      fetchpriority: 'high'
+                    })
+                  );
+                }
+                return data;
+              }
+            );
+          });
+        }
+      },
       new CopyWebpackPlugin({
         patterns: [{ from: './public', to: './public' }]
       }),
