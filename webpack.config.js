@@ -94,7 +94,7 @@ module.exports = (env, argv) => {
           use: [isProd ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader']
         },
         {
-          test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif|webp|avif)$/i,
+          test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif|webp|avif|mp4)$/i,
           type: 'asset/resource'
         }
       ]
