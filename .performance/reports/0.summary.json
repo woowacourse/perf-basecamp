@@ -7,5 +7,14 @@
     "totalBlockingTime": 0,
     "cumulativeLayoutShift": 0.002850564165426262,
     "speedIndex": 538.8572
+  },
+  {
+    "name": "1.2.1.css-extract",
+    "performance": 75,
+    "firstContentfulPaint": 524.0128000000001,
+    "largestContentfulPaint": 11212.91735,
+    "totalBlockingTime": 0,
+    "cumulativeLayoutShift": 0.003472118611913726,
+    "speedIndex": 895.5158594109773
   }
 ]
