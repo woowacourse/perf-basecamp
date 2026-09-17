@@ -13,7 +13,7 @@
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
     "serve:lighthouse": "npm run build:lighthouse && serve dist -l 4173",
-    "lighthouse": "sh -c 'lighthouse http://localhost:4173 --only-categories=performance --output=json --output-path=.performance/reports/$1.json && node .performance/extract.js $1' --",
+    "lighthouse": "sh -c 'lighthouse http://localhost:4173 --preset=desktop --only-categories=performance --output=json --output-path=.performance/reports/$1.json && node .performance/extract.js $1' --",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "prettier": "prettier --write .",
