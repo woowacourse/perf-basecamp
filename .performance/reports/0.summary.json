@@ -1,0 +1,11 @@
+[
+  {
+    "name": "1.1.js-minify",
+    "performance": 70,
+    "firstContentfulPaint": 2793.14635,
+    "largestContentfulPaint": 67431.69945,
+    "totalBlockingTime": 0,
+    "cumulativeLayoutShift": 0.006123403240891797,
+    "speedIndex": 3065.4161360061557
+  }
+]
