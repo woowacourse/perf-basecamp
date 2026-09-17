@@ -15,7 +15,8 @@ module.exports = (env, argv) => {
     output: {
       filename: 'bundle.js',
       path: path.join(__dirname, '/dist'),
-      clean: true
+      clean: true,
+      assetModuleFilename: 'static/[name].[contenthash:8][ext]'
     },
     devServer: {
       hot: true,
