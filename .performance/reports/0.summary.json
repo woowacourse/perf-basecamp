@@ -16,5 +16,14 @@
     "totalBlockingTime": 0,
     "cumulativeLayoutShift": 0.003472118611913726,
     "speedIndex": 895.5158594109773
+  },
+  {
+    "name": "1.2.2.css-minify",
+    "performance": 73,
+    "firstContentfulPaint": 575.2606,
+    "largestContentfulPaint": 11301.4157,
+    "totalBlockingTime": 89.21130000000005,
+    "cumulativeLayoutShift": 0.002850564165426262,
+    "speedIndex": 1469.1904054121942
   }
 ]
