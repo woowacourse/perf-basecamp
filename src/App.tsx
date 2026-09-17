@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes, HashRouter } from 'react-router-dom';
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
@@ -11,7 +11,7 @@ const Search = lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
   return (
-    <Router basename={'/perf-basecamp'}>
+    <HashRouter>
       <Suspense fallback={<div>Loading...</div>}>
         <NavBar />
         <Routes>
@@ -20,7 +20,7 @@ const App = () => {
         </Routes>
         <Footer />
       </Suspense>
-    </Router>
+    </HashRouter>
   );
 };
 
