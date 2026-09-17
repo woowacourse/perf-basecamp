@@ -4,6 +4,7 @@ const sharp = require('sharp');
 
 const PLUGIN_NAME = 'ConvertImagesWebpackPlugin';
 const SOURCE_IMAGE_PATTERN = /\.(?:jpe?g|png)$/i;
+const RESPONSIVE_WIDTHS = [640, 1280, 1920];
 
 class ConvertImagesWebpackPlugin {
   apply(compiler) {
@@ -23,18 +24,29 @@ class ConvertImagesWebpackPlugin {
               const { dir, name: basename } = path.posix.parse(name);
               const imageBuffer = Buffer.from(source.source());
 
-              const [webpBuffer, avifBuffer] = await Promise.all([
-                sharp(imageBuffer).webp({ quality: 80 }).toBuffer(),
-                sharp(imageBuffer).avif({ quality: 60 }).toBuffer()
-              ]);
-
-              compilation.emitAsset(
-                path.posix.join(dir, `${basename}.webp`),
-                new compiler.webpack.sources.RawSource(webpBuffer)
-              );
-              compilation.emitAsset(
-                path.posix.join(dir, `${basename}.avif`),
-                new compiler.webpack.sources.RawSource(avifBuffer)
+              await Promise.all(
+                RESPONSIVE_WIDTHS.flatMap((width) => [
+                  sharp(imageBuffer)
+                    .resize({ width })
+                    .webp({ quality: 80 })
+                    .toBuffer()
+                    .then((buffer) => {
+                      compilation.emitAsset(
+                        path.posix.join(dir, `${basename}-${width}.webp`),
+                        new compiler.webpack.sources.RawSource(buffer)
+                      );
+                    }),
+                  sharp(imageBuffer)
+                    .resize({ width })
+                    .avif({ quality: 60 })
+                    .toBuffer()
+                    .then((buffer) => {
+                      compilation.emitAsset(
+                        path.posix.join(dir, `${basename}-${width}.avif`),
+                        new compiler.webpack.sources.RawSource(buffer)
+                      );
+                    })
+                ])
               );
             })
           );
