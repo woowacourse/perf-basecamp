@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = (env, argv) => {
   const isProd = argv.mode === 'production';
@@ -32,7 +33,25 @@ module.exports = (env, argv) => {
         patterns: [{ from: './public', to: './public' }]
       }),
       new Dotenv(),
-      ...(isProd ? [new MiniCssExtractPlugin()] : [])
+      ...(isProd ? [new MiniCssExtractPlugin()] : []),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.sharpMinify,
+          options: { encodeOptions: { jpeg: { quality: 80 }, webp: { quality: 80 } } }
+        },
+        generator: [
+          {
+            preset: 'webp', // ?as=webp -> 사진형, 애니메이션형 이미지에 사용
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: { encodeOptions: { webp: { quality: 80 } } }
+          },
+          {
+            preset: 'webp-lossless', // ?as=webp-lossless -> 그래픽형 이미지에 사용
+            implementation: ImageMinimizerPlugin.sharpGenerate,
+            options: { encodeOptions: { webp: { lossless: true } } }
+          }
+        ]
+      })
     ],
     module: {
       rules: [
