@@ -25,5 +25,14 @@
     "totalBlockingTime": 89.21130000000005,
     "cumulativeLayoutShift": 0.002850564165426262,
     "speedIndex": 1469.1904054121942
+  },
+  {
+    "name": "1.3.1.hero-preload",
+    "performance": 100,
+    "firstContentfulPaint": 539.0602999999999,
+    "largestContentfulPaint": 539.0602999999999,
+    "totalBlockingTime": 0,
+    "cumulativeLayoutShift": 0.002850564165426262,
+    "speedIndex": 539.0602999999999
   }
 ]
