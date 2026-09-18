@@ -2,8 +2,11 @@ const path = require('node:path');
 
 const sharp = require('sharp');
 
+const convertGifToMp4 = require('./convert-gif-to-mp4');
+
 const PLUGIN_NAME = 'ConvertImagesWebpackPlugin';
 const SOURCE_IMAGE_PATTERN = /\.(?:jpe?g|png)$/i;
+const GIF_PATTERN = /\.gif$/i;
 const RESPONSIVE_WIDTHS = [640, 1280, 1920];
 
 class ConvertImagesWebpackPlugin {
@@ -18,9 +21,12 @@ class ConvertImagesWebpackPlugin {
           const sourceImages = compilation
             .getAssets()
             .filter(({ name }) => SOURCE_IMAGE_PATTERN.test(name));
+          const gifs = compilation
+            .getAssets()
+            .filter(({ name }) => GIF_PATTERN.test(name));
 
-          await Promise.all(
-            sourceImages.map(async ({ name, source }) => {
+          await Promise.all([
+            ...sourceImages.map(async ({ name, source }) => {
               const { dir, name: basename } = path.posix.parse(name);
               const imageBuffer = Buffer.from(source.source());
 
@@ -48,8 +54,18 @@ class ConvertImagesWebpackPlugin {
                     })
                 ])
               );
+            }),
+            ...gifs.map(async ({ name, source }) => {
+              const { dir, name: basename } = path.posix.parse(name);
+              const gifBuffer = Buffer.from(source.source());
+              const mp4Buffer = await convertGifToMp4(gifBuffer);
+
+              compilation.emitAsset(
+                path.posix.join(dir, `${basename}.mp4`),
+                new compiler.webpack.sources.RawSource(mp4Buffer)
+              );
             })
-          );
+          ]);
         }
       );
     });

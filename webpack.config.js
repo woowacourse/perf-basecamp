@@ -42,7 +42,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif|webp|avif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif|webp|avif|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'

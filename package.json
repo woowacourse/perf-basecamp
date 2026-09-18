@@ -52,6 +52,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-react": "^7.31.1",
+    "ffmpeg-static": "^5.3.0",
     "file-loader": "^6.2.0",
     "glob": "^13.0.6",
     "html-loader": "^2.1.2",

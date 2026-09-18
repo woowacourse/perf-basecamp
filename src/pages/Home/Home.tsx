@@ -15,8 +15,9 @@ import AnimatedPath from './components/AnimatedPath/AnimatedPath';
 import styles from './Home.module.css';
 
 const cx = classNames.bind(styles);
+const toMp4 = (gifSrc: string): string => gifSrc.replace(/\.gif$/, '.mp4');
 
-const Home = () => {
+const Home = (): JSX.Element => {
   const wrapperRef = useRef<HTMLElement>(null);
 
   return (
@@ -41,9 +42,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem title="See trending gif" videoSrc={toMp4(trendingGif)} />
+            <FeatureItem title="Find gif for free" videoSrc={toMp4(findGif)} />
+            <FeatureItem title="Free for everyone" videoSrc={toMp4(freeGif)} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
