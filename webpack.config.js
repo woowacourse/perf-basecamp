@@ -15,6 +15,7 @@ module.exports = (env, argv) => {
     resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
     output: {
       filename: 'bundle.js',
+      chunkFilename: '[name].[contenthash:8].chunk.js',
       path: path.join(__dirname, '/dist'),
       clean: true,
       assetModuleFilename: 'static/[name].[contenthash:8][ext]'
@@ -60,7 +61,9 @@ module.exports = (env, argv) => {
         patterns: [{ from: './public', to: './public' }]
       }),
       new Dotenv(),
-      ...(isProd ? [new MiniCssExtractPlugin()] : []),
+      ...(isProd
+        ? [new MiniCssExtractPlugin({ chunkFilename: '[name].[contenthash:8].chunk.css' })]
+        : []),
       new ImageMinimizerPlugin({
         minimizer: {
           implementation: ImageMinimizerPlugin.sharpMinify,
@@ -86,7 +89,9 @@ module.exports = (env, argv) => {
           test: /\.(js|jsx|ts|tsx)$/i,
           exclude: /node_modules/,
           use: {
-            loader: 'ts-loader'
+            loader: 'ts-loader',
+            // tsconfig의 removeComments가 webpackChunkName 매직 코멘트를 지우지 않도록 비활성화
+            options: { compilerOptions: { removeComments: false } }
           }
         },
         {
