@@ -5,9 +5,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = (env, argv) => {
   const isProd = argv.mode === 'production';
+  const isAnalyze = Boolean(env && env.analyze);
 
   return {
     mode: isProd ? 'production' : 'development',
@@ -61,6 +63,16 @@ module.exports = (env, argv) => {
         patterns: [{ from: './public', to: './public' }]
       }),
       new Dotenv(),
+      // npm run analyze 로 실행할 때만 번들 구성 리포트를 생성 (dist 밖에 저장해 배포물에 섞이지 않도록 함)
+      ...(isAnalyze
+        ? [
+            new BundleAnalyzerPlugin({
+              analyzerMode: 'static',
+              reportFilename: path.join(__dirname, 'bundle-report.html'),
+              openAnalyzer: true
+            })
+          ]
+        : []),
       ...(isProd
         ? [new MiniCssExtractPlugin({ chunkFilename: '[name].[contenthash:8].chunk.css' })]
         : []),
