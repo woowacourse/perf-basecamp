@@ -35,9 +35,9 @@ const Home = (): JSX.Element => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem title="See trending gif" videoSrc={trendingGif} />
+            <FeatureItem title="Find gif for free" videoSrc={findGif} />
+            <FeatureItem title="Free for everyone" videoSrc={freeGif} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
