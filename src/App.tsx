@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Home from './pages/Home/Home';
@@ -11,14 +11,16 @@ const Search = lazy(async () => await import('./pages/Search/Search'));
 
 const App = () => {
   return (
-    <Router basename={process.env.BASE_PATH}>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
-      </Routes>
-      <Footer />
-    </Router>
+    <Suspense fallback={<>...loading</>}>
+      <Router basename={process.env.BASE_PATH}>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </Suspense>
   );
 };
 
