@@ -40,15 +40,15 @@ npm install      # 의존성 설치
 npm run serve    # 개발 서버 실행 (http://localhost:8080)
 ```
 
-| 명령어 | 설명 |
-| --- | --- |
-| `npm run serve` | 개발 서버 실행 |
-| `npm run build:dev` | 개발 모드 빌드 |
-| `npm run build:prod` | 프로덕션 빌드 (`dist/`) |
-| `npm run lint` | ESLint 검사 |
-| `npm run lint:fix` | ESLint 자동 수정 |
-| `npm run prettier` | Prettier 포맷팅 |
-| `npm run deploy` | 프로덕션 빌드 후 GitHub Pages 배포 |
+| 명령어               | 설명                               |
+| -------------------- | ---------------------------------- |
+| `npm run serve`      | 개발 서버 실행                     |
+| `npm run build:dev`  | 개발 모드 빌드                     |
+| `npm run build:prod` | 프로덕션 빌드 (`dist/`)            |
+| `npm run lint`       | ESLint 검사                        |
+| `npm run lint:fix`   | ESLint 자동 수정                   |
+| `npm run prettier`   | Prettier 포맷팅                    |
+| `npm run deploy`     | 프로덕션 빌드 후 GitHub Pages 배포 |
 
 > 빌드 시 나오는 번들·이미지 크기 경고는 의도된 것입니다. 이 미션에서 직접 개선할 대상이에요. 🙂
 
@@ -90,8 +90,8 @@ npm run serve    # 개발 서버 실행 (http://localhost:8080)
 
 #### 1 요청 크기 줄이기
 
-- [ ] 소스코드 크기 줄이기
-- [ ] 이미지 크기 줄이기
+- [x] 소스코드 크기 줄이기
+- [x] 이미지 크기 줄이기
 
 도구
 
