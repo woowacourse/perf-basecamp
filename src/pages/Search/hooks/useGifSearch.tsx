@@ -1,7 +1,9 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+
+import { useQuery } from '@tanstack/react-query';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -31,6 +33,11 @@ const useGifSearch = (): UseGifSearchResult => {
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const { data: trendingGifs = [] } = useQuery({
+    queryKey: ['trending'],
+    queryFn: gifAPIService.getTrending
+  });
 
   const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchKeyword(e.target.value);
@@ -79,25 +86,12 @@ const useGifSearch = (): UseGifSearchResult => {
     }
   };
 
-  useEffect(() => {
-    const fetchTrending = async (): Promise<void> => {
-      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
-
-      try {
-        const gifs = await gifAPIService.getTrending();
-        setGifList(gifs);
-      } catch (error) {
-        handleError(error);
-      }
-    };
-
-    void fetchTrending();
-  }, []);
+  const displayList = status === SEARCH_STATUS.BEFORE_SEARCH ? trendingGifs : gifList;
 
   return {
     status,
     searchKeyword,
-    gifList,
+    gifList: displayList,
     errorMessage,
     searchByKeyword,
     updateSearchKeyword,
