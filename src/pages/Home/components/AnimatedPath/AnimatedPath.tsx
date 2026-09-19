@@ -8,7 +8,6 @@ type AnimatedPathProps = {
 };
 
 const TOP_PERCENTAGE_OF_DRAW_POINT = 0.8; // 현재 보이는 화면의 80% 지점에서 선이 그려지는 게 보이도록 함
-const MIN_DRAW_INTERVAL_MS = 32;
 
 const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   const pathRef = useRef<SVGPathElement>(null);
@@ -23,15 +22,9 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     let wrapperHeight = 0;
     let shouldMeasure = true;
     let frameId: number | null = null;
-    let lastDrawTime = -Infinity;
 
-    const drawPath = (timestamp: number) => {
+    const drawPath = () => {
       frameId = null;
-      if (!shouldMeasure && timestamp - lastDrawTime < MIN_DRAW_INTERVAL_MS) {
-        frameId = requestAnimationFrame(drawPath);
-        return;
-      }
-      lastDrawTime = timestamp;
       if (shouldMeasure) {
         const bounds = wrapper.getBoundingClientRect();
         wrapperTop = bounds.top + window.scrollY;
@@ -53,7 +46,7 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     };
 
     path.style.strokeDasharray = `${pathLength}`;
-    drawPath(performance.now());
+    drawPath();
     window.addEventListener('scroll', scheduleDraw, { passive: true });
     window.addEventListener('resize', measureOnNextFrame);
     const resizeObserver = new ResizeObserver(measureOnNextFrame);
