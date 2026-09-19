@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -36,7 +37,8 @@ module.exports = {
             chunkFilename: '[id].[contenthash].css'
           })
         ]
-      : [])
+      : []),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
