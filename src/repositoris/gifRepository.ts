@@ -10,14 +10,18 @@ const cachePolicy = {
   }
 };
 
-let trendingCacheData: {
-  data: GifImageModel[];
+interface CacheData {
+  data: any;
   cachedAt: number;
-} | null = null;
+}
+
+const cacheData: { [cacheKey: string]: CacheData } = {};
 
 export const gifRepository = {
   getTrending: async (): Promise<GifImageModel[]> => {
-    if (trendingCacheData !== null && !cachePolicy.isStale(trendingCacheData.cachedAt))
+    const cacheKey = 'trending';
+    let trendingCacheData = cacheData[cacheKey];
+    if (cacheData[cacheKey] !== undefined && !cachePolicy.isStale(trendingCacheData.cachedAt))
       return trendingCacheData.data;
 
     const data = await gifAPIService.getTrending();
@@ -25,6 +29,8 @@ export const gifRepository = {
       data,
       cachedAt: Date.now()
     };
+
+    cacheData[cacheKey] = trendingCacheData;
     return trendingCacheData.data;
   }
 };
