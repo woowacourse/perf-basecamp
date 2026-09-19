@@ -10,18 +10,22 @@ const cachePolicy = {
   }
 };
 
-interface CacheData {
-  data: any;
+interface CacheData<T> {
+  data: T;
   cachedAt: number;
 }
 
-const cacheData: { [cacheKey: string]: CacheData } = {};
+const cacheData: { [cacheKey: string]: CacheData<any> } = {};
+
+const getCacheData = <T>(cacheKey: string): CacheData<T> | undefined => {
+  return cacheData[cacheKey];
+};
 
 export const gifRepository = {
   getTrending: async (): Promise<GifImageModel[]> => {
     const cacheKey = 'trending';
-    let trendingCacheData = cacheData[cacheKey];
-    if (cacheData[cacheKey] !== undefined && !cachePolicy.isStale(trendingCacheData.cachedAt))
+    let trendingCacheData = getCacheData<GifImageModel[]>(cacheKey);
+    if (trendingCacheData !== undefined && !cachePolicy.isStale(trendingCacheData.cachedAt))
       return trendingCacheData.data;
 
     const data = await gifAPIService.getTrending();
@@ -35,9 +39,9 @@ export const gifRepository = {
   },
   searchByKeyword: async (keyword: string, page: number): Promise<GifImageModel[]> => {
     const cacheKey = `search:keyword=${keyword},page=${page}`;
-    let searchByKeywordCacheData = cacheData[cacheKey];
+    let searchByKeywordCacheData = getCacheData<GifImageModel[]>(cacheKey);
     if (
-      cacheData[cacheKey] !== undefined &&
+      searchByKeywordCacheData !== undefined &&
       !cachePolicy.isStale(searchByKeywordCacheData.cachedAt)
     )
       return searchByKeywordCacheData.data;
