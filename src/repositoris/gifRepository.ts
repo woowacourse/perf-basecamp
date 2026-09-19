@@ -10,49 +10,48 @@ const cachePolicy = {
   }
 };
 
-interface CacheData<T> {
+interface CacheEntry<T> {
   data: T;
   cachedAt: number;
 }
 
-const cacheData: { [cacheKey: string]: CacheData<any> } = {};
+const cacheData: { [cacheKey: string]: CacheEntry<any> } = {};
 
-const getCacheData = <T>(cacheKey: string): CacheData<T> | undefined => {
-  return cacheData[cacheKey];
+const getCacheData = <T>(cacheKey: string): CacheEntry<T> | undefined => {
+  return cacheData[cacheKey] as CacheEntry<T>;
+};
+
+const setCacheData = <T>(cacheKey: string, cacheEntry: CacheEntry<T>): void => {
+  cacheData[cacheKey] = cacheEntry;
 };
 
 export const gifRepository = {
   getTrending: async (): Promise<GifImageModel[]> => {
     const cacheKey = 'trending';
-    let trendingCacheData = getCacheData<GifImageModel[]>(cacheKey);
-    if (trendingCacheData !== undefined && !cachePolicy.isStale(trendingCacheData.cachedAt))
-      return trendingCacheData.data;
+    const cached = getCacheData<GifImageModel[]>(cacheKey);
+    if (cached !== undefined && !cachePolicy.isStale(cached.cachedAt)) return cached.data;
 
     const data = await gifAPIService.getTrending();
-    trendingCacheData = {
+    const cacheEntry = {
       data,
       cachedAt: Date.now()
     };
 
-    cacheData[cacheKey] = trendingCacheData;
-    return trendingCacheData.data;
+    setCacheData(cacheKey, cacheEntry);
+    return cacheEntry.data;
   },
   searchByKeyword: async (keyword: string, page: number): Promise<GifImageModel[]> => {
     const cacheKey = `search:keyword=${keyword},page=${page}`;
-    let searchByKeywordCacheData = getCacheData<GifImageModel[]>(cacheKey);
-    if (
-      searchByKeywordCacheData !== undefined &&
-      !cachePolicy.isStale(searchByKeywordCacheData.cachedAt)
-    )
-      return searchByKeywordCacheData.data;
+    const cached = getCacheData<GifImageModel[]>(cacheKey);
+    if (cached !== undefined && !cachePolicy.isStale(cached.cachedAt)) return cached.data;
 
     const data = await gifAPIService.searchByKeyword(keyword, page);
-    searchByKeywordCacheData = {
+    const cacheEntry = {
       data,
       cachedAt: Date.now()
     };
 
-    cacheData[cacheKey] = searchByKeywordCacheData;
-    return searchByKeywordCacheData.data;
+    setCacheData(cacheKey, cacheEntry);
+    return cacheEntry.data;
   }
 };
