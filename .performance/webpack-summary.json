@@ -24,5 +24,48 @@
       "size": 0,
       "assets": []
     }
+  },
+  {
+    "name": "1.code-splitting-search",
+    "js": {
+      "totalSize": 191064,
+      "assetCount": 3,
+      "assets": [
+        {
+          "name": "bundle.js",
+          "size": 179338
+        },
+        {
+          "name": "526.bundle.js",
+          "size": 8325
+        },
+        {
+          "name": "729.bundle.js",
+          "size": 3401
+        }
+      ]
+    },
+    "initial": {
+      "size": 179338,
+      "assets": [
+        {
+          "name": "bundle.js",
+          "size": 179338
+        }
+      ]
+    },
+    "async": {
+      "size": 11726,
+      "assets": [
+        {
+          "name": "526.bundle.js",
+          "size": 8325
+        },
+        {
+          "name": "729.bundle.js",
+          "size": 3401
+        }
+      ]
+    }
   }
 ]

@@ -52,5 +52,14 @@
     "totalBlockingTime": 0,
     "cumulativeLayoutShift": 0.002843346280061583,
     "speedIndex": 540.5042
+  },
+  {
+    "name": "2.1.code-splitting-search",
+    "performance": 100,
+    "firstContentfulPaint": 518.8620000000001,
+    "largestContentfulPaint": 518.8620000000001,
+    "totalBlockingTime": 0,
+    "cumulativeLayoutShift": 0.002843346280061583,
+    "speedIndex": 518.8620000000001
   }
 ]
