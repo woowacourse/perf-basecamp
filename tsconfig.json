@@ -2,8 +2,8 @@
   "compilerOptions": {
     "target": "ES2015",
     "jsx": "react-jsx",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "node",
     "types": ["node"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "noUnusedLocals": true,
