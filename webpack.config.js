@@ -4,7 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-module.exports = {
+module.exports = (env = {}) => ({
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
@@ -26,11 +26,10 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new BundleAnalyzerPlugin({
-      analyzerMode: 'server',
+      analyzerMode: env.analyze === true ? 'server' : 'disabled',
       openAnalyzer: true,
       generateStatsFile: false,
-      statsFilename: 'stats.json',
-      logLevel: 'info'
+      statsFilename: 'stats.json'
     }),
     new Dotenv()
   ],
@@ -60,4 +59,4 @@ module.exports = {
     minimize: true,
     usedExports: true
   }
-};
+});

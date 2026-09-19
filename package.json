@@ -9,6 +9,7 @@
   "scripts": {
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
+    "analyze": "npm run build:prod -- --env analyze",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development",
     "lint": "eslint src --ext .ts,.tsx",
