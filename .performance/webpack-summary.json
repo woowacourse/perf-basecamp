@@ -1,0 +1,28 @@
+[
+  {
+    "name": "01.init",
+    "js": {
+      "totalSize": 187735,
+      "assetCount": 1,
+      "assets": [
+        {
+          "name": "bundle.js",
+          "size": 187735
+        }
+      ]
+    },
+    "initial": {
+      "size": 187735,
+      "assets": [
+        {
+          "name": "bundle.js",
+          "size": 187735
+        }
+      ]
+    },
+    "async": {
+      "size": 0,
+      "assets": []
+    }
+  }
+]
