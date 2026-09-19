@@ -24,7 +24,13 @@ const App = () => {
         <Route
           path="/search"
           element={
-            <Suspense fallback={<div role="status">Loading search...</div>}>
+            <Suspense
+              fallback={
+                <div role="status" className="searchRouteFallback">
+                  Loading search...
+                </div>
+              }
+            >
               <Search />
             </Suspense>
           }
