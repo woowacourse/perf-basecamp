@@ -43,14 +43,18 @@ module.exports = {
         }
       },
       {
+        test: /\.html$/i,
+        loader: 'html-loader'
+      },
+      {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|avif|webp)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[contenthash].[ext]'
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[contenthash].[ext]'
         }
       }
     ]
