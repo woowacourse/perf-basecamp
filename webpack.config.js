@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -21,6 +22,9 @@ module.exports = {
     historyApiFallback: true
   },
   devtool: 'source-map',
+  optimization: {
+    minimizer: ['...', new CssMinimizerPlugin()]
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -38,7 +42,7 @@ module.exports = {
           })
         ]
       : []),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin({ analyzerPort: 'auto' })
   ],
   module: {
     rules: [
