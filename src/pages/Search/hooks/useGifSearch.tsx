@@ -74,7 +74,8 @@ const useGifSearch = () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
       try {
-        const gifs = await gifRepository.getTrending();
+        const staleTime = 24 * 60 * 60 * 1000;
+        const gifs = await gifRepository.getTrending({ staleTime });
         setGifList(gifs);
       } catch (error) {
         handleError(error);
