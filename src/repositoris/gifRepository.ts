@@ -32,5 +32,23 @@ export const gifRepository = {
 
     cacheData[cacheKey] = trendingCacheData;
     return trendingCacheData.data;
+  },
+  searchByKeyword: async (keyword: string, page: number): Promise<GifImageModel[]> => {
+    const cacheKey = `search:keyword=${keyword},page=${page}`;
+    let searchByKeywordCacheData = cacheData[cacheKey];
+    if (
+      cacheData[cacheKey] !== undefined &&
+      !cachePolicy.isStale(searchByKeywordCacheData.cachedAt)
+    )
+      return searchByKeywordCacheData.data;
+
+    const data = await gifAPIService.searchByKeyword(keyword, page);
+    searchByKeywordCacheData = {
+      data,
+      cachedAt: Date.now()
+    };
+
+    cacheData[cacheKey] = searchByKeywordCacheData;
+    return searchByKeywordCacheData.data;
   }
 };
