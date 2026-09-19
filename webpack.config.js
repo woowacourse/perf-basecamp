@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ConvertImagesWebpackPlugin = require('./scripts/convert-images-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -26,7 +27,10 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new ConvertImagesWebpackPlugin(),
-    new Dotenv()
+    new Dotenv(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'server'
+    })
   ],
   module: {
     rules: [
