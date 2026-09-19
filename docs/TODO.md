@@ -14,7 +14,8 @@
 
 - css/js minify, uglify
 - gzip
-- image optimization - image format, compression
+- image optimization
+- image format, compression
 
 #### 2 필요한 것만 요청하기
 
