@@ -27,6 +27,7 @@ const Home = (): JSX.Element => {
           pictureClassName={styles.heroPicture}
           className={styles.heroImage}
           src={heroImage}
+          fetchPriority="high"
           alt="hero image"
         />
         <div className={styles.projectTitle}>
