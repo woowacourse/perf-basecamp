@@ -40,15 +40,15 @@ npm install      # 의존성 설치
 npm run serve    # 개발 서버 실행 (http://localhost:8080)
 ```
 
-| 명령어 | 설명 |
-| --- | --- |
-| `npm run serve` | 개발 서버 실행 |
-| `npm run build:dev` | 개발 모드 빌드 |
-| `npm run build:prod` | 프로덕션 빌드 (`dist/`) |
-| `npm run lint` | ESLint 검사 |
-| `npm run lint:fix` | ESLint 자동 수정 |
-| `npm run prettier` | Prettier 포맷팅 |
-| `npm run deploy` | 프로덕션 빌드 후 GitHub Pages 배포 |
+| 명령어               | 설명                               |
+| -------------------- | ---------------------------------- |
+| `npm run serve`      | 개발 서버 실행                     |
+| `npm run build:dev`  | 개발 모드 빌드                     |
+| `npm run build:prod` | 프로덕션 빌드 (`dist/`)            |
+| `npm run lint`       | ESLint 검사                        |
+| `npm run lint:fix`   | ESLint 자동 수정                   |
+| `npm run prettier`   | Prettier 포맷팅                    |
+| `npm run deploy`     | 프로덕션 빌드 후 GitHub Pages 배포 |
 
 > 빌드 시 나오는 번들·이미지 크기 경고는 의도된 것입니다. 이 미션에서 직접 개선할 대상이에요. 🙂
 
@@ -90,8 +90,8 @@ npm run serve    # 개발 서버 실행 (http://localhost:8080)
 
 #### 1 요청 크기 줄이기
 
-- [ ] 소스코드 크기 줄이기
-- [ ] 이미지 크기 줄이기
+- [x] 소스코드 크기 줄이기
+- [x] 이미지 크기 줄이기
 
 도구
 
@@ -106,8 +106,8 @@ npm run serve    # 개발 서버 실행 (http://localhost:8080)
 
 #### 2 필요한 것만 요청하기
 
-- [ ] Home 페이지에서 불러오는 스크립트 리소스에 Search 페이지의 소스 코드가 포함되지 않아야 한다.
-- [ ] react-icons 패키지에서 실제로 사용하는 아이콘 리소스만 빌드 결과에 포함되어야 한다.
+- [x] Home 페이지에서 불러오는 스크립트 리소스에 Search 페이지의 소스 코드가 포함되지 않아야 한다.
+- [x] react-icons 패키지에서 실제로 사용하는 아이콘 리소스만 빌드 결과에 포함되어야 한다.
 
 도구
 
@@ -120,8 +120,8 @@ npm run serve    # 개발 서버 실행 (http://localhost:8080)
 
 #### 3 같은 건 매번 새로 요청하지 않기
 
-- [ ] CDN을 적용하고, 한 번 요청한 리소스는 CDN 캐시에서 불러와야 한다.
-- [ ] GIPHY의 trending API를 Search 페이지에 들어올 때마다 새로 요청하지 않아야 한다.
+- [x] CDN을 적용하고, 한 번 요청한 리소스는 CDN 캐시에서 불러와야 한다.
+- [x] GIPHY의 trending API를 Search 페이지에 들어올 때마다 새로 요청하지 않아야 한다.
 
 도구
 
@@ -138,9 +138,9 @@ npm run serve    # 개발 서버 실행 (http://localhost:8080)
 
 #### 4 최소한의 변경만 일으키기
 
-- [ ] 검색 결과 > 추가 로드시 추가된 목록만 새로 렌더되어야 한다.
-- [ ] Layout Shift 없이 애니메이션이 일어나야 한다.
-- [ ] Frame Drop이 일어나지 않아야 한다.
+- [x] 검색 결과 > 추가 로드시 추가된 목록만 새로 렌더되어야 한다.
+- [x] Layout Shift 없이 애니메이션이 일어나야 한다.
+- [x] Frame Drop이 일어나지 않아야 한다.
   - (Chrome DevTools 기준) Partially Presented Frame 역시 최소로 발생해야 한다.
 
 도구

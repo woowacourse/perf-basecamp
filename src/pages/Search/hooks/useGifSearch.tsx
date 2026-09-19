@@ -1,7 +1,9 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
+
+import { useQuery } from '@tanstack/react-query';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -13,27 +15,42 @@ export const SEARCH_STATUS = {
   ERROR: 'ERROR'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
-const useGifSearch = () => {
+interface UseGifSearchResult {
+  status: SearchStatus;
+  searchKeyword: string;
+  gifList: GifImageModel[];
+  errorMessage: string | null;
+  searchByKeyword: () => Promise<void>;
+  updateSearchKeyword: (e: ChangeEvent<HTMLInputElement>) => void;
+  loadMore: () => Promise<void>;
+}
+
+const useGifSearch = (): UseGifSearchResult => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
+  const { data: trendingGifs = [] } = useQuery({
+    queryKey: ['trending'],
+    queryFn: gifAPIService.getTrending
+  });
+
+  const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchKeyword(e.target.value);
   };
 
-  const resetSearch = () => {
+  const resetSearch = (): void => {
     setStatus(SEARCH_STATUS.LOADING);
     setCurrentPageIndex(DEFAULT_PAGE_INDEX);
     setGifList([]);
     setErrorMessage(null);
   };
 
-  const handleError = (error: unknown) => {
+  const handleError = (error: unknown): void => {
     setStatus(SEARCH_STATUS.ERROR);
     setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred');
   };
@@ -69,30 +86,17 @@ const useGifSearch = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchTrending = async () => {
-      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
-
-      try {
-        const gifs = await gifAPIService.getTrending();
-        setGifList(gifs);
-      } catch (error) {
-        handleError(error);
-      }
-    };
-
-    fetchTrending();
-  }, []);
+  const displayList = status === SEARCH_STATUS.BEFORE_SEARCH ? trendingGifs : gifList;
 
   return {
     status,
     searchKeyword,
-    gifList,
+    gifList: displayList,
     errorMessage,
     searchByKeyword,
     updateSearchKeyword,
     loadMore
-  } as const;
+  };
 };
 
 export default useGifSearch;
