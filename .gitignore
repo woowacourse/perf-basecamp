@@ -8,6 +8,8 @@
 
 # build
 /dist
+/after
+/before
 
 # logs
 npm-debug.log*
