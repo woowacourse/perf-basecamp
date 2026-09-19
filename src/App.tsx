@@ -12,7 +12,7 @@ import './App.css';
 const App = () => {
   return (
     <Suspense fallback={<p>페이지를 불러오는 중…</p>}>
-      <Router basename={'/perf-basecamp'}>
+      <Router>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
