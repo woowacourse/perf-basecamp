@@ -2,13 +2,23 @@ import { gifAPIService } from '../apis/gifAPIService';
 
 import { GifImageModel } from '../models/image/gifImage';
 
-let trendingCacheData: GifImageModel[] | null = null;
+const cacheTimePolicy = 24 * 60 * 60 * 1000;
+
+let trendingCacheData: {
+  data: GifImageModel[];
+  time: number;
+} | null = null;
 
 export const gifRepository = {
   getTrending: async (): Promise<GifImageModel[]> => {
-    if (trendingCacheData != null) return trendingCacheData;
+    if (trendingCacheData !== null && trendingCacheData.time + cacheTimePolicy > Date.now())
+      return trendingCacheData.data;
 
-    trendingCacheData = await gifAPIService.getTrending();
-    return trendingCacheData;
+    const data = await gifAPIService.getTrending();
+    trendingCacheData = {
+      data,
+      time: Date.now()
+    };
+    return trendingCacheData.data;
   }
 };
