@@ -29,7 +29,7 @@ module.exports = {
     new ConvertImagesWebpackPlugin(),
     new Dotenv(),
     new BundleAnalyzerPlugin({
-      analyzerMode: 'server'
+      analyzerMode: 'disabled'
     })
   ],
   module: {
