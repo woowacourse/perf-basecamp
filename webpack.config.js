@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -23,6 +24,13 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'server',
+      openAnalyzer: true,
+      generateStatsFile: false,
+      statsFilename: 'stats.json',
+      logLevel: 'info'
     }),
     new Dotenv()
   ],
