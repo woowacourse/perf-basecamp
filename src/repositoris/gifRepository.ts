@@ -2,10 +2,16 @@ import { gifAPIService } from '../apis/gifAPIService';
 
 import { GifImageModel } from '../models/image/gifImage';
 
-const staleTime = 24 * 60 * 60 * 1000;
+interface CacheOptions {
+  staleTime: number;
+}
+
+const defaultCacheOptions = {
+  staleTime: 0
+};
 
 const cachePolicy = {
-  isStale: (cachedAt: number) => {
+  isStale: (cachedAt: number, staleTime: number) => {
     return cachedAt + staleTime <= Date.now();
   }
 };
@@ -26,10 +32,13 @@ const setCacheData = <T>(cacheKey: string, cacheEntry: CacheEntry<T>): void => {
 };
 
 export const gifRepository = {
-  getTrending: async (): Promise<GifImageModel[]> => {
+  getTrending: async (
+    cacheOptions: CacheOptions = defaultCacheOptions
+  ): Promise<GifImageModel[]> => {
     const cacheKey = 'trending';
     const cached = getCacheData<GifImageModel[]>(cacheKey);
-    if (cached !== undefined && !cachePolicy.isStale(cached.cachedAt)) return cached.data;
+    if (cached !== undefined && !cachePolicy.isStale(cached.cachedAt, cacheOptions.staleTime))
+      return cached.data;
 
     const data = await gifAPIService.getTrending();
     const cacheEntry = {
@@ -40,10 +49,15 @@ export const gifRepository = {
     setCacheData(cacheKey, cacheEntry);
     return cacheEntry.data;
   },
-  searchByKeyword: async (keyword: string, page: number): Promise<GifImageModel[]> => {
+  searchByKeyword: async (
+    keyword: string,
+    page: number,
+    cacheOptions: CacheOptions = defaultCacheOptions
+  ): Promise<GifImageModel[]> => {
     const cacheKey = `search:keyword=${keyword},page=${page}`;
     const cached = getCacheData<GifImageModel[]>(cacheKey);
-    if (cached !== undefined && !cachePolicy.isStale(cached.cachedAt)) return cached.data;
+    if (cached !== undefined && !cachePolicy.isStale(cached.cachedAt, cacheOptions.staleTime))
+      return cached.data;
 
     const data = await gifAPIService.searchByKeyword(keyword, page);
     const cacheEntry = {
