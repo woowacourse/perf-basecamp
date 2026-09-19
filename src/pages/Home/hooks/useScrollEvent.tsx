@@ -4,14 +4,26 @@ type ScrollHandler = () => void;
 
 const useScrollEvent = (onScroll: ScrollHandler) => {
   useEffect(() => {
-    const handleScroll = (event: Event) => {
-      onScroll();
+    let frameId: number | null = null;
+
+    const handleScroll = () => {
+      if (frameId !== null) {
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        onScroll();
+      });
     };
 
     window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
     };
   }, [onScroll]);
 };
