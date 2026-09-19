@@ -16,7 +16,7 @@
     "serve:lighthouse": "npm run build:lighthouse && serve dist -l 4173",
     "lighthouse": "sh -c 'lighthouse http://localhost:4173 --preset=desktop --only-categories=performance --output=json --output-path=.performance/reports/$1.json && node .performance/extract-lighthouse.js $1' --",
     "performance": "sh -c 'npm run build:lighthouse && (npm run serve:lighthouse &) && sleep 2 && npm run lighthouse -- \"$1\"' --",
-    "analyze:webpack": "sh -c 'webpack --mode=production --json > .performance/stats/$1.json && node .performance/extract-webpack-stats.js $1 && npx webpack-bundle-analyzer .performance/stats/$1.json' --",
+    "analyze:webpack": "sh -c 'webpack --mode=production --json > .performance/stats/$1.json && node .performance/extract-webpack-stats.js $1 && npx webpack-bundle-analyzer .performance/stats/$1.json dist' --",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "prettier": "prettier --write .",
