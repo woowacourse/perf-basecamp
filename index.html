@@ -5,6 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="./public/favicon.ico" />
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      fetchpriority="high"
+      href="<%= require('./src/assets/images/hero.avif').default %>"
+      imagesrcset="<%= require('./src/assets/images/hero-828.avif').default %> 828w, <%= require('./src/assets/images/hero.avif').default %> 1920w"
+      imagesizes="100vw"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
