@@ -17,7 +17,7 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.url
+      videoUrl: images.original.mp4
     };
   });
 };

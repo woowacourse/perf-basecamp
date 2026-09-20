@@ -17,7 +17,7 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   const renderGifList = () => (
     <div className={styles.gifResultWrapper}>
       {gifList.map((gif: GifImageModel) => (
-        <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+        <GifItem key={gif.id} videoUrl={gif.videoUrl} title={gif.title} />
       ))}
     </div>
   );
