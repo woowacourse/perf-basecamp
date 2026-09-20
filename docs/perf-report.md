@@ -364,4 +364,32 @@ hover할 때 `top`으로 카드를 띄우고 있었습니다. `top`은 요소의
 
 #### 2-2 도움말 패널 열고닫기
 
-![image](./image/image16.png)
+위와 마찬가지로 레이아웃 변경을 제거함
+
+#### 2-3 CustomCursor
+
+![변경 전](./image/imageXX.png)
+
+```tsx
+// Home/hooks/useMousePosition.tsx
+
+const updateMousePosition = (e: MouseEvent) => {
+  latestEvent = e;
+
+  if (animationFrameId === null) {
+    animationFrameId = window.requestAnimationFrame(flush);
+  }
+};
+```
+
+mousemove는 초당 수백 번 발생하는데 화면은 초당 60번만 갱신되니, 그 사이에 온 이벤트는 마지막 것만 있으면 충분했습니다. 이벤트를 변수에 담아두고 `requestAnimationFrame`으로 프레임당 한 번만 상태를 갱신하도록 바꿨습니다.
+
+```tsx
+cursorRef.current.style.transform = `translate3d(${mousePosition.pageX}px, ${mousePosition.pageY}px, 0)`;
+```
+
+GPU 사용을 위해
+
+#### 2-4 스크롤 애니메이션
+
+위와 동일
