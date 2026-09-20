@@ -61,5 +61,14 @@
     "totalBlockingTime": 0,
     "cumulativeLayoutShift": 0.002843346280061583,
     "speedIndex": 518.8620000000001
+  },
+  {
+    "name": "99.final",
+    "performance": 100,
+    "firstContentfulPaint": 526.6275,
+    "largestContentfulPaint": 526.6275,
+    "totalBlockingTime": 0,
+    "cumulativeLayoutShift": 0.0028433923939453643,
+    "speedIndex": 526.6275
   }
 ]
