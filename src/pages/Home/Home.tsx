@@ -2,10 +2,14 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImage from '../../assets/images/hero.png';
-import trendingGif from '../../assets/images/trending.gif';
-import findGif from '../../assets/images/find.gif';
-import freeGif from '../../assets/images/free.gif';
+import hero1280Avif from '../../assets/images/hero-1280.avif';
+import hero1920Avif from '../../assets/images/hero-1920.avif';
+import hero1280Webp from '../../assets/images/hero-1280.webp';
+import hero1920Webp from '../../assets/images/hero-1920.webp';
+import heroFallback from '../../assets/images/hero-1280.jpg';
+import trendingWebp from '../../assets/images/trending.webp';
+import findWebp from '../../assets/images/find.webp';
+import freeWebp from '../../assets/images/free.webp';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -21,7 +25,27 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImage} alt="hero image" />
+        <picture>
+          <source
+            type="image/avif"
+            srcSet={`${hero1280Avif} 1280w, ${hero1920Avif} 1920w`}
+            sizes="100vw"
+          />
+          <source
+            type="image/webp"
+            srcSet={`${hero1280Webp} 1280w, ${hero1920Webp} 1920w`}
+            sizes="100vw"
+          />
+          <img
+            className={styles.heroImage}
+            src={heroFallback}
+            alt="hero image"
+            width={1920}
+            height={800}
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
@@ -35,9 +59,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem title="See trending gif" imageSrc={trendingWebp} />
+            <FeatureItem title="Find gif for free" imageSrc={findWebp} />
+            <FeatureItem title="Free for everyone" imageSrc={freeWebp} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
