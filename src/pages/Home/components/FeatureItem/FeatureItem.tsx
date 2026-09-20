@@ -1,9 +1,9 @@
 import styles from './FeatureItem.module.css';
 
-type FeatureItemProps = {
+interface FeatureItemProps {
   title: string;
   imageSrc: string;
-};
+}
 
 const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
   return (

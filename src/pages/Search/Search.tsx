@@ -13,7 +13,7 @@ const Search = () => {
 
   const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      searchByKeyword();
+      void searchByKeyword();
     }
   };
 

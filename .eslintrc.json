@@ -24,7 +24,13 @@
     "node_modules/",
     "webpack.config.js"
   ],
-  "rules": {},
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      { "checksVoidReturn": { "attributes": false } }
+    ]
+  },
   "settings": {
     "react": {
       "version": "detect"

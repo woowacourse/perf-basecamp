@@ -2,9 +2,9 @@ import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
 import styles from './ResultTitle.module.css';
 
-type ResultTitleProps = {
+interface ResultTitleProps {
   status: SearchStatus;
-};
+}
 
 const ResultTitle = ({ status }: ResultTitleProps) => {
   switch (status) {
