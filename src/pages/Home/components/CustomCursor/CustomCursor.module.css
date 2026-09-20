@@ -1,11 +1,23 @@
 .cursor {
   pointer-events: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
   padding: 0 16px;
   color: var(--white);
+  opacity: 0;
+  will-change: transform;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor {
+    display: none;
+  }
+
+  .cursor span {
+    animation: none;
+  }
 }
 
 .cursor::before {
