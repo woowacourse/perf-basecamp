@@ -28,6 +28,7 @@ const Home = () => {
         <img
           className={styles.heroImage}
           src={hero1280}
+          fetchPriority="high"
           srcSet={`
             ${hero640} 640w,
             ${hero960} 960w,
