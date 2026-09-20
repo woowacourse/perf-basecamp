@@ -233,3 +233,26 @@ import heroFallback from '../../assets/images/hero.png';
 +추가
 ![image](./image/image12.png)
 모바일 환경에서 스크롤 애니메이션과 헤더, 버튼 때문에 뷰포트와 스크린이 다르게 나오는 문제가 있어, 부모의 가로길이를 따르도록 스타일을 수정했습니다.
+
+##### 우선순위 설정 - preload
+
+```html
+<link
+  rel="preload"
+  as="image"
+  href="./static/hero-1280.webp"
+  imagesrcset="
+    ./static/hero-640.webp 640w,
+    ./static/hero-1024.webp 1024w,
+    ./static/hero-1280.webp 1280w
+  "
+  imagesizes="100vw"
+  type="image/webp"
+  fetchpriority="high"
+/>
+```
+
+`index.html`에서 히어로 이미지를 우선적으로 불러오게했습니다.
+
+![image](./image/image13.png)
+번들이후 React의 `<img>`요소를 확인하여 요청을 시작했다면 preload 적용 이후에는 초기 `index.html`에서 발견될 수 있도록하여 `bundle` 과 같이 병렬적으로 불러오게 만들었습니다.
