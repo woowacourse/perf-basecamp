@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import styles from './GifItem.module.css';
@@ -36,4 +38,4 @@ const GifItem = ({ sources, title = '' }: GifItemProps): JSX.Element => {
   );
 };
 
-export default GifItem;
+export default memo(GifItem);
