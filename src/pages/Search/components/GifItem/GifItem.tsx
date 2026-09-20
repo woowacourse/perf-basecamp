@@ -1,25 +1,31 @@
 import { memo } from 'react';
 
 import { GifImageModel } from '../../../../models/image/gifImage';
+import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 
 import styles from './GifItem.module.css';
 
-type GifItemProps = Omit<GifImageModel, 'id'>;
+type GifItemProps = Omit<GifImageModel, 'id'> & {
+  loadImmediately?: boolean;
+};
 
-const GifItem = ({ sources, title = '' }: GifItemProps): JSX.Element => {
+const GifItem = ({ sources, title = '', loadImmediately = false }: GifItemProps): JSX.Element => {
+  const { ref: containerRef, isIntersecting } =
+    useIntersectionObserver<HTMLDivElement>('100px 0px');
+  const shouldLoadVideo = loadImmediately || isIntersecting;
   const imageUrl = sources.webp ?? sources.gif;
 
   return (
-    <div className={styles.gifItem}>
+    <div ref={containerRef} className={styles.gifItem}>
       {sources.mp4 !== undefined ? (
         <video
           className={styles.gifImage}
-          src={sources.mp4}
+          src={shouldLoadVideo ? sources.mp4 : undefined}
+          poster={shouldLoadVideo ? sources.poster : undefined}
           autoPlay
           loop
           muted
           playsInline
-          aria-label={title}
         />
       ) : (
         <img
@@ -28,6 +34,8 @@ const GifItem = ({ sources, title = '' }: GifItemProps): JSX.Element => {
           alt={title}
           loading="lazy"
           decoding="async"
+          width="280"
+          height="280"
         />
       )}
       <div className={styles.gifTitleContainer}>

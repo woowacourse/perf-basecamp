@@ -18,8 +18,13 @@ type SearchResultProps = {
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   const renderGifList = () => (
     <div className={styles.gifResultWrapper}>
-      {gifList.map((gif: GifImageModel) => (
-        <GifItem key={gif.id} sources={gif.sources} title={gif.title} />
+      {gifList.map((gif: GifImageModel, index) => (
+        <GifItem
+          key={gif.id}
+          sources={gif.sources}
+          title={gif.title}
+          loadImmediately={index === 0}
+        />
       ))}
     </div>
   );
