@@ -1,15 +1,15 @@
-import styles from './TrendingGifsFallback.module.css';
-import resultStyles from '../SearchResult/SearchResult.module.css';
+import { DEFAULT_FETCH_COUNT } from '../../../../apis/gifAPIService';
+import GifGrid from '../GifGrid/GifGrid';
 
-const PLACEHOLDER_COUNT = 16;
+import styles from './TrendingGifsFallback.module.css';
 
 const TrendingGifsFallback = () => {
   return (
-    <div className={resultStyles.gifResultWrapper}>
-      {Array.from({ length: PLACEHOLDER_COUNT }, (_, index) => (
+    <GifGrid>
+      {Array.from({ length: DEFAULT_FETCH_COUNT }, (_, index) => (
         <div key={index} className={styles.placeholder} />
       ))}
-    </div>
+    </GifGrid>
   );
 };
 

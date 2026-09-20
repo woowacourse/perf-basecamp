@@ -1,19 +1,18 @@
 import { use } from 'react';
 
 import { trendingCache } from '../../trendingCache';
+import GifGrid from '../GifGrid/GifGrid';
 import GifItem from '../GifItem/GifItem';
-
-import styles from '../SearchResult/SearchResult.module.css';
 
 const TrendingGifs = () => {
   const gifs = use(trendingCache.load());
 
   return (
-    <div className={styles.gifResultWrapper}>
+    <GifGrid>
       {gifs.map((gif) => (
         <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
       ))}
-    </div>
+    </GifGrid>
   );
 };
 

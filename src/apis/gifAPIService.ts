@@ -10,7 +10,7 @@ if (!API_KEY) {
 }
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
-const DEFAULT_FETCH_COUNT = 16;
+export const DEFAULT_FETCH_COUNT = 16;
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
