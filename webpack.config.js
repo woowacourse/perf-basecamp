@@ -10,7 +10,11 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    // React DevTools Profiler needs instrumentation that the production build strips.
+    alias: process.env.PROFILE === 'true' ? { 'react-dom$': 'react-dom/profiling' } : {}
+  },
   output: {
     filename: 'static/[name].[contenthash:8].js',
     chunkFilename: 'static/[name].[contenthash:8].js',
@@ -71,7 +75,8 @@ module.exports = {
   },
   optimization: {
     runtimeChunk: 'single',
-    minimize: true,
+    // Minified builds mangle component names, which the Profiler shows verbatim.
+    minimize: process.env.PROFILE !== 'true',
     usedExports: true,
     minimizer: ['...', new CssMinimizerPlugin()]
   }
