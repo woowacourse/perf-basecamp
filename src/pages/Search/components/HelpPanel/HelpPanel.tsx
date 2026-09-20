@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, startTransition, useState } from 'react';
 import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
 import classNames from 'classnames/bind';
 
@@ -14,7 +14,7 @@ const HelpPanel = () => {
   const [hasOpened, setHasOpened] = useState(false);
   const openSheet = () => {
     setIsShow(true);
-    setHasOpened(true);
+    startTransition(() => setHasOpened(true));
   };
   const closeSheet = () => setIsShow(false);
 
