@@ -393,6 +393,76 @@ CSS를 따로 내면 스크립트 예산에서 빠지는 것 외에도, 브라�
 
 ### 2 필요한 것만 요청하기
 
+#### 2-1 Home과 Search 분리
+
+`App.tsx`에서 두 페이지를 `React.lazy`로 바꾸고 `<Routes>`만 `Suspense`로 감쌌다. NavBar와 Footer는 페이지 전환 중에도 유지된다. fallback은 우선 `null`이다. 공간을 확보하고 200ms 뒤에 시각 요소를 보이는 fallback 설계는 선택 항목으로 뒤에 다룬다.
+
+| 청크 | 내용 | gzip |
+|---|---|---|
+| main | react-dom 65.5 KiB, react-router 8.2, react 3.2, scheduler 1.1, NavBar와 Footer 0.2 | 75.7 KiB |
+| Home | Home 페이지 | 6.2 KiB |
+| Search | Search 페이지 | 3.2 KiB |
+| react-icons | 아이콘 3개, Search에서만 요청 | 1.8 KiB |
+
+Home 진입 시 스크립트 전송은 main + Home = 82 KiB다. main에 Search 코드가 없는 것은 문자열 검색으로 확인했다(`load more`, `api.giphy.com` 0건). 분석은 webpack-bundle-analyzer의 gzip 크기 기준이다. webpack stats만 보면 모듈 병합 때문에 react-dom이 보이지 않는다.
+
+#### 스크립트 예산 60KB와 React 19
+
+예산 60KB는 React 18 기준으로 계산된 값이다. react-dom 18.3.1은 minify 후 gzip 42 KiB, 19.3.0은 65.5 KiB로 23 KiB 크다. 이 프로젝트에서 Home 스크립트의 바닥은 React 19를 쓰는 한 약 82 KiB이고, 남은 작업(청크 분리, 캐시)으로는 이 숫자가 움직이지 않는다. React 18이었다면 약 59 KiB로 예산 안이다.
+
+React 19를 유지한다. 의도한 선택이고 비용을 알고 있다. 22 KiB는 3G Fast에서 0.11초다. 이 비용을 낸 이유는 선택 항목에서 `use()`와 Suspense로 trending 로딩을 선언적으로 바꿔 보이려는 것이고, 그 결과가 사용자가 보는 화면(깜빡임 없음, 레이아웃 고정)으로 드러나지 않으면 학습 목적이었다고 그대로 적는다. 요구사항의 작업 항목("Home에 Search 코드가 포함되지 않아야 한다", "아이콘은 사용하는 것만")은 충족했고, 60KB는 참고 수치다.
+
+#### 2-2 해시 파일명, vendor와 runtime 분리, asset modules
+
+| 파일 | gzip | 역할 |
+|---|---|---|
+| `js/vendor.[hash].js` | 75.9 KiB | react, react-dom, react-router. 앱 코드가 바뀌어도 해시가 유지된다 |
+| `js/runtime.[hash].js` | 2.3 KiB | 청크 id와 해시의 대응표. 이걸 분리해야 lazy 청크 하나가 바뀌었을 때 vendor 해시가 같이 바뀌지 않는다 |
+| `js/main.[hash].js` | 0.7 KiB | App, NavBar, Footer |
+| `js/home.[hash].js`, `css/home.[hash].css` | 6.4 + 1.2 KiB | |
+| `js/search.[hash].js`, `css/search.[hash].css` | 3.3 + 1.8 KiB | |
+| `js/87.[hash].js` | 1.8 KiB | react-icons 3개, Search에서만 |
+| `static/hero.[hash].webp` 등 | | 이미지와 비디오도 해시 |
+
+Home 스크립트 합계는 83.1 KiB로 2-1보다 1 KiB 늘었다. runtime 청크 몫이다. 3단계에서 해시 파일에 1년 캐시를 걸면 재방문 때 vendor 76 KiB를 안 받게 되므로 그때 갚는 비용이다.
+
+같이 정리한 것:
+
+- `file-loader`를 지우고 asset modules(`type: 'asset/resource'`)로 바꿨다. webpack 5의 기본 방식이고 `assetModuleFilename` 하나로 해시를 붙일 수 있다.
+- vendor 그룹은 `chunks: 'initial'`로 제한했다. `'all'`로 두면 Search에서만 쓰는 react-icons까지 vendor로 들어가 Home이 안 쓰는 코드를 받는다.
+- `webpackChunkName` 주석으로 청크 이름을 `home`, `search`로 붙였다. tsconfig의 `removeComments`가 이 주석을 지우고 있어서 껐다. 출력물은 어차피 minify되므로 크기 영향은 없다.
+
+#### 2-3 도움말 패널은 처음 열 때 마운트
+
+닫혀 있는 패널이 Search 진입 때 외부 gif 7개(고정 이미지 2개, 아티스트 프로필 5종)를 요청하고 있었다. 서버에 크기를 물어보니 합계 10.3 MB로, 트렌딩 gif 16개보다 크다. 아티스트 100명도 닫힌 채로 렌더되고 있었다(리렌더 측정에서 ArtistInfo 100/100).
+
+패널 본문을 처음 열 때 마운트하고 이후에는 유지하도록 `hasOpened` 상태를 두었다. 닫을 때 언마운트하면 슬라이드 아웃 애니메이션 동안 내용이 먼저 사라져서 유지하는 쪽을 택했다.
+
+| | 전 | 후 |
+|---|---|---|
+| Search 진입 시 패널 이미지 요청 | 7개, 10.3 MB | 0 |
+| 닫힌 상태 ArtistInfo 렌더 | 100 | 0 |
+
+#### 2-4 히어로 이미지 우선순위
+
+Lighthouse 진단 "LCP request discovery"가 `fetchpriority=high`를 권했다. React 19가 `fetchPriority` prop을 지원해 히어로 `<img>`에 붙였고 DOM에 `fetchpriority="high"`로 나간다. `<link rel="preload">`는 파일명에 해시가 붙어 HTML 템플릿에 직접 쓸 수 없어 이번엔 넣지 않았다. 3단계 배포 후 LCP 워터폴에서 히어로 요청이 스크립트 실행을 기다리는 것으로 나오면 그때 플러그인으로 preload를 추가한다.
+
+#### 2-5 청크 로드 실패 경로
+
+페이지 코드가 네트워크 요청이 되면서 새 실패 경로가 생겼다. 배포 직후 사용자가 캐시된 옛 `index.html`을 들고 있으면 그 안의 청크 해시가 새 배포에 없어 요청이 404가 나고, 에러 바운더리가 없으면 흰 화면이 된다. `<Suspense>`를 감싸는 작은 `ErrorBoundary`를 두어 안내 문구와 reload 버튼을 보이게 했다. 프로덕션 빌드를 정적 서버에 올리고 search 청크 파일을 지운 뒤 "start search"를 눌러 확인했다. NavBar와 Footer는 유지되고 본문 자리에 안내가 뜬다. 근본 원인인 `index.html` 캐시는 3단계에서 캐시 정책으로 막는다.
+
+같이 정리한 것: 도움말 패널의 `getArtists()` 호출을 실제로 쓰는 `ArtistList` prop 자리로 옮겼고, 번들 분석은 `npm run analyze` 한 줄로 재현되게 스크립트를 두었다.
+
+#### 2단계 결과
+
+| | 개선 전 | 1단계 후 | 2단계 후 |
+|---|---|---|---|
+| Home 스크립트 전송(gzip) | 311 KiB | 85 KiB | 83.1 KiB (runtime 2.3 + vendor 75.9 + main 0.7 + home 6.4) |
+| Home에 Search 코드 | 포함 | 포함 | 없음 |
+| react-icons | ai 세트 전체 | 3개 | 3개, Search에서만 |
+| Search 진입 시 불필요한 요청 | 패널 이미지 10.3 MB | 같음 | 0 |
+| 정적 파일명 | 해시 없음 | 같음 | 전부 해시 |
+
 ### 3 같은 건 매번 새로 요청하지 않기
 
 ### 4 최소한의 변경만 일으키기
