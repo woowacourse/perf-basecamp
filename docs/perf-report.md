@@ -97,3 +97,18 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 `css-minimizer-webpack-plugin` : JavaScript 번들 안에 포함되던 CSS를 별도의 .css 파일로 추출할 수 있게함
 `mini-css-extract-plugin` : CSS를 압축해줌, 위 플러그인을 사용해서 별도의 .css 파일로 추출해서 사용 가능
+
+#### 4. 이미지 최적화
+
+```bash
+
+# 변환 전
+❯ ls -lh src/assets/images/hero.png
+-rw-r--r--@ 1 iftype  staff    10M Sep 16 15:50 src/assets/images/hero.png
+
+# 변환 후
+-rw-r--r--@ 1 iftype  staff   200K Sep 20 11:57 src/assets/images/hero.webp
+
+```
+
+현재 히어로 이미지는 10M으로 너무 크다고 생각해 webp로 변환하여 200kb까지 줄일 수 있었습니다
