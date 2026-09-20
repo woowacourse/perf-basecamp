@@ -12,7 +12,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'static/[name].[contenthash:8].js',
+    chunkFilename: 'static/[name].[contenthash:8].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -30,7 +31,10 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'static/[name].[contenthash:8].css',
+      chunkFilename: 'static/[name].[contenthash:8].css'
+    }),
     ...(process.env.ANALYZE === 'true'
       ? [
           new BundleAnalyzerPlugin({
@@ -60,7 +64,7 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|avif|mp4)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[contenthash:8].[ext]'
         }
       }
     ]
