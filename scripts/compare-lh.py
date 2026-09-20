@@ -11,7 +11,7 @@ import re
 import statistics
 import sys
 
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'lh-result')
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'perf-result', 'lighthouse')
 METRICS = [
     ('perf', 'Performance', 'score'),
     ('fcp', 'FCP', 'ms'),
@@ -74,7 +74,7 @@ def fmt(val, unit):
 def main():
     labels = sys.argv[1:] or labels_from_disk()
     if not labels:
-        print('lh-result/에 측정 결과가 없습니다.')
+        print('perf-result/lighthouse/에 측정 결과가 없습니다.')
         return
 
     data, meta = {}, {}

@@ -20,4 +20,5 @@ Thumbs.db
 .idea/
 *.swp
 
-lh*.json
+# 측정 원본은 용량이 커서 추적하지 않는다. 요약은 perf-result/README.md 참고
+perf-result/**/*.json

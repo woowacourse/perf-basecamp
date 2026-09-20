@@ -18,7 +18,7 @@ fi
 
 URL="${LH_URL:-https://inaemin.github.io/perf-basecamp/}"
 LH_VERSION="13.4.1"
-OUT_DIR="$(cd "$(dirname "$0")/.." && pwd)/lh-result"
+OUT_DIR="$(cd "$(dirname "$0")/.." && pwd)/perf-result/lighthouse"
 mkdir -p "$OUT_DIR"
 
 echo "measuring: $URL"
@@ -27,7 +27,7 @@ echo
 
 for i in 1 2 3; do
   OUT="$OUT_DIR/lh${i}-${LABEL}.json"
-  echo "[$i/3] -> lh-result/lh${i}-${LABEL}.json"
+  echo "[$i/3] -> perf-result/lighthouse/lh${i}-${LABEL}.json"
   npx -y "lighthouse@${LH_VERSION}" "$URL" \
     --only-categories=performance \
     --form-factor=mobile \
