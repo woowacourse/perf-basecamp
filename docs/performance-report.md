@@ -297,6 +297,100 @@ Partial 30개 중 23개가 hover를 빠르게 훑던 구간(8개)과 패널이 �
 
 ### 1 요청 크기 줄이기
 
+#### 1-1 minify 켜기
+
+`optimization.minimize: true` 한 줄. webpack 5 production 모드의 기본값인데 이 저장소는 일부러 꺼 두고 있었다.
+
+| | 전 | 후 |
+|---|---|---|
+| bundle.js | 1.67 MiB / gzip 378 KiB | 301 KiB / gzip 91 KiB |
+| react-icons | `react-icons/ai` 세트 전체 포함 | 사용하는 아이콘 3개만 남음 |
+
+react-icons 트리쉐이킹(2번 축의 요구사항)이 여기서 같이 해결됐다. webpack은 미사용 export를 표시만 하고 실제 제거는 terser가 하기 때문에, minify가 꺼져 있으면 표시된 코드가 그대로 남는다. 별도 조치 없이 이 항목이 충족된 이유다.
+
+#### 1-2 프로덕션 소스맵 제거
+
+webpack 설정을 `(env, argv) => 설정` 함수로 바꾸고 `argv.mode === 'production'`으로 환경을 판단해, `devtool`을 production에서 끄고 development에서는 `source-map`으로 두었다. 처음엔 `process.env.NODE_ENV`로 판단했는데, 그 값은 npm 스크립트의 `--node-env` 플래그가 넣어주는 것이라 플래그 없이 `--mode=production`만 실행하면 조용히 개발 설정으로 빌드된다. mode는 webpack이 직접 넘겨주므로 그런 틈이 없다. 개발 서버는 소스맵을 유지한다. 배포물에서 bundle.js.map(1.4MB)이 빠졌고 bundle.js도 281 KiB로 줄었다(매핑 주석 제거). 브라우저는 DevTools를 열지 않는 한 소스맵을 받지 않아 로딩 지표에는 영향이 없지만, 배포물에 원본 코드를 싣지 않는 것이 맞다.
+
+#### 1-3 히어로 이미지: PNG 10.6MB -> WebP 115KB
+
+원본은 4100x2735 PNG, 알파 채널이 있지만 전부 불투명이다. 표시 폭은 데스크탑에서 최대 1920px이다.
+
+| 후보 | 크기 |
+|---|---|
+| WebP 1920px q70 | 163 KB |
+| WebP 1440px q75 | 115 KB |
+| AVIF 1920px q55 | 78 KB |
+
+원본과 후보를 1:1 배율로 같은 영역(640x400)을 잘라 나란히 비교했을 때 넷 다 차이를 구분하지 못했다. 빛줄기 그라데이션 위주의 이미지라 압축과 확대에 관대하다.
+
+선택은 WebP 1440px q75 하나다. 이유:
+
+- 예산(120KB) 안에 들면서 포맷이 하나라 `<picture>`와 파일 두 개를 관리할 필요가 없다.
+- AVIF는 같은 화질에서 절반이지만, 37KB 차이는 3G Fast에서 0.2초다. 먼저 단순한 쪽으로 가서 LCP를 재고, 예산에 못 들 때 AVIF를 얹는 순서가 맞다. 측정 없이 미리 두 겹을 쌓지 않는다.
+- AVIF만 쓰는 것은 2022년 이전 Safari에서 이미지가 아예 안 보인다. 느린 것과 안 되는 것은 다르다.
+- 1440px인 이유: 1920 화면에서 1.33배 확대되지만, 레티나 2배 화면에서는 1920짜리도 이미 확대되고 있어 이 자산은 확대가 기본이다. 1:1 비교에서 차이가 안 보이는 선에서 예산에 드는 가장 큰 폭이 1440이었다.
+- "화질이 깨지지 않는 선"의 기준: 원본을 같은 폭으로 무손실 축소한 것과 1:1 배율로 나란히 놓고, 그라데이션 경계에 띠(밴딩)가 보이면 멈춘다.
+
+재현 명령 (원본 hero.png는 커밋 `8a0cbf5`에 있다):
+
+```
+cwebp -q 75 -resize 1440 0 hero.png -o hero.webp
+```
+
+#### 1-4 feature gif 3개: 4.8MB -> mp4 254KB
+
+| | gif | mp4 (H.264, crf 28) | webm (VP9) | 애니메이션 WebP |
+|---|---|---|---|---|
+| trending | 1,232 KB | 70 KB | 85 KB | 1,253 KB |
+| find | 1,940 KB | 102 KB | 154 KB | 1,765 KB |
+| free | 1,656 KB | 82 KB | 111 KB | 1,281 KB |
+
+gif는 프레임마다 전체 그림을 저장하고 색이 256개로 제한되는 포맷이라, 사진 계열 움직임에는 비디오 코덱이 15~20배 작다. 애니메이션 WebP는 이 gif들에는 거의 효과가 없었다. `<video autoPlay loop muted playsInline>`로 교체했고, H.264 mp4는 모든 브라우저가 재생해 webm 폴백을 두지 않았다. 세 gif 모두 투명 픽셀이 없어 비디오로 바꿔도 보이는 결과가 같다. 해상도는 원본 그대로 두었다. 지금도 표시 크기(약 740x416)보다 작아서 더 줄일 여지가 없다.
+
+확인한 것: Chrome은 화면 밖에 있는 muted 비디오의 자동재생을 화면에 들어올 때까지 미룬다. gif는 안 보이는 동안에도 계속 디코딩되니 이 동작이 오히려 이득이다.
+
+확인하지 않은 것: iOS Safari의 자동재생. React가 `muted`를 DOM 속성이 아닌 프로퍼티로만 설정하는데, 데스크탑 Chrome에서는 재생을 확인했고 모바일은 관리 대상 밖이라 보지 않았다. 모바일이 대상에 들어오면 여기부터 본다.
+
+재현 명령:
+
+```
+ffmpeg -i trending.gif -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -c:v libx264 -crf 28 trending.mp4
+```
+
+배포물 합계: 16.1 MiB -> 676 KB (bundle 282 KiB, hero 115 KiB, mp4 254 KiB).
+
+#### 1-5 CSS 분리
+
+CSS가 bundle.js 안에 문자열로 들어가 style-loader가 런타임에 `<style>`을 만들고 있었다. 프로덕션 빌드에서 `MiniCssExtractPlugin`으로 `main.css`를 따로 내고 `CssMinimizerPlugin`으로 압축했다. 개발 서버는 HMR을 위해 style-loader를 유지한다.
+
+| | 전 | 후 |
+|---|---|---|
+| bundle.js | 281 KiB / gzip 91 KiB | 259 KiB / gzip 85 KiB |
+| main.css | JS 안에 포함 | 9.5 KiB / gzip 2.9 KiB, `<link>`로 병렬 요청 |
+
+CSS를 따로 내면 스크립트 예산에서 빠지는 것 외에도, 브라우저가 JS 실행을 기다리지 않고 스타일을 먼저 적용할 수 있다.
+
+#### 1-5-1 남겨둔 것
+
+`file-loader`는 webpack 5에서 asset modules로 대체됐지만 이번엔 확장자만 늘렸다. 파일명에 해시를 붙이는 다음 작업에서 이 규칙을 어차피 다시 만지므로 그때 함께 바꾼다.
+
+#### 1-6 gzip, brotli
+
+빌드에서 압축 파일을 만들지 않고 서버 압축에 맡긴다. GitHub Pages는 이미 gzip을 적용하고 있었고(개선 전 측정에서 bundle.js `content-encoding: gzip`), CloudFront는 "Compress objects automatically"로 gzip과 brotli를 모두 준다. `compression-webpack-plugin`으로 `.gz`를 만들어 올리는 방식은 S3 객체마다 `Content-Encoding` 메타데이터를 따로 걸어야 해서 관리할 것만 늘어난다. CloudFront 설정은 3단계에서 확인한다.
+
+#### 1단계 결과
+
+| | 개선 전 | 1단계 후 |
+|---|---|---|
+| bundle.js 전송(gzip) | 311 KiB | 85 KiB |
+| CSS | JS에 포함 | 2.9 KiB |
+| 히어로 이미지 | 10,428 KiB | 115 KiB |
+| feature 이미지 3개 | 4,828 KiB | 254 KiB |
+| 배포물 합계 | 16.1 MiB | 686 KB |
+
+스크립트 60KB 예산까지는 25 KiB가 남았다. Search 페이지 코드와 라이브러리를 나누는 2단계에서 다룬다.
+
 ### 2 필요한 것만 요청하기
 
 ### 3 같은 건 매번 새로 요청하지 않기
