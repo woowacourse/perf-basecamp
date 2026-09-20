@@ -15,7 +15,8 @@
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "prettier": "prettier --write .",
     "deploy": "npm run build:prod && npx gh-pages -d dist",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "analyze": "webpack --mode=production --env analyze"
   },
   "keywords": [],
   "author": "woowacourse",
