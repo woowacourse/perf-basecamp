@@ -346,3 +346,18 @@ export default memo(GifItem);
 ```
 
 props가 `imageUrl`, `title` 문자열 두 개뿐이라 얕은 비교만으로 충분해서 `memo`로 감쌌습니다.
+
+#### 2-1 검색결과 hover
+
+hover할 때 `top`으로 카드를 띄우고 있었습니다. `top`은 요소의 위치를 다시 계산하게 만드는 속성이라, 0.2초 동안 매 프레임 레이아웃이 발생하고 있었습니다.
+
+```css
+/* Search/components/GifItem/GifItem.module.css */
+
+.gifItem:hover {
+  transform: translateY(-0.75rem);
+}
+```
+
+![image](./image/image16.png)
+성능 탭에서 해당 구간이 `레이아웃`에서 `애니메이션`으로 바뀌었습니다. `transform`은 컴포지터 스레드에서 처리돼서 메인 스레드가 관여하지 않습니다.
