@@ -1,4 +1,4 @@
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 
 import Home from './pages/Home/Home';
@@ -9,10 +9,15 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 
+const GITHUB_PAGES_BASENAME = '/perf-basecamp';
+
+const getBasename = (): string | undefined =>
+  window.location.pathname.startsWith(GITHUB_PAGES_BASENAME) ? GITHUB_PAGES_BASENAME : undefined;
+
 const App = () => {
   return (
     <Suspense fallback={null}>
-      <Router>
+      <Router basename={getBasename()}>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
