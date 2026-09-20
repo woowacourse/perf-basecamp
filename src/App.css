@@ -42,6 +42,16 @@ a {
   --black: #131313;
 }
 
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  flex: 1;
+}
+
 @font-face {
   font-family: 'Josefin Sans';
   src: url('./assets/fonts/JosefinSans-Regular.woff2') format('woff2');
