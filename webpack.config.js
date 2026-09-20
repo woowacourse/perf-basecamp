@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MinimizerPlugin = require('minimizer-webpack-plugin');
+const { cssMinify } = require('webpack').css.syntax;
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -53,6 +55,15 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: isProduction,
+    minimizer: [
+      '...',
+      new MinimizerPlugin({
+        test: /\.css(\?.*)?$/i,
+        minify: {
+          implementation: cssMinify
+        }
+      })
+    ]
   }
 };
