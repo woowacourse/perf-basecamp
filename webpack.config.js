@@ -10,6 +10,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
+    publicPath: '/',
     clean: true
   },
   devServer: {
@@ -17,7 +18,7 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: process.env.NODE_ENV === 'production' ? false : 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
@@ -55,6 +56,6 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: false
+    minimize: true
   }
 };
