@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { clamp } from '../../../../utils/number';
 import useScrollEvent from '../../hooks/useScrollEvent';
 
@@ -68,4 +68,4 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   );
 };
 
-export default memo(AnimatedPath);
+export default AnimatedPath;

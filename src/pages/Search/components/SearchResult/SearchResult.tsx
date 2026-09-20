@@ -1,5 +1,3 @@
-import { memo } from 'react';
-
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
@@ -70,4 +68,4 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   );
 };
 
-export default memo(SearchResult);
+export default SearchResult;

@@ -1,5 +1,3 @@
-import { memo } from 'react';
-
 import { Artist } from '../../../../models/help/artist';
 import ArtistInfo from '../ArtistInfo/ArtistInfo';
 
@@ -17,4 +15,4 @@ const ArtistList = ({ artists }: ArtistListProps) => {
   );
 };
 
-export default memo(ArtistList);
+export default ArtistList;

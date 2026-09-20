@@ -1,4 +1,4 @@
-import { memo, useCallback, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import useMousePosition, { MousePosition } from '../../hooks/useMousePosition';
 
 import styles from './CustomCursor.module.css';
@@ -34,4 +34,4 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   );
 };
 
-export default memo(CustomCursor);
+export default CustomCursor;

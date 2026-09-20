@@ -56,8 +56,6 @@ const useGifSearch = () => {
     [handleError]
   );
 
-  // 참조가 매 렌더마다 바뀌면 React.memo(SearchResult)가 무력화되므로
-  // useCallback으로 고정한다.
   const loadMore = useCallback(async (): Promise<void> => {
     const nextPageIndex = currentPageIndex.current + 1;
 
