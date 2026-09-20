@@ -14,8 +14,8 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
 
   useEffect(() => {
     if (cursorRef.current) {
-      cursorRef.current.style.top = `${mousePosition.pageY}px`;
-      cursorRef.current.style.left = `${mousePosition.pageX}px`;
+      // transform only runs the composite stage, while top/left would relayout the whole document.
+      cursorRef.current.style.transform = `translate3d(${mousePosition.pageX}px, ${mousePosition.pageY}px, 0)`;
     }
   }, [mousePosition]);
 
