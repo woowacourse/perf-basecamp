@@ -23,7 +23,7 @@
   },
   "keywords": [],
   "author": "woowacourse",
-  "homepage": "https://{username}.github.io/perf-basecamp",
+  "homepage": "https://bigcloud07.github.io/perf-basecamp",
   "license": "MIT",
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.1",
