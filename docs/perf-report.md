@@ -233,3 +233,100 @@ import heroFallback from '../../assets/images/hero.png';
 +추가
 ![image](./image/image12.png)
 모바일 환경에서 스크롤 애니메이션과 헤더, 버튼 때문에 뷰포트와 스크린이 다르게 나오는 문제가 있어, 부모의 가로길이를 따르도록 스타일을 수정했습니다.
+
+##### 우선순위 설정 - preload
+
+```html
+<link
+  rel="preload"
+  as="image"
+  href="./static/hero-1280.webp"
+  imagesrcset="
+    ./static/hero-640.webp 640w,
+    ./static/hero-1024.webp 1024w,
+    ./static/hero-1280.webp 1280w
+  "
+  imagesizes="100vw"
+  type="image/webp"
+  fetchpriority="high"
+/>
+```
+
+`index.html`에서 히어로 이미지를 우선적으로 불러오게했습니다.
+
+![image](./image/image13.png)
+번들이후 React의 `<img>`요소를 확인하여 요청을 시작했다면 preload 적용 이후에는 초기 `index.html`에서 발견될 수 있도록하여 `bundle` 과 같이 병렬적으로 불러오게 만들었습니다.
+
+#### 5. API 응답 캐싱
+
+![image](./image/image14.png)
+
+Search 에서 새로고침이나 홈을 갔다올때마다 API를 불러오고 있었습니다. API의 양도 어마무시하여 캐시하기로했습니다.
+
+캐시는 서버가 없는 저의 상황에 인메모리와 브라우저의 스토리지를 고려하였는데요, 어차피 키값도 번들안에 노출되었겠다, 캐시 스토리지를 쓰기로 결정했습니다.
+
+로컬스토리지를 고려하지 않은 이유는 응답량이 너무 커서(10.5KB) 동기로 작동하는 로컬스토리지에선 요청을 받는 시간동안 프레임 드랍이 일어날 것 같았습니다.
+그런데 제가 아는 캐시 스토리지에선 응답값을 그대로 저장하여 활용하는 것으로 알고 있었는데, 오래동안 사용할 서비스가 아니라고 판단하여 기존 코드에 있는 `fetchGifs`를 활용해서 변환된 모델만 저장하게 했습니다.
+
+```ts
+// apis/gifAPIServices.ts
+
+// 찾기로직
+
+const getTrendingCacheName = (): string =>
+  `trending-cache-${new Date().toLocaleDateString('ko-KR')}`;
+
+// 삭제로직
+
+const deleteOutdatedCaches = async (currentCacheName: string): Promise<void> => {
+  const cacheNames = await caches.keys();
+
+  await Promise.all(
+    cacheNames
+      .filter((name) => name !== currentCacheName)
+      .map(async (name) => await caches.delete(name))
+  );
+};
+```
+
+캐시 이름을 오늘 날짜로 설정하여 TTL을 대체했고, 삭제로직을 추가해 캐시히트 실패시 다른 캐시들까지 정리하도록 했습니다. 다른 API 응답들을 캐싱할 계획도 없어서 모든 항목들을 삭제해도 되겠다고 생각했습니다.
+
+##### API 주소변경
+
+<video controls src="image/개선전.mp4" title="Title"></video>
+
+위 요구사항을 해결하던 중 데이터를 너무 많이 불러오고 있는 것이 보였습니다.
+그래서 [방법을 찾아봤는데](https://developers.giphy.com/docs/api/schema/#image-object) gif의 형식을 바꿔서 받아올 수 있더라구요 그래서 origanl.url, fixed_width.webp, origianl.webp 세 가지를 고민했습니다.
+
+fixed_width.webp는 4MB로 확실하게 작았지만 열화가 눈에 보일 정도라 타협을 하여 original.webp을 선택하였습니다.
+
+<video controls src="image/개선후.mp4" title="Title"></video>
+
+확실히 줄었죠?ㅎㅎ
+
+##### 이미지 지연 로딩
+
+```tsx
+// Search/components/GifItem/GifItem.tsx
+<img className={styles.gifImage} src={imageUrl} alt={title} loading="lazy" />
+```
+
+용량을 줄이긴 했지만 여전히 화면에 보이지도 않는 이미지까지 전부 받아오고 있었습니다.
+검색 결과는 16개가 한 번에 오는데 첫 화면에 보이는 건 8개 남짓이라, 나머지는 스크롤하기 전까지 필요가 없었습니다.
+
+```tsx
+// Search/components/GifItem/GifItem.tsx
+
+<img className={styles.gifImage} src={imageUrl} alt={title} loading="lazy" />
+```
+
+`loading="lazy"`를 붙이면 브라우저가 알아서 판단하여 뷰포트에 가까워졌을 때 이미지 요청을 합니다.  
+`IntersectionObserver`로 직접 구현하는 방법도 있었지만, 브라우저가 기본 제공하는 기능이라 추가 코드 없이 같은 효과를 얻을 수 있었습니다.
+
+`.gifItem`이 280x280으로 크기가 고정되어 있어서 이미지가 늦게 도착해도 Layout Shift는 발생하지 않아 `width`/`height`를 지정하지 않았습니다.
+
+<video controls src="image/스크롤.mp4" title="Title"></video>
+
+`IPhone XR, 뷰포트 390×844`환경에서 16개 중 6개 로드가 된걸 볼 수 있습니다.
+
+하지만 기본 브라우저의 설정상 840px 폭에서는 14개가 로드되기 떄문에 최적화를 위해선 직접 스크롤에 따른 제어를 했어야 됐습니다. 하지만 그 여유 거리는 스크롤 시 빈 이미지를 막기 위한 브라우저의 설정이라 봤습니다. 직접 제어하면 요청 수는 줄어도 로딩되지 않은 이미지가 보일 수 있고, 효과가 큰 모바일 화면에서는 이득을 보고 있어 기본 동작을 유지했습니다.
