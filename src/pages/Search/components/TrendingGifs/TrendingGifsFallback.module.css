@@ -1,0 +1,15 @@
+/* 자리는 카드 크기로 바로 잡고, 색은 200ms 뒤에 보인다. 짧은 로딩에서는 아무것도 깜빡이지 않는다 */
+.placeholder {
+  width: 280px;
+  height: 280px;
+  border-radius: 4%;
+  background: var(--radial-gradient);
+  opacity: 0;
+  animation: appear 0.2s ease-out 0.2s forwards;
+}
+
+@keyframes appear {
+  to {
+    opacity: 0.35;
+  }
+}

@@ -1,8 +1,7 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
-import { trendingCache } from '../trendingCache';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -19,7 +18,7 @@ export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
-  const [gifList, setGifList] = useState<GifImageModel[]>(() => trendingCache.readFresh() ?? []);
+  const [gifList, setGifList] = useState<GifImageModel[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -69,20 +68,6 @@ const useGifSearch = () => {
       handleError(error);
     }
   };
-
-  useEffect(() => {
-    if (trendingCache.readFresh() !== null) return;
-
-    const fetchTrending = async () => {
-      try {
-        setGifList(await trendingCache.refresh());
-      } catch (error) {
-        handleError(error);
-      }
-    };
-
-    fetchTrending();
-  }, []);
 
   return {
     status,

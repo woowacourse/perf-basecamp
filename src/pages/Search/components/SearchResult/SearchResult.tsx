@@ -1,7 +1,12 @@
+import { Suspense } from 'react';
+
 import { GifImageModel } from '../../../../models/image/gifImage';
+import ErrorBoundary from '../../../../components/ErrorBoundary/ErrorBoundary';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
 import GifItem from '../GifItem/GifItem';
+import TrendingGifs from '../TrendingGifs/TrendingGifs';
+import TrendingGifsFallback from '../TrendingGifs/TrendingGifsFallback';
 
 import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
@@ -38,7 +43,13 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
           </>
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
-        return renderGifList();
+        return (
+          <ErrorBoundary>
+            <Suspense fallback={<TrendingGifsFallback />}>
+              <TrendingGifs />
+            </Suspense>
+          </ErrorBoundary>
+        );
       case SEARCH_STATUS.NO_RESULT:
       case SEARCH_STATUS.ERROR:
       default:
