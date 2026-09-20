@@ -256,3 +256,37 @@ import heroFallback from '../../assets/images/hero.png';
 
 ![image](./image/image13.png)
 번들이후 React의 `<img>`요소를 확인하여 요청을 시작했다면 preload 적용 이후에는 초기 `index.html`에서 발견될 수 있도록하여 `bundle` 과 같이 병렬적으로 불러오게 만들었습니다.
+
+#### 5. API 응답 캐싱
+
+![image](./image/image14.png)
+
+Search 에서 새로고침이나 홈을 갔다올때마다 API를 불러오고 있었습니다. API의 양도 어마무시하여 캐시하기로했습니다.
+
+캐시는 서버가 없는 저의 상황에 인메모리와 브라우저의 스토리지를 고려하였는데요, 어차피 키값도 번들안에 노출되었겠다, 캐시 스토리지를 쓰기로 결정했습니다.
+
+로컬스토리지를 고려하지 않은 이유는 응답량이 너무 커서(10.5KB) 동기로 작동하는 로컬스토리지에선 요청을 받는 시간동안 프레임 드랍이 일어날 것 같았습니다.
+그런데 제가 아는 캐시 스토리지에선 응답값을 그대로 저장하여 활용하는 것으로 알고 있었는데, 오래동안 사용할 서비스가 아니라고 판단하여 기존 코드에 있는 `fetchGifs`를 활용해서 변환된 모델만 저장하게 했습니다.
+
+```ts
+// apis/gifAPIServices.ts
+
+// 찾기로직
+
+const getTrendingCacheName = (): string =>
+  `trending-cache-${new Date().toLocaleDateString('ko-KR')}`;
+
+// 삭제로직
+
+const deleteOutdatedCaches = async (currentCacheName: string): Promise<void> => {
+  const cacheNames = await caches.keys();
+
+  await Promise.all(
+    cacheNames
+      .filter((name) => name !== currentCacheName)
+      .map(async (name) => await caches.delete(name))
+  );
+};
+```
+
+캐시 이름을 오늘 날짜로 설정하여 TTL을 대체했고, 삭제로직을 추가해 캐시히트 실패시 다른 캐시들까지 정리하도록 했습니다. 다른 API 응답들을 캐싱할 계획도 없어서 모든 항목들을 삭제해도 되겠다고 생각했습니다.
