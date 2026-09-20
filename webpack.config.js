@@ -10,7 +10,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[contenthash:8].js',
+    chunkFilename: '[name].[contenthash:8].chunk.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -28,7 +29,10 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash:8].css',
+      chunkFilename: '[id].[contenthash:8].chunk.css'
+    })
   ],
   module: {
     rules: [
@@ -47,7 +51,7 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4|avif)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[contenthash:8].[ext]'
         }
       }
     ]
