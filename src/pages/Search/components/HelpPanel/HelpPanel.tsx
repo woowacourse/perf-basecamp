@@ -14,6 +14,7 @@ const HelpPanel = () => {
   const [isShow, setIsShow] = useState(false);
   const [hasOpened, setHasOpened] = useState(false);
   const panelRef = useRef<HTMLElement>(null);
+  const contentsRef = useRef<HTMLDivElement>(null);
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const openSheet = () => {
@@ -58,7 +59,7 @@ const HelpPanel = () => {
           </button>
         </div>
         {hasOpened && (
-          <div className={styles.sheetContentsContainer}>
+          <div ref={contentsRef} className={styles.sheetContentsContainer}>
             <img src="https://media0.giphy.com/media/3oKIPdiPGxPI7Dze7u/giphy.gif?cid=ecf05e475f5bct6ci09g3pgn43nf6bausx33fj7f96f6ig92&rid=giphy.gif&ct=g" />
             <p>
               'memegle' is powered by GIPHY, the top source for the best & newest GIFs & Animated
@@ -79,7 +80,7 @@ const HelpPanel = () => {
             <p>Here are some artists you can refer to.</p>
             <br />
             <section>
-              <ArtistList artists={artists} />
+              <ArtistList artists={artists} scrollContainerRef={contentsRef} />
             </section>
           </div>
         )}

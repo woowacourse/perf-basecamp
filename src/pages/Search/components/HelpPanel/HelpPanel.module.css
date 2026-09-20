@@ -54,3 +54,7 @@
 .sheetContentsContainer img {
   width: 100%;
 }
+
+.sheetContentsContainer ul {
+  position: relative;
+}
