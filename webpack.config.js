@@ -24,7 +24,18 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    ...(isAnalyze
+      ? [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: 'report.html',
+            openAnalyzer: true,
+            generateStatsFile: true,
+            statsFilename: 'stats.json'
+          })
+        ]
+      : [])
   ],
   module: {
     rules: [
