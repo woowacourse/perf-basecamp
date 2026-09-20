@@ -54,7 +54,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|webp)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|webp|webm)$/i,
         type: 'asset/resource',
         generator: {
           filename: 'static/[name].[contenthash][ext]'
