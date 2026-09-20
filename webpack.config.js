@@ -5,6 +5,32 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
+// LCP 이미지는 스크립트가 실행되기 전에는 HTML에서 발견되지 않으므로 head에 preload 태그를 넣는다
+class PreloadImagePlugin {
+  constructor(test) {
+    this.test = test;
+  }
+
+  apply(compiler) {
+    compiler.hooks.compilation.tap('PreloadImagePlugin', (compilation) => {
+      HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tap('PreloadImagePlugin', (data) => {
+        const image = Object.keys(compilation.assets).find((name) => this.test.test(name));
+        if (image) {
+          data.assetTags.styles.unshift(
+            HtmlWebpackPlugin.createHtmlTagObject('link', {
+              rel: 'preload',
+              as: 'image',
+              href: image,
+              fetchpriority: 'high'
+            })
+          );
+        }
+        return data;
+      });
+    });
+  }
+}
+
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
 
@@ -28,6 +54,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './index.html'
       }),
+      new PreloadImagePlugin(/hero\..*webp$/),
       new CopyWebpackPlugin({
         patterns: [{ from: './public', to: './public' }]
       }),
