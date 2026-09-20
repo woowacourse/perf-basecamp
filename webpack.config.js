@@ -9,7 +9,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[contenthash].js',
+    chunkFilename: '[name].[contenthash].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -23,11 +24,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
+    new HtmlWebpackPlugin({
+      template: './index.html',
+      filename: '404.html'
+    }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[name].[contenthash].css'
+    })
   ],
   module: {
     rules: [
