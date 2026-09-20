@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import { clamp } from '../../../../utils/number';
 import useScrollEvent from '../../hooks/useScrollEvent';
 
@@ -31,7 +31,7 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     path.setAttribute('stroke-dashoffset', String(strokeOffset));
   }, [wrapperRef]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const path = pathRef.current;
 
     if (path === null) {
