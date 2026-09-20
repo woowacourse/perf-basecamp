@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
-import classNames from 'classnames/bind';
 
 import ArtistList from '../ArtistList/ArtistList';
 import { getArtists } from './artistUtil';
 
 import styles from './HelpPanel.module.css';
-
-const cx = classNames.bind(styles);
 
 const HelpPanel = () => {
   const artists = getArtists();
@@ -21,9 +18,7 @@ const HelpPanel = () => {
         <AiOutlineInfo color="white" size="24px" />
       </button>
       <section
-        className={cx('selectedItemContainer', {
-          showSheet: isShow
-        })}
+        className={`${styles.selectedItemContainer} ${isShow ? styles.showSheet : ''}`}
       >
         <div className={styles.sheetTitleContainer}>
           <h4>What's all this? </h4>
