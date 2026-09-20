@@ -465,6 +465,99 @@ Lighthouse 진단 "LCP request discovery"가 `fetchpriority=high`를 권했다. 
 
 ### 3 같은 건 매번 새로 요청하지 않기
 
+"같은 것"이 세 종류다. 이름에 해시가 붙은 정적 파일, `index.html`, trending API 응답. 앞의 둘은 서버 캐시 헤더로, 마지막은 코드로 다룬다.
+
+#### 3-1 S3 + CloudFront 배포
+
+GitHub Pages는 캐시 헤더를 정할 수 없다. 모든 파일이 `max-age=600`으로 고정이라 10분마다 vendor 76 KiB를 다시 받고, 반대로 배포 직후 10분은 옛 `index.html`이 남는다. 파일마다 다른 정책을 주려면 헤더를 직접 정하는 곳이 필요해서 S3에 올리고 CloudFront로 배포했다.
+
+| 항목 | 값 | 이유 |
+|---|---|---|
+| S3 | `techcourse-project-2026/salmonbus/less/` | 비공개 버킷. 팀 폴더 아래 개인 폴더 |
+| CloudFront | `woowacourse_FE_perf_basecamp_less`, `https://d10cpm8ss0fe9s.cloudfront.net` | |
+| 오리진 접근 | OAC(Origin Access Control) | 버킷을 공개하지 않고 CloudFront만 읽게 한다. S3 URL로 직접 들어오면 압축과 엣지 캐시를 건너뛰므로 그 경로를 막는다 |
+| Default root object | `index.html` | `/` 요청을 `/index.html`로 |
+| Custom error response | 403, 404 -> `/index.html` 200 | SPA 라우팅. `/search`로 직접 들어오면 S3에 그 키가 없어 응답이 오류가 되는데, 이를 `index.html`로 돌려야 react-router가 받는다. OAC 버킷은 ListBucket 권한이 없어 없는 키에 404 대신 403을 주므로 둘 다 잡는다 |
+| 캐시 정책 | Managed-CachingOptimized | 오리진의 `Cache-Control`을 따른다(최소 TTL 1초). 압축 형식별로 캐시 키를 나눈다 |
+| 압축 | Compress objects automatically | gzip과 brotli. 1-6에서 미뤄둔 항목 |
+| Viewer protocol | Redirect HTTP to HTTPS | |
+
+에러 응답 규칙 때문에 없는 청크 파일을 요청해도 200과 HTML이 온다. webpack은 응답 코드가 아니라 청크 등록 여부로 로드 실패를 판정하므로(`ChunkLoadError`, type `missing`) 2-5의 에러 바운더리가 그대로 잡는다.
+
+#### 3-2 캐시 정책
+
+파일이 두 부류다. 이름에 내용 해시가 있는 파일과 없는 파일.
+
+| 파일 | Cache-Control | 이유 |
+|---|---|---|
+| `js/`, `css/`, `static/` (contenthash) | `public, max-age=31536000, immutable` | 내용이 바뀌면 이름이 바뀐다. 같은 URL의 내용은 영원히 같으므로 재검증 없이 1년(HTTP가 권하는 상한) 쓴다. `immutable`은 새로고침 때도 조건부 요청을 보내지 말라는 뜻이다. Firefox와 Safari가 따르고, Chrome은 이 지시어를 무시하지만 새로고침 시 서브리소스를 재검증하지 않아 결과가 같다 |
+| `index.html` | `no-cache` | 배포마다 내용이 바뀌는데 이름이 같다. 저장은 하되 쓰기 전에 항상 서버에 물어본다(ETag 재검증, 안 바뀌었으면 304 헤더뿐). 2-5의 옛 `index.html` 문제를 여기서 막는다 |
+| `public/favicon.ico` | `no-cache` | 해시가 없어서 같은 이유. 4 KB라 재검증 비용이 작다 |
+
+`no-store`는 저장 자체를 막아 304도 못 쓰므로 `index.html`에 맞지 않는다. `max-age=0, must-revalidate`는 `no-cache`와 같은 뜻이다.
+
+CloudFront 쪽에서는 CachingOptimized의 최소 TTL이 1초라 `no-cache` 객체도 1초는 엣지에 머물고, 그 다음 요청은 오리진에 조건부 요청으로 재검증한다(`x-cache: RefreshHit from cloudfront`). 재배포 후 무효화(invalidation)를 하지 않아도 1초 뒤 새 `index.html`이 나간다.
+
+#### 3-3 배포 검증
+
+curl로 배포된 파일의 헤더와 전송 크기를 확인했다. 로컬 `dist`와 배포물은 md5(S3 ETag) 기준으로 파일마다 같다.
+
+| 파일 | 원본 | 전송 | Cache-Control | 2번째 요청 |
+|---|---|---|---|---|
+| `index.html` | 749 B | 749 B (1,000 B 미만은 압축 안 함) | `no-cache` | `RefreshHit` |
+| `js/runtime` | 4,941 B | 2,148 B (br) | immutable | `Hit` |
+| `js/vendor` | 239,230 B | 71,965 B (br) | immutable | `Hit` |
+| `js/main` | 1,699 B | 815 B (br) | immutable | `Hit` |
+| `js/home` | 13,472 B | 6,073 B (br) | immutable | `Hit` |
+| `css/main`, `css/home` | 1,918 + 2,954 B | 692 + 1,070 B (br) | immutable | `Hit` |
+| `static/hero.webp` | 118,078 B | 118,078 B (이미지는 압축 대상 아님) | immutable | `Hit` |
+| mp4 3개 | 259,665 B | 259,665 B | immutable | `Hit` |
+| `/search` | | `index.html` 749 B | `no-cache` | 403 -> 200, `Error from cloudfront`가 정상 |
+
+Home 스크립트 4개는 brotli로 79.1 KiB다(2단계 gzip 83.1 KiB에서 4 KiB 감소). 히어로 115.3 KiB, Home 첫 방문 전체 455 KiB. 재방문 때는 `index.html` 재검증 한 번만 서버에 가고 나머지는 디스크 캐시에서 오는 것이 기대값이고, 개선 후 측정에서 LCP 2차 로드로 확인한다.
+
+#### 3-4 재배포 절차
+
+`npm run build:prod` 후 S3 `salmonbus/less/`에 두 묶음으로 올린다. `js/`, `css/`, `static/`는 `Cache-Control: public, max-age=31536000, immutable` 메타데이터로, `index.html`과 `public/`은 `no-cache`로. CloudFront 무효화는 필요 없다. 옛 해시 파일은 지우지 않는다. 배포 직전에 옛 `index.html`을 받아 둔 사용자가 잠시 뒤 옛 청크를 요청할 수 있어서다.
+
+#### 3-5 trending 응답 캐시
+
+Giphy trending 응답에는 `cache-control`, `etag`, `last-modified`가 없다. 브라우저 HTTP 캐시가 아무것도 못 하고, Search 페이지가 마운트될 때마다 152 KB JSON을 새로 받는다. 이 앱에서 가장 흔한 재진입은 Home과 Search를 오가는 것이다.
+
+`src/pages/Search/trendingCache.ts`에 `readFresh()`와 `refresh()` 둘만 두었다. 모듈 변수에 목록과 받은 시각을 들고 있고, 10분이 지나면 `readFresh()`가 `null`을 준다. 훅은 `useState(() => trendingCache.readFresh() ?? [])`로 시작하고, 캐시가 없을 때만 `refresh()`를 부른다. 초기값과 effect에서 두 번 읽는 이유는 effect의 읽기가 요청을 생략할지 정하는 판단이기 때문이고, 그 사이에 만료를 넘기면 effect가 새로 받아 덮어쓴다. `gifAPIService`는 손대지 않았다.
+
+| 축 | 고른 것 | 대안과 버린 이유 |
+|---|---|---|
+| 저장소 | 메모리 | sessionStorage나 localStorage는 새로고침 뒤 첫 요청 하나를 더 막는 대신 직렬화, 예외 처리(시크릿 모드, 용량 초과), 만료 항목 정리가 따라온다. 새로고침은 사용자가 새로 받겠다고 한 행동으로 보고 막지 않았다 |
+| 만료 | 10분 | 없으면 탭을 하루 열어둔 사용자에게 어제 목록이 무한정 나간다. trending은 신선함이 곧 가치라 짧게 잡았고, 한 세션 안의 왕복은 대부분 10분 안에 끝난다. 1시간도 설명 가능한 값이다. 재검토 조건: Search 진입 수 대비 trending 요청 수가 절반을 넘으면(캐시가 거의 안 맞는다는 뜻) 늘린다 |
+| 위치 | 전용 모듈 | 훅 안 모듈 변수는 diff가 가장 작지만 훅이 검색 상태 기계와 캐시 규칙을 같이 알게 된다. 서비스 안에 넣으면 "언제 새로 받나"라는 제품 판단이 API 계층에 들어가고 검색은 캐시하지 않는 비대칭이 서비스 안에 생긴다. 범용 `withCache(fetcher, ttl)`는 쓰는 곳이 하나라 아직 근거가 없다 |
+| 단위 | 데이터 | Promise를 캐시하면 동시 요청 중복까지 막지만 이 앱은 Search가 하나라 동시 요청이 없고, 실패한 Promise를 지우는 코드가 따라온다. 선택 항목에서 `use()`로 갈 때 이 파일만 바꾸면 된다 |
+| 채우는 시점 | `useState` 초기값 | `useEffect`에서 `setGifList(cached)`를 하면 커밋이 둘로 나뉜다. 아래 측정 |
+
+재진입 때 DOM 추가 묶음(MutationObserver)과 그 사이 프레임(rAF)을 세어 두 방식을 비교했다. dev 서버, 캐시가 채워진 상태에서 Home으로 갔다가 다시 Search로.
+
+| 채우는 방식 | 클릭으로 재진입 | 뒤로가기로 재진입 |
+|---|---|---|
+| `useEffect`에서 set | 커밋 2회(0장 -> 16장), 사이에 페인트 0 | 커밋 2회, 사이에 페인트 1. 빈 목록이 한 프레임 그려지고 Footer가 밀린다 |
+| `useState` 초기값 | 커밋 1회(16장) | 커밋 1회(16장) |
+
+클릭은 React가 discrete 이벤트에서 생긴 passive effect를 페인트 전에 동기로 비워서 화면 차이가 없다. 뒤로가기(popstate)는 React 이벤트 밖이라 두 커밋 사이에 페인트가 끼어든다. 초기값으로 넣으면 어느 쪽이든 커밋 1회다.
+
+확인한 것: Search에 3번 들어가는 동안 trending 요청 1회. `Date.now`를 11분 앞당기면 재진입 때 새로 요청하고(2회), 그 뒤 재진입은 다시 생략한다.
+
+안 한 것: 같은 검색어 재검색도 같은 요청이지만 요구사항은 trending이고, 검색어까지 캐시하게 되면 사용처가 둘이 되어 그때 범용 래퍼로 올릴 근거가 생긴다.
+
+#### 3단계 결과
+
+| | 개선 전 | 3단계 후 |
+|---|---|---|
+| 정적 파일 캐시 | 모든 파일 `max-age=600`, 10분마다 재검증 | 해시 파일 1년 `immutable`, `index.html` `no-cache` |
+| 압축 | gzip (GitHub Pages) | brotli (CloudFront) |
+| Home 스크립트 전송 | 311 KiB | 79.1 KiB |
+| 히어로 이미지 전송 | 10,428 KiB | 115.3 KiB |
+| Search 재진입 시 trending 요청 | 매번 152 KB | 10분 안에는 0 |
+| 배포 후 옛 `index.html` 문제 | 최대 10분 | 재검증이라 없음 |
+
 ### 4 최소한의 변경만 일으키기
 
 ## 개선 후 측정
