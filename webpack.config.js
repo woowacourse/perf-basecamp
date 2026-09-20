@@ -17,17 +17,19 @@ class PreloadImagePlugin {
     compiler.hooks.compilation.tap('PreloadImagePlugin', (compilation) => {
       HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tap('PreloadImagePlugin', (data) => {
         const image = Object.keys(compilation.assets).find((name) => this.test.test(name));
-        if (image) {
-          data.assetTags.styles.unshift(
-            HtmlWebpackPlugin.createHtmlTagObject('link', {
-              rel: 'preload',
-              as: 'image',
-              type: this.type,
-              href: image,
-              fetchpriority: 'high'
-            })
-          );
+        if (!image) {
+          compilation.warnings.push(new Error(`PreloadImagePlugin: no asset matches ${this.test}`));
+          return data;
         }
+        data.assetTags.styles.unshift(
+          HtmlWebpackPlugin.createHtmlTagObject('link', {
+            rel: 'preload',
+            as: 'image',
+            type: this.type,
+            href: image,
+            fetchpriority: 'high'
+          })
+        );
         return data;
       });
     });
@@ -43,7 +45,9 @@ module.exports = (env, argv) => {
     output: {
       filename: isProduction ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
       chunkFilename: isProduction ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
-      assetModuleFilename: isProduction ? 'static/[name].[contenthash:8][ext]' : 'static/[name][ext]',
+      assetModuleFilename: isProduction
+        ? 'static/[name].[contenthash:8][ext]'
+        : 'static/[name][ext]',
       path: path.join(__dirname, '/dist'),
       clean: true
     },
