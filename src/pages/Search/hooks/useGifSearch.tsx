@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
@@ -17,62 +17,62 @@ export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
-  const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
-  const [searchKeyword, setSearchKeyword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(e.target.value);
-  };
+  // 페이지 번호와 마지막 검색어는 렌더 결과에 직접 쓰이지 않으므로
+  // state 대신 ref로 둔다. 변경돼도 리렌더가 발생하지 않는다.
+  const currentPageIndex = useRef(DEFAULT_PAGE_INDEX);
+  const lastKeyword = useRef('');
 
-  const resetSearch = () => {
-    setStatus(SEARCH_STATUS.LOADING);
-    setCurrentPageIndex(DEFAULT_PAGE_INDEX);
-    setGifList([]);
-    setErrorMessage(null);
-  };
-
-  const handleError = (error: unknown) => {
+  const handleError = useCallback((error: unknown) => {
     setStatus(SEARCH_STATUS.ERROR);
     setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred');
-  };
+  }, []);
 
-  const searchByKeyword = async (): Promise<void> => {
-    resetSearch();
+  const searchByKeyword = useCallback(
+    async (keyword: string): Promise<void> => {
+      lastKeyword.current = keyword;
+      currentPageIndex.current = DEFAULT_PAGE_INDEX;
 
-    try {
-      const gifs = await gifAPIService.searchByKeyword(searchKeyword, DEFAULT_PAGE_INDEX);
+      setStatus(SEARCH_STATUS.LOADING);
+      setGifList([]);
+      setErrorMessage(null);
 
-      if (gifs.length === 0) {
-        setStatus(SEARCH_STATUS.NO_RESULT);
-        return;
+      try {
+        const gifs = await gifAPIService.searchByKeyword(keyword, DEFAULT_PAGE_INDEX);
+
+        if (gifs.length === 0) {
+          setStatus(SEARCH_STATUS.NO_RESULT);
+          return;
+        }
+
+        setGifList(gifs);
+        setStatus(SEARCH_STATUS.FOUND);
+      } catch (error) {
+        handleError(error);
       }
+    },
+    [handleError]
+  );
 
-      setGifList(gifs);
-      setStatus(SEARCH_STATUS.FOUND);
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
-  const loadMore = async (): Promise<void> => {
-    const nextPageIndex = currentPageIndex + 1;
+  // 참조가 매 렌더마다 바뀌면 React.memo(SearchResult)가 무력화되므로
+  // useCallback으로 고정한다.
+  const loadMore = useCallback(async (): Promise<void> => {
+    const nextPageIndex = currentPageIndex.current + 1;
 
     try {
-      const newGitList = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
+      const newGifList = await gifAPIService.searchByKeyword(lastKeyword.current, nextPageIndex);
 
-      setGifList((prevGifList) => [...prevGifList, ...newGitList]);
-      setCurrentPageIndex(nextPageIndex);
+      setGifList((prevGifList) => [...prevGifList, ...newGifList]);
+      currentPageIndex.current = nextPageIndex;
     } catch (error) {
       handleError(error);
     }
-  };
+  }, [handleError]);
 
   useEffect(() => {
     const fetchTrending = async () => {
-      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
-
       try {
         const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
@@ -82,15 +82,13 @@ const useGifSearch = () => {
     };
 
     fetchTrending();
-  }, []);
+  }, [handleError]);
 
   return {
     status,
-    searchKeyword,
     gifList,
     errorMessage,
     searchByKeyword,
-    updateSearchKeyword,
     loadMore
   } as const;
 };
