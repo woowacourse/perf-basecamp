@@ -15,7 +15,7 @@
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "prettier": "prettier --write .",
-    "deploy": "npm run build:prod && npx gh-pages -d dist"
+    "deploy:pages": "npm run build:prod && npx gh-pages -d dist"
   },
   "keywords": [],
   "author": "woowacourse",
