@@ -22,7 +22,12 @@ const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProp
           onKeyUp={onEnter}
           onChange={onChange}
         />
-        <button className={styles.searchButton} type="button" onClick={onSearch}>
+        <button
+          className={styles.searchButton}
+          type="button"
+          onClick={onSearch}
+          aria-label="search"
+        >
           <AiOutlineSearch color="white" size="2rem" />
         </button>
       </div>

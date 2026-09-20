@@ -10,14 +10,14 @@ const FeatureItem = ({ title, type, src }: FeatureItemProps) => {
   return (
     <div className={styles.featureItem}>
       {type === 'gif' ? (
-        <img className={styles.featureImage} src={src} />
+        <img className={styles.featureImage} src={src} alt={title} />
       ) : (
         <video className={styles.featureImage} autoPlay loop playsInline muted preload="metadata">
           <source src={src} type="video/mp4" />
         </video>
       )}
       <div className={styles.featureTitleBg}></div>
-      <h4 className={styles.featureTitle}>{title}</h4>
+      <h3 className={styles.featureTitle}>{title}</h3>
     </div>
   );
 };
