@@ -14,10 +14,15 @@ const DEFAULT_FETCH_COUNT = 16;
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
+    // 카드 표시 크기는 280x280이다. original(평균 337px, 28.19MB/16개)을 받을 이유가 없고,
+    // GIPHY가 변형마다 제공하는 webp URL을 쓰면 같은 해상도에서 용량이 크게 줄어든다.
+    // fixed_width.webp: 200px, 3.06MB/16개 (original 대비 -89%)
+    const fixedWidth = images.fixed_width;
+
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.url
+      imageUrl: fixedWidth.webp ?? fixedWidth.url ?? images.original.url
     };
   });
 };
