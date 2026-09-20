@@ -7,6 +7,8 @@ import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
 import styles from './SearchResult.module.css';
 
+const SKELETON_COUNT = 16;
+
 type SearchResultProps = {
   status: SearchStatus;
   gifList: GifImageModel[];
@@ -28,6 +30,14 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
     </button>
   );
 
+  const renderSkeletonList = (): JSX.Element => (
+    <div className={styles.gifResultWrapper} aria-hidden="true">
+      {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+        <div key={index} className={styles.gifSkeleton} />
+      ))}
+    </div>
+  );
+
   const renderContent = () => {
     switch (status) {
       case SEARCH_STATUS.FOUND:
@@ -39,6 +49,8 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
         return renderGifList();
+      case SEARCH_STATUS.LOADING:
+        return renderSkeletonList();
       case SEARCH_STATUS.NO_RESULT:
       case SEARCH_STATUS.ERROR:
       default:
