@@ -51,9 +51,7 @@ const HelpPanel = () => {
           <br />
           <p>Here are some artists you can refer to.</p>
           <br />
-          <section>
-            <ArtistList artists={artists} />
-          </section>
+          <section>{isShow && <ArtistList artists={artists} />}</section>
         </div>
       </section>
     </>
