@@ -8,13 +8,9 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 
-// GitHub Pages는 https://<user>.github.io/<repo>/ 로 서빙되므로
-// 프로덕션 빌드에서만 리포지토리 이름을 basename으로 넣어준다.
-const BASENAME = process.env.NODE_ENV === 'production' ? '/perf-basecamp' : '/';
-
 const App = () => {
   return (
-    <Router basename={BASENAME}>
+    <Router>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
