@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { AiOutlineInfo, AiOutlineClose } from 'react-icons/ai';
 import classNames from 'classnames/bind';
 
@@ -51,13 +51,17 @@ const HelpPanel = () => {
           <br />
           <p>Here are some artists you can refer to.</p>
           <br />
-          <section>
-            <ArtistList artists={artists} />
-          </section>
+          {/*
+            ArtistInfo 100개는 패널이 닫혀 있을 때 CSS로만 가려져 있었고,
+            DOM에 그대로 남아 리렌더 대상이 되고 있었다.
+            열려 있을 때만 렌더해 초기 DOM 크기와 리렌더 범위를 함께 줄인다.
+          */}
+          <section>{isShow && <ArtistList artists={artists} />}</section>
         </div>
       </section>
     </>
   );
 };
 
-export default HelpPanel;
+// props가 없으므로 부모가 리렌더돼도 이 트리는 다시 그리지 않는다.
+export default memo(HelpPanel);
