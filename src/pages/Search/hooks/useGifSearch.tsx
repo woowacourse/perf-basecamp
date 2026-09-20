@@ -5,6 +5,8 @@ import { GifImageModel } from '../../../models/image/gifImage';
 
 const DEFAULT_PAGE_INDEX = 0;
 
+let trendingGifs: GifImageModel[] | null = null;
+
 export const SEARCH_STATUS = {
   BEFORE_SEARCH: 'BEFORE_SEARCH',
   LOADING: 'LOADING',
@@ -13,7 +15,7 @@ export const SEARCH_STATUS = {
   ERROR: 'ERROR'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -71,10 +73,15 @@ const useGifSearch = () => {
 
   useEffect(() => {
     const fetchTrending = async () => {
-      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
+      if (trendingGifs !== null) {
+        setGifList(trendingGifs);
+        return;
+      }
 
       try {
         const gifs = await gifAPIService.getTrending();
+
+        trendingGifs = gifs;
         setGifList(gifs);
       } catch (error) {
         handleError(error);
