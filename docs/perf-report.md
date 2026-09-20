@@ -95,8 +95,24 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 ```
 
-`css-minimizer-webpack-plugin` : JavaScript 번들 안에 포함되던 CSS를 별도의 .css 파일로 추출할 수 있게함
-`mini-css-extract-plugin` : CSS를 압축해줌, 위 플러그인을 사용해서 별도의 .css 파일로 추출해서 사용 가능
+`mini-css-extract-plugin` : JavaScript 번들 안에 포함되던 CSS를 별도의 .css 파일로 추출할 수 있게함
+`css-minimizer-webpack-plugin` :CSS를 압축해줌, 위 플러그인을 사용해서 별도의 .css 파일로 추출해서 사용 가능
+
+추가 내용
+Home 페이지까지 Layz 로딩을 하고있어서 두 번들을 불러오기 때문에 최적화가 되고있지 않았습니다..
+
+// 변경 전
+
+```js
+const Home = lazy(() => import('./pages/Home/Home'));
+
+// 변경 후
+import Home from './pages/Home/Home';
+```
+
+![image](./image/image11.png)
+
+총 번들크기가 66KB 에서 61.1KB로 줄일 수 있었습니다
 
 #### 4. 이미지 최적화(확장자 변환)
 
@@ -150,6 +166,70 @@ gif와 동일한 기능을 하기위해 자동재생, 루프를 사용했고 aut
 
 ##### 개선 이후
 
-![image](./image/image8.png)
+![image](./image/image10.png)
 
 개선 이후 눈에 띄게 크기와 콘텐츠 다운로드가 줄어들었습니다.
+
+##### Webp 파일 자동으로 생성
+
+![image](./image/image8.png)
+
+```js
+// webpack.config.js
+      {
+        test: /\.(png|jpg)$/i,
+        resourceQuery: /webp/,
+        use: {
+          loader: 'responsive-loader',
+          options: {
+            adapter: require('responsive-loader/sharp'),
+            sizes: [640, 1280],
+            format: 'webp',
+            quality: 70,
+            name: 'static/[name]-[width].[ext]',
+            esModule: false
+          }
+        }
+      },
+```
+
+Webp 파일이 구형 브라우저에 적용되지 않을 수 있다는 정보를 알게되어 png 파일을 fallback 시 사용하도록 해줬습니다.
+
+```ts
+import heroImage from '../../assets/images/hero.png?webp';
+```
+
+resourceQuery 를 이용하여 의존성을 가져오는 부분에서 `?webp`를 사용한 이미지 파일에 대해서 빌드 시 640, 1280 사이즈로 webp파일을 생성하게 해줬습니다.
+
+```tsx
+// Home.tsx
+
+import heroImage from '../../assets/images/hero.png?webp';
+import heroFallback from '../../assets/images/hero.png';
+```
+
+홈에서 생성된 webp 히어로이미지와 폴백 이미지를 불러와서
+
+```tsx
+// ResponsiveImage.tsx
+<picture>
+  <source srcSet={image.srcSet} sizes={sizes} type="image/webp" />
+  <img
+    className={className}
+    src={fallback ?? image.src}
+    width={image.width}
+    height={image.height}
+    alt={alt}
+  />
+</picture>
+```
+
+우선적으로 webp를 사용하게 해줬고 브라우저가 지원하지 않는다면 fallback을 사용하도록 해줬습니다. 그리고 SrcSet을 사용해 미리 기종별 사이즈로 생성해둔 webp파일을 브라우저가 선택할 수 있게 전달해줬습니다.
+
+![image](./image/image9.png)
+
+`window.devicePixelRatio` 가 2고, width가 350px인 환경에서 1024이미지를 가져온 것을 확인했습니다.
+
++추가
+![image](./image/image12.png)
+모바일 환경에서 스크롤 애니메이션과 헤더, 버튼 때문에 뷰포트와 스크린이 다르게 나오는 문제가 있어, 부모의 가로길이를 따르도록 스타일을 수정했습니다.
