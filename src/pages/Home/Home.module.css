@@ -81,7 +81,9 @@
 }
 
 .featureSectionWrapper {
-  width: 65rem;
+  width: 100%;
+  max-width: 65rem;
+  min-width: 0;
   border-top: 2px solid rgba(255, 255, 255, 0.75);
   padding: 3.75rem 0;
 }
@@ -100,4 +102,28 @@
   flex-direction: column;
   align-items: center;
   padding-top: 3.75rem;
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 3rem;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .featureTitle {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+
+  .linkButton {
+    width: calc(100% - 2rem);
+    max-width: 18rem;
+    height: 2.75rem;
+    font-size: 1.125rem;
+  }
 }

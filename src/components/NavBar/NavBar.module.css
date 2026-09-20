@@ -12,7 +12,9 @@
 }
 
 .nav {
-  width: 1180px;
+  width: 100%;
+  max-width: 1180px;
+  min-width: 0;
   height: 30px;
   display: flex;
   align-items: center;
@@ -50,4 +52,25 @@
     #bd00ff 0%,
     rgba(233, 97, 195, 0.77) 57.81%
   );
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0 1rem;
+  }
+
+  .nav {
+    gap: 1rem;
+  }
+
+  .searchPageButton {
+    width: auto;
+    height: 1.75rem;
+    font-size: 0.875rem;
+    padding: 0 1rem;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
 }

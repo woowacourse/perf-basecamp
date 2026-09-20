@@ -49,7 +49,7 @@ module.exports = {
           loader: 'responsive-loader',
           options: {
             adapter: require('responsive-loader/sharp'),
-            sizes: [640, 1280],
+            sizes: [640, 1024, 1280],
             format: 'webp',
             quality: 70,
             name: 'static/[name]-[width].[ext]',
