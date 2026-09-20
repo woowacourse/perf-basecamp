@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 
 import { GifImageModel } from '../../../../models/image/gifImage';
 
@@ -52,4 +52,5 @@ const GifItem = ({ videoUrl = '', title = '' }: GifItemProps): JSX.Element => {
   );
 };
 
-export default GifItem;
+// The list only appends, so existing items keep identical props across loads.
+export default memo(GifItem);
