@@ -12,24 +12,43 @@ const useMousePosition = () => {
     offsetY: 0
   });
 
-  const updateMousePosition = (e: MouseEvent) => {
-    const { clientX, clientY, pageX, pageY, offsetX, offsetY } = e;
-
-    setMousePosition({
-      clientX,
-      clientY,
-      pageX,
-      pageY,
-      offsetX,
-      offsetY
-    });
-  };
-
   useEffect(() => {
+    let animationFrameId: number | null = null;
+    let latestEvent: MouseEvent | null = null;
+
+    const flush = () => {
+      animationFrameId = null;
+
+      if (latestEvent === null) return;
+
+      const { clientX, clientY, pageX, pageY, offsetX, offsetY } = latestEvent;
+
+      setMousePosition({
+        clientX,
+        clientY,
+        pageX,
+        pageY,
+        offsetX,
+        offsetY
+      });
+    };
+
+    const updateMousePosition = (e: MouseEvent) => {
+      latestEvent = e;
+
+      if (animationFrameId === null) {
+        animationFrameId = window.requestAnimationFrame(flush);
+      }
+    };
+
     window.addEventListener('mousemove', updateMousePosition);
 
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);
+
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
     };
   }, []);
 

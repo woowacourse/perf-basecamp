@@ -330,3 +330,66 @@ fixed_width.webp는 4MB로 확실하게 작았지만 열화가 눈에 보일 정
 `IPhone XR, 뷰포트 390×844`환경에서 16개 중 6개 로드가 된걸 볼 수 있습니다.
 
 하지만 기본 브라우저의 설정상 840px 폭에서는 14개가 로드되기 떄문에 최적화를 위해선 직접 스크롤에 따른 제어를 했어야 됐습니다. 하지만 그 여유 거리는 스크롤 시 빈 이미지를 막기 위한 브라우저의 설정이라 봤습니다. 직접 제어하면 요청 수는 줄어도 로딩되지 않은 이미지가 보일 수 있고, 효과가 큰 모바일 화면에서는 이득을 보고 있어 기본 동작을 유지했습니다.
+
+### 최소한의 변경만 일으키기
+
+#### 1. memo 도입
+
+![image](./image/image15.png)
+
+`load more`를 누를 때마다 기존에 있던 `gifItem` 컴포넌트 전부 다시 렌더되고 있었습니다.
+
+```tsx
+// Search/components/GifItem/GifItem.tsx
+
+export default memo(GifItem);
+```
+
+props가 `imageUrl`, `title` 문자열 두 개뿐이라 얕은 비교만으로 충분해서 `memo`로 감쌌습니다.
+
+#### 2-1 검색결과 hover
+
+hover할 때 `top`으로 카드를 띄우고 있었습니다. `top`은 요소의 위치를 다시 계산하게 만드는 속성이라, 0.2초 동안 매 프레임 레이아웃이 발생하고 있었습니다.
+
+```css
+/* Search/components/GifItem/GifItem.module.css */
+
+.gifItem:hover {
+  transform: translateY(-0.75rem);
+}
+```
+
+![image](./image/image16.png)
+성능 탭에서 해당 구간이 `레이아웃`에서 `애니메이션`으로 바뀌었습니다. `transform`은 컴포지터 스레드에서 처리돼서 메인 스레드가 관여하지 않습니다.
+
+#### 2-2 도움말 패널 열고닫기
+
+위와 마찬가지로 레이아웃 변경을 제거함
+
+#### 2-3 CustomCursor
+
+![변경 전](./image/imageXX.png)
+
+```tsx
+// Home/hooks/useMousePosition.tsx
+
+const updateMousePosition = (e: MouseEvent) => {
+  latestEvent = e;
+
+  if (animationFrameId === null) {
+    animationFrameId = window.requestAnimationFrame(flush);
+  }
+};
+```
+
+mousemove는 초당 수백 번 발생하는데 화면은 초당 60번만 갱신되니, 그 사이에 온 이벤트는 마지막 것만 있으면 충분했습니다. 이벤트를 변수에 담아두고 `requestAnimationFrame`으로 프레임당 한 번만 상태를 갱신하도록 바꿨습니다.
+
+```tsx
+cursorRef.current.style.transform = `translate3d(${mousePosition.pageX}px, ${mousePosition.pageY}px, 0)`;
+```
+
+GPU 사용을 위해
+
+#### 2-4 스크롤 애니메이션
+
+위와 동일
