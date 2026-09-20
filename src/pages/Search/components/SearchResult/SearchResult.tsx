@@ -14,6 +14,7 @@ type SearchResultProps = {
 };
 
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
+  // TODO: 컴포넌트 내에서 컴포넌트를 정의하는 부분 제거하기(성능 이슈 있음.)
   const renderGifList = () => (
     <div className={styles.gifResultWrapper}>
       {gifList.map((gif: GifImageModel) => (

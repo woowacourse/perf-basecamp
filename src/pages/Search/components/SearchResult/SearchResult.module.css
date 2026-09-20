@@ -25,9 +25,9 @@
   cursor: pointer;
   border: none;
   margin-bottom: 2.5rem;
-  transition: all 0.5s ease-in-out 0s;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .loadMoreButton:hover {
-  background: var(--radial-gradient);
+  opacity: 0.85;
 }
