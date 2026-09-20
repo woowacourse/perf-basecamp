@@ -9,7 +9,7 @@
       rel="preload"
       as="image"
       type="image/avif"
-      imagesrcset="static/hero-1280.avif 1280w, static/hero-1920.avif 1920w"
+      imagesrcset="<%= require('./src/assets/images/hero-1280.avif').default %> 1280w, <%= require('./src/assets/images/hero-1920.avif').default %> 1920w"
       imagesizes="100vw"
       fetchpriority="high"
     />
