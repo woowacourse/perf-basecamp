@@ -98,7 +98,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 `css-minimizer-webpack-plugin` : JavaScript 번들 안에 포함되던 CSS를 별도의 .css 파일로 추출할 수 있게함
 `mini-css-extract-plugin` : CSS를 압축해줌, 위 플러그인을 사용해서 별도의 .css 파일로 추출해서 사용 가능
 
-#### 4. 이미지 최적화
+#### 4. 이미지 최적화(확장자 변환)
+
+![image](./image/image6.png)
+![image](./image/image7.png)
+
+라이트하우스의 조언에 따라 이미지와 gif의 확장자를 변경했다.
+
+##### 이미지
 
 ```bash
 
@@ -112,3 +119,37 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 ```
 
 현재 히어로 이미지는 10M으로 너무 크다고 생각해 webp로 변환하여 200kb까지 줄일 수 있었습니다
+
+![image](./image/image5.png)
+
+그 결과 성능을 98점까지 올릴 수 있었습니다.
+
+##### GIF
+
+```tsx
+interface FeatureItemProps {
+  title: string;
+  type: 'gif' | 'mp4';
+  src: string;
+}
+```
+
+```tsx
+type === 'gif' ? (
+  <img className={styles.featureImage} src={src} />
+) : (
+  <video className={styles.featureImage} autoPlay loop playsInline muted preload="metadata">
+    <source src={src} type="video/mp4" />
+  </video>
+);
+```
+
+GIF 이미지도 영상으로 변경하여 넣어줬습니다. 이미지만 받고있던 `FeatureItem` 컴포넌트에서 비디오도 받을 수 있도록 변경하였습니다.
+
+gif와 동일한 기능을 하기위해 자동재생, 루프를 사용했고 autoplay를 사용하고 있기 때문에 preload 속성이 제대로 동작하진 않지만 의도를 드러내기 위해 사용했습니다.
+
+##### 개선 이후
+
+![image](./image/image8.png)
+
+개선 이후 눈에 띄게 크기와 콘텐츠 다운로드가 줄어들었습니다.
