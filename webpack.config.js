@@ -43,7 +43,23 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
+        test: /\.(png|jpg)$/i,
+        resourceQuery: /webp/,
+        use: {
+          loader: 'responsive-loader',
+          options: {
+            adapter: require('responsive-loader/sharp'),
+            sizes: [640, 1280],
+            format: 'webp',
+            quality: 70,
+            name: 'static/[name]-[width].[ext]',
+            esModule: false
+          }
+        }
+      },
+      {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
+        resourceQuery: { not: /webp/ },
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
