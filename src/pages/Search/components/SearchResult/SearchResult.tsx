@@ -1,4 +1,5 @@
 import { GifImageModel } from '../../../../models/image/gifImage';
+import { DEFAULT_FETCH_COUNT } from '../../../../apis/gifAPIService';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
 import GifItem from '../GifItem/GifItem';
@@ -14,13 +15,19 @@ type SearchResultProps = {
 };
 
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
-  const renderGifList = () => (
-    <div className={styles.gifResultWrapper}>
-      {gifList.map((gif: GifImageModel) => (
-        <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
-      ))}
-    </div>
-  );
+  const renderGifList = (showPlaceholders = false) => {
+    return (
+      <div className={styles.gifResultWrapper} aria-busy={showPlaceholders}>
+        {showPlaceholders
+          ? Array.from({ length: DEFAULT_FETCH_COUNT }, (_, index) => (
+              <div key={index} className={styles.gifPlaceholder} aria-hidden="true" />
+            ))
+          : gifList.map((gif: GifImageModel) => (
+              <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+            ))}
+      </div>
+    );
+  };
 
   const renderLoadMoreButton = () => (
     <button className={styles.loadMoreButton} onClick={loadMore}>
@@ -38,7 +45,9 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
           </>
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
-        return renderGifList();
+        return renderGifList(gifList.length === 0);
+      case SEARCH_STATUS.LOADING:
+        return renderGifList(true);
       case SEARCH_STATUS.NO_RESULT:
       case SEARCH_STATUS.ERROR:
       default:

@@ -10,7 +10,7 @@ if (!API_KEY) {
 }
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
-const DEFAULT_FETCH_COUNT = 16;
+export const DEFAULT_FETCH_COUNT = 16;
 
 let cache: GifImageModel[] | null = null;
 let cachedAt = 0;
@@ -21,7 +21,7 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.webp
+      imageUrl: images.fixed_width?.webp ?? images.original.webp
     };
   });
 };
