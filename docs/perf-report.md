@@ -84,3 +84,16 @@ lazy와 Suspense를 사용하여 페이지 단위로 청크를 나눠 페이지�
 
 ![alt text](image/image4.png)
 네트워크 탭에서 Search 페이지로 진입 시 새로 번들을 요청하는 것을 확인할 수 있습니다.
+
+#### 3. 번들 사이즈 줄이기(css)
+
+`style-loader`는 CSS 삽입을 위한 런타임 코드가 JavaScript 번들에 포함되게 함으로 번들 크기를 줄이기 위해 최적화 플러그인을 설치해줬습니다.
+
+```js
+// webpack.config.js
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+```
+
+`css-minimizer-webpack-plugin` : JavaScript 번들 안에 포함되던 CSS를 별도의 .css 파일로 추출할 수 있게함
+`mini-css-extract-plugin` : CSS를 압축해줌, 위 플러그인을 사용해서 별도의 .css 파일로 추출해서 사용 가능
