@@ -31,33 +31,45 @@ const HelpPanel = () => {
             <AiOutlineClose size="24px" />
           </button>
         </div>
-        <div className={styles.sheetContentsContainer}>
-          <img src="https://media0.giphy.com/media/3oKIPdiPGxPI7Dze7u/giphy.gif?cid=ecf05e475f5bct6ci09g3pgn43nf6bausx33fj7f96f6ig92&rid=giphy.gif&ct=g" />
-          <p>
-            'memegle' is powered by GIPHY, the top source for the best & newest GIFs & Animated
-            Stickers online. You can find any gif uploaded on GIPHY here.
-          </p>
-          <br />
+        {/*
+          패널은 닫혀 있을 때 CSS로만 가려져 있었다. 내용이 DOM에 그대로 남아
+          안내 이미지 2개(합계 4.65MB)가 매번 다운로드되고 ArtistInfo 100개가
+          리렌더 대상이 됐다. 열려 있을 때만 렌더한다.
+        */}
+        {isShow && (
+          <div className={styles.sheetContentsContainer}>
+            <img
+              src="https://media0.giphy.com/media/3oKIPdiPGxPI7Dze7u/giphy.gif?cid=ecf05e475f5bct6ci09g3pgn43nf6bausx33fj7f96f6ig92&rid=giphy.gif&ct=g"
+              alt="GIPHY powered"
+              loading="lazy"
+            />
+            <p>
+              'memegle' is powered by GIPHY, the top source for the best & newest GIFs & Animated
+              Stickers online. You can find any gif uploaded on GIPHY here.
+            </p>
+            <br />
 
-          <img src="https://giphy.com/static/img/artistdirectory_1040.gif" />
-          <p>
-            If you want more, you are always welcome to contribute as an artist. Please refer to the
-            guideline&nbsp;
-            <a href="https://support.giphy.com/hc/en-us/articles/360019977552-How-to-Upload">
-              here
-            </a>
-            &nbsp;and upload your work!
-          </p>
-          <br />
-          <p>Here are some artists you can refer to.</p>
-          <br />
-          {/*
-            ArtistInfo 100개는 패널이 닫혀 있을 때 CSS로만 가려져 있었고,
-            DOM에 그대로 남아 리렌더 대상이 되고 있었다.
-            열려 있을 때만 렌더해 초기 DOM 크기와 리렌더 범위를 함께 줄인다.
-          */}
-          <section>{isShow && <ArtistList artists={artists} />}</section>
-        </div>
+            <img
+              src="https://giphy.com/static/img/artistdirectory_1040.gif"
+              alt="GIPHY artist directory"
+              loading="lazy"
+            />
+            <p>
+              If you want more, you are always welcome to contribute as an artist. Please refer to
+              the guideline&nbsp;
+              <a href="https://support.giphy.com/hc/en-us/articles/360019977552-How-to-Upload">
+                here
+              </a>
+              &nbsp;and upload your work!
+            </p>
+            <br />
+            <p>Here are some artists you can refer to.</p>
+            <br />
+            <section>
+              <ArtistList artists={artists} />
+            </section>
+          </div>
+        )}
       </section>
     </>
   );
