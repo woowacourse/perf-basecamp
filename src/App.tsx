@@ -1,23 +1,26 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
-import Home from './pages/Home/Home';
-import Search from './pages/Search/Search';
+import React, { Suspense } from 'react';
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
 
-const App = (): JSX.Element => {
+const Home = React.lazy(() => import('./pages/Home/Home'));
+const Search = React.lazy(() => import('./pages/Search/Search'));
+
+const App = () => {
   return (
-    <Router basename={'/perf-basecamp'}>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
-      </Routes>
-      <Footer />
-    </Router>
+    <Suspense fallback={<p>페이지를 불러오는 중</p>}>
+      <Router basename={'/perf-basecamp'}>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </Suspense>
   );
 };
 
