@@ -5,10 +5,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
-// LCP 이미지는 스크립트가 실행되기 전에는 HTML에서 발견되지 않으므로 head에 preload 태그를 넣는다
+// LCP 이미지는 스크립트가 실행되기 전에는 HTML에서 발견되지 않으므로 head에 preload 태그를 넣는다.
+// type을 지원하지 않는 브라우저는 이 태그를 무시하고 <picture>의 폴백을 평소대로 받는다
 class PreloadImagePlugin {
-  constructor(test) {
+  constructor(test, type) {
     this.test = test;
+    this.type = type;
   }
 
   apply(compiler) {
@@ -20,6 +22,7 @@ class PreloadImagePlugin {
             HtmlWebpackPlugin.createHtmlTagObject('link', {
               rel: 'preload',
               as: 'image',
+              type: this.type,
               href: image,
               fetchpriority: 'high'
             })
@@ -54,7 +57,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './index.html'
       }),
-      new PreloadImagePlugin(/hero\..*webp$/),
+      new PreloadImagePlugin(/hero\..*avif$/, 'image/avif'),
       new CopyWebpackPlugin({
         patterns: [{ from: './public', to: './public' }]
       }),
@@ -75,7 +78,7 @@ module.exports = (env, argv) => {
           use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader']
         },
         {
-          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
+          test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|avif|mp4)$/i,
           type: 'asset/resource'
         }
       ]
