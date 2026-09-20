@@ -18,7 +18,8 @@
     "typecheck": "tsc --noEmit",
     "analyze": "webpack --mode=production --env analyze",
     "check:performance": "node scripts/check-performance.cjs",
-    "preview": "node scripts/preview.cjs"
+    "preview": "node scripts/preview.cjs",
+    "deploy:aws": "bash scripts/deploy-aws.sh"
   },
   "keywords": [],
   "author": "woowacourse",
