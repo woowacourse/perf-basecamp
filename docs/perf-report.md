@@ -301,3 +301,32 @@ const deleteOutdatedCaches = async (currentCacheName: string): Promise<void> => 
 fixed_width.webp는 4MB로 확실하게 작았지만 열화가 눈에 보일 정도라 타협을 하여 original.webp을 선택하였습니다.
 
 <video controls src="image/개선후.mp4" title="Title"></video>
+
+확실히 줄었죠?ㅎㅎ
+
+##### 이미지 지연 로딩
+
+```tsx
+// Search/components/GifItem/GifItem.tsx
+<img className={styles.gifImage} src={imageUrl} alt={title} loading="lazy" />
+```
+
+용량을 줄이긴 했지만 여전히 화면에 보이지도 않는 이미지까지 전부 받아오고 있었습니다.
+검색 결과는 16개가 한 번에 오는데 첫 화면에 보이는 건 8개 남짓이라, 나머지는 스크롤하기 전까지 필요가 없었습니다.
+
+```tsx
+// Search/components/GifItem/GifItem.tsx
+
+<img className={styles.gifImage} src={imageUrl} alt={title} loading="lazy" />
+```
+
+`loading="lazy"`를 붙이면 브라우저가 알아서 판단하여 뷰포트에 가까워졌을 때 이미지 요청을 합니다.  
+`IntersectionObserver`로 직접 구현하는 방법도 있었지만, 브라우저가 기본 제공하는 기능이라 추가 코드 없이 같은 효과를 얻을 수 있었습니다.
+
+`.gifItem`이 280x280으로 크기가 고정되어 있어서 이미지가 늦게 도착해도 Layout Shift는 발생하지 않아 `width`/`height`를 지정하지 않았습니다.
+
+<video controls src="image/스크롤.mp4" title="Title"></video>
+
+`IPhone XR, 뷰포트 390×844`환경에서 16개 중 6개 로드가 된걸 볼 수 있습니다.
+
+하지만 기본 브라우저의 설정상 840px 폭에서는 14개가 로드되기 떄문에 최적화를 위해선 직접 스크롤에 따른 제어를 했어야 됐습니다. 하지만 그 여유 거리는 스크롤 시 빈 이미지를 막기 위한 브라우저의 설정이라 봤습니다. 직접 제어하면 요청 수는 줄어도 로딩되지 않은 이미지가 보일 수 있고, 효과가 큰 모바일 화면에서는 이득을 보고 있어 기본 동작을 유지했습니다.
