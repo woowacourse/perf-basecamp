@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="./public/favicon.ico" />
+    <% /* 히어로 이미지는 LCP 요소지만 Home 청크 실행 후에야 요청되므로 미리 받게 한다 */ %>
+    <% const hero = Object.keys(compilation.assets).find((n) => /^static\/hero\./.test(n)); %>
+    <link rel="preload" as="image" href="<%= hero %>" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

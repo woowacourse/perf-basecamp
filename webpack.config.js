@@ -3,43 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-/**
- * 히어로 이미지를 HTML에서 미리 받도록 preload 링크를 주입한다.
- *
- * 히어로 이미지는 LCP 요소지만 Home 청크가 실행된 뒤에야 요청이 시작된다.
- * 빌드 결과에서 해시가 붙은 실제 파일명을 찾아 preload 태그를 만든다.
- */
-class HeroPreloadPlugin {
-  apply(compiler) {
-    compiler.hooks.compilation.tap('HeroPreloadPlugin', (compilation) => {
-      HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tap(
-        'HeroPreloadPlugin',
-        (data) => {
-          const heroAsset = Object.keys(compilation.assets).find((name) =>
-            /^static\/hero\.[^/]*\.webp$|^static\/hero\.webp$/.test(name)
-          );
-
-          if (heroAsset === undefined) return data;
-
-          data.headTags.unshift({
-            tagName: 'link',
-            voidTag: true,
-            meta: { plugin: 'HeroPreloadPlugin' },
-            attributes: {
-              rel: 'preload',
-              as: 'image',
-              href: heroAsset,
-              fetchpriority: 'high'
-            }
-          });
-
-          return data;
-        }
-      );
-    });
-  }
-}
-
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
 
@@ -69,7 +32,6 @@ module.exports = (env, argv) => {
       new CopyWebpackPlugin({
         patterns: [{ from: './public', to: './public' }]
       }),
-      new HeroPreloadPlugin(),
       new Dotenv()
     ],
     module: {
