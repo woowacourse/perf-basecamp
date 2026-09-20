@@ -188,10 +188,25 @@
 
 ### 5-3. React Profiler (검색 결과 추가 로드)
 
+측정 방법: [measure-react-profiler.md](./measure-react-profiler.md) / 상세: [loadmore-before.metrics.md](./react-profiler/loadmore-before.metrics.md)
+
+목록 16개 → `load more` 1회 → 32개. 로컬 개발 서버 기준.
+
 | 항목 | 값 |
 | --- | --- |
-| 추가 로드 시 리렌더된 컴포넌트 수 | |
-| 기존 목록 아이템 리렌더 여부 | |
+| 커밋 수 | 1 (automatic batching 정상) |
+| **추가 로드 시 리렌더된 컴포넌트 수** | **147개 중 129개(88%)가 불필요** |
+| **기존 목록 아이템 리렌더 여부** | **16개 전부 리렌더됨 (TODO 4-1 미달)** |
+| 리렌더 원인 | `GifItem`·`ArtistInfo`: 부모 렌더 (`props: []`) / `SearchResult`: `gifList` + `loadMore` |
+| 언마운트 | 0개 (`key={gif.id}` 정상) |
+| 커밋 소요 시간 | 1.8ms (개발 빌드 참고값, 판정 기준 아님) |
+
+- 불필요한 129개의 구성은 **`ArtistInfo` 100개 + 기존 `GifItem` 16개 + 나머지 13개**다. 낭비의 78%가 사용자가 열지도 않은 `HelpPanel` 내부 목록에서 나온다.
+- 이 129개는 **바뀐 props가 하나도 없다**(`props: []`). `React.memo`만으로 전부 제거된다.
+- 반면 `SearchResult`·`SearchBar`는 props가 실제로 바뀐다. 원인은 매 렌더 새로 만들어지는 함수(`loadMore`, `onChange`, `onEnter`, `onSearch`)이므로 **`useCallback`이 세트로 필요하다.**
+- 기존 16장이 리렌더되는데도 §5-1의 `elementCount`가 80(신규 16장 × 5요소)인 것과 모순되지 않는다. DOM diff 결과가 같아 스타일·레이아웃에 나타나지 않고, 낭비는 전부 JS 시간 안에 있다.
+
+- Profiler 원본: `docs/react-profiler/loadmore-before.json`, `loadmore-before-why.json`
 
 ![react-profiler-before](./images/react-profiler-before.png)
 
@@ -204,6 +219,9 @@
 | 이미지 전송량 과다 | GIF 원본(1.2~2MB) 3개를 Home에서 로드, 이미지 변환 파이프라인 없음 | `src/assets/images/*.gif`, `webpack.config.js` |
 | 반복 로드 시 개선 없음 | GitHub Pages 고정 `max-age=600`, 번들 파일명에 해시 없음, CDN 미적용 | 배포 설정, `webpack.config.js` output |
 | Search 재진입 시 API 재호출 | trending 결과 메모이제이션 없음 | `src/pages/Search` |
+| 추가 로드 시 기존 목록 전체 리렌더 | `GifItem`에 `React.memo` 없음. props는 안 바뀌는데 부모 렌더에 딸려 옴 | `src/pages/Search/components/GifItem/GifItem.tsx` |
+| 닫힌 `HelpPanel`이 매번 리렌더 (낭비의 78%) | `SearchResult`의 형제라 `gifList` 변경이 `ArtistInfo` 100개까지 전파. `React.memo` 없음 | `src/pages/Search/Search.tsx:30`, `components/ArtistInfo/ArtistInfo.tsx` |
+| `memo`를 붙여도 안 먹히는 구간 | 핸들러가 렌더마다 새로 생성돼 `SearchResult`·`SearchBar`의 props가 매번 변경 | `src/pages/Search/hooks/useGifSearch.tsx`, `Search.tsx:14` |
 | 프레임 드롭 | (Performance 탭 확인 후 기입) | |
 
 ## 7. 개선 계획
@@ -218,4 +236,5 @@
 | 6 | S3 + CloudFront, Cache-Control 설정 | 반복 로드 | 2회차 LCP < 1.2s |
 | 7 | trending API 메모이제이션 | API 재호출 | 요청 수 |
 | 8 | 애니메이션 transform/opacity 전환, 이미지 크기 명시 | 프레임 드롭, CLS | Frame Drop 0 |
-| 9 | 목록 아이템 React.memo / key 점검 | 불필요 리렌더 | 렌더 범위 최소화 |
+| 9 | `GifItem`·`ArtistInfo`에 `React.memo` | 추가 로드 시 전체 리렌더 | 렌더 컴포넌트 147 → 20 이하 |
+| 10 | `loadMore` 등 핸들러 `useCallback` | `SearchResult`·`SearchBar`의 props 매번 변경 | 9번이 실제로 동작하게 만드는 선행 조건 |
