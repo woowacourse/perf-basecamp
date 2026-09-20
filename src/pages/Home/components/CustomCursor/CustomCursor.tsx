@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef } from 'react';
-import useMousePosition from '../../hooks/useMousePosition';
+import { useCallback, useRef } from 'react';
+import useMousePosition, { MousePosition } from '../../hooks/useMousePosition';
 
 import styles from './CustomCursor.module.css';
 
@@ -10,12 +10,15 @@ interface CustomCursorProps {
 const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const [...cursorTextChars] = text;
 
-  const updateMousePosition = useCallback(() => {
+  const updateMousePosition = useCallback((mousePosition: MousePosition) => {
     if (cursorRef.current != null) {
-      cursorRef.current.style.transform = `translate(${mousePosition.pageX}px, ${mousePosition.pageY}px)`;
+      if (mousePosition === null) return;
+      cursorRef.current.style.transform = `translate(${mousePosition.pageX ?? 0}px, ${
+        mousePosition.pageY ?? 0
+      }px)`;
     }
   }, []);
-  const mousePosition = useMousePosition({ callback: updateMousePosition });
+  useMousePosition({ callback: updateMousePosition });
   const cursorRef = useRef<HTMLDivElement>(null);
 
   return (
