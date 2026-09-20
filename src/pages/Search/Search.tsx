@@ -26,7 +26,7 @@ const Search = () => {
         onSearch={searchByKeyword}
       />
       <SearchResult status={status} gifList={gifList} loadMore={loadMore} />
-      <HelpPanel />
+      {/* <HelpPanel /> */}
     </div>
   );
 };
