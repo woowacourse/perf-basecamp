@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import heroImg from '../../assets/images/hero.avif';
 import trendingVideo from '../../assets/images/trending.mp4';
 import findVideo from '../../assets/images/find.mp4';
 import freeVideo from '../../assets/images/free.mp4';
@@ -21,7 +20,7 @@ const Home = () => {
   return (
     <>
       <section className={styles.heroSection}>
-        <img className={styles.heroImage} src={heroImg} alt="hero image" />
+        <img className={styles.heroImage} src="./public/images/hero.avif" alt="hero image" />
         <div className={styles.projectTitle}>
           <h1 className={styles.title}>Memegle</h1>
           <h3 className={styles.subtitle}>gif search engine for you</h3>
