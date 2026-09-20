@@ -3,10 +3,11 @@ import React, { Suspense } from 'react';
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
+import Home from './pages/Home/Home';
 
 import './App.css';
 
-const Home = React.lazy(() => import('./pages/Home/Home'));
+// Home is the landing route - a lazy chunk would only add a round trip before the hero can render.
 const Search = React.lazy(() => import('./pages/Search/Search'));
 
 const App = () => {
