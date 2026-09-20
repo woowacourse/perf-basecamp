@@ -1,16 +1,44 @@
+import { useEffect, useRef, useState } from 'react';
+
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import styles from './GifItem.module.css';
 
 type GifItemProps = Omit<GifImageModel, 'id'>;
 
+// <video> does not support loading="lazy", so defer the source until it scrolls near the viewport.
+const PRELOAD_MARGIN = '200px';
+
 const GifItem = ({ videoUrl = '', title = '' }: GifItemProps): JSX.Element => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isNearViewport, setIsNearViewport] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video === null) return () => undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setIsNearViewport(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: PRELOAD_MARGIN }
+    );
+    observer.observe(video);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className={styles.gifItem}>
       <video
+        ref={videoRef}
         className={styles.gifImage}
-        src={videoUrl}
+        src={isNearViewport ? videoUrl : undefined}
         aria-label={title}
+        preload="none"
         autoPlay
         loop
         muted
