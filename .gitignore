@@ -19,3 +19,6 @@ yarn-error.log*
 Thumbs.db
 .idea/
 *.swp
+
+# claude code (미션 PR에 포함되지 않도록)
+.claude/
