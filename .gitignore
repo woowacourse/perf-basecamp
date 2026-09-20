@@ -11,6 +11,7 @@
 /after
 /before
 /report
+/deploy
 
 # logs
 npm-debug.log*
