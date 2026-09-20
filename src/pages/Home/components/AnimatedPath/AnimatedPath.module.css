@@ -1,4 +1,24 @@
 .animatedPath {
   position: absolute;
-  stroke-width: 2px;
+  top: 3.75rem;
+  width: 924px;
+  height: 1691px;
+  pointer-events: none;
+  contain: strict;
+}
+
+.reveal {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transform: translate3d(0, -100%, 0);
+  will-change: transform;
+}
+
+.pathImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
 }
