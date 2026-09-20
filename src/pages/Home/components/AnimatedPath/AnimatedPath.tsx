@@ -5,7 +5,7 @@ import useScrollEvent from '../../hooks/useScrollEvent';
 import styles from './AnimatedPath.module.css';
 
 type AnimatedPathProps = {
-  wrapperRef: React.RefObject<HTMLElement>;
+  wrapperRef: React.RefObject<HTMLElement | null>;
 };
 
 const TOP_PERCENTAGE_OF_DRAW_POINT = 0.8; // 현재 보이는 화면의 80% 지점에서 선이 그려지는 게 보이도록 함
@@ -25,7 +25,7 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     const drawPointY = window.scrollY + window.innerHeight * TOP_PERCENTAGE_OF_DRAW_POINT;
     const scrollRatio = (drawPointY - wrapper.offsetTop) / wrapper.offsetHeight;
 
-    const pathLength = pathRef.current.getTotalLength();
+    const pathLength = path.getTotalLength();
     const currentScrollOffset = pathLength - pathLength * scrollRatio;
 
     setStrokeOffset(clamp(currentScrollOffset, 0, pathLength));

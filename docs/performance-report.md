@@ -281,6 +281,20 @@ Partial 30개 중 23개가 hover를 빠르게 훑던 구간(8개)과 패널이 �
 
 ## 개선 작업
 
+### 0 React 19 업그레이드 (요구사항 밖)
+
+성능 개선 수단이 아니라 학습 목적의 선택이다. `use()`로 Suspense 기반 데이터 로딩을 실험해 보려고 필수 작업에 들어가기 전에 단독으로 올리고, 영향을 따로 쟀다.
+
+| 항목 | 전 | 후 |
+|---|---|---|
+| react, react-dom | 18.3.1 | 19.3.0 |
+| @types/react, @types/react-dom | 18.3.x | 19.3.0 |
+| typescript | 4.9.5 | 5.9.3 (React 19 타입이 5.6 이상을 요구) |
+| 코드 변경 | | `AnimatedPath`의 ref prop 타입을 `RefObject<HTMLElement \| null>`로, null 가드한 지역변수 사용 |
+| bundle.js (minify 전) | 1.18 MiB / gzip 306 KiB | 1.67 MiB / gzip 378 KiB |
+
+번들이 커진 이유는 React 19가 minify되지 않은 production 파일(`react-dom-client.production.js` 625KB)을 배포하고 번들러가 압축하도록 맡기기 때문이다. 지금은 `minimize: false`라 그대로 실리고, 1단계에서 minify를 켜면 차이가 줄어든다. Home, Search, 검색, load more, 도움말 패널 동작을 확인했고 콘솔 에러는 없다.
+
 ### 1 요청 크기 줄이기
 
 ### 2 필요한 것만 요청하기
