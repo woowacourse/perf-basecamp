@@ -51,7 +51,9 @@ module.exports = (env, argv) => {
           test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
           loader: 'file-loader',
           options: {
-            name: 'static/[name].[ext]'
+            // CDN에 긴 캐시를 걸 수 있도록 프로덕션 산출물에는 해시를 붙인다.
+            // 내용이 바뀌면 파일명이 바뀌므로 캐시 무효화가 필요 없다.
+            name: isProduction ? 'static/[name].[contenthash:8].[ext]' : 'static/[name].[ext]'
           }
         }
       ]
