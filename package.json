@@ -16,7 +16,8 @@
     "prettier": "prettier --write .",
     "deploy": "npm run build:prod && npx gh-pages -d dist",
     "typecheck": "tsc --noEmit",
-    "analyze": "webpack --mode=production --env analyze"
+    "analyze": "webpack --mode=production --env analyze",
+    "check:performance": "node scripts/check-performance.cjs"
   },
   "keywords": [],
   "author": "woowacourse",
