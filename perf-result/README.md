@@ -28,7 +28,9 @@ python3 scripts/compare-lh.py before after-preload
 
 `after-cdn`부터는 배포처가 GitHub Pages에서 CloudFront로 바뀌었다.
 
-**WebPageTest** — Paris / Fast 3G / Chrome
+**WebPageTest** — Amsterdam / 3G Fast (1.6Mbps, 150ms RTT) / iPhone 15, Chrome 148
+
+요구사항은 Paris 기준이나 측정은 Amsterdam에서 이루어졌다. Repeat View는 아직 측정하지 않았다.
 
 ## Lighthouse 단계별 결과 (중앙값)
 
@@ -68,41 +70,50 @@ Home 스크립트가 69KB → 55.6KB(gzip)로 줄어 요구사항(< 60kb)을 만
 **히어로 preload** — 코드 분할 이후 히어로 이미지 요청이 Home 청크 실행 시점까지
 밀려 있었다(2,286ms → 666ms). LCP가 4.8초에서 2.6초로 떨어지며 95점에 도달했다.
 
-## WebPageTest (Paris, Fast 3G)
+## WebPageTest (Amsterdam, 3G Fast)
 
-`wpt-after-preload.json` — 최종 상태, First View
+First View 기준. 두 번 측정했고, 2차는 CloudFront 캐시가 채워진 상태다.
 
-| 지표 | 값 | 요구사항 |
-| --- | --- | --- |
-| TTFB | 1,534ms | |
-| FCP | 3,655ms | |
-| **LCP** | **4,788ms** | 첫 로드 < 2,500ms — 미달 |
-| TBT | 0ms | |
-| CLS | 0.176 | |
-| Speed Index | 4,718ms | |
+| 지표 | 1차 | 2차 | 요구사항 |
+| --- | --- | --- | --- |
+| TTFB | 1,534ms | 1,505ms | |
+| FCP | 3,655ms | 3,033ms | |
+| **LCP** | 4,788ms | **3,033ms** | 첫 로드 < 2,500ms — 미달 |
+| CLS | 0.176 | 0.366 | |
+| TBT | 0ms | 0ms | |
+| Speed Index | 4,718ms | 3,221ms | |
+| fullyLoaded | 6,861ms | 4,825ms | |
 
-Repeat View는 측정하지 않아 "두 번째 이후 로드 LCP < 1.5s"는 아직 확인되지 않았다.
+2차에서 LCP가 37% 줄었다. CDN 캐시가 채워지며 히어로 이미지 다운로드가
+1,697ms에서 844ms로 짧아진 결과다.
+
+2차의 FCP와 LCP가 3,033ms로 같다. 히어로 이미지가 첫 페인트와 동시에 그려졌다는
+뜻으로, preload가 의도대로 동작하고 있다. 따라서 LCP는 이제 FCP에 묶여 있다.
+
+"두 번째 이후 로드 LCP < 1.5s"는 Repeat View를 측정하지 않아 확인되지 않았다.
 
 ### 남은 병목
 
-Lighthouse 95점과 달리 Fast 3G에서는 LCP가 목표의 약 2배다. 원인이 둘이다.
+LCP가 FCP와 같아진 지금, 남은 병목은 FCP를 늦추는 요인이다.
 
-**1. TTFB 1,534ms** — CloudFront 캐시가 비어 있어 S3까지 다녀온 첫 요청이다.
-캐시가 채워진 뒤 재측정하면 줄어든다.
-
-**2. Google Fonts 외부 의존** — CSS가 렌더링을 차단하고(`renderBlockingCSS: 1`),
+**1. Google Fonts 외부 의존** — CSS가 렌더링을 차단하고(`renderBlockingCSS: 1`),
 외부 도메인 두 곳을 순차로 거친다.
 
 ```
-1,555ms  CSS 요청 (fonts.googleapis.com)
-2,252ms  CSS 완료
-3,476ms  폰트 파일 요청 (fonts.gstatic.com)
-3,881ms  폰트 완료
-3,600ms  최초 렌더
+2,390ms  CSS 요청 (fonts.googleapis.com)
+2,789ms  CSS 완료
+         그 뒤에야 폰트 파일 요청 시작 (fonts.gstatic.com)
+3,000ms  최초 렌더
 ```
 
-CLS 0.176도 같은 원인이다. 시스템 폰트로 먼저 그려졌다가 3,881ms에 웹폰트가
-도착하며 텍스트가 재배치된다. Lighthouse에서 CLS가 0이었던 것은 네트워크가 빨라
-폰트가 첫 페인트 전에 도착했기 때문이고, Fast 3G에서 드러난 문제다.
+CLS도 같은 원인이다. 시스템 폰트로 먼저 그려진 뒤 웹폰트가 도착하며 텍스트가
+재배치된다. 2차에서 CLS가 0.366으로 커진 것은 렌더링이 600ms 빨라진 반면
+폰트 도착 시점은 그대로여서, 시스템 폰트로 보이는 구간이 길어졌기 때문이다.
+
+Lighthouse에서 CLS가 0인 것은 네트워크가 빨라 폰트가 첫 페인트 전에 도착하기
+때문이고, 3G에서만 드러나는 문제다.
 
 폰트를 자체 호스팅하면 FCP·LCP·CLS가 함께 개선될 것으로 보인다.
+
+**2. TTFB 1,505ms** — 3G의 왕복 지연(150ms RTT)에 DNS·TCP·TLS 협상이 누적된다.
+정적 사이트에서 더 줄이기는 어렵다.
