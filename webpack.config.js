@@ -10,7 +10,10 @@ module.exports = (env, argv) => {
     entry: './src/index.tsx',
     resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
     output: {
-      filename: 'bundle.js',
+      // 청크가 여러 개이므로 파일명이 겹치지 않도록 청크 이름을 포함한다.
+      // 프로덕션에서는 contenthash를 붙여, 내용이 바뀐 파일만 캐시가 무효화되게 한다.
+      filename: isProduction ? '[name].[contenthash:8].js' : '[name].bundle.js',
+      chunkFilename: isProduction ? '[name].[contenthash:8].chunk.js' : '[name].chunk.js',
       path: path.join(__dirname, '/dist'),
       clean: true
     },
@@ -54,7 +57,14 @@ module.exports = (env, argv) => {
       ]
     },
     optimization: {
-      minimize: isProduction
+      minimize: isProduction,
+      // react 등 공통 의존성을 별도 청크로 모아, 페이지 청크가 이들과 분리되어도
+      // 모듈 병합(ModuleConcatenation)이 깨지지 않도록 한다.
+      // 병합이 깨지면 react-icons처럼 export가 많은 모듈에서 tree shaking이 실패한다.
+      runtimeChunk: 'single',
+      splitChunks: {
+        chunks: 'all'
+      }
     }
   };
 };
