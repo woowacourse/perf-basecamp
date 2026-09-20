@@ -1,39 +1,49 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-export type MousePosition = Partial<MouseEvent>;
+export type MousePosition = {
+  pageX: number;
+  pageY: number;
+};
 
-const useMousePosition = () => {
-  const [mousePosition, setMousePosition] = useState<MousePosition>({
-    clientX: 0,
-    clientY: 0,
-    pageX: 0,
-    pageY: 0,
-    offsetX: 0,
-    offsetY: 0
-  });
+type MousePositionHandler = (position: MousePosition) => void;
 
-  const updateMousePosition = (e: MouseEvent) => {
-    const { clientX, clientY, pageX, pageY, offsetX, offsetY } = e;
-
-    setMousePosition({
-      clientX,
-      clientY,
-      pageX,
-      pageY,
-      offsetX,
-      offsetY
-    });
-  };
+const useMousePosition = (onMove: MousePositionHandler) => {
+  const onMoveRef = useRef(onMove);
 
   useEffect(() => {
-    window.addEventListener('mousemove', updateMousePosition);
+    onMoveRef.current = onMove;
+  }, [onMove]);
+
+  // The handler is kept in a ref so the listener registers once instead of on every render.
+  useEffect(() => {
+    let frameId: number | null = null;
+    let position: MousePosition = { pageX: 0, pageY: 0 };
+
+    // mousemove fires more often than the browser paints, so updates are
+    // coalesced into a single call per animation frame.
+    const flushMousePosition = () => {
+      frameId = null;
+      onMoveRef.current(position);
+    };
+
+    const updateMousePosition = ({ pageX, pageY }: MouseEvent) => {
+      position = { pageX, pageY };
+
+      if (frameId === null) {
+        frameId = requestAnimationFrame(flushMousePosition);
+      }
+    };
+
+    window.addEventListener('mousemove', updateMousePosition, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);
+
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
     };
   }, []);
-
-  return mousePosition;
 };
 
 export default useMousePosition;
