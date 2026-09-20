@@ -12,7 +12,9 @@ if (!API_KEY) {
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
-let trendingRequest: Promise<GifImageModel[]> | null = null;
+const trendingCache: { request: Promise<GifImageModel[]> | null } = {
+  request: null
+};
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
@@ -43,23 +45,23 @@ export const gifAPIService = {
   /**
    * trending gif 목록을 가져옵니다.
    * @returns {Promise<GifImageModel[]>}
-   * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
-   */
+  * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
+  */
   getTrending: async (): Promise<GifImageModel[]> => {
-    if (trendingRequest === null) {
+    if (trendingCache.request === null) {
       const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
         api_key: API_KEY,
         limit: `${DEFAULT_FETCH_COUNT}`,
         rating: 'g'
       });
 
-      trendingRequest = fetchGifs(url).catch((error: unknown) => {
-        trendingRequest = null;
+      trendingCache.request = fetchGifs(url).catch((error: unknown) => {
+        trendingCache.request = null;
         throw error;
       });
     }
 
-    return await trendingRequest;
+    return await trendingCache.request;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
