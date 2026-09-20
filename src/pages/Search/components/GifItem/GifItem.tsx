@@ -6,7 +6,6 @@ import styles from './GifItem.module.css';
 
 type GifItemProps = Omit<GifImageModel, 'id'>;
 
-// <video> does not support loading="lazy", so defer the source until it scrolls near the viewport.
 const PRELOAD_MARGIN = '200px';
 
 const GifItem = ({ videoUrl = '', title = '' }: GifItemProps): JSX.Element => {
@@ -52,5 +51,4 @@ const GifItem = ({ videoUrl = '', title = '' }: GifItemProps): JSX.Element => {
   );
 };
 
-// The list only appends, so existing items keep identical props across loads.
 export default memo(GifItem);

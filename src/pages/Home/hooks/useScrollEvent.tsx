@@ -9,12 +9,9 @@ const useScrollEvent = (onScroll: ScrollHandler) => {
     onScrollRef.current = onScroll;
   }, [onScroll]);
 
-  // The handler is kept in a ref so the listener registers once instead of on every render.
   useEffect(() => {
     let frameId: number | null = null;
 
-    // scroll fires more often than the browser paints, so the handler is
-    // coalesced into a single call per animation frame.
     const flushScroll = () => {
       frameId = null;
       onScrollRef.current();

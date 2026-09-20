@@ -14,7 +14,6 @@
 }
 
 .gifItem:hover {
-  /* transform skips the layout stage; top would relayout the document. */
   transform: translateY(-0.75rem);
 }
 

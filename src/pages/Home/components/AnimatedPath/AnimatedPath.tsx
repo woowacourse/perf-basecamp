@@ -15,7 +15,6 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
   const pathLengthRef = useRef(0);
   const wrapperBoxRef = useRef({ offsetTop: 0, offsetHeight: 1 });
 
-  // Writing the style directly keeps scrolling off React's render path.
   const drawPath = () => {
     const path = pathRef.current;
 
@@ -36,19 +35,16 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
 
     if (path === null) return;
 
-    // getTotalLength() walks every curve segment, but d is a constant - measure it once.
     pathLengthRef.current = path.getTotalLength();
     path.style.strokeDasharray = `${pathLengthRef.current}`;
     path.style.strokeDashoffset = `${pathLengthRef.current}`;
   }, []);
 
-  // wrapperRef belongs to an ancestor, so it is only attached by the time passive effects run.
   useEffect(() => {
     const wrapper = wrapperRef.current;
 
     if (wrapper === null) return () => undefined;
 
-    // Reading offsetTop/offsetHeight inside the scroll handler forces a style recalculation.
     const measureWrapper = () => {
       wrapperBoxRef.current = { offsetTop: wrapper.offsetTop, offsetHeight: wrapper.offsetHeight };
       drawPath();

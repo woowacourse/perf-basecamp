@@ -12,7 +12,6 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    // React DevTools Profiler needs instrumentation that the production build strips.
     alias: process.env.PROFILE === 'true' ? { 'react-dom$': 'react-dom/profiling' } : {}
   },
   output: {
@@ -75,7 +74,6 @@ module.exports = {
   },
   optimization: {
     runtimeChunk: 'single',
-    // Minified builds mangle component names, which the Profiler shows verbatim.
     minimize: process.env.PROFILE !== 'true',
     usedExports: true,
     minimizer: ['...', new CssMinimizerPlugin()]

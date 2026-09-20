@@ -19,7 +19,6 @@ const HelpPanelContent = ({ isShow, onClose }: Props): JSX.Element => {
 
   useEffect(() => {
     let revealFrame = 0;
-    // Paint the hidden state before starting the first opening transition.
     const paintFrame = requestAnimationFrame(() => {
       revealFrame = requestAnimationFrame(() => setIsReady(true));
     });

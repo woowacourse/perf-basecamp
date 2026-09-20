@@ -7,13 +7,12 @@ interface FeatureItemProps {
   videoSrc: string;
 }
 
-const VIDEO_LOAD_ROOT_MARGIN = '200px'; // 화면에 들어오기 조금 전에 미리 받아 재생이 끊기지 않도록 함
+const VIDEO_LOAD_ROOT_MARGIN = '200px';
 
 const FeatureItem = ({ title, videoSrc }: FeatureItemProps): JSX.Element => {
   const itemRef = useRef<HTMLDivElement>(null);
   const [isNearViewport, setIsNearViewport] = useState(false);
 
-  // The videos sit below the fold, so fetching them up front only steals bandwidth from the hero image.
   useEffect(() => {
     const item = itemRef.current;
 

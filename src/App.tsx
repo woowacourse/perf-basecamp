@@ -7,7 +7,6 @@ import Home from './pages/Home/Home';
 
 import './App.css';
 
-// Home is the landing route - a lazy chunk would only add a round trip before the hero can render.
 const Search = React.lazy(() => import('./pages/Search/Search'));
 
 const App = () => {

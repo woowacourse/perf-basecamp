@@ -6,7 +6,6 @@
   z-index: 10;
   padding: 0 16px;
   color: var(--white);
-  /* Promote to its own layer: this element moves on every frame the pointer does. */
   will-change: transform;
 }
 

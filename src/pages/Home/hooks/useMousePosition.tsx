@@ -14,13 +14,10 @@ const useMousePosition = (onMove: MousePositionHandler) => {
     onMoveRef.current = onMove;
   }, [onMove]);
 
-  // The handler is kept in a ref so the listener registers once instead of on every render.
   useEffect(() => {
     let frameId: number | null = null;
     let position: MousePosition = { pageX: 0, pageY: 0 };
 
-    // mousemove fires more often than the browser paints, so updates are
-    // coalesced into a single call per animation frame.
     const flushMousePosition = () => {
       frameId = null;
       onMoveRef.current(position);
