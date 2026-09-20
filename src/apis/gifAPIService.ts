@@ -5,7 +5,7 @@ import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
 
 const API_KEY = process.env.GIPHY_API_KEY;
-if (!API_KEY) {
+if (API_KEY === undefined || API_KEY === '') {
   throw new Error('GIPHY_API_KEY is not set in environment variables');
 }
 

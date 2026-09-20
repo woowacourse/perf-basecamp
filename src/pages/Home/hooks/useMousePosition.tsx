@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 
-export type MousePosition = {
+export interface MousePosition {
   pageX: number;
   pageY: number;
-};
+}
 
 type MousePositionHandler = (position: MousePosition) => void;
 
-const useMousePosition = (onMove: MousePositionHandler) => {
+const useMousePosition = (onMove: MousePositionHandler): void => {
   const onMoveRef = useRef(onMove);
 
   useEffect(() => {
@@ -18,12 +18,12 @@ const useMousePosition = (onMove: MousePositionHandler) => {
     let frameId: number | null = null;
     let position: MousePosition = { pageX: 0, pageY: 0 };
 
-    const flushMousePosition = () => {
+    const flushMousePosition = (): void => {
       frameId = null;
       onMoveRef.current(position);
     };
 
-    const updateMousePosition = ({ pageX, pageY }: MouseEvent) => {
+    const updateMousePosition = ({ pageX, pageY }: MouseEvent): void => {
       position = { pageX, pageY };
 
       if (frameId === null) {

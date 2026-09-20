@@ -3,15 +3,15 @@ import useMousePosition, { MousePosition } from '../../hooks/useMousePosition';
 
 import styles from './CustomCursor.module.css';
 
-type CustomCursorProps = {
+interface CustomCursorProps {
   text: string;
-};
+}
 
-const CustomCursor = ({ text = '' }: CustomCursorProps) => {
+const CustomCursor = ({ text = '' }: CustomCursorProps): JSX.Element => {
   const [...cursorTextChars] = text;
   const cursorRef = useRef<HTMLDivElement>(null);
 
-  const moveCursor = ({ pageX, pageY }: MousePosition) => {
+  const moveCursor = ({ pageX, pageY }: MousePosition): void => {
     const cursor = cursorRef.current;
 
     if (cursor === null) return;

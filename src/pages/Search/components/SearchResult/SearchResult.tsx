@@ -7,14 +7,14 @@ import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
 import styles from './SearchResult.module.css';
 
-type SearchResultProps = {
+interface SearchResultProps {
   status: SearchStatus;
   gifList: GifImageModel[];
   loadMore: () => void;
-};
+}
 
-const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
-  const renderGifList = () => (
+const SearchResult = ({ status, gifList, loadMore }: SearchResultProps): JSX.Element => {
+  const renderGifList = (): JSX.Element => (
     <div className={styles.gifResultWrapper}>
       {gifList.map((gif: GifImageModel) => (
         <GifItem key={gif.id} videoUrl={gif.videoUrl} title={gif.title} />
@@ -22,13 +22,13 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
     </div>
   );
 
-  const renderLoadMoreButton = () => (
+  const renderLoadMoreButton = (): JSX.Element => (
     <button className={styles.loadMoreButton} onClick={loadMore}>
       load more
     </button>
   );
 
-  const renderContent = () => {
+  const renderContent = (): JSX.Element => {
     switch (status) {
       case SEARCH_STATUS.FOUND:
         return (

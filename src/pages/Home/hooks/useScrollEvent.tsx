@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 type ScrollHandler = () => void;
 
-const useScrollEvent = (onScroll: ScrollHandler) => {
+const useScrollEvent = (onScroll: ScrollHandler): void => {
   const onScrollRef = useRef(onScroll);
 
   useEffect(() => {
@@ -12,12 +12,12 @@ const useScrollEvent = (onScroll: ScrollHandler) => {
   useEffect(() => {
     let frameId: number | null = null;
 
-    const flushScroll = () => {
+    const flushScroll = (): void => {
       frameId = null;
       onScrollRef.current();
     };
 
-    const handleScroll = () => {
+    const handleScroll = (): void => {
       if (frameId === null) {
         frameId = requestAnimationFrame(flushScroll);
       }

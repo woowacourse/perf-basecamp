@@ -7,9 +7,9 @@ import Home from './pages/Home/Home';
 
 import './App.css';
 
-const Search = React.lazy(() => import('./pages/Search/Search'));
+const Search = React.lazy(async () => await import('./pages/Search/Search'));
 
-const App = () => {
+const App = (): JSX.Element => {
   return (
     <Suspense fallback={<p>페이지를 불러오는 중</p>}>
       <Router>
