@@ -54,7 +54,7 @@ module.exports = (env, argv) => {
       ]
     },
     optimization: {
-      minimize: true,
+      minimize: isProduction,
       minimizer: ['...', new CssMinimizerPlugin()],
       runtimeChunk: 'single',
       splitChunks: {
