@@ -1,0 +1,4 @@
+.pageFallback {
+  min-height: 100vh;
+  background: var(--black);
+}
