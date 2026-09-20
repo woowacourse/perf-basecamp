@@ -8,8 +8,9 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash:8].js',
     chunkFilename: '[name].[contenthash:8].chunk.js',
+    assetModuleFilename: 'static/[name].[contenthash:8][ext]',
     path: path.join(__dirname, '/dist'),
     publicPath: '/',
     clean: true
@@ -28,11 +29,15 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      reportFilename: 'bundle-report.html',
-      openAnalyzer: true
-    })
+    ...(process.env.ANALYZE === 'true'
+      ? [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: 'bundle-report.html',
+            openAnalyzer: true
+          })
+        ]
+      : [])
   ],
   module: {
     rules: [
@@ -49,10 +54,7 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
-        }
+        type: 'asset/resource'
       }
     ]
   },
