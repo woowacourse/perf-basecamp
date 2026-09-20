@@ -290,3 +290,14 @@ const deleteOutdatedCaches = async (currentCacheName: string): Promise<void> => 
 ```
 
 캐시 이름을 오늘 날짜로 설정하여 TTL을 대체했고, 삭제로직을 추가해 캐시히트 실패시 다른 캐시들까지 정리하도록 했습니다. 다른 API 응답들을 캐싱할 계획도 없어서 모든 항목들을 삭제해도 되겠다고 생각했습니다.
+
+##### API 주소변경
+
+<video controls src="image/개선전.mp4" title="Title"></video>
+
+위 요구사항을 해결하던 중 데이터를 너무 많이 불러오고 있는 것이 보였습니다.
+그래서 [방법을 찾아봤는데](https://developers.giphy.com/docs/api/schema/#image-object) gif의 형식을 바꿔서 받아올 수 있더라구요 그래서 origanl.url, fixed_width.webp, origianl.webp 세 가지를 고민했습니다.
+
+fixed_width.webp는 4MB로 확실하게 작았지만 열화가 눈에 보일 정도라 타협을 하여 original.webp을 선택하였습니다.
+
+<video controls src="image/개선후.mp4" title="Title"></video>
