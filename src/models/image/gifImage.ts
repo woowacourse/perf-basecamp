@@ -2,7 +2,7 @@ export interface GifImageModel {
   id: string | number;
   title: string;
   sources: {
-    mp4?: string;
+    video?: string;
     poster?: string;
     webp?: string;
     gif?: string;

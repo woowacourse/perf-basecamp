@@ -15,10 +15,10 @@ const DEFAULT_FETCH_COUNT = 16;
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     const sources: GifImageModel['sources'] = {};
-    const { mp4, webp, url } = images.fixed_width;
+    const { mp4: video, webp, url } = images.fixed_width;
     const poster = images.fixed_width_still.url;
 
-    if (typeof mp4 === 'string' && mp4.length > 0) sources.mp4 = mp4;
+    if (typeof video === 'string' && video.length > 0) sources.video = video;
     if (typeof poster === 'string' && poster.length > 0) sources.poster = poster;
     if (typeof webp === 'string' && webp.length > 0) sources.webp = webp;
     if (typeof url === 'string' && url.length > 0) sources.gif = url;

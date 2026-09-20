@@ -17,10 +17,10 @@ const GifItem = ({ sources, title = '', loadImmediately = false }: GifItemProps)
 
   return (
     <div ref={containerRef} className={styles.gifItem}>
-      {sources.mp4 !== undefined ? (
+      {sources.video !== undefined ? (
         <video
           className={styles.gifImage}
-          src={shouldLoadVideo ? sources.mp4 : undefined}
+          src={shouldLoadVideo ? sources.video : undefined}
           poster={shouldLoadVideo ? sources.poster : undefined}
           autoPlay
           loop
