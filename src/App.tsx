@@ -26,7 +26,11 @@ const App = () => {
   return (
     <Router>
       <NavBar />
-      <Suspense fallback={<div style={{ textAlign: 'center', padding: '50px' }}>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div style={{ minHeight: '100vh', textAlign: 'center', padding: '50px' }}>Loading...</div>
+        }
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
