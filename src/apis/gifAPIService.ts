@@ -13,7 +13,7 @@ const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
 const getTrendingCacheName = (): string =>
-  `trending-cache-${new Date().toLocaleDateString('ko-KR')}`;
+  `trending-cache-v2-${new Date().toLocaleDateString('ko-KR')}`;
 
 const deleteOutdatedCaches = async (currentCacheName: string): Promise<void> => {
   const cacheNames = await caches.keys();
@@ -30,7 +30,7 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.webp
+      imageUrl: images.fixed_width.webp ?? images.fixed_width.url
     };
   });
 };
