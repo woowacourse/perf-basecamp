@@ -19,10 +19,12 @@ const App = () => {
     <Suspense fallback={null}>
       <Router basename={getBasename()}>
         <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/search" element={<Search />} />
+          </Routes>
+        </main>
         <Footer />
       </Router>
     </Suspense>

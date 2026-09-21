@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlInlineCssWebpackPlugin = require('html-inline-css-webpack-plugin').default;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -19,17 +20,25 @@ module.exports = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'source-map',
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './404.template.html',
       filename: '404.html'
     }),
+    new HtmlInlineCssWebpackPlugin({ leaveCSSFile: true }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './public', to: './public' }]
+      patterns: [
+        {
+          from: './public',
+          to: './public',
+          globOptions: { ignore: ['**/robots.txt'] }
+        },
+        { from: './public/robots.txt', to: '.' }
+      ]
     }),
     new Dotenv(),
     new MiniCssExtractPlugin({
@@ -57,7 +66,7 @@ module.exports = {
           loader: 'responsive-loader',
           options: {
             adapter: require('responsive-loader/sharp'),
-            sizes: [640, 1024, 1280],
+            sizes: [1280],
             format: 'webp',
             quality: 70,
             name: 'static/[name]-[width].[ext]',
@@ -68,9 +77,9 @@ module.exports = {
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         resourceQuery: { not: /webp/ },
-        loader: 'file-loader',
-        options: {
-          name: 'static/[name].[ext]'
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[name].[contenthash:8][ext]'
         }
       }
     ]
