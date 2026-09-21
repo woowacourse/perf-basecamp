@@ -1,11 +1,14 @@
-import './Footer.module.css';
+import styles from './Footer.module.css';
 
-const Footer = () => {
+const Footer = (): JSX.Element => {
   return (
-    <footer>
-      <p>
+    <footer className={styles.footer}>
+      <p className={styles.text}>
         (c) memegle. All rights reserved. Powered by&nbsp;
-        <a href="https://giphy.com/">Giphy</a>.
+        <a className={styles.link} href="https://giphy.com/">
+          Giphy
+        </a>
+        .
       </p>
     </footer>
   );
