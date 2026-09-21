@@ -1,4 +1,4 @@
-import { GifImageModel } from '../../../../models/image/gifImage';
+import { GifImageModel } from '../../../../types/gifImage';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
 import GifItem from '../GifItem/GifItem';

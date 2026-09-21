@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Artist } from '../../../../models/help/artist';
+import { Artist } from '../../../../types/artist';
 import ArtistInfo from '../ArtistInfo/ArtistInfo';
 
 interface ArtistListProps {

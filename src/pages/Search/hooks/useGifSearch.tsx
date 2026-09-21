@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
-import { GifImageModel } from '../../../models/image/gifImage';
+import { GifImageModel } from '../../../types/gifImage';
 
 const DEFAULT_PAGE_INDEX = 0;
 

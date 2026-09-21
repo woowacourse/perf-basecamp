@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { GifImageModel } from '../../../../models/image/gifImage';
+import { GifImageModel } from '../../../../types/gifImage';
 
 import styles from './GifItem.module.css';
 

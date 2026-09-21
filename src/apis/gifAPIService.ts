@@ -1,7 +1,7 @@
 import type { GifsResult } from '@giphy/js-fetch-api';
 import type { IGif } from '@giphy/js-types';
 
-import { GifImageModel } from '../models/image/gifImage';
+import { GifImageModel } from '../types/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
 
 const API_KEY = process.env.GIPHY_API_KEY;
