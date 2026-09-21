@@ -18,17 +18,14 @@ const cx = classNames.bind(styles);
 const INDEX = [
   {
     title: 'See trending gif',
-    type: 'mp4',
     src: trendingMp4
   },
   {
     title: 'Find gif for free',
-    type: 'mp4',
     src: findMp4
   },
   {
     title: 'Free for everyone',
-    type: 'mp4',
     src: freeMp4
   }
 ] as const;
@@ -60,8 +57,8 @@ const Home = (): JSX.Element => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            {INDEX.map(({ title, type, src }) => (
-              <FeatureItem key={title} title={title} type={type} src={src} />
+            {INDEX.map(({ title, src }) => (
+              <FeatureItem key={title} title={title} videoSrc={src} />
             ))}
           </div>
           <Link to="/search">
