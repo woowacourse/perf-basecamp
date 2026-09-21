@@ -26,7 +26,7 @@ module.exports = {
       template: './index.html'
     }),
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './404.template.html',
       filename: '404.html'
     }),
     new HtmlInlineCssWebpackPlugin({ leaveCSSFile: true }),
@@ -59,7 +59,7 @@ module.exports = {
           loader: 'responsive-loader',
           options: {
             adapter: require('responsive-loader/sharp'),
-            sizes: [640, 1024, 1280],
+            sizes: [1280],
             format: 'webp',
             quality: 70,
             name: 'static/[name]-[width].[ext]',
