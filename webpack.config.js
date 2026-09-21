@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlInlineCssWebpackPlugin = require('html-inline-css-webpack-plugin').default;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -28,6 +29,7 @@ module.exports = {
       template: './index.html',
       filename: '404.html'
     }),
+    new HtmlInlineCssWebpackPlugin({ leaveCSSFile: true }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
