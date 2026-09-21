@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 
 import styles from './CustomCursor.module.css';
 
@@ -50,4 +50,4 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   );
 };
 
-export default CustomCursor;
+export default memo(CustomCursor);
