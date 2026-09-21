@@ -18,7 +18,7 @@ body {
 }
 
 .pageContent {
-  min-height: calc(100vh - 11rem);
+  min-height: 100vh;
 }
 
 button {
