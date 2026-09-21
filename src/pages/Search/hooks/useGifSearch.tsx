@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
 import { GifImageModel } from '../../../models/image/gifImage';
@@ -21,6 +21,7 @@ const useGifSearch = () => {
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const isLoadingMore = useRef(false);
 
   const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.target.value);
@@ -57,6 +58,9 @@ const useGifSearch = () => {
   };
 
   const loadMore = async (): Promise<void> => {
+    if (isLoadingMore.current) return;
+
+    isLoadingMore.current = true;
     const nextPageIndex = currentPageIndex + 1;
 
     try {
@@ -66,6 +70,8 @@ const useGifSearch = () => {
       setCurrentPageIndex(nextPageIndex);
     } catch (error) {
       handleError(error);
+    } finally {
+      isLoadingMore.current = false;
     }
   };
 
