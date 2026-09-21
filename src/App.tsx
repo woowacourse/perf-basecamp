@@ -11,12 +11,14 @@ const App = (): JSX.Element => {
   return (
     <Router>
       <NavBar />
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-      </Suspense>
+      <main className="pageContent">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/search" element={<Search />} />
+          </Routes>
+        </Suspense>
+      </main>
       <Footer />
     </Router>
   );

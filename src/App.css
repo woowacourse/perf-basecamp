@@ -17,6 +17,10 @@ body {
   font-family: 'Josefin Sans', sans-serif;
 }
 
+.pageContent {
+  min-height: calc(100vh - 11rem);
+}
+
 button {
   cursor: pointer;
 }
