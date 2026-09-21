@@ -9,7 +9,8 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = (env = {}, argv = {}) => {
   const isProduction = argv.mode === 'production';
-  const publicPath = env.publicPath ?? process.env.PUBLIC_PATH ?? (isProduction ? '/lumen/' : '/');
+  // The dedicated CloudFront distribution serves the S3 prefix at the domain root.
+  const publicPath = env.publicPath ?? process.env.PUBLIC_PATH ?? '/';
   if (!/^\/(?:[A-Za-z0-9_-]+\/)*$/.test(publicPath)) {
     throw new Error('PUBLIC_PATH must be / or a path such as /lumen/ with a trailing slash.');
   }
