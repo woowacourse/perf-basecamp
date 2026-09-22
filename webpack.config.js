@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
@@ -11,6 +13,9 @@ module.exports = {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true
+  },
+  optimization: {
+    minimizer: ['...', new CssMinimizerPlugin()]
   },
   devServer: {
     hot: true,
@@ -24,6 +29,10 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+      chunkFilename: '[id].chunk.css'
     }),
     new Dotenv(),
     ...(process.env.ANALYZE
@@ -47,7 +56,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
