@@ -160,7 +160,7 @@ X-Cache: Hit from cloudfront
 Age: <캐시된 시간>
 ```
 
-현재 기존 배포의 HTML을 반복 요청했을 때 두 번째 응답에서 `Hit from cloudfront`와 `Age` 헤더를 확인했다. 새 hash 리소스는 새 `dist` 배포 후 동일한 방식으로 다시 검증해야 한다.
+최종 배포의 `main.23a693d5.js` 응답에서 `Hit from cloudfront`, `Age`, `Content-Encoding: br`를 확인했다. 정적 리소스에는 `public,max-age=31536000,immutable`이 적용됐다.
 
 ---
 
@@ -304,9 +304,9 @@ Search 첫 진입
 
 - [x] CloudFront CDN 연결
 - [x] 기존 배포에서 `Hit from cloudfront` 확인
-- [ ] 새 `dist`를 S3에 배포
-- [ ] S3 객체별 `Cache-Control` 적용
-- [ ] 새 hash 리소스의 `Hit from cloudfront` 확인
+- [x] 새 `dist`를 S3에 배포
+- [x] S3 객체별 `Cache-Control` 적용
+- [x] 새 hash 리소스의 `Hit from cloudfront` 확인
 - [ ] 브라우저 memory/disk cache 확인
 
 ---

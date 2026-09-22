@@ -153,16 +153,27 @@ import trendingImage from '../../assets/images/trending.gif?as=animated-webp';
 
 ### 이미지 로딩 우선순위 조정
 
-화면 아래의 feature 이미지에는 지연 로딩과 비동기 디코딩을 적용했다.
+화면 아래의 feature 이미지에는 `IntersectionObserver`와 비동기 디코딩을 적용했다. 요소가 viewport에 25% 이상 들어오기 전에는 이미지 `src`를 DOM에 추가하지 않으므로 초기 요청에서 제외된다.
 
 ```tsx
-<img src={imageSrc} alt="" loading="lazy" decoding="async" />
+<div>
+  {shouldLoadImage && <img src={imageSrc} alt="" decoding="async" />}
+</div>
 ```
 
-Hero 이미지는 LCP 요소이므로 지연 로딩하지 않고 우선순위를 높였다.
+Hero 이미지는 LCP 요소이므로 지연 로딩하지 않고 우선순위를 높였다. React가 실행되기 전 HTML 파싱 단계에서 발견할 수 있도록 `index.html`에도 preload를 추가했다.
 
 ```tsx
-<img src={heroImage} width="1600" height="1067" fetchPriority="high" alt="" />
+<img src={heroImage} width="1600" height="1067" fetchpriority="high" alt="" />
+```
+
+```html
+<link
+  rel="preload"
+  as="image"
+  href="<%= require('./src/assets/images/hero.png?as=hero-webp') %>"
+  fetchpriority="high"
+/>
 ```
 
 ---
@@ -237,9 +248,9 @@ cache: {
 - [x] PNG를 WebP로 자동 변환
 - [x] GIF를 animated WebP로 자동 변환
 - [x] 애니메이션 프레임 및 반복 설정 유지
-- [x] 화면 아래 이미지 lazy loading 적용
+- [x] 화면 아래 이미지 IntersectionObserver 지연 요청 적용
 - [x] 원본 이미지만 소스에서 관리
 - [x] webpack 프로덕션 빌드 성공
 - [ ] webpack filesystem cache 적용
-- [ ] 페이지 단위 Code Splitting 적용
-- [ ] 배포 후 Lighthouse 재측정
+- [x] 페이지 단위 Code Splitting 적용
+- [x] 배포 후 Lighthouse 재측정: Performance 100점, LCP 0.6초
