@@ -14,6 +14,7 @@ module.exports = (_env, argv) => {
     resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
     output: {
       filename: 'bundle.js',
+      chunkFilename: 'chunks/[name].[contenthash:8].js',
       path: path.join(__dirname, '/dist'),
       clean: true
     },
@@ -36,7 +37,7 @@ module.exports = (_env, argv) => {
             new BundleAnalyzerPlugin({
               analyzerMode: 'static',
               reportFilename: 'report.html',
-              openAnalyzer: true,
+              openAnalyzer: false,
               generateStatsFile: true,
               statsFilename: 'stats.json'
             })
