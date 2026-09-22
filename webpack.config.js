@@ -13,8 +13,8 @@ module.exports = (_env, argv) => {
     entry: './src/index.tsx',
     resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
     output: {
-      filename: 'bundle.js',
-      chunkFilename: 'chunks/[name].[contenthash:8].js',
+      filename: 'scripts/[name].[contenthash:8].js',
+      chunkFilename: 'scripts/[name].[contenthash:8].js',
       path: path.join(__dirname, '/dist'),
       clean: true
     },
@@ -61,7 +61,7 @@ module.exports = (_env, argv) => {
           test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif|webp)$/i,
           type: 'asset/resource',
           generator: {
-            filename: 'static/[name][ext]'
+            filename: 'assets/[name].[contenthash:8][ext]'
           }
         }
       ]
