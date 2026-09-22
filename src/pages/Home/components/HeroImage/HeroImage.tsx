@@ -21,6 +21,7 @@ const HeroImage = (): JSX.Element => (
       sizes="100vw"
       width="1920"
       height="1281"
+      fetchPriority="high"
       alt=""
     />
   </picture>
