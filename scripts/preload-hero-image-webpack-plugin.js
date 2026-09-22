@@ -35,7 +35,7 @@ class PreloadHeroImageWebpackPlugin {
           });
           const preloadLink = [
             '<link rel="preload" fetchpriority="high" as="image" type="image/avif"',
-            `href="./${responsiveImages[responsiveImages.length - 1]}"`,
+            `href="${responsiveImages[responsiveImages.length - 1]}"`,
             `imagesrcset="${responsiveImages
               .map((name, index) => `./${name} ${RESPONSIVE_WIDTHS[index]}w`)
               .join(', ')}"`,
