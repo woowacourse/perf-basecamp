@@ -13,7 +13,7 @@ export const SEARCH_STATUS = {
   ERROR: 'ERROR'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
@@ -81,7 +81,7 @@ const useGifSearch = () => {
       }
     };
 
-    fetchTrending();
+    void fetchTrending();
   }, []);
 
   return {

@@ -1,9 +1,9 @@
 import { Artist } from '../../../../models/help/artist';
 import ArtistInfo from '../ArtistInfo/ArtistInfo';
 
-type ArtistListProps = {
+interface ArtistListProps {
   artists: Artist[];
-};
+}
 
 const ArtistList = ({ artists }: ArtistListProps) => {
   return (
