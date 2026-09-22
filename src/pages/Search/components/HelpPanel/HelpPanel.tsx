@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import { memo, useState, lazy, Suspense } from 'react';
 import { AiOutlineInfo } from 'react-icons/ai';
 
 import styles from './HelpPanel.module.css';
@@ -35,4 +35,4 @@ const HelpPanel = (): JSX.Element => {
   );
 };
 
-export default HelpPanel;
+export default memo(HelpPanel);
