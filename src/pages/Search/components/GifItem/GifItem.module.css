@@ -9,12 +9,13 @@
     rgba(232, 109, 198, 0.1) 97.71%
   );
   overflow: hidden;
-  transition: all 0.2s ease-in;
+  transition: transform 0.2s ease-in;
+  will-change: transform;
   border-radius: 4%;
 }
 
 .gifItem:hover {
-  top: -0.75rem;
+  transform: translateY(-0.75rem);
 }
 
 .gifImage {
