@@ -19,3 +19,6 @@ yarn-error.log*
 Thumbs.db
 .idea/
 *.swp
+
+# webpack-bundle-analyzer 리포트
+bundle-report.html
