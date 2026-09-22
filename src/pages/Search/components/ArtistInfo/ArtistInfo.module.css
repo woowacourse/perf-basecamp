@@ -1,7 +1,15 @@
 .artistContainer {
   display: flex;
   align-items: center;
+  height: 60px;
   margin-bottom: 16px;
+}
+
+.virtualized {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-bottom: 0;
 }
 
 .artistContainer .profileImage {
@@ -10,10 +18,15 @@
 }
 
 .artistContainer p {
+  min-width: 0;
   padding-left: 8px;
 }
 
 .artistContainer .profileUrl {
   color: var(--black);
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-decoration: underline;
+  white-space: nowrap;
 }

@@ -1,4 +1,5 @@
 import { GifImageModel } from '../../../../models/image/gifImage';
+import { DEFAULT_FETCH_COUNT } from '../../../../apis/gifAPIService';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
 import GifItem from '../GifItem/GifItem';
@@ -10,10 +11,19 @@ import styles from './SearchResult.module.css';
 type SearchResultProps = {
   status: SearchStatus;
   gifList: GifImageModel[];
+  isTrendingLoading: boolean;
   loadMore: () => void;
 };
 
-const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
+const SearchResult = ({ status, gifList, isTrendingLoading, loadMore }: SearchResultProps) => {
+  const renderTrendingSkeleton = () => (
+    <div className={styles.gifResultWrapper}>
+      {Array.from({ length: DEFAULT_FETCH_COUNT }, (_, index) => (
+        <div key={index} className={styles.gifPlaceholder} />
+      ))}
+    </div>
+  );
+
   const renderGifList = () => (
     <div className={styles.gifResultWrapper}>
       {gifList.map((gif: GifImageModel) => (
@@ -38,7 +48,7 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
           </>
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
-        return renderGifList();
+        return isTrendingLoading ? renderTrendingSkeleton() : renderGifList();
       case SEARCH_STATUS.NO_RESULT:
       case SEARCH_STATUS.ERROR:
       default:

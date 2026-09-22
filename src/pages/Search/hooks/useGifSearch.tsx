@@ -13,12 +13,13 @@ export const SEARCH_STATUS = {
   ERROR: 'ERROR'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
+  const [isTrendingLoading, setIsTrendingLoading] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -78,6 +79,8 @@ const useGifSearch = () => {
         setGifList(gifs);
       } catch (error) {
         handleError(error);
+      } finally {
+        setIsTrendingLoading(false);
       }
     };
 
@@ -88,6 +91,7 @@ const useGifSearch = () => {
     status,
     searchKeyword,
     gifList,
+    isTrendingLoading,
     errorMessage,
     searchByKeyword,
     updateSearchKeyword,

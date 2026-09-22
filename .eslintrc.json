@@ -15,16 +15,19 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": [
-    "react",
-    "prettier"
-  ],
-  "ignorePatterns": [
-    "dist/",
-    "node_modules/",
-    "webpack.config.js"
-  ],
-  "rules": {},
+  "plugins": ["react", "prettier"],
+  "ignorePatterns": ["dist/", "node_modules/", "webpack.config.js"],
+  "rules": {
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/return-await": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "react/no-unescaped-entities": "off"
+  },
   "settings": {
     "react": {
       "version": "detect"

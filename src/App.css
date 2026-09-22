@@ -25,6 +25,14 @@ a {
   text-decoration: none;
 }
 
+.searchRouteFallback {
+  min-height: 100vh;
+  padding-top: 5rem;
+  background: #131313;
+  color: var(--white);
+  text-align: center;
+}
+
 :root {
   --radial-gradient: radial-gradient(
     110.23% 110.23% at 50% 50%,
