@@ -11,16 +11,21 @@ const Search = lazy(async () => await import('./pages/Search/Search'));
 
 const App = () => {
   return (
-    <Suspense fallback={<>...loading</>}>
-      <Router basename={process.env.BASE_PATH}>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-        <Footer />
-      </Router>
-    </Suspense>
+    <Router basename={process.env.BASE_PATH}>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/search"
+          element={
+            <Suspense fallback={<>...loading</>}>
+              <Search />
+            </Suspense>
+          }
+        />
+      </Routes>
+      <Footer />
+    </Router>
   );
 };
 
