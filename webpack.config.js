@@ -28,7 +28,8 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: isProduction ? '[name].[contenthash:8].js' : '[name].js',
+    chunkFilename: isProduction ? '[name].[contenthash:8].js' : '[name].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -46,7 +47,14 @@ module.exports = {
       patterns: [{ from: './public', to: './public' }]
     }),
     new Dotenv(),
-    ...(isProduction ? [new MiniCssExtractPlugin()] : [])
+    ...(isProduction
+      ? [
+          new MiniCssExtractPlugin({
+            filename: '[name].[contenthash:8].css',
+            chunkFilename: '[name].[contenthash:8].css'
+          })
+        ]
+      : [])
   ],
   module: {
     rules: [
