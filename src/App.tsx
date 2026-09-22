@@ -12,14 +12,20 @@ const Search = lazy(() => import('./pages/Search/Search'));
 const App = () => {
   return (
     <HashRouter>
-      <Suspense fallback={<div>Loading...</div>}>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-        <Footer />
-      </Suspense>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+
+        <Route
+          path="/search"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <Search />
+            </Suspense>
+          }
+        />
+      </Routes>
+      <Footer />
     </HashRouter>
   );
 };
