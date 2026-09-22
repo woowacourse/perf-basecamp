@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 import { GifImageModel } from '../../../../models/image/gifImage';
-import useIntersectionObserver from '../../hooks/useIntersectionObserver';
+import Video from '../../../../components/Video/Video';
 
 import styles from './GifItem.module.css';
 
@@ -10,18 +10,17 @@ type GifItemProps = Omit<GifImageModel, 'id'> & {
 };
 
 const GifItem = ({ sources, title = '', loadImmediately = false }: GifItemProps): JSX.Element => {
-  const { ref: containerRef, isIntersecting } =
-    useIntersectionObserver<HTMLDivElement>('100px 0px');
-  const shouldLoadVideo = loadImmediately || isIntersecting;
   const imageUrl = sources.webp ?? sources.gif;
 
   return (
-    <div ref={containerRef} className={styles.gifItem}>
+    <div className={styles.gifItem}>
       {sources.video !== undefined ? (
-        <video
+        <Video
           className={styles.gifImage}
-          src={shouldLoadVideo ? sources.video : undefined}
-          poster={shouldLoadVideo ? sources.poster : undefined}
+          src={sources.video}
+          poster={sources.poster}
+          loading={loadImmediately ? 'eager' : 'lazy'}
+          rootMargin="100px 0px"
           autoPlay
           loop
           muted

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import Video from '../../../../components/Video/Video';
+
 import styles from './FeatureItem.module.css';
 
 interface FeatureItemProps {
@@ -25,16 +27,17 @@ const FeatureItem = ({ title, sources }: FeatureItemProps): JSX.Element => {
   return (
     <div className={styles.featureItem}>
       {shouldUseVideo ? (
-        <video
+        <Video
+          src={sources.video}
+          loading="lazy"
           className={styles.featureMedia}
+          preload="none"
           autoPlay
           loop
           muted
           playsInline
           onError={() => setShouldUseVideo(false)}
-        >
-          <source src={sources.video} type="video/mp4" />
-        </video>
+        />
       ) : (
         <picture>
           <source srcSet={sources.webp} type="image/webp" />
