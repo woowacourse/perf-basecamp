@@ -10,7 +10,7 @@ const PRELOAD_MARGIN = '200px';
 
 const GifItem = ({ videoUrl = '', title = '' }: GifItemProps): JSX.Element => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isNearViewport, setIsNearViewport] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -19,9 +19,14 @@ const GifItem = ({ videoUrl = '', title = '' }: GifItemProps): JSX.Element => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
-          setIsNearViewport(true);
-          observer.disconnect();
+          setShouldLoad(true);
+          if (video.currentSrc !== '' && video.paused) {
+            video.play().catch(() => undefined);
+          }
+          return;
         }
+
+        video.pause();
       },
       { rootMargin: PRELOAD_MARGIN }
     );
@@ -35,7 +40,7 @@ const GifItem = ({ videoUrl = '', title = '' }: GifItemProps): JSX.Element => {
       <video
         ref={videoRef}
         className={styles.gifImage}
-        src={isNearViewport ? videoUrl : undefined}
+        src={shouldLoad ? videoUrl : undefined}
         aria-label={title}
         preload="none"
         autoPlay
