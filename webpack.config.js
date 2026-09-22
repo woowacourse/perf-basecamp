@@ -31,10 +31,15 @@ module.exports = (_, argv) => {
         patterns: [{ from: './public', to: './public' }]
       }),
       new Dotenv(),
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'static',
-        openAnalyzer: false
-      }),
+      ...(isProduction
+        ? [
+            new BundleAnalyzerPlugin({
+              analyzerMode: 'static',
+              openAnalyzer: false,
+              reportFilename: path.resolve(__dirname, 'reports/bundle-report.html')
+            })
+          ]
+        : []),
       new MiniCssExtractPlugin({
         filename: '[name].[contenthash].css',
         chunkFilename: '[name].[contenthash].css'
