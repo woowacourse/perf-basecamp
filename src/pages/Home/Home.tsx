@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import heroImage from '../../assets/images/optimized/hero.webp';
-import trendingGif from '../../assets/images/optimized/trending.webp';
-import findGif from '../../assets/images/optimized/find-lossy.webp';
-import freeGif from '../../assets/images/optimized/free-lossy.webp';
+import trendingGif from '../../assets/images/optimized/trending.mp4';
+import findGif from '../../assets/images/optimized/find.mp4';
+import freeGif from '../../assets/images/optimized/free.mp4';
 
 import FeatureItem from './components/FeatureItem/FeatureItem';
 import CustomCursor from './components/CustomCursor/CustomCursor';
@@ -40,9 +40,9 @@ const Home = () => {
         <div className={styles.featureSectionWrapper}>
           <h2 className={styles.featureTitle}>Features</h2>
           <div className={styles.featureItemContainer}>
-            <FeatureItem title="See trending gif" imageSrc={trendingGif} />
-            <FeatureItem title="Find gif for free" imageSrc={findGif} />
-            <FeatureItem title="Free for everyone" imageSrc={freeGif} />
+            <FeatureItem title="See trending gif" videoSrc={trendingGif} />
+            <FeatureItem title="Find gif for free" videoSrc={findGif} />
+            <FeatureItem title="Free for everyone" videoSrc={freeGif} />
           </div>
           <Link to="/search">
             <button className={styles.linkButton}>start search</button>
