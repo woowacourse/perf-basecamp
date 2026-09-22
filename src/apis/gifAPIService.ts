@@ -10,7 +10,7 @@ if (API_KEY === undefined || API_KEY === '') {
 }
 
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
-const DEFAULT_FETCH_COUNT = 16;
+export const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_CACHE_KEY = 'trending';
 const gifPromiseCache = new Map<string, Promise<GifImageModel[]>>();
 

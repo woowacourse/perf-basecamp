@@ -1,4 +1,5 @@
 import { GifImageModel } from '../../../../models/image/gifImage';
+import { DEFAULT_FETCH_COUNT } from '../../../../apis/gifAPIService';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
 import GifItem from '../GifItem/GifItem';
@@ -22,6 +23,14 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps): JSX.Ele
     </div>
   );
 
+  const renderSkeletonList = (): JSX.Element => (
+    <div className={styles.gifResultWrapper} aria-hidden="true">
+      {Array.from({ length: DEFAULT_FETCH_COUNT }, (_, index) => (
+        <div key={index} className={styles.gifSkeleton} />
+      ))}
+    </div>
+  );
+
   const renderLoadMoreButton = (): JSX.Element => (
     <button className={styles.loadMoreButton} onClick={loadMore}>
       load more
@@ -38,7 +47,9 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps): JSX.Ele
           </>
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
-        return renderGifList();
+        return gifList.length === 0 ? renderSkeletonList() : renderGifList();
+      case SEARCH_STATUS.LOADING:
+        return renderSkeletonList();
       case SEARCH_STATUS.NO_RESULT:
       case SEARCH_STATUS.ERROR:
       default:
