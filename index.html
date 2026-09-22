@@ -5,19 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="<%= publicPath %>public/favicon.ico" />
+    <script>
+      (() => {
+        const normalizePath = (path) => path.replace(/\/+$/, '') || '/';
+        const currentPath = normalizePath(window.location.pathname);
+        const homePath = normalizePath('<%= publicPath %>');
+
+        if (currentPath === normalizePath('<%= publicPath %>search')) {
+          const preconnect = document.createElement('link');
+          preconnect.rel = 'preconnect';
+          preconnect.href = 'https://api.giphy.com';
+          preconnect.crossOrigin = 'anonymous';
+          document.head.appendChild(preconnect);
+        }
+
+        // Preload before React starts, only when opening the Home route.
+        if (currentPath !== homePath) return;
+
+        const preload = document.createElement('link');
+        preload.rel = 'preload';
+        preload.as = 'image';
+        preload.href = "<%= require('./src/pages/Home/assets/hero.webp') %>";
+        preload.imageSrcset =
+          "<%= require('./src/pages/Home/assets/hero-mobile.webp') %> 720w, <%= require('./src/pages/Home/assets/hero.webp') %> 1440w";
+        preload.imageSizes = '100vw';
+        preload.setAttribute('fetchpriority', 'high');
+        document.head.appendChild(preload);
+      })();
+    </script>
     <link
       rel="preload"
-      as="image"
-      href="<%= require('./src/pages/Home/assets/hero.webp') %>"
-      imagesrcset="<%= require('./src/pages/Home/assets/hero-mobile.webp') %> 720w, <%= require('./src/pages/Home/assets/hero.webp') %> 1440w"
-      imagesizes="100vw"
-      fetchpriority="high"
+      as="font"
+      type="font/woff2"
+      href="<%= require('./src/assets/fonts/josefin-sans-latin-normal.woff2') %>"
+      crossorigin
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="<%= require('./src/assets/fonts/josefin-sans-latin-italic.woff2') %>"
+      crossorigin
     />
     <title>memegle - gif search engine for you</title>
   </head>
