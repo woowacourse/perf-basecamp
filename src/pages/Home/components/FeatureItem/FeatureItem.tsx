@@ -15,7 +15,6 @@ const FeatureItem = ({ title, videoSrc }: FeatureItemProps) => {
         loop
         muted
         playsInline
-        preload="none"
       />
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
