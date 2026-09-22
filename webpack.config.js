@@ -18,7 +18,7 @@ const imageGenerators = ['avif', 'gif', 'jpeg', 'png', 'webp'].map(format => ({
     },
     encodeOptions: {
       [format]: {
-        quality: 75
+        quality: 65
       }
     }
   }
