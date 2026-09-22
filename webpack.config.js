@@ -31,7 +31,7 @@ module.exports = (_, argv) => {
         patterns: [{ from: './public', to: './public' }]
       }),
       new Dotenv(),
-      ...(isProduction
+      ...(process.env.BUNDLE_ANALYZE === 'true'
         ? [
             new BundleAnalyzerPlugin({
               analyzerMode: 'static',
