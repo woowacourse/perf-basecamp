@@ -22,7 +22,7 @@ module.exports = (_, argv) => {
       open: true,
       historyApiFallback: true
     },
-    devtool: 'source-map',
+    devtool: isProduction ? false : 'source-map',
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html'
