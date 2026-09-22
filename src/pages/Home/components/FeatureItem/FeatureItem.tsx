@@ -3,10 +3,10 @@ import styles from './FeatureItem.module.css';
 
 type FeatureItemProps = {
   title: string;
-  imageSrc: string;
+  videoSrc: string;
 };
 
-const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
+const FeatureItem = ({ title, videoSrc }: FeatureItemProps) => {
   const itemRef = useRef<HTMLDivElement>(null);
   const [shouldLoad, setShouldLoad] = useState(false);
 
@@ -33,7 +33,17 @@ const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
 
   return (
     <div ref={itemRef} className={styles.featureItem}>
-      {shouldLoad && <img className={styles.featureImage} src={imageSrc} alt="" />}
+      {shouldLoad && (
+        <video
+          className={styles.featureImage}
+          src={videoSrc}
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-hidden="true"
+        />
+      )}
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>
     </div>
