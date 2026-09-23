@@ -1,23 +1,25 @@
-import { useEffect, useRef } from 'react';
-import useMousePosition from '../../hooks/useMousePosition';
+import { useCallback, useRef } from 'react';
+import useMousePosition, { MousePosition } from '../../hooks/useMousePosition';
 
 import styles from './CustomCursor.module.css';
 
-type CustomCursorProps = {
+interface CustomCursorProps {
   text: string;
-};
+}
 
 const CustomCursor = ({ text = '' }: CustomCursorProps) => {
   const [...cursorTextChars] = text;
-  const mousePosition = useMousePosition();
-  const cursorRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (cursorRef.current) {
-      cursorRef.current.style.top = `${mousePosition.pageY}px`;
-      cursorRef.current.style.left = `${mousePosition.pageX}px`;
+  const updateMousePosition = useCallback((mousePosition: MousePosition) => {
+    if (cursorRef.current != null) {
+      if (mousePosition === null) return;
+      cursorRef.current.style.transform = `translate(${mousePosition.pageX ?? 0}px, ${
+        mousePosition.pageY ?? 0
+      }px)`;
     }
-  }, [mousePosition]);
+  }, []);
+  useMousePosition({ callback: updateMousePosition });
+  const cursorRef = useRef<HTMLDivElement>(null);
 
   return (
     <div ref={cursorRef} className={styles.cursor}>

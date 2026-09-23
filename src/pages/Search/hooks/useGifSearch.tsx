@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { gifAPIService } from '../../../apis/gifAPIService';
+import { gifRepository } from '../../../repositoris/gifRepository';
 import { GifImageModel } from '../../../models/image/gifImage';
 
 const DEFAULT_PAGE_INDEX = 0;
@@ -42,7 +42,7 @@ const useGifSearch = () => {
     resetSearch();
 
     try {
-      const gifs = await gifAPIService.searchByKeyword(searchKeyword, DEFAULT_PAGE_INDEX);
+      const gifs = await gifRepository.searchByKeyword(searchKeyword, DEFAULT_PAGE_INDEX);
 
       if (gifs.length === 0) {
         setStatus(SEARCH_STATUS.NO_RESULT);
@@ -60,7 +60,7 @@ const useGifSearch = () => {
     const nextPageIndex = currentPageIndex + 1;
 
     try {
-      const newGitList = await gifAPIService.searchByKeyword(searchKeyword, nextPageIndex);
+      const newGitList = await gifRepository.searchByKeyword(searchKeyword, nextPageIndex);
 
       setGifList((prevGifList) => [...prevGifList, ...newGitList]);
       setCurrentPageIndex(nextPageIndex);
@@ -74,7 +74,8 @@ const useGifSearch = () => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
       try {
-        const gifs = await gifAPIService.getTrending();
+        const staleTime = 24 * 60 * 60 * 1000;
+        const gifs = await gifRepository.getTrending({ staleTime });
         setGifList(gifs);
       } catch (error) {
         handleError(error);
