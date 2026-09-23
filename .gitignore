@@ -23,3 +23,6 @@ Thumbs.db
 # performance trace 원본 (1개당 20~70MB). 지표는 docs/performance/*.metrics.md 에 커밋한다
 /docs/performance/*.json
 /docs/performance/*.json.gz
+
+# network HAR 원본 (용량이 큼). 지표는 docs/measure-network.md 에 커밋한다
+/docs/network/*.har
