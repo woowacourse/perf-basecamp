@@ -1,4 +1,5 @@
 const path = require('path');
+const { readFileSync } = require('node:fs');
 const { DefinePlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
@@ -53,6 +54,12 @@ module.exports = async (env = {}, argv = {}) => {
             }
           : false,
         templateParameters: (compilation, assets, tags, options) => {
+          const faviconPath = path.join(__dirname, 'public/favicon.ico');
+          compilation.fileDependencies.add(faviconPath);
+          // The original icon adds under 1 KB after gzip and needs no extra request.
+          const faviconUrl = isProduction
+            ? `data:image/x-icon;base64,${readFileSync(faviconPath).toString('base64')}`
+            : `${publicPath}public/favicon.ico`;
           const initialAssets = new Set([...assets.js, ...assets.css]);
           const searchFiles = [
             ...new Set(
@@ -90,6 +97,7 @@ module.exports = async (env = {}, argv = {}) => {
             webpackConfig: compilation.options,
             htmlWebpackPlugin: { tags, files: assets, options },
             publicPath,
+            faviconUrl,
             searchAssets,
             searchStyleAssets: [...cssFiles].map((file) => `${publicPath}${file}`),
             searchMarkup,
