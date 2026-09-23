@@ -10,6 +10,7 @@
 }
 
 .searchbarTitle {
+  font-family: 'Josefin Sans Search UI', 'Josefin Sans', sans-serif;
   font-style: italic;
   font-weight: 700;
   font-size: 3rem;

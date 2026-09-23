@@ -1,30 +1,46 @@
-import { GifsResult } from '@giphy/js-fetch-api';
-import { IGif } from '@giphy/js-types';
+import type { GifsResult } from '@giphy/js-fetch-api';
+import type { IGif } from '@giphy/js-types';
 
-import { GifImageModel } from '../models/image/gifImage';
+import { GifImageModel } from '../types/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import { API_KEY, BASE_URL, DEFAULT_FETCH_COUNT, TRENDING_URL } from './giphyConfig';
 
-const API_KEY = process.env.GIPHY_API_KEY;
-if (!API_KEY) {
+if (API_KEY === '') {
   throw new Error('GIPHY_API_KEY is not set in environment variables');
 }
 
-const BASE_URL = 'https://api.giphy.com/v1/gifs';
-const DEFAULT_FETCH_COUNT = 16;
+const TRENDING_CACHE_TTL = 30 * 60 * 1000;
+let trendingRequest: Promise<GifImageModel[]> | undefined;
+let trendingExpiresAt = 0;
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
-  return gifList.map(({ id, title, images }) => {
+  return gifList.map(({ id, title, images, is_sticker: isSticker }) => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.url
+      imageUrl: images.fixed_width?.webp ?? images.fixed_width?.url ?? images.original.url,
+      posterUrl: images.fixed_width_still?.url ?? images.original_still?.url,
+      // Stickers need transparency, which the MP4 rendition does not preserve.
+      videoUrl: isSticker ? undefined : images.fixed_width?.mp4
     };
   });
 };
 
-const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+const fetchGifs = async (
+  url: URL,
+  prefetchedResponse?: Promise<Response>
+): Promise<GifImageModel[]> => {
   try {
-    const gifs = await apiClient.fetch<GifsResult>(url);
+    let gifs: GifsResult;
+    if (prefetchedResponse !== undefined) {
+      const response = await prefetchedResponse;
+      if (!response.ok) {
+        throw new ApiError(response.status, `HTTP error! status: ${response.status}`);
+      }
+      gifs = await response.json();
+    } else {
+      gifs = await apiClient.fetch<GifsResult>(url);
+    }
 
     return convertResponseToModel(gifs.data);
   } catch (error) {
@@ -39,18 +55,34 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
 
 export const gifAPIService = {
   /**
-   * treding gif 목록을 가져옵니다.
+   * Trending 결과를 30분간 재사용하고, 진행 중인 요청도 공유합니다.
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
-    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
-      api_key: API_KEY,
-      limit: `${DEFAULT_FETCH_COUNT}`,
-      rating: 'g'
-    });
+    if (trendingRequest !== undefined && Date.now() < trendingExpiresAt) {
+      return await trendingRequest;
+    }
 
-    return fetchGifs(url);
+    const url = new URL(TRENDING_URL);
+    const earlyRequest = typeof window === 'undefined' ? undefined : window.memegleTrendingRequest;
+    const prefetchedResponse = earlyRequest?.url === url.href ? earlyRequest.response : undefined;
+    if (earlyRequest !== undefined) delete window.memegleTrendingRequest;
+
+    // Pending requests do not expire; the TTL starts after a successful response.
+    trendingExpiresAt = Infinity;
+    trendingRequest = fetchGifs(url, prefetchedResponse)
+      .then((gifs) => {
+        trendingExpiresAt = Date.now() + TRENDING_CACHE_TTL;
+        return gifs;
+      })
+      .catch((error: unknown) => {
+        trendingRequest = undefined;
+        trendingExpiresAt = 0;
+        throw error;
+      });
+
+    return await trendingRequest;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
@@ -69,6 +101,6 @@ export const gifAPIService = {
       lang: 'en'
     });
 
-    return fetchGifs(url);
+    return await fetchGifs(url);
   }
 };

@@ -1,11 +1,10 @@
 .featureItem {
   position: relative;
-  width: 30rem;
+  width: min(30rem, calc(100vw - 2rem));
   height: 26rem;
   overflow: hidden;
   margin-bottom: 5.5rem;
   text-align: center;
-  transition: 0.8s all ease-in-out;
   border-radius: 4%;
 }
 
@@ -22,7 +21,7 @@
 .featureTitleBg {
   position: absolute;
   top: 0;
-  width: 30rem;
+  width: 100%;
   height: 10.25rem;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #0d0310 71.35%);
   transform: rotate(-180deg);

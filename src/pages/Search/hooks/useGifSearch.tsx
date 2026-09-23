@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { gifAPIService } from '../../../apis/gifAPIService';
-import { GifImageModel } from '../../../models/image/gifImage';
+import { GifImageModel } from '../../../types/gifImage';
 
 const DEFAULT_PAGE_INDEX = 0;
 
@@ -13,36 +13,51 @@ export const SEARCH_STATUS = {
   ERROR: 'ERROR'
 } as const;
 
-export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
+export type SearchStatus = (typeof SEARCH_STATUS)[keyof typeof SEARCH_STATUS];
 
-const useGifSearch = () => {
+interface GifSearchResult {
+  readonly status: SearchStatus;
+  readonly searchKeyword: string;
+  readonly gifList: GifImageModel[];
+  readonly errorMessage: string | null;
+  readonly searchByKeyword: () => Promise<void>;
+  readonly updateSearchKeyword: (event: ChangeEvent<HTMLInputElement>) => void;
+  readonly loadMore: () => Promise<void>;
+}
+
+const useGifSearch = (): GifSearchResult => {
   const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState(() => {
+    if (typeof document === 'undefined') return '';
+    const input = document.getElementById('gif-search-input');
+    // Preserve text typed into the prerendered form before hydration finishes.
+    return input instanceof HTMLInputElement ? input.value : '';
+  });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
+  const updateSearchKeyword = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchKeyword(e.target.value);
   };
 
-  const resetSearch = () => {
+  const resetSearch = (): void => {
     setStatus(SEARCH_STATUS.LOADING);
     setCurrentPageIndex(DEFAULT_PAGE_INDEX);
     setGifList([]);
     setErrorMessage(null);
   };
 
-  const handleError = (error: unknown) => {
+  const handleError = (error: unknown): void => {
     setStatus(SEARCH_STATUS.ERROR);
     setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred');
   };
 
-  const searchByKeyword = async (): Promise<void> => {
+  const performSearch = async (keyword: string): Promise<void> => {
     resetSearch();
 
     try {
-      const gifs = await gifAPIService.searchByKeyword(searchKeyword, DEFAULT_PAGE_INDEX);
+      const gifs = await gifAPIService.searchByKeyword(keyword, DEFAULT_PAGE_INDEX);
 
       if (gifs.length === 0) {
         setStatus(SEARCH_STATUS.NO_RESULT);
@@ -54,6 +69,10 @@ const useGifSearch = () => {
     } catch (error) {
       handleError(error);
     }
+  };
+
+  const searchByKeyword = async (): Promise<void> => {
+    await performSearch(searchKeyword);
   };
 
   const loadMore = async (): Promise<void> => {
@@ -70,7 +89,20 @@ const useGifSearch = () => {
   };
 
   useEffect(() => {
-    const fetchTrending = async () => {
+    const input = document.getElementById('gif-search-input');
+    const pendingKeyword =
+      input instanceof HTMLInputElement ? input.dataset.pendingSearch : undefined;
+    if (input instanceof HTMLInputElement) delete input.dataset.pendingSearch;
+    document.dispatchEvent(new Event('memegle:search-hydrated'));
+
+    // Submit exactly what was entered before hydration, including an empty query.
+    if (pendingKeyword !== undefined) {
+      setSearchKeyword(pendingKeyword);
+      void performSearch(pendingKeyword);
+      return;
+    }
+
+    const fetchTrending = async (): Promise<void> => {
       if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
 
       try {
@@ -81,7 +113,7 @@ const useGifSearch = () => {
       }
     };
 
-    fetchTrending();
+    void fetchTrending();
   }, []);
 
   return {

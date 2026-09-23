@@ -1,4 +1,4 @@
-import { Artist } from '../../../../models/help/artist';
+import { Artist } from '../../../../types/artist';
 
 const DUMMY_ARTISTS_LENGTH = 100;
 const DUMMY_ARTISTS: Artist[] = [
