@@ -33,12 +33,17 @@ const App = () => {
       <div className="appShell">
         <NavBar />
         <main className="routeContent">
-          <Suspense fallback={<SearchFallback />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/search" element={<Search />} />
-            </Routes>
-          </Suspense>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/search"
+              element={
+                <Suspense fallback={<SearchFallback />}>
+                  <Search />
+                </Suspense>
+              }
+            />
+          </Routes>
         </main>
         <Footer />
       </div>
