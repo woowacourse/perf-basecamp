@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import AppFrame from './AppFrame';
 
 import './assets/fonts/fonts.css';
+import './assets/fonts/search-ui.css';
 import './App.css';
 
 export const loadSearchPage = async (): Promise<typeof import('./pages/Search/Search')> => {

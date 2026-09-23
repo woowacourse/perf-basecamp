@@ -1,0 +1,26 @@
+/*
+ * Josefin Sans, subset by Google Fonts for the initial Search UI (unmodified WOFF2).
+ * Source: https://fonts.googleapis.com/css2?family=Josefin+Sans%3Aital%2Cwght%400%2C400%3B0%2C700%3B1%2C700&text=memegle+start+search+-+find+the+best+gif+now+-+Trending+Now+What%27s+all+this%3F+%28c%29+memegle.+All+rights+reserved.+Powered+by%C2%A0Giphy.&display=swap
+ * Includes U+00A0 for the footer's nonbreaking space before Giphy.
+ * Downloaded 2026-09-23; Google Fonts v34. SIL OFL 1.1: see OFL.txt.
+ * Google serves the same normal WOFF2 for weights 400 and 700.
+ */
+@font-face {
+  font-family: 'Josefin Sans Search UI';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(./search-ui-normal.woff2) format('woff2');
+  unicode-range: U+20, U+27-29, U+2D-2E, U+3F, U+41, U+47, U+4E, U+50, U+54, U+57, U+61-69, U+6C-70,
+    U+72-74, U+76-77, U+79, U+A0;
+}
+
+@font-face {
+  font-family: 'Josefin Sans Search UI';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(./search-ui-italic.woff2) format('woff2');
+  unicode-range: U+20, U+27-29, U+2D-2E, U+3F, U+41, U+47, U+4E, U+50, U+54, U+57, U+61-69, U+6C-70,
+    U+72-74, U+76-77, U+79, U+A0;
+}

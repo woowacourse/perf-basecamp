@@ -68,6 +68,20 @@
         // Preload before React starts, only when opening the Home route.
         if (currentPath !== homePath) return;
 
+        const fonts = [
+          "<%= require('./src/assets/fonts/josefin-sans-latin-normal.woff2') %>",
+          "<%= require('./src/assets/fonts/josefin-sans-latin-italic.woff2') %>"
+        ];
+        for (const font of fonts) {
+          const preload = document.createElement('link');
+          preload.rel = 'preload';
+          preload.as = 'font';
+          preload.type = 'font/woff2';
+          preload.crossOrigin = 'anonymous';
+          preload.href = font;
+          document.head.appendChild(preload);
+        }
+
         const preload = document.createElement('link');
         preload.rel = 'preload';
         preload.as = 'image';
@@ -79,20 +93,6 @@
         document.head.appendChild(preload);
       })();
     </script>
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href="<%= require('./src/assets/fonts/josefin-sans-latin-normal.woff2') %>"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href="<%= require('./src/assets/fonts/josefin-sans-latin-italic.woff2') %>"
-      crossorigin
-    />
     <title>memegle - gif search engine for you</title>
   </head>
 
