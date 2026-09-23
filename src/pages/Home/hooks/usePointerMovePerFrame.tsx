@@ -2,7 +2,7 @@ import { useEffect, useEffectEvent } from 'react';
 
 type PointerMoveHandler = (event: PointerEvent) => void;
 
-const usePointerMove = (onMove: PointerMoveHandler) => {
+const usePointerMovePerFrame = (onMove: PointerMoveHandler) => {
   const handleMove = useEffectEvent(onMove);
 
   useEffect(() => {
@@ -22,4 +22,4 @@ const usePointerMove = (onMove: PointerMoveHandler) => {
   }, []);
 };
 
-export default usePointerMove;
+export default usePointerMovePerFrame;

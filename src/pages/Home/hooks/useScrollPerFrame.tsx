@@ -2,7 +2,7 @@ import { useEffect, useEffectEvent } from 'react';
 
 type ScrollHandler = () => void;
 
-const useScrollEvent = (onScroll: ScrollHandler) => {
+const useScrollPerFrame = (onScroll: ScrollHandler) => {
   const handleScroll = useEffectEvent(onScroll);
 
   useEffect(() => {
@@ -22,4 +22,4 @@ const useScrollEvent = (onScroll: ScrollHandler) => {
   }, []);
 };
 
-export default useScrollEvent;
+export default useScrollPerFrame;
