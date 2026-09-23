@@ -12,6 +12,14 @@
   padding-bottom: 5rem;
 }
 
+.gifSkeleton {
+  width: 280px;
+  height: 280px;
+  border-radius: 4%;
+  background: var(--radial-gradient);
+  opacity: 0.35;
+}
+
 .loadMoreButton {
   width: 100%;
   height: 3.5rem;

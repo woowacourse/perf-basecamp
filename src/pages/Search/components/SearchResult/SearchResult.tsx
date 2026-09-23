@@ -7,6 +7,8 @@ import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
 import styles from './SearchResult.module.css';
 
+const SKELETON_COUNT = 16;
+
 type SearchResultProps = {
   status: SearchStatus;
   gifList: GifImageModel[];
@@ -16,8 +18,13 @@ type SearchResultProps = {
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   const renderGifList = () => (
     <div className={styles.gifResultWrapper}>
-      {gifList.map((gif: GifImageModel) => (
-        <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+      {gifList.map((gif: GifImageModel, index) => (
+        <GifItem
+          key={gif.id}
+          sources={gif.sources}
+          title={gif.title}
+          loadImmediately={index === 0}
+        />
       ))}
     </div>
   );
@@ -26,6 +33,14 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
     <button className={styles.loadMoreButton} onClick={loadMore}>
       load more
     </button>
+  );
+
+  const renderSkeletonList = (): JSX.Element => (
+    <div className={styles.gifResultWrapper} aria-hidden="true">
+      {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+        <div key={index} className={styles.gifSkeleton} />
+      ))}
+    </div>
   );
 
   const renderContent = () => {
@@ -39,6 +54,8 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
         return renderGifList();
+      case SEARCH_STATUS.LOADING:
+        return renderSkeletonList();
       case SEARCH_STATUS.NO_RESULT:
       case SEARCH_STATUS.ERROR:
       default:

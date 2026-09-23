@@ -16,7 +16,7 @@ export const SEARCH_STATUS = {
 export type SearchStatus = typeof SEARCH_STATUS[keyof typeof SEARCH_STATUS];
 
 const useGifSearch = () => {
-  const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.BEFORE_SEARCH);
+  const [status, setStatus] = useState<SearchStatus>(SEARCH_STATUS.LOADING);
   const [currentPageIndex, setCurrentPageIndex] = useState(DEFAULT_PAGE_INDEX);
   const [gifList, setGifList] = useState<GifImageModel[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -71,11 +71,10 @@ const useGifSearch = () => {
 
   useEffect(() => {
     const fetchTrending = async () => {
-      if (status !== SEARCH_STATUS.BEFORE_SEARCH) return;
-
       try {
         const gifs = await gifAPIService.getTrending();
         setGifList(gifs);
+        setStatus(SEARCH_STATUS.BEFORE_SEARCH);
       } catch (error) {
         handleError(error);
       }
