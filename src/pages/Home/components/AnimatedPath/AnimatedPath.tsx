@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { clamp } from '../../../../utils/number';
-import useScrollPerFrame from '../../hooks/useScrollPerFrame';
+import useWindowEventPerFrame from '../../hooks/useWindowEventPerFrame';
 
 import styles from './AnimatedPath.module.css';
 
@@ -48,7 +48,7 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     drawPath();
   }, []);
 
-  useScrollPerFrame(drawPath);
+  useWindowEventPerFrame('scroll', drawPath);
 
   return (
     <svg

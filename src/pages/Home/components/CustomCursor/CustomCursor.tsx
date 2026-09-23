@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import usePointerMovePerFrame from '../../hooks/usePointerMovePerFrame';
+import useWindowEventPerFrame from '../../hooks/useWindowEventPerFrame';
 
 import styles from './CustomCursor.module.css';
 
@@ -17,7 +17,7 @@ const CustomCursor = ({ text = '' }: CustomCursorProps) => {
     }
   };
 
-  usePointerMovePerFrame(moveCursor);
+  useWindowEventPerFrame('pointermove', moveCursor);
 
   return (
     <div ref={cursorRef} className={styles.cursor}>
