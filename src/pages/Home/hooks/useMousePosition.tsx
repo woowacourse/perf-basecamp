@@ -1,39 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-export type MousePosition = Partial<MouseEvent>;
+export interface MousePosition {
+  pageX: number;
+  pageY: number;
+}
 
-const useMousePosition = () => {
-  const [mousePosition, setMousePosition] = useState<MousePosition>({
-    clientX: 0,
-    clientY: 0,
-    pageX: 0,
-    pageY: 0,
-    offsetX: 0,
-    offsetY: 0
-  });
+type MousePositionHandler = (position: MousePosition) => void;
 
-  const updateMousePosition = (e: MouseEvent) => {
-    const { clientX, clientY, pageX, pageY, offsetX, offsetY } = e;
-
-    setMousePosition({
-      clientX,
-      clientY,
-      pageX,
-      pageY,
-      offsetX,
-      offsetY
-    });
-  };
+const useMousePosition = (onMove: MousePositionHandler): void => {
+  const onMoveRef = useRef(onMove);
 
   useEffect(() => {
-    window.addEventListener('mousemove', updateMousePosition);
+    onMoveRef.current = onMove;
+  }, [onMove]);
+
+  useEffect(() => {
+    let frameId: number | null = null;
+    let position: MousePosition = { pageX: 0, pageY: 0 };
+
+    const flushMousePosition = (): void => {
+      frameId = null;
+      onMoveRef.current(position);
+    };
+
+    const updateMousePosition = ({ pageX, pageY }: MouseEvent): void => {
+      position = { pageX, pageY };
+
+      if (frameId === null) {
+        frameId = requestAnimationFrame(flushMousePosition);
+      }
+    };
+
+    window.addEventListener('mousemove', updateMousePosition, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);
+
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
     };
   }, []);
-
-  return mousePosition;
 };
 
 export default useMousePosition;

@@ -3,11 +3,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
 module.exports = {
   entry: './src/index.tsx',
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: process.env.PROFILE === 'true' ? { 'react-dom$': 'react-dom/profiling' } : {}
+  },
   output: {
-    filename: 'bundle.js',
+    filename: 'static/[name].[contenthash:8].js',
+    chunkFilename: 'static/[name].[contenthash:8].js',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -24,7 +33,22 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    new MiniCssExtractPlugin({
+      filename: 'static/[name].[contenthash:8].css',
+      chunkFilename: 'static/[name].[contenthash:8].css'
+    }),
+    ...(process.env.ANALYZE === 'true'
+      ? [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: '../report/bundle-report.html',
+            openAnalyzer: false,
+            generateStatsFile: true,
+            statsFilename: '../report/stats.json'
+          })
+        ]
+      : [])
   ],
   module: {
     rules: [
@@ -37,18 +61,21 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|avif|mp4)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[contenthash:8].[ext]'
         }
       }
     ]
   },
   optimization: {
-    minimize: false
+    runtimeChunk: 'single',
+    minimize: process.env.PROFILE !== 'true',
+    usedExports: true,
+    minimizer: ['...', new CssMinimizerPlugin()]
   }
 };
