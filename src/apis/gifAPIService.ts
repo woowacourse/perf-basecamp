@@ -3,14 +3,12 @@ import type { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../types/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import { API_KEY, BASE_URL, DEFAULT_FETCH_COUNT, TRENDING_URL } from './giphyConfig';
 
-const API_KEY = process.env.GIPHY_API_KEY;
-if (API_KEY === undefined || API_KEY === '') {
+if (API_KEY === '') {
   throw new Error('GIPHY_API_KEY is not set in environment variables');
 }
 
-const BASE_URL = 'https://api.giphy.com/v1/gifs';
-const DEFAULT_FETCH_COUNT = 16;
 const TRENDING_CACHE_TTL = 30 * 60 * 1000;
 let trendingRequest: Promise<GifImageModel[]> | undefined;
 let trendingExpiresAt = 0;
@@ -28,9 +26,21 @@ const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   });
 };
 
-const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
+const fetchGifs = async (
+  url: URL,
+  prefetchedResponse?: Promise<Response>
+): Promise<GifImageModel[]> => {
   try {
-    const gifs = await apiClient.fetch<GifsResult>(url);
+    let gifs: GifsResult;
+    if (prefetchedResponse !== undefined) {
+      const response = await prefetchedResponse;
+      if (!response.ok) {
+        throw new ApiError(response.status, `HTTP error! status: ${response.status}`);
+      }
+      gifs = await response.json();
+    } else {
+      gifs = await apiClient.fetch<GifsResult>(url);
+    }
 
     return convertResponseToModel(gifs.data);
   } catch (error) {
@@ -54,15 +64,14 @@ export const gifAPIService = {
       return await trendingRequest;
     }
 
-    const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
-      api_key: API_KEY,
-      limit: `${DEFAULT_FETCH_COUNT}`,
-      rating: 'g'
-    });
+    const url = new URL(TRENDING_URL);
+    const earlyRequest = typeof window === 'undefined' ? undefined : window.memegleTrendingRequest;
+    const prefetchedResponse = earlyRequest?.url === url.href ? earlyRequest.response : undefined;
+    if (earlyRequest !== undefined) delete window.memegleTrendingRequest;
 
     // Pending requests do not expire; the TTL starts after a successful response.
     trendingExpiresAt = Infinity;
-    trendingRequest = fetchGifs(url)
+    trendingRequest = fetchGifs(url, prefetchedResponse)
       .then((gifs) => {
         trendingExpiresAt = Date.now() + TRENDING_CACHE_TTL;
         return gifs;

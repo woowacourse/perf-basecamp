@@ -17,6 +17,35 @@
           preconnect.href = 'https://api.giphy.com';
           preconnect.crossOrigin = 'anonymous';
           document.head.appendChild(preconnect);
+
+          const trendingUrl = <%= JSON.stringify(require('./src/apis/giphyConfig.ts').TRENDING_URL) %>;
+          if (trendingUrl !== '') {
+            const response = fetch(trendingUrl);
+            window.memegleTrendingRequest = { url: trendingUrl, response };
+
+            // Discover the real first card image before the React bundle finishes loading.
+            response
+              .then(async (result) => {
+                if (!result.ok || normalizePath(window.location.pathname) !== currentPath) return;
+                const { data } = await result.clone().json();
+                const gif = data?.[0];
+                if (!gif) return;
+
+                const images = gif.images;
+                const poster = images.fixed_width_still?.url ?? images.original_still?.url;
+                const imageUrl =
+                  !gif.is_sticker && images.fixed_width?.mp4 && poster
+                    ? poster
+                    : images.fixed_width?.webp ?? images.fixed_width?.url ?? images.original.url;
+                const preload = document.createElement('link');
+                preload.rel = 'preload';
+                preload.as = 'image';
+                preload.href = imageUrl;
+                preload.setAttribute('fetchpriority', 'high');
+                document.head.appendChild(preload);
+              })
+              .catch(() => {});
+          }
         }
 
         // Preload before React starts, only when opening the Home route.
