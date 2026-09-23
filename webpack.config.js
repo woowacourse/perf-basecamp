@@ -58,7 +58,11 @@ module.exports = {
         use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp)$/i,
+        test: /\.(gif|webp)$/i,
+        loader: path.resolve(__dirname, 'loaders/animated-image-to-mp4-loader.js')
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|mp4)$/i,
         loader: 'file-loader',
         options: {
           name: 'static/[name].[ext]'
