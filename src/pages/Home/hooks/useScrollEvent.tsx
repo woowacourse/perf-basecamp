@@ -1,23 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 type ScrollHandler = () => void;
 
 const useScrollEvent = (onScroll: ScrollHandler) => {
+  const handleScroll = useEffectEvent(onScroll);
+
   useEffect(() => {
     let frameId = 0;
 
-    const handleScroll = () => {
+    const scheduleFrame = () => {
       cancelAnimationFrame(frameId);
-      frameId = requestAnimationFrame(onScroll);
+      frameId = requestAnimationFrame(() => handleScroll());
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', scheduleFrame, { passive: true });
 
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', scheduleFrame);
     };
-  }, [onScroll]);
+  }, []);
 };
 
 export default useScrollEvent;

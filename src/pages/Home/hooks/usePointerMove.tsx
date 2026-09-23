@@ -1,23 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 type PointerMoveHandler = (event: PointerEvent) => void;
 
 const usePointerMove = (onMove: PointerMoveHandler) => {
+  const handleMove = useEffectEvent(onMove);
+
   useEffect(() => {
     let frameId = 0;
 
-    const handlePointerMove = (event: PointerEvent) => {
+    const scheduleFrame = (event: PointerEvent) => {
       cancelAnimationFrame(frameId);
-      frameId = requestAnimationFrame(() => onMove(event));
+      frameId = requestAnimationFrame(() => handleMove(event));
     };
 
-    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('pointermove', scheduleFrame, { passive: true });
 
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointermove', scheduleFrame);
     };
-  }, [onMove]);
+  }, []);
 };
 
 export default usePointerMove;
