@@ -2,3 +2,8 @@
   position: absolute;
   stroke-width: 2px;
 }
+
+.animatedPath path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}

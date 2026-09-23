@@ -1,7 +1,13 @@
+import { Suspense } from 'react';
+
 import { GifImageModel } from '../../../../models/image/gifImage';
+import ErrorBoundary from '../../../../components/ErrorBoundary/ErrorBoundary';
 
 import ResultTitle from '../ResultTitle/ResultTitle';
+import GifGrid from '../GifGrid/GifGrid';
 import GifItem from '../GifItem/GifItem';
+import TrendingGifs from '../TrendingGifs/TrendingGifs';
+import TrendingGifsFallback from '../TrendingGifs/TrendingGifsFallback';
 
 import { SearchStatus, SEARCH_STATUS } from '../../hooks/useGifSearch';
 
@@ -15,11 +21,11 @@ type SearchResultProps = {
 
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   const renderGifList = () => (
-    <div className={styles.gifResultWrapper}>
+    <GifGrid>
       {gifList.map((gif: GifImageModel) => (
         <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
       ))}
-    </div>
+    </GifGrid>
   );
 
   const renderLoadMoreButton = () => (
@@ -38,7 +44,13 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
           </>
         );
       case SEARCH_STATUS.BEFORE_SEARCH:
-        return renderGifList();
+        return (
+          <ErrorBoundary>
+            <Suspense fallback={<TrendingGifsFallback />}>
+              <TrendingGifs />
+            </Suspense>
+          </ErrorBoundary>
+        );
       case SEARCH_STATUS.NO_RESULT:
       case SEARCH_STATUS.ERROR:
       default:
