@@ -1,11 +1,11 @@
 import { Artist } from '../../../../models/help/artist';
 import ArtistInfo from '../ArtistInfo/ArtistInfo';
 
-type ArtistListProps = {
+interface ArtistListProps {
   artists: Artist[];
-};
+}
 
-const ArtistList = ({ artists }: ArtistListProps) => {
+const ArtistList = ({ artists }: ArtistListProps): JSX.Element => {
   return (
     <ul>
       {artists.map((artist, index) => {

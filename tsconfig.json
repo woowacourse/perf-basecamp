@@ -4,6 +4,7 @@
     "jsx": "react-jsx",
     "module": "esnext",
     "moduleResolution": "node",
+    "types": ["node"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "noUnusedLocals": true,
     "allowJs": true,
@@ -18,6 +19,6 @@
     "skipLibCheck": true
   },
   "compileOnSave": true,
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "global.d.ts"],
   "exclude": ["node_modules"]
 }
