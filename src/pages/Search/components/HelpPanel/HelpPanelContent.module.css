@@ -1,0 +1,46 @@
+.selectedItemContainer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 320px;
+  height: 100%;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895),
+    opacity 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895), visibility 0s 0.5s;
+}
+
+.selectedItemContainer.showSheet {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.sheetTitleContainer {
+  font-style: italic;
+  padding: 20px 16px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  height: 3.5rem;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sheetContentsContainer {
+  padding: 20px 16px 80px 16px;
+  height: 100%;
+  line-height: 1.5rem;
+  overflow-y: scroll;
+}
+
+.sheetContentsContainer img {
+  width: 100%;
+}
