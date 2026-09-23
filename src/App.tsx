@@ -1,10 +1,6 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
-import Home from './pages/Home/Home';
-
-import NavBar from './components/NavBar/NavBar';
-import Footer from './components/Footer/Footer';
+import { lazy } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import AppFrame from './AppFrame';
 
 import './assets/fonts/fonts.css';
 import './App.css';
@@ -25,20 +21,7 @@ const Search = lazy(loadSearchPage);
 const App = (): JSX.Element => {
   return (
     <Router basename={process.env.PUBLIC_PATH ?? '/'}>
-      <NavBar />
-      <Suspense
-        fallback={
-          <main style={{ minHeight: '90vh', paddingTop: '5rem' }} role="status">
-            Loading…
-          </main>
-        }
-      >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-      </Suspense>
-      <Footer />
+      <AppFrame SearchComponent={Search} />
     </Router>
   );
 };
