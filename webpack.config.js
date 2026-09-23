@@ -7,7 +7,11 @@ module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    // 파일명이 내용에 종속되므로 내용이 바뀔 때만 URL이 바뀐다.
+    // 정적 자산에 Cache-Control: immutable 을 적용할 수 있게 하는 전제.
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].chunk.js',
+    assetModuleFilename: 'static/[name].[contenthash][ext]',
     path: path.join(__dirname, '/dist'),
     clean: true
   },
@@ -40,15 +44,12 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|avif)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[contenthash].[ext]'
         }
       }
     ]
-  },
-  optimization: {
-    minimize: false
   }
 };
