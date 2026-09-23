@@ -20,6 +20,8 @@ const SearchResult = ({ status, gifList, loadMore }: SearchResultProps): JSX.Ele
         <GifItem
           key={gif.id}
           imageUrl={gif.imageUrl}
+          posterUrl={gif.posterUrl}
+          videoUrl={gif.videoUrl}
           title={gif.title}
           priority={index === 0}
         />

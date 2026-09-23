@@ -31,6 +31,17 @@
   object-fit: cover;
 }
 
+.gifVideo {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gifVideo.playing {
+  opacity: 1;
+}
+
 .gifTitleContainer {
   position: absolute;
   bottom: 0;

@@ -16,11 +16,14 @@ let trendingRequest: Promise<GifImageModel[]> | undefined;
 let trendingExpiresAt = 0;
 
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
-  return gifList.map(({ id, title, images }) => {
+  return gifList.map(({ id, title, images, is_sticker: isSticker }) => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.fixed_width?.webp ?? images.fixed_width?.url ?? images.original.url
+      imageUrl: images.fixed_width?.webp ?? images.fixed_width?.url ?? images.original.url,
+      posterUrl: images.fixed_width_still?.url ?? images.original_still?.url,
+      // Stickers need transparency, which the MP4 rendition does not preserve.
+      videoUrl: isSticker ? undefined : images.fixed_width?.mp4
     };
   });
 };
