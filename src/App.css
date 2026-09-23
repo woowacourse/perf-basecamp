@@ -25,6 +25,10 @@ a {
   text-decoration: none;
 }
 
+.routeLoading {
+  min-height: 100vh;
+}
+
 :root {
   --radial-gradient: radial-gradient(
     110.23% 110.23% at 50% 50%,
