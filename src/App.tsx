@@ -15,21 +15,33 @@ const Search = React.lazy(
     )
 );
 
+const SearchFallback = () => {
+  return (
+    <section className="searchFallback" aria-label="Search 페이지 불러오는 중">
+      <div className="searchFallbackTitle" />
+      <div className="searchFallbackBar">
+        <div className="searchFallbackInput" />
+        <div className="searchFallbackButton" />
+      </div>
+    </section>
+  );
+};
+
 const App = () => {
   return (
     <Router>
-      <NavBar />
-      <Suspense
-        fallback={
-          <div style={{ minHeight: '100vh', textAlign: 'center', padding: '50px' }}>Loading...</div>
-        }
-      >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-      </Suspense>
-      <Footer />
+      <div className="appShell">
+        <NavBar />
+        <main className="routeContent">
+          <Suspense fallback={<SearchFallback />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/search" element={<Search />} />
+            </Routes>
+          </Suspense>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 };
