@@ -3,6 +3,7 @@ import { IGif } from '@giphy/js-types';
 
 import { GifImageModel } from '../models/image/gifImage';
 import { apiClient, ApiError } from '../utils/apiClient';
+import { readTrendingCache, writeTrendingCache } from './trendingCache';
 
 const API_KEY = process.env.GIPHY_API_KEY;
 if (!API_KEY) {
@@ -37,20 +38,41 @@ const fetchGifs = async (url: URL): Promise<GifImageModel[]> => {
   }
 };
 
+// 동시에 여러 번 호출되어도 요청이 한 번만 나가도록 진행 중인 요청을 공유한다.
+let trendingRequest: Promise<GifImageModel[]> | null = null;
+
 export const gifAPIService = {
   /**
    * treding gif 목록을 가져옵니다.
+   *
+   * trending은 실시간성이 필요하지 않으므로, 한 번 받아온 결과를
+   * 세션 동안 캐시해 Search 페이지에 들어올 때마다 새로 요청하지 않습니다.
+   *
    * @returns {Promise<GifImageModel[]>}
    * @ref https://developers.giphy.com/docs/api/endpoint#!/gifs/trending
    */
   getTrending: async (): Promise<GifImageModel[]> => {
+    const cached = readTrendingCache();
+    if (cached !== null) return cached;
+
+    if (trendingRequest !== null) return trendingRequest;
+
     const url = apiClient.appendSearchParams(new URL(`${BASE_URL}/trending`), {
       api_key: API_KEY,
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
 
-    return fetchGifs(url);
+    trendingRequest = fetchGifs(url)
+      .then((gifs) => {
+        writeTrendingCache(gifs);
+        return gifs;
+      })
+      .finally(() => {
+        trendingRequest = null;
+      });
+
+    return trendingRequest;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.

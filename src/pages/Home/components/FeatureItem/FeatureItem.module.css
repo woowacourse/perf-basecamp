@@ -33,5 +33,7 @@
   top: 0;
   left: 0;
   height: 100%;
+  width: auto;
+  object-fit: cover;
   transform: translateX(-10%);
 }

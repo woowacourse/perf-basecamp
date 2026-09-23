@@ -6,6 +6,8 @@
   z-index: 10;
   padding: 0 16px;
   color: var(--white);
+  /* transform으로만 움직이므로 미리 합성 레이어로 올려 페인트를 피한다. */
+  will-change: transform;
 }
 
 .cursor::before {
