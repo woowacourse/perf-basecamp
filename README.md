@@ -52,6 +52,17 @@ npm run serve    # 개발 서버 실행 (http://localhost:8080)
 
 > 빌드 시 나오는 번들·이미지 크기 경고는 의도된 것입니다. 이 미션에서 직접 개선할 대상이에요. 🙂
 
+> **로컬에서 빈 화면이 뜬다면?**  
+> `App.tsx`의 `<Router basename={'/perf-basecamp'}>` 때문입니다. GitHub Pages 배포 경로
+> (`https://{username}.github.io/perf-basecamp`)에 맞춘 설정이라, 로컬 주소와는 맞지 않아
+> 라우터가 아무것도 렌더링하지 않습니다.  
+> 미션 시작 전 배포와 성능 측정을 마쳤다면 아래처럼 basename을 제거해주세요.
+>
+> ```diff
+> - <Router basename={'/perf-basecamp'}>
+> + <Router>
+> ```
+
 ## 📅 **진행 방식**
 
 - 이번 미션은 개인 미션입니다.
