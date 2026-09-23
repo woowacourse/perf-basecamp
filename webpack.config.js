@@ -2,14 +2,21 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   entry: './src/index.tsx',
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[contenthash:8].js',
+    chunkFilename: '[name].[contenthash:8].chunk.js',
     path: path.join(__dirname, '/dist'),
     clean: true
+  },
+  optimization: {
+    minimizer: ['...', new CssMinimizerPlugin()]
   },
   devServer: {
     hot: true,
@@ -24,7 +31,20 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: './public', to: './public' }]
     }),
-    new Dotenv()
+    new MiniCssExtractPlugin({
+      filename: 'styles.[contenthash:8].css',
+      chunkFilename: '[id].[contenthash:8].chunk.css'
+    }),
+    new Dotenv(),
+    ...(process.env.ANALYZE
+      ? [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: `report.${process.env.ANALYZE_MODE || 'default'}.html`,
+            openAnalyzer: false
+          })
+        ]
+      : [])
   ],
   module: {
     rules: [
@@ -37,18 +57,15 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|mp4)$/i,
         loader: 'file-loader',
         options: {
-          name: 'static/[name].[ext]'
+          name: 'static/[name].[contenthash:8].[ext]'
         }
       }
     ]
   },
-  optimization: {
-    minimize: false
-  }
 };
