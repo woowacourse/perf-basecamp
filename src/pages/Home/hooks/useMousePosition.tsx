@@ -1,40 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-export type MousePosition = Partial<MouseEvent>;
+export interface MousePosition {
+  pageX: number;
+  pageY: number;
+}
 
-const useMousePosition = () => {
-  const [mousePosition, setMousePosition] = useState<MousePosition>({
-    clientX: 0,
-    clientY: 0,
-    pageX: 0,
-    pageY: 0,
-    offsetX: 0,
-    offsetY: 0
-  });
+type MousePositionHandler = (mousePosition: MousePosition) => void;
 
+const useMousePosition = (onMousePositionChange: MousePositionHandler): void => {
   useEffect(() => {
     let animationFrameId: number | null = null;
-    let latestEvent: MouseEvent | null = null;
+    let latestPosition: MousePosition | null = null;
 
-    const flush = () => {
+    const flush = (): void => {
       animationFrameId = null;
 
-      if (latestEvent === null) return;
+      if (latestPosition === null) return;
 
-      const { clientX, clientY, pageX, pageY, offsetX, offsetY } = latestEvent;
-
-      setMousePosition({
-        clientX,
-        clientY,
-        pageX,
-        pageY,
-        offsetX,
-        offsetY
-      });
+      onMousePositionChange(latestPosition);
     };
 
-    const updateMousePosition = (e: MouseEvent) => {
-      latestEvent = e;
+    const updateMousePosition = ({ pageX, pageY }: MouseEvent): void => {
+      latestPosition = { pageX, pageY };
 
       if (animationFrameId === null) {
         animationFrameId = window.requestAnimationFrame(flush);
@@ -50,9 +37,7 @@ const useMousePosition = () => {
         window.cancelAnimationFrame(animationFrameId);
       }
     };
-  }, []);
-
-  return mousePosition;
+  }, [onMousePositionChange]);
 };
 
 export default useMousePosition;

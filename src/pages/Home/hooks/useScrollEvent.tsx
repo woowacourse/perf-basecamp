@@ -4,16 +4,14 @@ type ScrollHandler = () => void;
 
 const useScrollEvent = (onScroll: ScrollHandler) => {
   useEffect(() => {
-    let ticking = false;
+    let animationFrameId: number | null = null;
 
     const handleScroll = () => {
-      if (ticking) return;
+      if (animationFrameId !== null) return;
 
-      ticking = true;
-
-      window.requestAnimationFrame(() => {
+      animationFrameId = window.requestAnimationFrame(() => {
+        animationFrameId = null;
         onScroll();
-        ticking = false;
       });
     };
 
@@ -21,6 +19,10 @@ const useScrollEvent = (onScroll: ScrollHandler) => {
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
     };
   }, [onScroll]);
 };
