@@ -34,7 +34,29 @@ module.exports = (env = {}, argv = {}) => {
     },
     devtool: isProduction ? false : 'eval-cheap-module-source-map',
     plugins: [
-      new HtmlWebpackPlugin({ template: './index.html', templateParameters: { publicPath } }),
+      new HtmlWebpackPlugin({
+        template: './index.html',
+        templateParameters: (compilation, assets, tags, options) => {
+          const initialAssets = new Set([...assets.js, ...assets.css]);
+          const searchFiles = [
+            ...new Set(
+              ['search', 'giphy-api'].flatMap(
+                (name) => compilation.namedChunkGroups.get(name)?.getFiles() ?? []
+              )
+            )
+          ].filter((file) => /\.(js|css)$/.test(file));
+          const searchAssets = searchFiles
+            .map((file) => `${publicPath}${file}`)
+            .filter((file) => !initialAssets.has(file));
+          return {
+            compilation,
+            webpackConfig: compilation.options,
+            htmlWebpackPlugin: { tags, files: assets, options },
+            publicPath,
+            searchAssets
+          };
+        }
+      }),
       new DefinePlugin({ 'process.env.PUBLIC_PATH': JSON.stringify(publicPath) }),
       new CopyWebpackPlugin({ patterns: [{ from: './public', to: './public' }] }),
       new Dotenv(),

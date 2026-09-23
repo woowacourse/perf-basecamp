@@ -9,7 +9,18 @@ import Footer from './components/Footer/Footer';
 import './assets/fonts/fonts.css';
 import './App.css';
 
-const Search = lazy(async () => await import('./pages/Search/Search'));
+export const loadSearchPage = async (): Promise<typeof import('./pages/Search/Search')> => {
+  // Fetch data alongside the page chunk; useGifSearch reuses the in-flight request.
+  void import(/* webpackChunkName: "giphy-api" */ './apis/gifAPIService')
+    .then(async ({ gifAPIService }) => await gifAPIService.getTrending())
+    .catch(() => {
+      // The page handles request errors and retries through useGifSearch.
+    });
+
+  return await import(/* webpackChunkName: "search" */ './pages/Search/Search');
+};
+
+const Search = lazy(loadSearchPage);
 
 const App = (): JSX.Element => {
   return (

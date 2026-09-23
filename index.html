@@ -46,6 +46,23 @@
               })
               .catch(() => {});
           }
+
+          // Load Search route modules alongside the application bundle.
+          const searchAssets = <%= JSON.stringify(searchAssets) %>;
+          for (const asset of searchAssets) {
+            if (asset.endsWith('.js')) {
+              const script = document.createElement('script');
+              script.src = asset;
+              script.async = false;
+              document.head.appendChild(script);
+              continue;
+            }
+            const preload = document.createElement('link');
+            preload.rel = 'preload';
+            preload.as = 'style';
+            preload.href = asset;
+            document.head.appendChild(preload);
+          }
         }
 
         // Preload before React starts, only when opening the Home route.
