@@ -1,16 +1,38 @@
+import { useEffect, useState } from 'react';
+import classNames from 'classnames/bind';
+
 import styles from './FeatureItem.module.css';
 
-type FeatureItemProps = {
-  title: string;
-  imageSrc: string;
-};
+const cx = classNames.bind(styles);
 
-const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
+interface FeatureItemProps {
+  title: string;
+  videoSrc: string;
+}
+
+const FeatureItem = ({ title, videoSrc }: FeatureItemProps): JSX.Element => {
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setShouldLoad(true);
+  }, []);
+
   return (
     <div className={styles.featureItem}>
-      <img className={styles.featureImage} src={imageSrc} />
+      {!isLoaded && <div className={styles.skeleton} />}
+      <video
+        className={cx('featureImage', { featureImageLoaded: isLoaded })}
+        src={shouldLoad ? videoSrc : undefined}
+        preload="none"
+        onLoadedData={() => setIsLoaded(true)}
+        autoPlay
+        loop
+        playsInline
+        muted
+      />
       <div className={styles.featureTitleBg}></div>
-      <h4 className={styles.featureTitle}>{title}</h4>
+      <h3 className={styles.featureTitle}>{title}</h3>
     </div>
   );
 };

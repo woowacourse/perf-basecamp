@@ -1,7 +1,9 @@
 .featureItem {
   position: relative;
-  width: 30rem;
-  height: 26rem;
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+  aspect-ratio: 30 / 26;
   overflow: hidden;
   margin-bottom: 5.5rem;
   text-align: center;
@@ -17,21 +19,47 @@
   font-size: 2rem;
   line-height: 2rem;
   color: var(--white);
+  z-index: 3;
 }
 
 .featureTitleBg {
   position: absolute;
   top: 0;
-  width: 30rem;
+  width: 100%;
   height: 10.25rem;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #0d0310 71.35%);
   transform: rotate(-180deg);
+  z-index: 2;
 }
 
 .featureImage {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
+  width: 100%;
   height: 100%;
-  transform: translateX(-10%);
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
+  z-index: 1;
+}
+
+.featureImageLoaded {
+  opacity: 1;
+}
+
+.skeleton {
+  position: absolute;
+  inset: 0;
+  background: rgba(189, 0, 255, 0.15);
+  animation: skeletonPulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes skeletonPulse {
+  from {
+    opacity: 0.45;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

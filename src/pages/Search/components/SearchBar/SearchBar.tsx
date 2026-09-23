@@ -3,12 +3,12 @@ import { AiOutlineSearch } from 'react-icons/ai';
 
 import styles from './SearchBar.module.css';
 
-type SearchbarProps = {
+interface SearchbarProps {
   searchKeyword: string;
   onEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch: () => void;
-};
+}
 
 const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProps) => {
   return (
@@ -22,7 +22,12 @@ const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProp
           onKeyUp={onEnter}
           onChange={onChange}
         />
-        <button className={styles.searchButton} type="button" onClick={onSearch}>
+        <button
+          className={styles.searchButton}
+          type="button"
+          onClick={onSearch}
+          aria-label="search"
+        >
           <AiOutlineSearch color="white" size="2rem" />
         </button>
       </div>

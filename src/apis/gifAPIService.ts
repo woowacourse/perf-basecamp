@@ -12,12 +12,25 @@ if (!API_KEY) {
 const BASE_URL = 'https://api.giphy.com/v1/gifs';
 const DEFAULT_FETCH_COUNT = 16;
 
+const getTrendingCacheName = (): string =>
+  `trending-cache-v2-${new Date().toLocaleDateString('ko-KR')}`;
+
+const deleteOutdatedCaches = async (currentCacheName: string): Promise<void> => {
+  const cacheNames = await caches.keys();
+
+  await Promise.all(
+    cacheNames
+      .filter((name) => name !== currentCacheName)
+      .map(async (name) => await caches.delete(name))
+  );
+};
+
 const convertResponseToModel = (gifList: IGif[]): GifImageModel[] => {
   return gifList.map(({ id, title, images }) => {
     return {
       id,
       title: title ?? '',
-      imageUrl: images.original.url
+      imageUrl: images.fixed_width.webp ?? images.fixed_width.url
     };
   });
 };
@@ -49,8 +62,24 @@ export const gifAPIService = {
       limit: `${DEFAULT_FETCH_COUNT}`,
       rating: 'g'
     });
+    const cacheKey = url.toString();
 
-    return fetchGifs(url);
+    const cacheName = getTrendingCacheName();
+    const cache = await caches.open(cacheName);
+    const cachedResponse = await cache.match(cacheKey);
+
+    if (cachedResponse !== undefined) {
+      const cachedGifs: GifImageModel[] = await cachedResponse.json();
+
+      return cachedGifs;
+    }
+
+    const gifModels = await fetchGifs(url);
+
+    await cache.put(cacheKey, new Response(JSON.stringify(gifModels)));
+    await deleteOutdatedCaches(cacheName);
+
+    return gifModels;
   },
   /**
    * 검색어에 맞는 gif 목록을 가져옵니다.
@@ -69,6 +98,6 @@ export const gifAPIService = {
       lang: 'en'
     });
 
-    return fetchGifs(url);
+    return await fetchGifs(url);
   }
 };
