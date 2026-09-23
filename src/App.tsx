@@ -6,6 +6,7 @@ import Home from './pages/Home/Home';
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 
+import './assets/fonts/fonts.css';
 import './App.css';
 
 const Search = lazy(async () => await import('./pages/Search/Search'));
