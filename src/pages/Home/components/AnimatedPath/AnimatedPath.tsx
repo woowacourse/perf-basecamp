@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 import { clamp } from '../../../../utils/number';
 import useScrollEvent from '../../hooks/useScrollEvent';
 
@@ -27,7 +27,7 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     path.style.strokeDasharray = `${pathLength}`;
   }, []);
 
-  const drawPath = () => {
+  const drawPath = useCallback(() => {
     const wrapper = wrapperRef.current;
     const path = pathRef.current;
 
@@ -42,7 +42,7 @@ const AnimatedPath = ({ wrapperRef }: AnimatedPathProps) => {
     const currentScrollOffset = pathLength - pathLength * scrollRatio;
 
     path.style.strokeDashoffset = `${clamp(currentScrollOffset, 0, pathLength)}`;
-  };
+  }, [wrapperRef]);
 
   useScrollEvent(drawPath);
 
