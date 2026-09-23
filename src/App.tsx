@@ -14,17 +14,17 @@ import './App.css';
 
 const App = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Router basename={'/perf-basecamp'}>
-        {/* <Router> */}
-        <NavBar />
+    // <Router basename={'/perf-basecamp'}>
+    <Router>
+      <NavBar />
+      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
-        <Footer />
-      </Router>
-    </Suspense>
+      </Suspense>
+      <Footer />
+    </Router>
   );
 };
 
