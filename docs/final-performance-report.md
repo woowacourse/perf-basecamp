@@ -131,7 +131,7 @@ Hero URL이 React JavaScript 실행 후에야 발견됐기 때문이다. `fetchp
 
 HTML의 `loading="lazy"`만 사용한 중간 배포에서는 Lighthouse 측정 중 화면 아래의 animated WebP 세 개도 모두 요청됐다. 이 때문에 이미지 최적화와 LCP 개선 후에도 전체 전송량이 약 1.9MiB로 남았다.
 
-`FeatureItem`에 `IntersectionObserver`를 적용해 요소가 25% 이상 보일 때만 이미지 `src` 자체를 DOM에 추가하도록 변경했다.
+`FeatureItem`에 `IntersectionObserver`를 적용해 요소가 viewport에 들어오기 150px 전에 이미지 `src`를 DOM에 추가하도록 변경했다. 초기 viewport와 가까운 이미지는 바로 요청될 수 있으므로 낮은 fetch 우선순위를 지정해 Hero와의 경쟁을 줄였다. viewport에서 먼 나머지 이미지는 요청하지 않으면서 스크롤 시 이미지가 준비될 시간을 확보했다.
 
 ```tsx
 const observer = new IntersectionObserver(
@@ -141,13 +141,15 @@ const observer = new IntersectionObserver(
       observer.disconnect();
     }
   },
-  { threshold: 0.25 }
+  { rootMargin: '150px 0px' }
 );
 ```
 
 ```tsx
 <div>
-  {shouldLoadImage && <img src={imageSrc} alt="" decoding="async" />}
+  {shouldLoadImage && (
+    <img src={imageSrc} alt="" decoding="async" fetchpriority="low" />
+  )}
 </div>
 ```
 

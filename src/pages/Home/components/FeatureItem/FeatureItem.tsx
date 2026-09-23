@@ -30,7 +30,7 @@ const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
           observer.disconnect();
         }
       },
-      { threshold: 0.25 }
+      { rootMargin: '150px 0px' }
     );
 
     observer.observe(item);
@@ -43,7 +43,13 @@ const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
   return (
     <div ref={itemRef} className={styles.featureItem}>
       {shouldLoadImage && (
-        <img className={styles.featureImage} src={imageSrc} alt="" decoding="async" />
+        <img
+          className={styles.featureImage}
+          src={imageSrc}
+          alt=""
+          decoding="async"
+          fetchpriority="low"
+        />
       )}
       <div className={styles.featureTitleBg}></div>
       <h4 className={styles.featureTitle}>{title}</h4>

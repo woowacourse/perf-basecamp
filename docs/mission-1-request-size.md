@@ -153,13 +153,21 @@ import trendingImage from '../../assets/images/trending.gif?as=animated-webp';
 
 ### 이미지 로딩 우선순위 조정
 
-화면 아래의 feature 이미지에는 `IntersectionObserver`와 비동기 디코딩을 적용했다. 요소가 viewport에 25% 이상 들어오기 전에는 이미지 `src`를 DOM에 추가하지 않으므로 초기 요청에서 제외된다.
+화면 아래의 feature 이미지에는 `IntersectionObserver`와 비동기 디코딩을 적용했다. 요소가 viewport에서 150px 이내로 접근하기 전에는 이미지 `src`를 DOM에 추가하지 않는다.
 
 ```tsx
+const observer = new IntersectionObserver(callback, {
+  rootMargin: '150px 0px'
+});
+
 <div>
-  {shouldLoadImage && <img src={imageSrc} alt="" decoding="async" />}
+  {shouldLoadImage && (
+    <img src={imageSrc} alt="" decoding="async" fetchpriority="low" />
+  )}
 </div>
 ```
+
+이미지가 실제 viewport에 들어오기 150px 전에 요청을 시작해 스크롤 시 빈 영역이 노출될 가능성을 낮췄다. 초기 viewport와 가까운 이미지는 바로 요청될 수 있지만, `fetchpriority="low"`를 지정해 Hero 요청을 우선한다. viewport에서 먼 나머지 이미지는 계속 요청하지 않는다.
 
 Hero 이미지는 LCP 요소이므로 지연 로딩하지 않고 우선순위를 높였다. React가 실행되기 전 HTML 파싱 단계에서 발견할 수 있도록 `index.html`에도 preload를 추가했다.
 
