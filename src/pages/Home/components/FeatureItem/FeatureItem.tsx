@@ -1,11 +1,11 @@
 import styles from './FeatureItem.module.css';
 
-type FeatureItemProps = {
+interface FeatureItemProps {
   title: string;
   imageSrc: string;
-};
+}
 
-const FeatureItem = ({ title, imageSrc }: FeatureItemProps) => {
+const FeatureItem = ({ title, imageSrc }: FeatureItemProps): JSX.Element => {
   return (
     <div className={styles.featureItem}>
       <img className={styles.featureImage} src={imageSrc} />
