@@ -1,13 +1,14 @@
+import { memo } from 'react';
 import { GifImageModel } from '../../../../models/image/gifImage';
 
 import styles from './GifItem.module.css';
 
 type GifItemProps = Omit<GifImageModel, 'id'>;
 
-const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
+const GifItem = ({ videoUrl = '', title = '' }: GifItemProps) => {
   return (
     <div className={styles.gifItem}>
-      <img className={styles.gifImage} src={imageUrl} />
+      <video className={styles.gifImage} src={videoUrl} autoPlay loop muted playsInline />
       <div className={styles.gifTitleContainer}>
         <div className={styles.gifTitleBg}></div>
         <h4 className={styles.gifTitle}>{title}</h4>
@@ -16,4 +17,4 @@ const GifItem = ({ imageUrl = '', title = '' }: GifItemProps) => {
   );
 };
 
-export default GifItem;
+export default memo(GifItem);
