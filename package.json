@@ -53,7 +53,6 @@
     "eslint-plugin-react": "^7.31.1",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
-    "image-webpack-loader": "^8.1.0",
     "mini-css-extract-plugin": "^2.10.2",
     "prettier": "^2.3.2",
     "ts-loader": "^9.3.1",

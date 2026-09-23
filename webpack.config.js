@@ -66,25 +66,6 @@ module.exports = {
         generator: {
           filename: 'static/[name].[contenthash][ext]'
         }
-      },
-      {
-        test: /\.(png|jpg)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'static/[name].[contenthash][ext]'
-        },
-        use: [
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              // PNG 압축 옵션
-              pngquant: {
-                quality: [0.65, 0.9],
-                speed: 4
-              }
-            }
-          }
-        ]
       }
     ]
   },
