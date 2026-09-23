@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import type { ComponentType } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppFrame from './AppFrame';
 
@@ -19,10 +20,14 @@ export const loadSearchPage = async (): Promise<typeof import('./pages/Search/Se
 
 const Search = lazy(loadSearchPage);
 
-const App = (): JSX.Element => {
+interface AppProps {
+  SearchComponent?: ComponentType;
+}
+
+const App = ({ SearchComponent = Search }: AppProps): JSX.Element => {
   return (
     <Router basename={process.env.PUBLIC_PATH ?? '/'}>
-      <AppFrame SearchComponent={Search} />
+      <AppFrame SearchComponent={SearchComponent} />
     </Router>
   );
 };

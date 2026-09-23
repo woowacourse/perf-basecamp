@@ -7,11 +7,41 @@
     <link rel="icon" href="<%= publicPath %>public/favicon.ico" />
     <script>
       (() => {
-        const normalizePath = (path) => path.replace(/\/+$/, '') || '/';
+        const normalizePath = (path) => path.replace(/\/+$/, '').toLowerCase() || '/';
         const currentPath = normalizePath(window.location.pathname);
         const homePath = normalizePath('<%= publicPath %>');
+        const isSearch = currentPath === normalizePath('<%= publicPath %>search');
 
-        if (currentPath === normalizePath('<%= publicPath %>search')) {
+        <% if (typeof searchMarkup !== 'undefined' && searchMarkup) { %>
+        if (isSearch) {
+          const style = document.createElement('style');
+          style.textContent = <%= JSON.stringify(searchCriticalCss).replace(/</g, '\\u003c') %>;
+          document.head.appendChild(style);
+          // Tell webpack these extracted styles are already present during hydration.
+          for (const href of <%= JSON.stringify(searchStyleAssets) %>) {
+            const marker = document.createElement('style');
+            marker.setAttribute('data-href', href);
+            document.head.appendChild(marker);
+          }
+        } else {
+          for (const href of <%= JSON.stringify(htmlWebpackPlugin.files.js) %>) {
+            const preload = document.createElement('link');
+            preload.rel = 'preload';
+            preload.as = 'script';
+            preload.href = href;
+            document.head.appendChild(preload);
+          }
+          for (const href of <%= JSON.stringify(htmlWebpackPlugin.files.css) %>) {
+            const stylesheet = document.createElement('link');
+            stylesheet.rel = 'stylesheet';
+            stylesheet.href = href;
+            stylesheet.setAttribute('blocking', 'render');
+            document.head.appendChild(stylesheet);
+          }
+        }
+        <% } %>
+
+        if (isSearch) {
           const preconnect = document.createElement('link');
           preconnect.rel = 'preconnect';
           preconnect.href = 'https://api.giphy.com';
@@ -47,7 +77,8 @@
               .catch(() => {});
           }
 
-          // Load Search route modules alongside the application bundle.
+          <% if (typeof searchMarkup === 'undefined' || !searchMarkup) { %>
+          // Development has no prerender, so start loading the Search route now.
           const searchAssets = <%= JSON.stringify(searchAssets) %>;
           for (const asset of searchAssets) {
             if (asset.endsWith('.js')) {
@@ -63,6 +94,7 @@
             preload.href = asset;
             document.head.appendChild(preload);
           }
+          <% } %>
         }
 
         // Preload before React starts, only when opening the Home route.
@@ -98,5 +130,58 @@
 
   <body>
     <div id="app"></div>
+    <% if (typeof searchMarkup !== 'undefined' && searchMarkup) { %>
+    <template id="search-prerender"><%= searchMarkup %></template>
+    <script>
+      (() => {
+        const normalizePath = (path) => path.replace(/\/+$/, '').toLowerCase() || '/';
+        const isSearch = normalizePath(window.location.pathname) === normalizePath('<%= publicPath %>search');
+        const loadApp = () => {
+          const initialScripts = <%= JSON.stringify(htmlWebpackPlugin.files.js) %>;
+          const searchScripts = isSearch
+            ? <%= JSON.stringify(searchAssets.filter((asset) => asset.endsWith('.js'))) %>
+            : [];
+          for (const src of [...initialScripts, ...searchScripts]) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = false;
+            document.head.appendChild(script);
+          }
+        };
+
+        if (isSearch) {
+          const app = document.getElementById('app');
+          app.dataset.prerendered = 'search';
+          app.appendChild(document.getElementById('search-prerender').content.cloneNode(true));
+
+          // Keep a submission made while the hydration bundles are still loading.
+          const input = document.getElementById('gif-search-input');
+          const rememberSearch = (event) => {
+            const submitted = event.type === 'click'
+              ? event.target.closest('#gif-search-submit')
+              : event.target === input && event.key === 'Enter';
+            if (!submitted) return;
+            event.preventDefault();
+            event.stopPropagation();
+            input.dataset.pendingSearch = input.value;
+          };
+          document.addEventListener('click', rememberSearch, true);
+          document.addEventListener('keyup', rememberSearch, true);
+          document.addEventListener('memegle:search-hydrated', () => {
+            document.removeEventListener('click', rememberSearch, true);
+            document.removeEventListener('keyup', rememberSearch, true);
+          }, { once: true });
+
+          // Prioritize the real Search UI, its font and API request. Hydration
+          // bundles are requested after this screen has had a chance to paint.
+          if (document.visibilityState === 'hidden') loadApp();
+          else requestAnimationFrame(() => requestAnimationFrame(loadApp));
+        } else {
+          loadApp();
+        }
+        document.getElementById('search-prerender').remove();
+      })();
+    </script>
+    <% } %>
   </body>
 </html>

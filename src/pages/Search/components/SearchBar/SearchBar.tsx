@@ -16,6 +16,7 @@ const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProp
       <h3 className={styles.searchbarTitle}>- find the best gif now -</h3>
       <div className={styles.searchbarContainer}>
         <input
+          id="gif-search-input"
           className={styles.searchInput}
           type="text"
           aria-label="Search GIFs"
@@ -24,6 +25,7 @@ const SearchBar = ({ searchKeyword, onEnter, onChange, onSearch }: SearchbarProp
           onChange={onChange}
         />
         <button
+          id="gif-search-submit"
           className={styles.searchButton}
           type="button"
           onClick={onSearch}
