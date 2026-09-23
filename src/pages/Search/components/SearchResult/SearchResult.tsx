@@ -13,11 +13,18 @@ type SearchResultProps = {
   loadMore: () => void;
 };
 
+const FIRST_ROW_ITEM_COUNT = 4;
+
 const SearchResult = ({ status, gifList, loadMore }: SearchResultProps) => {
   const renderGifList = () => (
     <div className={styles.gifResultWrapper}>
-      {gifList.map((gif: GifImageModel) => (
-        <GifItem key={gif.id} imageUrl={gif.imageUrl} title={gif.title} />
+      {gifList.map((gif: GifImageModel, index) => (
+        <GifItem
+          key={gif.id}
+          imageUrl={gif.imageUrl}
+          title={gif.title}
+          loading={index < FIRST_ROW_ITEM_COUNT ? 'eager' : 'lazy'}
+        />
       ))}
     </div>
   );

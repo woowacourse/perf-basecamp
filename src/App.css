@@ -1,3 +1,35 @@
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/josefin-sans-normal-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./assets/fonts/josefin-sans-normal-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/josefin-sans-italic-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./assets/fonts/josefin-sans-italic-latin.woff2') format('woff2');
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -19,6 +51,50 @@ body {
 
 button {
   cursor: pointer;
+}
+
+.appShell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.routeContent {
+  flex: 1;
+  background: var(--black);
+}
+
+.searchFallback {
+  padding-top: 8.8125rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.searchFallbackTitle {
+  width: min(18rem, calc(100% - 4rem));
+  height: 3rem;
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.searchFallbackBar {
+  display: flex;
+  width: min(32.75rem, calc(100% - 4rem));
+  margin-top: 2rem;
+}
+
+.searchFallbackInput {
+  flex: 1;
+  min-width: 0;
+  height: 2.75rem;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.searchFallbackButton {
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--radial-gradient);
 }
 
 a {

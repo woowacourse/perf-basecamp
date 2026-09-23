@@ -1,0 +1,9 @@
+.artistListViewport {
+  height: 400px;
+  overflow-y: auto;
+  contain: strict;
+}
+
+.artistList {
+  position: relative;
+}
